@@ -38,4 +38,3 @@ rajit:bootstrap3-datepicker
 mizzao:bootboxjs
 practicalmeteor:mocha
 dispatch:mocha-phantomjs
-dispatch:mocha-browser
