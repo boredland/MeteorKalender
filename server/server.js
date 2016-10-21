@@ -56,18 +56,18 @@ Meteor.startup(function() {
 			Accounts.loginServiceConfiguration.insert(settingsObject);
 		}
 		// linkedin
-		if(Meteor.settings.oauth.linkedin && _.isObject(Meteor.settings.oauth.linkedin)) {
-			// remove old configuration
-			Accounts.loginServiceConfiguration.remove({
-				service: "linkedin"
-			});
+		//if(Meteor.settings.oauth.linkedin && _.isObject(Meteor.settings.oauth.linkedin)) {
+		//	// remove old configuration
+		//	Accounts.loginServiceConfiguration.remove({
+		//		service: "linkedin"
+		//	});
 
-			var settingsObject = Meteor.settings.oauth.linkedin;
-			settingsObject.service = "linkedin";
+		//	var settingsObject = Meteor.settings.oauth.linkedin;
+		//	settingsObject.service = "linkedin";
 
 			// add new configuration
-			Accounts.loginServiceConfiguration.insert(settingsObject);
-		}
+		//	Accounts.loginServiceConfiguration.insert(settingsObject);
+		//}
 		// facebook
 		if(Meteor.settings.oauth.facebook && _.isObject(Meteor.settings.oauth.facebook)) {
 			// remove old configuration
