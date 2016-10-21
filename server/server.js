@@ -1,4 +1,4 @@
-var verifyEmail = false;
+var verifyEmail = true;
 
 Accounts.config({ sendVerificationEmail: verifyEmail });
 
