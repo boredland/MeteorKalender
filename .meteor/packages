@@ -43,3 +43,4 @@ reactive-dict
 mrt:moment
 rajit:bootstrap3-datepicker
 mizzao:bootboxjs
+dispatch:mocha-phantomjs
