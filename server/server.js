@@ -11,7 +11,7 @@ Meteor.startup(function() {
 	}
 
 	//
-	// Setup OAuth login service configuration (read from Meteor.settings)
+	// Setup OAuth login service configuration (read from Meteor.settings) --done
 	//
 	// Your settings file should look like this:
 	//
