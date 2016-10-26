@@ -13,17 +13,14 @@ node_js:
   - "0.10"
 
 before_install:
+  - "npm install -g node-gyp"
   - "curl -L https://git.io/ejPSng | /bin/sh"
   - "export PATH=$PATH:~/.meteor/"
-
-install:
   - "meteor npm install --save webpage system meteor-node-stubs bcrypt phantomjs"
-  - "npm install -g node-gyp"
+  - "meteor npm rebuild"
 
 env:
   - CXX=g++-4.8
-
-
 
 script:
 - meteor test --full-app --settings settings/settings.json --once --driver-package dispatch:mocha-phantomjs --port 9000
