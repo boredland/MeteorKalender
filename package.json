@@ -9,6 +9,7 @@
     "fibers": "^1.0.15",
     "meteor-node-stubs": "^0.2.3",
     "meteorite": "^0.9.3",
+    "mocha-phantomjs": "^4.1.0",
     "phantomjs": "^2.1.7",
     "system": "^1.0.6",
     "webpage": "^0.3.0"
