@@ -10,7 +10,7 @@ env:
   - CXX=g++-4.8
 
 env:
-  - TEST_COMMAND="meteor test --full-app --settings settings/settings.json --once --driver-package dispatch:mocha-phantomjs --port 9000"
+  - TEST_COMMAND=meteor "$@" --full-app --settings settings/settings.json --once --driver-package dispatch:mocha-phantomjs --port 9000
 
 addons:
   apt:
