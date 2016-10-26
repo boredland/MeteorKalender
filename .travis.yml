@@ -16,8 +16,7 @@ before_install:
   - "npm install -g node-gyp"
   - "curl -L https://git.io/ejPSng | /bin/sh"
   - "export PATH=$PATH:~/.meteor/"
-  - "meteor npm rebuild"
-#  - "meteor npm install --save webpage system meteor-node-stubs bcrypt mocha-phantomjs"
+  - "meteor npm install --save bcrypt"
 
 env:
   - CXX=g++-4.8
