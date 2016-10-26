@@ -20,3 +20,6 @@ before_install:
 
 env:
   - CXX=g++-4.8
+
+notifications:
+  slack: meteorkalender:5qwFnv5WdlG7cZbUfm9HHuPe
