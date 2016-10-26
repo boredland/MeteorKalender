@@ -10,7 +10,7 @@ before_install:
   - "export PATH=$PATH:~/.meteor/"
 
 install:
-  - "meteor npm install --save bcrypt"
+  - "meteor npm install --save webpage system meteor-node-stubs bcrypt"
 
 env:
   - CXX=g++-4.8
