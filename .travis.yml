@@ -8,7 +8,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-      - phantomjs
 
 node_js:
   - "0.10"
@@ -17,12 +16,8 @@ before_install:
   - "npm install -g node-gyp"
   - "curl -L https://git.io/ejPSng | /bin/sh"
   - "export PATH=$PATH:~/.meteor/"
-  - "meteor npm install --save webpage system meteor-node-stubs bcrypt mocha-phantomjs"
   - "meteor npm rebuild"
+#  - "meteor npm install --save webpage system meteor-node-stubs bcrypt mocha-phantomjs"
 
 env:
   - CXX=g++-4.8
-  - DEBUG=*
-
-script:
-- meteor test --full-app --settings settings/settings.json --once --driver-package dispatch:mocha-phantomjs --port 9000
