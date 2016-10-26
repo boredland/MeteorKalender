@@ -10,7 +10,7 @@ before_install:
   - "export PATH=$PATH:~/.meteor/"
 
 install:
-  - "npm install --save bcrypt"
+  - "meteor npm install --save bcrypt"
   - "npm install -g spacejam"
 
 env:
