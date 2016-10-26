@@ -7,7 +7,7 @@ node_js:
 
 before_install:
   - "curl -L https://git.io/ejPSng | /bin/sh"
-  - "meteor npm install --save bcrypt"
+  - "npm install --save bcrypt"
   - "npm install -g spacejam"
 env:
   - CXX=g++-4.8
