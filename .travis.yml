@@ -11,7 +11,6 @@ before_install:
 
 install:
   - "meteor npm install --save bcrypt"
-  - "npm install -g spacejam"
 
 env:
   - CXX=g++-4.8
@@ -24,4 +23,4 @@ addons:
       - g++-4.8
 
 script:
-- spacejam test --driver-package dispatch:mocha-phantomjs --port 9000 ./
+- meteor test --full-app --settings settings/settings.json --once --driver-package dispatch:mocha-phantomjs --port 9000
