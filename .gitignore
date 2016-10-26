@@ -1,3 +1,4 @@
 node_modules/
 /settings/settings.json
 .idea
+npm-debug.log
