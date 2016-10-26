@@ -1,7 +1,7 @@
 language: node_js
 node_js:
   - "0.10"
-before_install:
+install:
   - "git config --global url."https://".insteadOf git://"
   - "curl -o meteor_install_script.sh https://install.meteor.com/"
   - "chmod +x meteor_install_script.sh"
