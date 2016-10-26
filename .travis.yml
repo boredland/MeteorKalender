@@ -7,8 +7,11 @@ node_js:
 
 before_install:
   - "curl -L https://git.io/ejPSng | /bin/sh"
+
+install:
   - "npm install --save bcrypt"
   - "npm install -g spacejam"
+
 env:
   - CXX=g++-4.8
 
@@ -18,8 +21,6 @@ addons:
       - ubuntu-toolchain-r-test
     packages:
       - g++-4.8
-
-services: mongodb
 
 script:
 - spacejam test --driver-package dispatch:mocha-phantomjs --port 9000 ./
