@@ -6,7 +6,9 @@
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
-    "meteor-node-stubs": "~0.2.0",
-    "meteorite": "^0.9.3"
+    "meteor-node-stubs": "^0.2.3",
+    "meteorite": "^0.9.3",
+    "system": "^1.0.6",
+    "webpage": "^0.3.0"
   }
 }
