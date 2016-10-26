@@ -2,6 +2,14 @@ sudo: required
 
 language: node_js
 
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+      - python2.7
+
 node_js:
   - "0.10"
 
@@ -11,17 +19,12 @@ before_install:
 
 install:
   - "meteor npm install --save webpage system meteor-node-stubs bcrypt"
+  - "npm install -g node-gyp"
 
 env:
   - CXX=g++-4.8
 
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-4.8
-      - build-essential
+
 
 script:
 - meteor test --full-app --settings settings/settings.json --once --driver-package dispatch:mocha-phantomjs --port 9000
