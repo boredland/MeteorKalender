@@ -1,0 +1,13 @@
+language: node_js
+node_js:
+  - "0.10"
+before_install:
+  - "git config --global url."https://".insteadOf git://"
+  - "curl -o meteor_install_script.sh https://install.meteor.com/"
+  - "chmod +x meteor_install_script.sh"
+  - "sed -i "s/type sudo >\/dev\/null 2>&1/\ false /g" meteor_install_script.sh"
+  - "./meteor_install_script.sh"
+  - "export PATH=$PATH:~/.meteor/"
+  - "meteor npm install --save bcrypt"
+script:
+  - "meteor test --full-app --settings settings/settings.json --once --driver-package dispatch:mocha-phantomjs --port 9000"
