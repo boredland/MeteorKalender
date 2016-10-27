@@ -4,6 +4,8 @@
 
 [![Code Climate](https://codeclimate.com/github/boredland/MeteorKalender/badges/gpa.svg)](https://codeclimate.com/github/boredland/MeteorKalender)
 
+[![Test Coverage](https://codeclimate.com/github/boredland/MeteorKalender/badges/coverage.svg)](https://codeclimate.com/github/boredland/MeteorKalender/coverage)
+
 Waffle: https://waffle.io/boredland/MeteorKalender/join
 Slack: https://meteorkalender.slack.com
 
