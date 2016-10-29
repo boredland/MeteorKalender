@@ -1,3 +1,8 @@
 node_modules/
-MeteorKalender.iml
+/settings/settings.json
+.meteor/local
+.idea/
+/.idea/
 .idea
+/.idea
+npm-debug.log

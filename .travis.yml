@@ -1,0 +1,25 @@
+sudo: required
+
+language: node_js
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
+
+node_js:
+  - "0.10"
+
+before_install:
+  - "npm install -g node-gyp"
+  - "curl -L https://git.io/ejPSng | /bin/sh"
+  - "export PATH=$PATH:~/.meteor/"
+  - "meteor npm install --save bcrypt"
+
+env:
+  - CXX=g++-4.8
+
+notifications:
+  slack: meteorkalender:5qwFnv5WdlG7cZbUfm9HHuPe
