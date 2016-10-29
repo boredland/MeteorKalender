@@ -1,8 +1,6 @@
 node_modules/
-/settings/settings.json
-.meteor/local
-.idea/
+.meteor-kitchen.json
 /.idea/
-.idea
-/.idea
 npm-debug.log
+.meteor/local
+/settings/settings.json
