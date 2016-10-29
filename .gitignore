@@ -2,4 +2,7 @@ node_modules/
 /settings/settings.json
 .meteor/local
 .idea/
+/.idea/
+.idea
+/.idea
 npm-debug.log
