@@ -1,25 +1,23 @@
 sudo: required
-
 language: node_js
-
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+    - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
-
+    - g++-4.8
 node_js:
-  - "7.0.0"
-
+- 7.0.0
 before_install:
-  - "npm install -g node-gyp"
-  - "curl -L https://git.io/ejPSng | /bin/sh"
-  - "export PATH=$PATH:~/.meteor/"
-  - "meteor npm install --save bcrypt"
-
+- npm install -g node-gyp
+- curl -L https://git.io/ejPSng | /bin/sh
+- export PATH=$PATH:~/.meteor/
+- meteor npm install --save bcrypt
 env:
-  - CXX=g++-4.8
-
+- CXX=g++-4.8
 notifications:
   slack: meteorkalender:5qwFnv5WdlG7cZbUfm9HHuPe
+deploy:
+  provider: heroku
+  api_key:
+    secure: OdltNaBfvna+Frl9rSDPl8PpuEOEnvnB+dRDy/55dXaeDWPbJWV1fzvpgTh7obYyGQU3eR6XzkXf7lOrdJSiClLW5hBtm2PiBOqlUoPxV/wgpDjGldnbxjTWOkrz8g1DTlu4erluXYIrNf5vwgCZ1lF7IKfpDLpoeyAaXeCYPe3mK8PUSTdKIxOutx0Nu5eLCZX7vqT9xIKqaN5CI263O8aAIqi6AmZ2DSK47bHEpm9iehKOIXvbVZRjZl7FGQSmg6w1DQ2X5LHLN0qtZG2hQQE2MQlzV5XTBtDQh0BPWjZXqgadzbo1s91sPrmK/w+noZEeMp0EJsKvAstocotgoGV+tCt/T/zQ3vGfFDicsQdi46f2uZmNdpmnmCMA2j2+7SyLFs7RHnfQSGFGFGrG9DD5R3Ik/yte+bD0cnyUORtSh5Lsq+I8B031z99o+CQBJ9DWzST5D0O64H6WMYI5Yvo2s69qCAoNJN30VrpVNw6TL36OpwCNXcM63lFxA/AtdJKHQHDQjrzCVZcc2zI+f7z/2x6nlIQiVzm9XuGv7e7N+qeKH5C/TQkriozTRw+U/CEWjjyCQ1dyJ/wrjKdcWuB+3CBQ5J4D5DL1WgKibErOQL8i6k/PegG25+eKIkV4rYarSeLBbJGdawTrsPwK+EhDmKYTB2n+cQ3FnYdWgbE=
