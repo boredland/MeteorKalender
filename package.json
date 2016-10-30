@@ -1,6 +1,10 @@
 {
   "name": "MeteorKalender",
   "private": true,
+  "engines": {
+    "node": "7.0.x",
+    "npm": "3.10.x"
+  },
   "scripts": {
     "start": "meteor run",
     "test": "meteor test --once --driver-package dispatch:mocha",
