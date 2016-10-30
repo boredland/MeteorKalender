@@ -13,7 +13,8 @@ Participants
 * Tobi Rohrer
 * Mustafa Emre Tekcam
 * Sezen Günes
-* Jonas Strassel  
+* Jonas Strassel
+* Sebastian Blam
 
 ## Setup (Linux, tested with Ubuntu 16.04)
 1. Install Meteor
