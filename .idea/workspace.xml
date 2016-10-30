@@ -1,8 +1,132 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/package.json" line="4" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="88021995-497f-45ed-a552-1655ae7366cd" name="Default" comment="Merge remote-tracking branch 'origin/demo'&#10;&#10;# Conflicts:&#10;#&#9;README.md&#10;">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/MeteorKalender.iml" afterPath="$PROJECT_DIR$/.idea/MeteorKalender.iml" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/Base64-0.2.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/asap-2.0.5.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/asn1.js-4.5.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/assert-1.3.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/async-0.1.22.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/async-0.2.9.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/balanced-match-0.4.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/base64-js-1.1.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/bcrypt-0.8.7.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/bindings-1.2.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/bn.js-4.11.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/brace-expansion-1.1.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/brorand-1.0.5.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/browserify-aes-1.0.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/browserify-cipher-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/browserify-des-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/browserify-rsa-4.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/browserify-sign-4.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/browserify-zlib-0.1.4.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/buffer-4.5.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/buffer-xor-1.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/cipher-base-1.0.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/colors-0.6.0-1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/colors-0.6.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/concat-map-0.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/console-browserify-1.1.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/constants-browserify-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/core-util-is-1.0.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/create-ecdh-4.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/create-hash-1.1.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/create-hmac-1.1.4.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/crypto-browserify-3.11.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/cycle-1.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/date-now-0.1.4.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/ddp-0.4.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/deep-equal-1.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/des.js-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/diffie-hellman-5.0.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/domain-browser-1.1.7.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/elliptic-6.2.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/events-1.1.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/evp_bytestokey-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/eyes-0.1.8.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/faye-websocket-0.7.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/fibers-1.0.15.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/fs.realpath-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/fstream-1.0.10.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/glob-7.1.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/graceful-fs-4.1.9.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/hash.js-1.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/http-browserify-1.7.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/https-browserify-0.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/i-0.3.5.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/ieee754-1.1.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/indexof-0.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/inflight-1.0.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/inherits-2.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/inherits-2.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/isarray-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/meteor-ejson-0.6.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/meteor-node-stubs-0.2.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/meteorite-0.9.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/miller-rabin-4.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/minimalistic-assert-1.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/minimatch-3.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/minimist-0.0.8.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/mkdirp-0.5.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/moment-2.15.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/mute-stream-0.0.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/nan-2.3.5.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/ncp-0.4.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/node-srp-0.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/once-1.4.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/optimist-0.6.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/os-browserify-0.2.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/pako-0.2.8.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/parse-asn1-5.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/path-browserify-0.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/path-is-absolute-1.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/pbkdf2-3.0.4.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/pkginfo-0.2.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/pkginfo-0.4.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/pop-iterate-1.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/process-0.11.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/process-nextick-args-1.0.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/prompt-0.2.11.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/public-encrypt-4.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/punycode-1.3.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/punycode-1.4.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/q-2.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/querystring-0.2.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/querystring-es3-0.2.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/randombytes-2.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/read-1.0.7.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/readable-stream-2.0.6.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/request-2.9.203.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/revalidator-0.1.8.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/rimraf-2.5.4.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/ripemd160-1.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/rolling_timeout_exec-0.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/sha.js-2.4.5.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/stack-trace-0.0.9.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/stream-browserify-2.0.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/string_decoder-0.10.31.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/system-1.1.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/timers-browserify-1.4.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/tty-browserify-0.0.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/underscore-1.3.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/underscore-1.4.4.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/url-0.11.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/util-0.10.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/util-deprecate-1.0.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/utile-0.2.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/vm-browserify-0.0.4.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/weak-map-1.0.5.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/webpage-0.3.0.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/websocket-driver-0.6.5.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/websocket-extensions-0.1.1.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/winston-0.6.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/wordwrap-0.0.3.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/wrappy-1.0.2.tar" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/node_shrinkwrap/wrench-1.3.9.tar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/client/styles/framework/bootstrap3-plugins/bootstrap-tagsinput/bootstrap-tagsinput.js" afterPath="$PROJECT_DIR$/client/styles/framework/bootstrap3-plugins/bootstrap-tagsinput/bootstrap-tagsinput.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
@@ -42,8 +166,8 @@
       <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="72">
-              <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+            <state relative-caret-position="324">
+              <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -52,8 +176,8 @@
       <file leaf-file-name="packages" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.meteor/packages">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="346">
-              <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
+            <state relative-caret-position="594">
+              <caret line="33" column="6" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -382,7 +506,7 @@
       <updated>1477751768212</updated>
       <workItem from="1477751773021" duration="206000" />
       <workItem from="1477752768658" duration="514000" />
-      <workItem from="1477753408749" duration="16699000" />
+      <workItem from="1477753408749" duration="18136000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote-tracking branch 'origin/demo'&#10;&#10;# Conflicts:&#10;#&#9;README.md&#10;">
       <created>1477755471201</created>
@@ -454,17 +578,24 @@
       <option name="project" value="LOCAL" />
       <updated>1477849406685</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Merge remote-tracking branch 'origin/demo'&#10;&#10;# Conflicts:&#10;#&#9;README.md&#10;">
+      <created>1477849444965</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1477849444965</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="17419000" />
+    <option name="totallyTimeSpent" value="18856000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="25" width="1922" height="1032" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3297414" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -635,14 +766,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.meteor/packages">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="346">
-          <caret line="40" column="25" selection-start-line="40" selection-start-column="25" selection-end-line="40" selection-end-column="25" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.travis.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="468">
@@ -651,10 +774,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.meteor/packages">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="594">
+          <caret line="33" column="6" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="72">
-          <caret line="4" column="18" selection-start-line="4" selection-start-column="18" selection-end-line="4" selection-end-column="18" />
+        <state relative-caret-position="324">
+          <caret line="18" column="26" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
           <folding />
         </state>
       </provider>

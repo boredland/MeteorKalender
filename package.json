@@ -15,6 +15,8 @@
     "fibers": "^1.0.15",
     "meteor-node-stubs": "^0.2.3",
     "meteorite": "^0.9.3",
+    "moment": "^2.15.2",
+    "phantomjs-prebuilt": "^2.1.13",
     "system": "^1.1.1",
     "webpage": "^0.3.0"
   }
