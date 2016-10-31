@@ -26,5 +26,4 @@ deploy:
   app: meteorkalender
   on:
     repo: boredland/MeteorKalender
-after_success:
-- mup deploy
+    branch: release
