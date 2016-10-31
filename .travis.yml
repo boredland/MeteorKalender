@@ -13,6 +13,7 @@ before_install:
 - curl -L https://git.io/ejPSng | /bin/sh
 - export PATH=$PATH:~/.meteor/
 - meteor npm install --save bcrypt
+- npm install -g mup
 env:
 - CXX=g++-4.8
 notifications:
@@ -25,3 +26,5 @@ deploy:
   app: meteorkalender
   on:
     repo: boredland/MeteorKalender
+after_success:
+- mup deploy
