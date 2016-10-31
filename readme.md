@@ -15,6 +15,7 @@ Participants
 * Sezen Günes
 * Jonas Strassel
 * Sebastian Blam
+* Carsten Kralle
 
 ## Setup (Linux, tested with Ubuntu 16.04)
 1. Install Meteor
