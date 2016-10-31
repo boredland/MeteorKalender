@@ -16,6 +16,7 @@
     "meteor-node-stubs": "https://registry.npmjs.org/meteor-node-stubs/-/meteor-node-stubs-0.2.3.tgz",
     "meteorite": "^0.9.3",
     "moment": "https://registry.npmjs.org/moment/-/moment-2.15.2.tgz",
+    "phantomjs-prebuilt": "https://registry.npmjs.org/phantomjs-prebuilt/-/phantomjs-prebuilt-2.1.13.tgz",
     "system": "https://registry.npmjs.org/system/-/system-1.1.1.tgz",
     "webpage": "https://registry.npmjs.org/webpage/-/webpage-0.3.0.tgz",
     "webserver": "^1.1.2"
