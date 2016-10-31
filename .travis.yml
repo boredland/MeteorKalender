@@ -26,4 +26,4 @@ deploy:
   app: meteorkalender
   on:
     repo: boredland/MeteorKalender
-    branch: release
+    branch: test
