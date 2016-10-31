@@ -432,7 +432,7 @@
     },
     "meteor-node-stubs": {
       "version": "0.2.3",
-      "from": "meteor-node-stubs@>=0.2.3 <0.3.0",
+      "from": "https://registry.npmjs.org/meteor-node-stubs/-/meteor-node-stubs-0.2.3.tgz",
       "resolved": "https://registry.npmjs.org/meteor-node-stubs/-/meteor-node-stubs-0.2.3.tgz",
       "dependencies": {
         "assert": {
@@ -970,7 +970,7 @@
     },
     "moment": {
       "version": "2.15.2",
-      "from": "moment@>=2.15.2 <3.0.0",
+      "from": "https://registry.npmjs.org/moment/-/moment-2.15.2.tgz",
       "resolved": "https://registry.npmjs.org/moment/-/moment-2.15.2.tgz"
     },
     "mute-stream": {
@@ -1019,6 +1019,11 @@
       "version": "0.6.1",
       "from": "optimist@>=0.3.4",
       "resolved": "https://registry.npmjs.org/optimist/-/optimist-0.6.1.tgz"
+    },
+    "paperboy": {
+      "version": "0.0.5",
+      "from": "paperboy@0.0.5",
+      "resolved": "https://registry.npmjs.org/paperboy/-/paperboy-0.0.5.tgz"
     },
     "path-is-absolute": {
       "version": "1.0.1",
@@ -1171,7 +1176,7 @@
     },
     "system": {
       "version": "1.1.1",
-      "from": "system@>=1.1.1 <2.0.0",
+      "from": "https://registry.npmjs.org/system/-/system-1.1.1.tgz",
       "resolved": "https://registry.npmjs.org/system/-/system-1.1.1.tgz"
     },
     "throttleit": {
@@ -1227,8 +1232,13 @@
     },
     "webpage": {
       "version": "0.3.0",
-      "from": "webpage@>=0.3.0 <0.4.0",
+      "from": "https://registry.npmjs.org/webpage/-/webpage-0.3.0.tgz",
       "resolved": "https://registry.npmjs.org/webpage/-/webpage-0.3.0.tgz"
+    },
+    "webserver": {
+      "version": "1.1.2",
+      "from": "webserver@>=1.1.2 <2.0.0",
+      "resolved": "https://registry.npmjs.org/webserver/-/webserver-1.1.2.tgz"
     },
     "websocket-driver": {
       "version": "0.6.5",
