@@ -11,7 +11,7 @@
     "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha"
   },
   "dependencies": {
-    "bcrypt": "^0.8.7",
+    "bcrypt": "https://registry.npmjs.org/bcrypt/-/bcrypt-0.8.7.tgz",
     "fibers": "^1.0.15",
     "meteor-node-stubs": "https://registry.npmjs.org/meteor-node-stubs/-/meteor-node-stubs-0.2.3.tgz",
     "meteorite": "^0.9.3",
