@@ -17,7 +17,7 @@ Participants
 * Sebastian Blam
 * Carsten Kralle
 * Yasemin Arslan
-
+* Michel Kreche 
 ## Setup (Linux, tested with Ubuntu 16.04)
 1. Install Meteor
 `curl https://install.meteor.com/ | sh`
