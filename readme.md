@@ -19,6 +19,7 @@ Participants
 * Yasemin Arslan
 * Michel Kreche 
 * Jan Schipper
+
 ## Setup (Linux, tested with Ubuntu 16.04)
 1. Install Meteor
 `curl https://install.meteor.com/ | sh`
