@@ -9,6 +9,8 @@ addons:
 node_js:
 - 7.0.0
 before_install:
+- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv
+  -in deploy_rsa.enc -out deploy_rsa -d
 - npm install -g node-gyp
 - curl -L https://git.io/ejPSng | /bin/sh
 - export PATH=$PATH:~/.meteor/
@@ -29,6 +31,7 @@ deploy:
     branch: test
 after_success:
 - echo "On branch '$TRAVIS_BRANCH'."
-#- echo $CRAZYSSHSHIT > /tmp/id_rsa
+- ls -l
+- pwd
 - npm install -g mup
 - DEBUG=* mup deploy

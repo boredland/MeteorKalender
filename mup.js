@@ -3,7 +3,7 @@ module.exports = {
     one: {
       host: 'research-osnet.fb2.frankfurt-university.de',
       username: 'meteorkalender',
-      pem: '/tmp/id_rsa', // mup doesn't support '~' alias for home directory
+      pem: '/home/travis/build/boredland/MeteorKalender/deploy_rsa', // mup doesn't support '~' alias for home directory
       // password: 'password',
       // or leave blank to authenticate using ssh-agent
       opts: {
