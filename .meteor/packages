@@ -40,7 +40,7 @@ copleykj:livestamp
 less
 nemo64:bootstrap@=3.3.5_2
 reactive-dict
-rajit:bootstrap3-datepicker
 mizzao:bootboxjs
 npm-bcrypt
 dispatch:mocha
+rzymek:fullcalendar

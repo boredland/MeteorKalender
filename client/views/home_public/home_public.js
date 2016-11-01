@@ -7,7 +7,11 @@ Template.HomePublic.events({
 });
 
 Template.HomePublic.helpers({
-	
+	options: function() {
+		return {
+			defaultView: 'agendaWeek'
+		};
+	}
 });
 
 Template.HomePublicHomeJumbotron.rendered = function() {

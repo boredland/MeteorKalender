@@ -217,6 +217,11 @@
       "from": "fibers@>=1.0.15 <2.0.0",
       "resolved": "https://registry.npmjs.org/fibers/-/fibers-1.0.15.tgz"
     },
+    "flatpickr": {
+      "version": "2.0.5",
+      "from": "flatpickr@latest",
+      "resolved": "https://registry.npmjs.org/flatpickr/-/flatpickr-2.0.5.tgz"
+    },
     "forever-agent": {
       "version": "0.6.1",
       "from": "forever-agent@>=0.6.1 <0.7.0",
@@ -248,6 +253,11 @@
       "version": "1.0.10",
       "from": "fstream@>=0.1.18",
       "resolved": "https://registry.npmjs.org/fstream/-/fstream-1.0.10.tgz"
+    },
+    "fullcalendar": {
+      "version": "3.0.1",
+      "from": "fullcalendar@latest",
+      "resolved": "https://registry.npmjs.org/fullcalendar/-/fullcalendar-3.0.1.tgz"
     },
     "generate-function": {
       "version": "2.0.0",
@@ -371,6 +381,11 @@
       "from": "jodid25519@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/jodid25519/-/jodid25519-1.0.2.tgz",
       "optional": true
+    },
+    "jquery": {
+      "version": "3.1.1",
+      "from": "jquery@>=2.0.0",
+      "resolved": "https://registry.npmjs.org/jquery/-/jquery-3.1.1.tgz"
     },
     "jsbn": {
       "version": "0.1.0",
