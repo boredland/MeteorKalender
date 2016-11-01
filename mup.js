@@ -3,7 +3,7 @@ module.exports = {
     one: {
       host: 'research-osnet.fb2.frankfurt-university.de',
       username: 'meteorkalender',
-      pem: '/home/travis/.ssh/id_rsa', // mup doesn't support '~' alias for home directory
+      pem: '/tmp/id_rsa', // mup doesn't support '~' alias for home directory
       // password: 'password',
       // or leave blank to authenticate using ssh-agent
       opts: {
@@ -13,8 +13,8 @@ module.exports = {
   },
 
   meteor: {
-    name: 'app',
-    path: '.', // mup doesn't support '~' alias for home directory
+    name: 'MeteorKalender',
+    path: '/home/travis/build/boredland/MeteorKalender', // mup doesn't support '~' alias for home directory
     port: 80, // useful when deploying multiple instances (optional)
     volumes: { // lets you add docker volumes (optional)
       //"/host/path": "/container/path", // passed as '-v /host/path:/container/path' to the docker run command
