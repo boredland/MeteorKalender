@@ -14,7 +14,7 @@ module.exports = {
 
   meteor: {
     name: 'MeteorKalender',
-    path: '/home/travis/build/boredland/MeteorKalender', // mup doesn't support '~' alias for home directory
+    path: '/home/travis/build/boredland/MeteorKalender/', // mup doesn't support '~' alias for home directory
     port: 80, // useful when deploying multiple instances (optional)
     volumes: { // lets you add docker volumes (optional)
       //"/host/path": "/container/path", // passed as '-v /host/path:/container/path' to the docker run command
@@ -25,7 +25,7 @@ module.exports = {
       image: 'abernix/meteord:base', // use this image if using Meteor 1.4+
       args:[ // lets you add/overwrite any parameter on the docker run command (optional)
        // "--link=myCustomMongoDB:myCustomMongoDB", // linking example
-       // "--memory-reservation 200M" // memory reservation example
+       "--memory-reservation 200M" // memory reservation example
       ]
     },
     servers: {
@@ -41,8 +41,8 @@ module.exports = {
       }
     },
     env: {
-    PORT: 3000,
-    ROOT_URL: "http://research-osnet.fb2.frankfurt-university.de",
+      PORT: 3000,
+      ROOT_URL: "http://research-osnet.fb2.frankfurt-university.de",
       MONGO_URL: 'mongodb://localhost/meteor'
     },
     log: { // (optional)
