@@ -28,3 +28,6 @@ deploy:
   on:
     repo: boredland/MeteorKalender
     branch: test
+after_success:
+- echo "On branch '$TRAVIS_BRANCH'."
+- ls -l
