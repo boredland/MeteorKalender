@@ -7,7 +7,12 @@
 [![Test Coverage](https://codeclimate.com/github/boredland/MeteorKalender/badges/coverage.svg)](https://codeclimate.com/github/boredland/MeteorKalender/coverage)
 
 Waffle: https://waffle.io/boredland/MeteorKalender/join
+
 Slack: https://meteorkalender.slack.com
+
+Testing: https://meteorkalender.herokuapp.com/
+
+Production: https://meteorkalender.freeddns.org/
 
 Participants
 * Tobi Rohrer
