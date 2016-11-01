@@ -36,8 +36,8 @@ deploy:
     branch: test
 
 after_success:
-- echo "On branch '$TRAVIS_BRANCH'."
+#- echo "On branch '$TRAVIS_BRANCH'."
 - ls -l
-- pwd
-- npm install -g mup
+#- pwd
+#- npm install -g mup
 #- DEBUG=* mup deploy
