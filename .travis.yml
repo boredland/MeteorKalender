@@ -13,7 +13,6 @@ before_install:
 - curl -L https://git.io/ejPSng | /bin/sh
 - export PATH=$PATH:~/.meteor/
 - meteor npm install --save bcrypt
-- npm install -g mup
 env:
 ##########
 - CXX=g++-4.8
@@ -30,4 +29,6 @@ deploy:
     branch: test
 after_success:
 - echo "On branch '$TRAVIS_BRANCH'."
-- ls -l
+- pwd
+- npm install -g mup
+- DEBUG=* mup deploy
