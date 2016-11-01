@@ -29,6 +29,6 @@ deploy:
     branch: test
 after_success:
 - echo "On branch '$TRAVIS_BRANCH'."
-- echo $CRAZYSSHSHIT > /tmp/id_rsa
+#- echo $CRAZYSSHSHIT > /tmp/id_rsa
 - npm install -g mup
 - DEBUG=* mup deploy
