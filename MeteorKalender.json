@@ -29,6 +29,14 @@
 					"type": "page"
 				},
 				{
+                    "name": "verify_email",
+                    "template": "verify_email",
+                    "route_params": [
+                        "verifyEmailToken"
+                    ],
+                    "type": "page"
+                },
+				{
 					"name": "forgot_password",
 					"template": "forgot_password",
 					"type": "page"
