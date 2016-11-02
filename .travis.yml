@@ -16,6 +16,7 @@ before_install:
 env:
 - CXX=g++-4.8
 after_success:
+- sed -i 's/meteorhacks\/meteord\:base/cwaring\/meteord\:base/g' /usr/local/lib/node_modules/mupx/templates/linux/start.sh
 - bash .deploy/mupx_deploy.sh $TRAVIS_BRANCH
 - if [ $? == 0 ];then echo $TRAVIS_BRANCH;fi
 notifications:
