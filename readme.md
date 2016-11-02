@@ -25,7 +25,7 @@ Participants
 * Michel Kreche 
 * Jan Schipper
 * Furkan Yücel
-* Almedin Tahiri / Edit
+* Almedin Tahiri /Edit
 
 ## Setup (Linux, tested with Ubuntu 16.04)
 1. Install Meteor
