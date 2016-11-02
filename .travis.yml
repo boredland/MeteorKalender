@@ -9,9 +9,7 @@ addons:
 node_js:
 - 4.6.1
 before_install:
-- mkdir ~/.ssh
-- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out ~/.ssh/id_rsa -d
-- ls -l ~/.ssh
+- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out deploy_rsa -d
 - curl -L https://git.io/ejPSng | /bin/sh
 - export PATH=$PATH:~/.meteor/
 - npm install -g node-gyp

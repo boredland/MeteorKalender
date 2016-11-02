@@ -7,7 +7,7 @@
       //"password": "meteor",
       // or pem file (ssh based authentication)
       // WARNING: Keys protected by a passphrase are not supported
-      "app-deployment-key": "~/.ssh/id_rsa",
+      "app-deployment-key": "deploy_rsa",
       // Also, for non-standard ssh port use this
       //"sshOptions": { "port" : 49154 },
       // server specific environment variables
