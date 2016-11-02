@@ -24,7 +24,7 @@ Participants
 * Yasemin Arslan
 * Michel Kreche 
 * Jan Schipper
-# Furkan Yücel
+* Furkan Yücel
 
 ## Setup (Linux, tested with Ubuntu 16.04)
 1. Install Meteor
