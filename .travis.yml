@@ -17,7 +17,7 @@ env:
 - CXX=g++-4.8
 after_success:
 - echo "On branch '$TRAVIS_BRANCH'."
-- if [ $TRAVIS_BRANCH == master ];then ls -l && npm install -g mupx && mupx deploy --config=mupx_production.json;fi
+- if [ $TRAVIS_BRANCH == master ];then mv mupx_production.json mup.json && npm install -g mupx && mupx deploy;fi
 - if [ $TRAVIS_BRANCH == test ];then npm install -g mupx && mupx deploy --config=mupx_test.json;fi
 notifications:
   slack:
