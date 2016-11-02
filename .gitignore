@@ -1,8 +1,7 @@
 node_modules/
 .meteor-kitchen.json
-/.idea/
+.idea/
 npm-debug.log
 .meteor/local
-/settings/settings.json
 *travis.log
 deploy_rsa
