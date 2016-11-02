@@ -10,6 +10,7 @@ var publicRoutes = [
 	"home_public",
 	"login",
 	"register",
+	"verify_email",
 	"forgot_password",
 	"reset_password"
 ];
@@ -180,6 +181,7 @@ Router.map(function () {
 	this.route("home_public", {path: "/", controller: "HomePublicController"});
 	this.route("login", {path: "/login", controller: "LoginController"});
 	this.route("register", {path: "/register", controller: "RegisterController"});
+	this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
 	this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
 	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
