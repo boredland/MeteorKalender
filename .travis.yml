@@ -1,31 +1,27 @@
 sudo: required
-
 language: node_js
-
 addons:
   apt:
     sources:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-
 node_js:
-- 4.4.7
-
+- 4.6.1
 before_install:
-- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv
-  -in deploy_rsa.enc -out deploy_rsa -d
+- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in deploy_rsa.enc -out deploy_rsa -d
 - npm install -g node-gyp
 - curl -L https://git.io/ejPSng | /bin/sh
 - export PATH=$PATH:~/.meteor/
 - meteor npm install --save bcrypt
 env:
 - CXX=g++-4.8
-
+after_success:
+- echo "On branch '$TRAVIS_BRANCH'."
+- if [ $TRAVIS_BRANCH == master ]; then ./mup_deploy.sh;fi
 notifications:
   slack:
     secure: Y+0LaRuAt1WOQjHIOBPX9ttc+zTPJG8meQ3dGOK8v7Vl/+MN6fQCwuG/RAX+Eev3QjCNNc549Gc+MBLMWovDiePkO+t0USk/snmpJspX/sh9pIxvm7vFxya4E0Iv2ROWLQ/hh0DWSuaUMZYZHPV7zUzZOBJtbViDYufaFszbLFbO3BuGhDcZRppkWAld/9R8878Dg+PpA+qgikEeMkxB8+nZ2d9eP9Ywl6X/UjJ1B7rq/QINuRmryxT9/Ht5D7M/FfzARf/rC7NrZJ/uHUtT8Jm/1A4I7w0pB1ielAM7Imzqc6Sqa3wy5MjxuTiEodi7pgaeN9a1MhTa1VMQa//9v/tjTk6MA+C1mwh89jidQby1Vv/fcdOJwtZXKgQIppFe/LhiKi6+6DLu0Rs2Yv5DXKDf6jZ/qZCohm2WnQGbU+QOinrbHH75d+Kn4RC5k8xus19J99nmEE5OHIFpeLEbKnGpzjk1X1L3ixBXNCs7mllJ42D6t5DqJd7TjYI9Ub14cY/q6NC3G6uCGhO0jrdFidh0NgOs6cVAphdQ3ehyFG/xlHoiFDiscbuptFvljuaQ2/6d7dcKTEs7s3HoiMpRX0u6q3o/CFGntDuyrmbtMA5g9pDg7ao+dwbviIVuc43CnoCh7+lRiemp+V4jtvdXOltXd2ckBGuKCwv0Fz6G92w=
-
 deploy:
   provider: heroku
   api_key:
@@ -34,10 +30,3 @@ deploy:
   on:
     repo: boredland/MeteorKalender
     branch: test
-
-after_success:
-#- echo "On branch '$TRAVIS_BRANCH'."
-- ls -l
-#- pwd
-#- npm install -g mup
-#- DEBUG=* mup deploy
