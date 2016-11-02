@@ -5,3 +5,4 @@ npm-debug.log
 .meteor/local
 *travis.log
 deploy_rsa
+/deploy_rsa.pub
