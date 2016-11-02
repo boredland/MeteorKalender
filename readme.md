@@ -16,7 +16,7 @@ Production: https://meteorkalender.freeddns.org/
 
 Participants
 * Tobi Rohrer
-* Mustafa Emre Tekcam
+* Mustafa Emre Tekcam / Edit
 * Sezen Günes
 * Jonas Strassel
 * Sebastian Blam
