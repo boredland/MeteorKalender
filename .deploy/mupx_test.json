@@ -6,7 +6,7 @@
       "username": "meteorkalender",
       //"password": "meteor",
       // WARNING: Keys protected by a passphrase are not supported
-      "pem": "../deploy_rsa",
+      "pem": "deploy_rsa",
       // Also, for non-standard ssh port use this
       //"sshOptions": { "port" : 49154 },
       // server specific environment variables
