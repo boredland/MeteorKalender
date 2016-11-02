@@ -37,3 +37,5 @@ mrt:moment
 rajit:bootstrap3-datepicker
 mizzao:bootboxjs
 rzymek:fullcalendar
+dispatch:mocha-phantomjs
+dispatch:mocha

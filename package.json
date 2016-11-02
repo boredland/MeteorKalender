@@ -2,9 +2,12 @@
   "name": "MeteorKalender",
   "private": true,
   "scripts": {
-    "start": "meteor run"
+    "start": "meteor run",
+    "test": "meteor test --once --driver-package dispatch:mocha",
+    "test:watch": "TEST_WATCH=1 meteor test --driver-package dispatch:mocha"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "meteor-node-stubs": "~0.2.0"
   }
 }
