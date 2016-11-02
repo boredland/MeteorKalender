@@ -1,16 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/bash
 if [ $1 == master ]
 then
-result=`mupx deploy --config=mupx_production.json`
+mupx deploy --config=.deploy/mupx_production.json
+result=$?
 fi
 
 if [ $1 == test ]
 then
-result=`mupx deploy --config=mupx_test.json`
+mupx deploy --config=.deploy/mupx_test.json
+result=$?
 fi
 
-if [ $result == 0 ]
-then
-exit $1
-else exit 1
-fi
+exit $result
