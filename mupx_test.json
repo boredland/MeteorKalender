@@ -5,7 +5,6 @@
       "host": "research-osnet.fb2.frankfurt-university.de",
       "username": "meteorkalender",
       //"password": "meteor",
-      // or pem file (ssh based authentication)
       // WARNING: Keys protected by a passphrase are not supported
       "app-deployment-key": "deploy_rsa",
       // Also, for non-standard ssh port use this
