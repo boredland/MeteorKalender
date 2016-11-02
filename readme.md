@@ -10,32 +10,6 @@ Waffle: https://waffle.io/boredland/MeteorKalender/join
 
 Slack: https://meteorkalender.slack.com
 
-Testing: https://meteorkalender.herokuapp.com/
-
 Production: https://meteorkalender.freeddns.org/
 
-Participants
-* Tobi Rohrer
-* Mustafa Emre Tekcam / Edit
-* Sezen Günes
-* Jonas Strassel
-* Sebastian Blam
-* Carsten Kralle
-* Yasemin Arslan
-* Michel Kreche 
-* Jan Schipper
-* Furkan Yücel
-* Almedin Tahiri /Edit
-
-## Setup (Linux, tested with Ubuntu 16.04)
-1. Install Meteor
-`curl https://install.meteor.com/ | sh`
-2. Create a new project from VCS in WebStorm, use the URL of this Repository
-3. Open the WebStorm terminal (Alt+F12 || View -> Tool Windows -> Terminal)
-4. Paste and enter this into the terminal
-`meteor npm install --save bcrypt`
-5. Choose, if not already chosen, the "Meteor Linux" run configuration in the upper right and press the play-button.
-6. A browser window of your default browser opens. Wait.
-7. Wait some more.
-8. Just a little more.
-9. The application will be running in your browser window.
+Testing: https://test.meteorkalender.freeddns.org/
