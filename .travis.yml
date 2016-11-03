@@ -6,6 +6,7 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
+    - phantomjs
 node_js:
 - 4.6.1
 before_install:
@@ -22,6 +23,7 @@ after_success:
 - meteor --version
 - npm -v
 - meteor npm -v
+- node-gyp -v
 - bash .deploy/mupx_deploy.sh $TRAVIS_BRANCH && if [ $? == 0 ];then echo $TRAVIS_BRANCH;fi
 notifications:
   slack:
