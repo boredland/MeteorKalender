@@ -8,6 +8,9 @@
   "dependencies": {
     "bcrypt": "^0.8.7",
     "meteor-node-stubs": "~0.2.0",
+    "mupx": "^1.5.3",
+    "node-gyp": "^3.4.0",
+    "phantomjs-prebuilt": "^2.1.13",
     "system": "^1.1.1",
     "webpage": "^0.3.0"
   }
