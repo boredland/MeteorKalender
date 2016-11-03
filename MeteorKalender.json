@@ -205,10 +205,11 @@
 		},
 		"meta_description": "Kalender zur Sprechstunden Verwaltung der Dozenten an der FRA UAS",
 		"meta_title": "Sprechstunden Verwaltung FRA UAS",
-		"footer_text": "Hier koennte ein Footer stehen",
+		"footer_text": "Informatik Projekt der Frankfurt University",
 		"roles": [
 			"dozent",
-			"admin"
+			"admin",
+			"student"
 		],
 		"default_role": "dozent",
 		"free_zone": {

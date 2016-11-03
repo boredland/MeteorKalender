@@ -21,7 +21,9 @@ Template.Register.events({
 
 		var submit_button = $(t.find(":submit"));
 
+		var register_status = t.find('#register_status').value.trim();
 		var register_name = t.find('#register_name').value.trim();
+		var register_matrnr = t.find('#register_martnr').value.trim();
 		var register_email = t.find('#register_email').value.trim();
 		var register_password = t.find('#register_password').value;
 
@@ -33,6 +35,13 @@ Template.Register.events({
 			return false;
 		}
 
+		// check matrikel number
+		if(register_matrnr == ""){
+
+			pageSession.set("errorMessage", "Please enter your Matrikelnumber");
+			t.find('#register_matrnr').focus();
+			return false;
+		}
 		// check email
 		if(!isValidEmail(register_email))
 		{
