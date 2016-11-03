@@ -40,3 +40,4 @@ rzymek:fullcalendar
 dispatch:mocha-phantomjs
 dispatch:mocha
 raix:handlebar-helpers
+check

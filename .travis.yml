@@ -6,7 +6,6 @@ addons:
     - ubuntu-toolchain-r-test
     packages:
     - g++-4.8
-    - phantomjs
 node_js:
 - 4.6.1
 before_install:

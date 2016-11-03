@@ -42,7 +42,7 @@ Template.Register.events({
 			return false;
 		}
 		// check student number
-		if(!isNumber(register_studentno))
+		if(register_studentno == "")
 		{
 			pageSession.set("errorMessage", "Please enter your student number.");
 			t.find('#register_studentno').focus();

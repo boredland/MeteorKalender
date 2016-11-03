@@ -30,7 +30,7 @@
                 <option value="professor">Professor</option>
             </select>
             {{#if isStudent}}
-            <input id="register_studentno" type="text" class="form-control" placeholder="Student number" required>
+            <input id="register_studentno" type="number" class="form-control no-spinners" placeholder="Student number" required>
             {{/if}}
 			<input id="register_password" type="password" class="form-control" placeholder="Password" required>
 			<button class="btn btn-lg btn-primary btn-block" type="submit" data-loading-text="Please wait...">
