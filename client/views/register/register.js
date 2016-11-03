@@ -3,7 +3,7 @@ var pageSession = new ReactiveDict();
 Template.Register.rendered = function() {
 	pageSession.set("errorMessage", "");
 	pageSession.set("verificationEmailSent", false);
-
+    pageSession.set("isStudent", true);
 	
 	Meteor.defer(function() {
 		$("input[autofocus]").focus();
@@ -16,17 +16,24 @@ Template.Register.created = function() {
 };
 
 Template.Register.events({
+    "change #register_status": function(event, template){
+        var selectValue = template.$("#register_status").val();
+        if (selectValue === 'professor'){
+            pageSession.set("isStudent", false);
+        }
+        else if (selectValue === 'student'){
+            pageSession.set("isStudent", true);
+        }
+    },
 	'submit #register_form' : function(e, t) {
 		e.preventDefault();
 
 		var submit_button = $(t.find(":submit"));
-
 		var register_status = t.find('#register_status').value.trim();
 		var register_name = t.find('#register_name').value.trim();
 		var register_studentno = t.find('#register_studentno').value.trim();
 		var register_email = t.find('#register_email').value.trim();
 		var register_password = t.find('#register_password').value;
-
 		// check name
 		if(register_name == "")
 		{
@@ -34,9 +41,8 @@ Template.Register.events({
 			t.find('#register_name').focus();
 			return false;
 		}
-
 		// check student number
-		if(register_studentno == "")
+		if(!isNumber(register_studentno))
 		{
 			pageSession.set("errorMessage", "Please enter your student number.");
 			t.find('#register_studentno').focus();
@@ -60,7 +66,7 @@ Template.Register.events({
 		}
 
 		submit_button.button("loading");
-		Accounts.createUser({email: register_email, password : register_password, profile: { name: register_name }}, function(err) {
+		Accounts.createUser({email: register_email, password : register_password, profile: { name: register_name, status: register_status, studentno: register_studentno }}, function(err) {
 			submit_button.button("reset");
 			if(err) {
 				if(err.error === 499) {
@@ -81,7 +87,6 @@ Template.Register.events({
 	"click .go-home": function(e, t) {
 		Router.go("/");
 	}
-	
 });
 
 Template.Register.helpers({
@@ -90,6 +95,9 @@ Template.Register.helpers({
 	},
 	verificationEmailSent: function() {
 		return pageSession.get("verificationEmailSent");
-	}
-	
+	},
+    isStudent: function() {
+        //return
+        return pageSession.get("isStudent");
+    }
 });
