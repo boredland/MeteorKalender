@@ -6,7 +6,8 @@ addons:
     sources:
     - ubuntu-toolchain-r-test
     packages:
-    - g++-4.8
+    - g++-6
+    - gcc-6
 node_js:
 - 4.6.1
 before_install:
