@@ -6,13 +6,7 @@ addons:
     - ppa:ubuntu-toolchain-r/test
     - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
       key_url: 'https://packagecloud.io/gpg.key'
-addons:
-  apt:
-    sources:
-    - sourceline:  ubuntu-toolchain-r-test
-    - sourceline: 'https://deb.nodesource.com/node_4.x trusty main'
-      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
-    packages:
+   packages:
     - g++-6
     - gcc-6
     - make
