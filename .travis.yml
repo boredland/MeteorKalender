@@ -1,17 +1,17 @@
 dist: trusty
 sudo: required
-addons:
-  apt:
-    sources:
-    - deadsnakes
-    - sourceline: 'ppa:ubuntu-toolchain-r/test'
-    - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
-      key_url: 'https://packagecloud.io/gpg.key'
-   packages:
-    - g++-6
-    - gcc-6
-    - make
-    - nodejs
+#addons:
+#  apt:
+#    sources:
+#    - deadsnakes
+#    - sourceline: 'ppa:ubuntu-toolchain-r/test'
+#    - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
+#      key_url: 'https://packagecloud.io/gpg.key'
+#   packages:
+#    - g++-6
+#    - gcc-6
+#    - make
+#    - nodejs
 #node_js:
 #- 4.6.1
 #before_install:
