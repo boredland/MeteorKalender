@@ -22,6 +22,8 @@ before_install:
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
 - curl https://install.meteor.com | /bin/sh
 - sudo npm rebuild
+- sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+
 env:
 - CXX=g++-6
 after_success:
