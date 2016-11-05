@@ -4,10 +4,9 @@ language: node_js
 addons:
   apt:
     sources:
-#    - deadsnakes
-#    - sourceline: 'ppa:ubuntu-toolchain-r/test'
-#    - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
-#      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+    - sourceline: 'ppa:ubuntu-toolchain-r/test'
+    - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
+      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
 #   packages:
 #    - g++-6
 #    - gcc-6
