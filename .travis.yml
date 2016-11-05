@@ -6,32 +6,32 @@ addons:
     - deadsnakes
     - sourceline: 'ppa:ubuntu-toolchain-r/test'
     - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
-      key_url: 'https://packagecloud.io/gpg.key'
-#   packages:
-#    - g++-6
-#    - gcc-6
-#    - make
-#    - nodejs
-#node_js:
-#- 4.6.1
-#before_install:
-#- sudo npm install -g node-gyp mupx meteorite
-#- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
-#- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/Makefile
-#- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/start_test.js
-#- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
-#- curl https://install.meteor.com | /bin/sh
-#- npm rebuild
-#env:
-#- CXX=g++-6
-#after_success:
-#- sudo find / -name start.sh -exec sed -i 's/meteorhacks\/meteord\:base/cwaring\/meteord\:base/g' {} +
-#- sudo find / -name start.sh -exec {} +
-#- meteor --version
-#- npm -v
-#- meteor npm -v
-#- node-gyp -v
-#- bash .deploy/mupx_deploy.sh $TRAVIS_BRANCH && if [ $? == 0 ];then echo $TRAVIS_BRANCH;fi
+      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+   packages:
+    - g++-6
+    - gcc-6
+    - make
+    - nodejs
+node_js:
+- 4.6.1
+before_install:
+- sudo npm install -g node-gyp mupx meteorite
+- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
+- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/Makefile
+- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/start_test.js
+- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
+- curl https://install.meteor.com | /bin/sh
+- sudo npm rebuild
+env:
+- CXX=g++-6
+after_success:
+- sudo find / -name start.sh -exec sed -i 's/meteorhacks\/meteord\:base/cwaring\/meteord\:base/g' {} +
+- sudo find / -name start.sh -exec {} +
+- meteor --version
+- npm -v
+- meteor npm -v
+- node-gyp -v
+- bash .deploy/mupx_deploy.sh $TRAVIS_BRANCH && if [ $? == 0 ];then echo $TRAVIS_BRANCH;fi
 notifications:
   slack:
     secure: Y+0LaRuAt1WOQjHIOBPX9ttc+zTPJG8meQ3dGOK8v7Vl/+MN6fQCwuG/RAX+Eev3QjCNNc549Gc+MBLMWovDiePkO+t0USk/snmpJspX/sh9pIxvm7vFxya4E0Iv2ROWLQ/hh0DWSuaUMZYZHPV7zUzZOBJtbViDYufaFszbLFbO3BuGhDcZRppkWAld/9R8878Dg+PpA+qgikEeMkxB8+nZ2d9eP9Ywl6X/UjJ1B7rq/QINuRmryxT9/Ht5D7M/FfzARf/rC7NrZJ/uHUtT8Jm/1A4I7w0pB1ielAM7Imzqc6Sqa3wy5MjxuTiEodi7pgaeN9a1MhTa1VMQa//9v/tjTk6MA+C1mwh89jidQby1Vv/fcdOJwtZXKgQIppFe/LhiKi6+6DLu0Rs2Yv5DXKDf6jZ/qZCohm2WnQGbU+QOinrbHH75d+Kn4RC5k8xus19J99nmEE5OHIFpeLEbKnGpzjk1X1L3ixBXNCs7mllJ42D6t5DqJd7TjYI9Ub14cY/q6NC3G6uCGhO0jrdFidh0NgOs6cVAphdQ3ehyFG/xlHoiFDiscbuptFvljuaQ2/6d7dcKTEs7s3HoiMpRX0u6q3o/CFGntDuyrmbtMA5g9pDg7ao+dwbviIVuc43CnoCh7+lRiemp+V4jtvdXOltXd2ckBGuKCwv0Fz6G92w=
