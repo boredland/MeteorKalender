@@ -4,7 +4,7 @@ language: node_js
 addons:
   apt:
     sources:
-    - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
+    - sourceline: 'deb https://deb.nodesource.com/node_4.x trusty main'
       key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
     - sourceline: 'ppa:ubuntu-toolchain-r/test'
 node_js:
