@@ -28,7 +28,7 @@ env:
 - CXX=g++-6
 after_success:
 - sudo find / -name start.sh -exec sed -i 's/meteorhacks\/meteord\:base/cwaring\/meteord\:base/g' {} +
-- sed -i 's/BUILD_ANCHOR/$TRAVIS_BUILD_NUMBER_$TRAVIS_BRANCH/g' client/views/home_public/home_public.html
+- sed -i 's/BUILD_ANCHOR/$TRAVIS_BUILD_NUMBER_$TRAVIS_BRANCH/g' client/views/layout/layout.html
 - sudo find / -name start.sh -exec {} +
 - meteor --version
 - npm -v
