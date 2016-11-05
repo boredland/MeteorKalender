@@ -6,13 +6,14 @@ addons:
     sources:
     - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
       key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
-   packages:
-    - g++-6
-    - gcc-6
-    - make
-    - nodejs
-node_js:
-- 4.6.1
+    - sourceline: 'ppa:ubuntu-toolchain-r/test'
+#   packages:
+#    - g++-6
+#    - gcc-6
+#    - make
+#    - nodejs
+#node_js:
+#- 4.6.1
 #before_install:
 #- sudo npm install -g node-gyp mupx meteorite
 #- openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
