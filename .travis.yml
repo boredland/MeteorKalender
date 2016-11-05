@@ -3,7 +3,6 @@ sudo: required
 addons:
   apt:
     sources:
-    ubuntu-toolchain-r-test
     - sourceline: 'deb https://packagecloud.io/chef/stable/ubuntu/precise main'
       key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
    packages:
