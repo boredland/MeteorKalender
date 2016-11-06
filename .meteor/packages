@@ -34,10 +34,5 @@ less
 nemo64:bootstrap@=3.3.5_2
 reactive-dict
 mrt:moment
-rajit:bootstrap3-datepicker
 mizzao:bootboxjs
 rzymek:fullcalendar
-dispatch:mocha-phantomjs
-dispatch:mocha
-raix:handlebar-helpers
-check
