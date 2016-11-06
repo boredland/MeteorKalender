@@ -25,6 +25,7 @@ before_install:
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
 - curl https://install.meteor.com | /bin/sh
 - sed -i 's/BUILD_ANCHOR/'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
+- cat client/views/layout/layout.html
 - sudo npm rebuild
 env:
 - CXX=g++-6
