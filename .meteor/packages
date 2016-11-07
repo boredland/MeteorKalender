@@ -36,3 +36,4 @@ reactive-dict
 mrt:moment
 mizzao:bootboxjs
 rzymek:fullcalendar
+dispatch:mocha
