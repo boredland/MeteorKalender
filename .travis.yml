@@ -20,13 +20,13 @@ node_js:
 before_install:
 #- sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
 #- sudo curl --output /usr/local/phantomjs/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
-- npm install -g mup ssh2
+- npm install -g mup ssh2 node-gyp
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
-- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/Makefile
-- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/start_test.js
+#- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/Makefile
+#- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/start_test.js
 #- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
 - curl https://install.meteor.com | /bin/sh
-- meteor update --release 1.4.2.1-rc.1
+#- meteor update --release 1.4.2.1-rc.1
 - sed -i 's/BUILD_ANCHOR/'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
 #- cat client/views/layout/layout.html
 - npm rebuild
