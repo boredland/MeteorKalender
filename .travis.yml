@@ -31,5 +31,4 @@ deploy:
   app: meteorkalender
   on:
     repo: boredland/MeteorKalender
-    on:
-      condition: "$HEROKU == 1"
+    condition: "$HEROKU == 1"
