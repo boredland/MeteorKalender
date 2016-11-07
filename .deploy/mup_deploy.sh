@@ -2,7 +2,7 @@
 if [ $1 == master ]
 then
 cd .deploy/production
-node_modules/mup deploy
+mup deploy
 exit $?
 fi
 if [ $1 == test ]
