@@ -4,15 +4,15 @@ language: node_js
 addons:
   apt:
     sources:
-#    - sourceline: 'deb https://deb.nodesource.com/node_4.x trusty main'
-#      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+    - sourceline: 'deb https://deb.nodesource.com/node_4.x trusty main'
+      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
     - sourceline: 'ppa:ubuntu-toolchain-r/test'
     packages:
     - g++-4.8
-#    - make
+    #    - make
 #   - gcc-6
 #   - g++-6
-#    - nodejs
+    - nodejs
 node_js:
 - 4.6.1
 before_install:
