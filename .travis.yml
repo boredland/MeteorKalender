@@ -33,4 +33,4 @@ deploy:
   on:
     repo: boredland/MeteorKalender
     on:
-      condition: "$TRAVIS_BRANCH = 1"
+      condition: "$HEROKU = 1"
