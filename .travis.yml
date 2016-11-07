@@ -8,8 +8,8 @@ node_js:
 before_install:
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/production/mup_prod.js.enc -out .deploy/production/mup.js -d
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/test/mup_test.js.enc -out .deploy/test/mup.js -d
-- npm install -g mup ssh2
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
+- npm install -g mup ssh2
 - curl https://install.meteor.com | /bin/sh
 - sed -i 's/ANCHOR/'"#$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
 - HEROKU=0
