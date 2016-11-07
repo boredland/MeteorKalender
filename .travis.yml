@@ -29,7 +29,7 @@ before_install:
 - meteor update --release 1.4.2.1-rc.1
 - sed -i 's/BUILD_ANCHOR/'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
 #- cat client/views/layout/layout.html
-#- npm rebuild
+- npm rebuild
 env:
 - CXX=g++-4.8
 after_success:
