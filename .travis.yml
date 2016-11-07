@@ -4,30 +4,31 @@ language: node_js
 addons:
   apt:
     sources:
-    - sourceline: 'deb https://deb.nodesource.com/node_4.x trusty main'
-      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+#    - sourceline: 'deb https://deb.nodesource.com/node_4.x trusty main'
+#      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
     - sourceline: 'ppa:ubuntu-toolchain-r/test'
     packages:
-    - make
-    - gcc-6
-    - g++-6
-    - nodejs
+    - g++-4.8
+#    - make
+#   - gcc-6
+#   - g++-6
+#    - nodejs
 node_js:
 - 4.6.1
 before_install:
-- sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
+#- sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
 #- sudo curl --output /usr/local/phantomjs/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
-- sudo npm install -g node-gyp mup meteorite
+- sudo npm install -g node-gyp mup meteorite ssh2
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/Makefile
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/start_test.js
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
 - curl https://install.meteor.com | /bin/sh
 - sed -i 's/BUILD_ANCHOR/'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
-- cat client/views/layout/layout.html
-- sudo npm rebuild
+#- cat client/views/layout/layout.html
+#- sudo npm rebuild
 env:
-- CXX=g++-6
+- CXX=g++-4.8
 after_success:
 #- sudo find / -name start.sh -exec sed -i 's/meteorhacks\/meteord\:base/cwaring\/meteord\:base/g' {} +
 #- sudo find / -name start.sh -exec cat {} +
@@ -49,4 +50,4 @@ deploy:
   on:
     repo: boredland/MeteorKalender
     on:
-        condition: " $TRAVIS_BRANCH != master && $TRAVIS_BRANCH != test"
+        condition: "$TRAVIS_BRANCH != master"
