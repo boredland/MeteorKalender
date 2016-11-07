@@ -16,14 +16,16 @@ language: node_js
 before_script:
   - "export PATH=$HOME/.meteor:$PATH"
 node_js:
-- 4.6.1
+- "4"
 before_install:
-- npm install -g mup ssh2 node-gyp
+- npm install -g mup ssh2
+ #node-gyp
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - curl https://install.meteor.com | /bin/sh
 - sed -i 's/ANCHOR/'"#$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
-- npm rebuild
-- if [! $TRAVIS_BRANCH == "master" ||  ];then heroku == 1;fi
+- HEROKU=0
+- if [[ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ]];then HEROKU=1;fi
+#- npm rebuild
 env:
 - CXX=g++-4.8
 after_success:
@@ -40,4 +42,4 @@ deploy:
   on:
     repo: boredland/MeteorKalender
     on:
-        condition: "[ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ]"
+        condition: "$HEROKU == 1"
