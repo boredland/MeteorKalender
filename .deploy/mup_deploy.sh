@@ -2,12 +2,14 @@
 if [ $1 == master ]
 then
 cd .deploy/production
-mup deploy
+ls ././../node_modules/
+././../node_modules/mup
+././../node_modules/ deploy
 exit $?
 fi
 if [ $1 == test ]
 then
 cd .deploy/test
-mup deploy
+../node_modules/mup deploy
 exit $?
 fi

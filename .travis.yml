@@ -15,13 +15,12 @@ addons:
 #    - nodejs
 before_script:
   - "export PATH=$HOME/.meteor:$PATH"
-  - "export PATH=$PWD/node_modules:$PATH"
 node_js:
 - 4.6.1
 before_install:
 #- sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
 #- sudo curl --output /usr/local/phantomjs/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
-#- npm install -g node-gyp mup meteorite ssh2
+- npm install mup ssh2
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/Makefile
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/start_test.js
