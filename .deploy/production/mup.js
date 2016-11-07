@@ -36,7 +36,7 @@ module.exports = {
       //MONGO_URL: 'mongodb://localhost/meteor'
     },
     dockerImage: 'cwaring/meteord:base',
-    deployCheckWaitTime: 60
+    deployCheckWaitTime: 120
   },
   mongo: {
     oplog: true,
