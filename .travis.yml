@@ -4,25 +4,27 @@ language: node_js
 addons:
   apt:
     sources:
-    - sourceline: 'deb https://deb.nodesource.com/node_4.x trusty main'
-      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+#    - sourceline: 'deb https://deb.nodesource.com/node_4.x trusty main'
+#      key_url: 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
     - sourceline: 'ppa:ubuntu-toolchain-r/test'
     packages:
     - g++-4.8
     #    - make
 #   - gcc-6
 #   - g++-6
-    - nodejs
+#    - nodejs
+before_script:
+  - "export PATH=$HOME/.meteor:$PATH"
 node_js:
 - 4.6.1
 before_install:
 #- sudo curl --output /usr/local/bin/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
 #- sudo curl --output /usr/local/phantomjs/phantomjs https://s3.amazonaws.com/circle-downloads/phantomjs-2.1.1
-- sudo npm install -g node-gyp mup meteorite ssh2
+#- npm install -g node-gyp mup meteorite ssh2
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/Makefile
 - wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/start_test.js
-- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
+#- wget https://raw.github.com/arunoda/travis-ci-meteor-packages/master/phantom_runner.js
 - curl https://install.meteor.com | /bin/sh
 - sed -i 's/BUILD_ANCHOR/'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
 #- cat client/views/layout/layout.html
@@ -32,22 +34,22 @@ env:
 after_success:
 #- sudo find / -name start.sh -exec sed -i 's/meteorhacks\/meteord\:base/cwaring\/meteord\:base/g' {} +
 #- sudo find / -name start.sh -exec cat {} +
-- phantomjs -v
-- meteor --version
-- npm -v
-- meteor npm -v
-- node-gyp -v
+#- phantomjs -v
+#- meteor --version
+#- npm -v
+#- meteor npm -v
+#- node-gyp -v
 - bash .deploy/mup_deploy.sh $TRAVIS_BRANCH && if [ $? == 0 ];then echo $TRAVIS_BRANCH;else exit 1;fi
 notifications:
   slack:
     secure: Y+0LaRuAt1WOQjHIOBPX9ttc+zTPJG8meQ3dGOK8v7Vl/+MN6fQCwuG/RAX+Eev3QjCNNc549Gc+MBLMWovDiePkO+t0USk/snmpJspX/sh9pIxvm7vFxya4E0Iv2ROWLQ/hh0DWSuaUMZYZHPV7zUzZOBJtbViDYufaFszbLFbO3BuGhDcZRppkWAld/9R8878Dg+PpA+qgikEeMkxB8+nZ2d9eP9Ywl6X/UjJ1B7rq/QINuRmryxT9/Ht5D7M/FfzARf/rC7NrZJ/uHUtT8Jm/1A4I7w0pB1ielAM7Imzqc6Sqa3wy5MjxuTiEodi7pgaeN9a1MhTa1VMQa//9v/tjTk6MA+C1mwh89jidQby1Vv/fcdOJwtZXKgQIppFe/LhiKi6+6DLu0Rs2Yv5DXKDf6jZ/qZCohm2WnQGbU+QOinrbHH75d+Kn4RC5k8xus19J99nmEE5OHIFpeLEbKnGpzjk1X1L3ixBXNCs7mllJ42D6t5DqJd7TjYI9Ub14cY/q6NC3G6uCGhO0jrdFidh0NgOs6cVAphdQ3ehyFG/xlHoiFDiscbuptFvljuaQ2/6d7dcKTEs7s3HoiMpRX0u6q3o/CFGntDuyrmbtMA5g9pDg7ao+dwbviIVuc43CnoCh7+lRiemp+V4jtvdXOltXd2ckBGuKCwv0Fz6G92w=
-deploy:
-  provider: heroku
-  skip_cleanup: true
-  api_key:
-    secure: pNmRMpymVSwXzA5de4D+kuxx6M6u0MB9nPcl5PaQ3yVLhLQVw2F1x9Uk+P4D/nY+ykQtrsSuC171Fxniy6posNz7S407Sikh8MGs3s8KeSnvTMWgbTcP+nNzBdM/a/rjbTAFEN/wcW29H5zYEt1L4GB9lpoLBAkeVpEfY+EwvI7mp5CBTZgBlLbcJA2/CDG0NAsXcLRnZuUUKgQC3qh4gKz8hZrmP2aiqWRztxcByf4dvopiCV8fzuqPqTLVx9vCFFkf5scIHCBK+UCxbrV3gNVBbecaCgDlLAjag4B79r9CLSJNMstKIK9z77EJb1Wx8+qGEPpnRGgiZzszmej5h9FeA2+hl8z6FwbbrzG1E5ofwLNrwBT7o/c3fSpWFdKud3bRq6FNBHmFeC4pJa++czmhdy1ua+RIdvyZorBg+4lHOhrLhyp+4z46TDTt1i761/ud+19/cOePu7U1QUbk6+Q0AbCEvofWruTmVsNv6zUQR47UCmPLSxfEFeYyh794amKCe2XmygwaoOxmXcTZZlNqN/e27h3frKJZmkGiWxFwnFllH8qsnC8KT/eBGg3msnHPuTDaA+TrhrIee25IHvLCxo1TNYlvLXrnLrvjQvGttbFxPcfi4ggp+jIIs4VpPauwu/I0lHN/RY9vfI9G/TFB5cfnlqanSpcI6bdQnAM=
-  app: meteorkalender
-  on:
-    repo: boredland/MeteorKalender
-    on:
-        condition: "$TRAVIS_BRANCH != master"
+#deploy:
+#  provider: heroku
+#  skip_cleanup: true
+#  api_key:
+#    secure: pNmRMpymVSwXzA5de4D+kuxx6M6u0MB9nPcl5PaQ3yVLhLQVw2F1x9Uk+P4D/nY+ykQtrsSuC171Fxniy6posNz7S407Sikh8MGs3s8KeSnvTMWgbTcP+nNzBdM/a/rjbTAFEN/wcW29H5zYEt1L4GB9lpoLBAkeVpEfY+EwvI7mp5CBTZgBlLbcJA2/CDG0NAsXcLRnZuUUKgQC3qh4gKz8hZrmP2aiqWRztxcByf4dvopiCV8fzuqPqTLVx9vCFFkf5scIHCBK+UCxbrV3gNVBbecaCgDlLAjag4B79r9CLSJNMstKIK9z77EJb1Wx8+qGEPpnRGgiZzszmej5h9FeA2+hl8z6FwbbrzG1E5ofwLNrwBT7o/c3fSpWFdKud3bRq6FNBHmFeC4pJa++czmhdy1ua+RIdvyZorBg+4lHOhrLhyp+4z46TDTt1i761/ud+19/cOePu7U1QUbk6+Q0AbCEvofWruTmVsNv6zUQR47UCmPLSxfEFeYyh794amKCe2XmygwaoOxmXcTZZlNqN/e27h3frKJZmkGiWxFwnFllH8qsnC8KT/eBGg3msnHPuTDaA+TrhrIee25IHvLCxo1TNYlvLXrnLrvjQvGttbFxPcfi4ggp+jIIs4VpPauwu/I0lHN/RY9vfI9G/TFB5cfnlqanSpcI6bdQnAM=
+#  app: meteorkalender
+#  on:
+#    repo: boredland/MeteorKalender
+#    on:
+#        condition: "$TRAVIS_BRANCH != master"
