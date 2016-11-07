@@ -24,7 +24,7 @@ before_install:
 - curl https://install.meteor.com | /bin/sh
 - sed -i 's/ANCHOR/'"#$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
 - HEROKU=0
-- "if [[ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ]];then HEROKU=1;fi"
+- "if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi"
 #- npm rebuild
 env:
 - CXX=g++-4.8
