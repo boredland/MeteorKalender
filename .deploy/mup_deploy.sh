@@ -2,7 +2,7 @@
 if [ $1 == master ]
 then
 cd .deploy/production
-mup reconfig
+#mup reconfig
 mup deploy
 exit $?
 fi
