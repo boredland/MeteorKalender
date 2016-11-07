@@ -7,3 +7,5 @@ npm-debug.log
 .deploy/deploy_rsa
 /.deploy/deploy_rsa.pub
 /.deploy/deploy_rsa
+/.deploy/production/mup.js
+/.deploy/test/mup.js
