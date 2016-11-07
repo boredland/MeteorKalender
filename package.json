@@ -12,8 +12,6 @@
     "mupx": "^1.5.3",
     "node-gyp": "^3.4.0",
     "npm": "^3.10.9",
-    "phantomjs": "^2.1.7",
-    "phantomjs-prebuilt": "^2.1.13",
     "system": "^1.1.1",
     "underscore": "^1.8.3",
     "webpage": "^0.3.0"
