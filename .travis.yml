@@ -11,8 +11,8 @@ before_install:
 - npm install -g mup ssh2
 - curl https://install.meteor.com | /bin/sh
 - sed -i 's/ANCHOR/'"#$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
-- sed -i 's/MAILURL/'"$MAIL_URL"'/g' .deploy/production/mup.js
-- sed -i 's/MAILURL/'"$MAIL_URL"'/g' .deploy/test/mup.js
+- sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/production/mup.js
+- sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
 - echo $HEROKU
