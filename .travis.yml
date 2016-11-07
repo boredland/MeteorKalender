@@ -15,7 +15,6 @@ before_install:
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
-- echo $HEROKU
 env:
 - CXX=g++-4.8
 after_success:
@@ -33,4 +32,4 @@ deploy:
   on:
     repo: boredland/MeteorKalender
     on:
-      condition: "$HEROKU = 1"
+      condition: "$HEROKU == 1"
