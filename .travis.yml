@@ -16,7 +16,6 @@ addons:
 before_script:
   - "export PATH=$HOME/.meteor:$PATH"
   - "export PATH=$PWD/node_modules:$PATH"
-  node_modules
 node_js:
 - 4.6.1
 before_install:
