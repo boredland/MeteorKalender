@@ -1,14 +1,13 @@
 #!/bin/bash
 if [ $1 == master ]
 then
-mupx setup --config .deploy/mup_production.js
-mup deploy --config .deploy/mup_production.js
+cd .deploy/production
+DEBUG=* mup deploy
 exit $?
 fi
-
 if [ $1 == test ]
 then
-mupx setup --config=.deploy/mup_test.js
-mup deploy --config .deploy/mup_test.js
+cd .deploy/test
+DEBUG=* mup deploy
 exit $?
 fi
