@@ -31,6 +31,7 @@ deploy:
   app: meteorkalender
   on:
     repo: boredland/MeteorKalender
+    all_branches: true
   branches:
     except:
     - master
