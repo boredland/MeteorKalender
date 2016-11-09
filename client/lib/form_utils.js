@@ -2,6 +2,16 @@ this.isValidEmail = function(value) {
 	var filter = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
 	if(filter.test(value)) {
+		return isValidFraUasEmail(value);
+	}
+	return false;
+};
+
+this.isValidFraUasEmail = function(value) {
+	var filter_frauas = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.fra-uas.de)+$/;
+	var filter_frankfurt_university = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.frankfurt-university.de)+$/;
+
+	if(filter_frauas.test(value) || filter_frankfurt_university.test(value)) {
 		return true;
 	}
 	return false;

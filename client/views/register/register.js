@@ -15,7 +15,7 @@ Template.Register.created = function() {
 };
 
 Template.Register.events({
-    "change #register_status": function(event, template){
+    /*"change #register_status": function(event, template){
         var selectValue = template.$("#register_status").val();
         if (selectValue === 'professor'){
             pageSession.set("isStudent", false);
@@ -23,7 +23,7 @@ Template.Register.events({
         else if (selectValue === 'student'){
             pageSession.set("isStudent", true);
         }
-    },
+    },*/
 	'submit #register_form' : function(e, t) {
 		e.preventDefault();
 
@@ -50,7 +50,7 @@ Template.Register.events({
 		// check email
 		if(!isValidEmail(register_email))
 		{
-			pageSession.set("errorMessage", "Please enter valid e-mail address.");
+			pageSession.set("errorMessage", "Please enter valid e-mail address that ends with .fra-uas.de or .frankfurt-unversity.de.");
 			t.find('#register_email').focus();
 			return false;
 		}
