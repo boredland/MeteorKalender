@@ -24,7 +24,7 @@ Template.Login.events({
 		// check email
 		if(!isValidEmail(login_email))
 		{
-			pageSession.set("errorMessage", "Please enter your e-mail address.");
+			pageSession.set("errorMessage", "Bitte geben Sie ihre E-mail ein.");
 			t.find('#login_email').focus();
 			return false;
 		}
