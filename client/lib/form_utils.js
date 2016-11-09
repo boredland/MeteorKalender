@@ -10,8 +10,9 @@ this.isValidEmail = function(value) {
 this.isValidFraUasEmail = function(value) {
 	var filter_frauas = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.fra-uas.de)+$/;
 	var filter_frankfurt_university = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.frankfurt-university.de)+$/;
+	var filter_fh_frankfurt = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.fh-frankfurt.de)+$/;
 
-	if(filter_frauas.test(value) || filter_frankfurt_university.test(value)) {
+	if(filter_frauas.test(value) || filter_frankfurt_university.test(value) || filter_fh_frankfurt.test(value)) {
 		return true;
 	}
 	return false;
