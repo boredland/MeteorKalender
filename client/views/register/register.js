@@ -3,8 +3,7 @@ var pageSession = new ReactiveDict();
 Template.Register.rendered = function() {
 	pageSession.set("errorMessage", "");
 	pageSession.set("verificationEmailSent", false);
-    pageSession.set("isStudent", true);
-	
+    //pageSession.set("isStudent", true);
 	Meteor.defer(function() {
 		$("input[autofocus]").focus();
 	});
@@ -29,9 +28,9 @@ Template.Register.events({
 		e.preventDefault();
 
 		var submit_button = $(t.find(":submit"));
-		var register_status = t.find('#register_status').value.trim();
+		//var register_status = t.find('#register_status').value.trim();
 		var register_name = t.find('#register_name').value.trim();
-		var register_studentno = t.find('#register_studentno').value.trim();
+		//var register_studentno = t.find('#register_studentno').value.trim();
 		var register_email = t.find('#register_email').value.trim();
 		var register_password = t.find('#register_password').value;
 		// check name
@@ -42,12 +41,12 @@ Template.Register.events({
 			return false;
 		}
 		// check student number
-		if(register_studentno == "")
+		/*if(register_studentno == "")
 		{
 			pageSession.set("errorMessage", "Please enter your student number.");
 			t.find('#register_studentno').focus();
 			return false;
-		}
+		}*/
 		// check email
 		if(!isValidEmail(register_email))
 		{
@@ -66,7 +65,8 @@ Template.Register.events({
 		}
 
 		submit_button.button("loading");
-		Accounts.createUser({email: register_email, password : register_password, profile: { name: register_name, status: register_status, studentno: register_studentno }}, function(err) {
+		//, status: register_status, studentno: register_studentno
+		Accounts.createUser({email: register_email, password : register_password, profile: { name: register_name }}, function(err) {
 			submit_button.button("reset");
 			if(err) {
 				if(err.error === 499) {
@@ -95,9 +95,9 @@ Template.Register.helpers({
 	},
 	verificationEmailSent: function() {
 		return pageSession.get("verificationEmailSent");
-	},
+	}/*,
     isStudent: function() {
         //return
         return pageSession.get("isStudent");
-    }
+    }*/
 });
