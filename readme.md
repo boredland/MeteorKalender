@@ -10,6 +10,8 @@ Waffle: https://waffle.io/boredland/MeteorKalender/join
 
 Slack: https://meteorkalender.slack.com
 
-Production: https://meteorkalender.freeddns.org/
+Dev-Deployment: https://meteorkalender.herokuapp.com/
 
-Testing: https://test.meteorkalender.freeddns.org/
+Production-Deployment: https://meteorkalender.freeddns.org/
+
+Test-Deployment: https://test.meteorkalender.freeddns.org/
