@@ -50,7 +50,7 @@ Template.Register.events({
 		// check email
 		if(!isValidEmail(register_email))
 		{
-			pageSession.set("errorMessage", "Please enter valid e-mail address that ends with .fra-uas.de or .frankfurt-unversity.de.");
+			pageSession.set("errorMessage", "Please enter valid e-mail address that ends with .fra-uas.de, .frankfurt-unversity.de or fh-frankfurt.de.");
 			t.find('#register_email').focus();
 			return false;
 		}
