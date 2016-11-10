@@ -6,6 +6,16 @@
 				</div>
 			</div>
 		</div>
-		{{> fullcalendar defaultView='agendaWeek'}}
+
+
 	</div>
+    <ul>
+        {{#each tasks}}
+            {{> task}}
+        {{/each}}
+    </ul>
+</template>
+
+<template name="task">
+    <li>{{text}}</li>
 </template>
