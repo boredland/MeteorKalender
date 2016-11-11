@@ -6,15 +6,16 @@ curl -X POST --data-urlencode 'payload={"channel": "'$channel'", "username": "Me
 check_sucess () {
 if [[ $MUP_RESULT == *"Verifying Deployment: SUCCESS"* ]]
 then
-  RESULT_MESSAGE="Sucessfully deployed <'$DESTINATION_URL'|#'$TRAVIS_BUILD_NUMBER'>.";
+  echo "Deployment successful."
+  RESULT_MESSAGE="Sucessfully deployed <'$_DESTINATION_URL'|#'$TRAVIS_BUILD_NUMBER'>.";
 else
-  RESULT_MESSAGE="Deployment for #'$TRAVIS_BUILD_NUMBER' failed. Reverted back to previous version on '$DESTINATION_URL'"
+  echo "Deployment failed."
+  RESULT_MESSAGE="Deployment for #'$TRAVIS_BUILD_NUMBER' failed. Reverted back to previous version on '$_DESTINATION_URL'"
 fi
 }
 
 deploy () {
 MUP_RESULT=$(mup deploy | tail -n1)
-echo $MUP_RESULT
 check_sucess
 slack_it
 }
