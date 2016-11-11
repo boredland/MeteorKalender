@@ -11,7 +11,7 @@ Template.HomePublic.events({
 //noinspection JSAnnotator,JSAnnotator
 Template.HomePublic.helpers({
     tasks(){
-        //alert(Test.find().count()) //Anhand der Zeile Sieht man das die Einträge in der Collection "verschiwinden"
+        alert(Test.find().count()) //Anhand der Zeile Sieht man das die Einträge in der Collection "verschiwinden"
         return Test.find({});
     }
 });
@@ -28,8 +28,8 @@ Template.HomePublic.events({
 
         // insert a task into the collection
         Task.insert({
-            createdAt: new Date(),
-            text, //current time
+            createdAt: new Date(), //current time
+            text,
         });
 
         //clear from
