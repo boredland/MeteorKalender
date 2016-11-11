@@ -26,7 +26,7 @@ if [ $1 == master ]
 then
 cd .deploy/production
 channel="#info_002_cd_mup_prod"
-DESTINATION_URL="https://test.meteorkalender.freeddns.org"
+DESTINATION_URL="https://meteorkalender.freeddns.org"
 webhook_key=$Webhook_Prod
 deploy
 fi
@@ -35,7 +35,7 @@ if [ $1 == test ]
 then
 cd .deploy/test
 channel="#info_002_cd_mup_test"
-DESTINATION_URL="https://meteorkalender.freeddns.org"
+DESTINATION_URL="https://test.meteorkalender.freeddns.org"
 webhook_key=$Webhook_Test
 deploy
 fi
