@@ -1,16 +1,18 @@
 #!/bin/bash
+set -x
+
 slack_it (){
-curl -X POST --data-urlencode 'payload={"channel": "'$channel'", "username": "Meteor-UP", "text": "'$RESULT_MESSAGE'"}' https://hooks.slack.com/services/$webhook_key
+curl -X POST --data-urlencode 'payload={"channel": "'"$channel"'", "username": "Meteor-UP", "text": "'"$RESULT_MESSAGE"'"}' https://hooks.slack.com/services/$webhook_key
 }
 
 check_sucess () {
 if [[ $MUP_RESULT == *"Verifying Deployment: SUCCESS"* ]]
 then
   echo "Deployment successful."
-  RESULT_MESSAGE="Sucessfully deployed <'$_DESTINATION_URL'|#'$TRAVIS_BUILD_NUMBER'>.";
+  RESULT_MESSAGE="Sucessfully deployed <'"$DESTINATION_URL"'|#'"$TRAVIS_BUILD_NUMBER"'>.";
 else
   echo "Deployment failed."
-  RESULT_MESSAGE="Deployment for #'$TRAVIS_BUILD_NUMBER' failed. Reverted back to previous version on '$_DESTINATION_URL'"
+  RESULT_MESSAGE="Deployment for #'"$TRAVIS_BUILD_NUMBER"' failed. Reverted back to previous version on '"$DESTINATION_URL"'"
 fi
 }
 
@@ -25,7 +27,7 @@ then
 cd .deploy/production
 channel="#info_002_cd_mup_prod"
 DESTINATION_URL="https://test.meteorkalender.freeddns.org"
-webhook_key=$Webhook_Test
+webhook_key=$Webhook_Prod
 deploy
 fi
 
