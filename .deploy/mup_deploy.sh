@@ -7,7 +7,7 @@ check_sucess () {
 if [[ $MUP_RESULT == *"Verifying Deployment: SUCCESS"* ]]
 then
   echo "Deployment successful."
-  RESULT_MESSAGE="Sucessfully deployed <"$DESTINATION_URL"|#"$TRAVIS_BUILD_NUMBER"> for <"'commit'"|"'https://github.com/boredland/MeteorKalender/commit/'""$TRAVIS_COMMIT""'>."
+  RESULT_MESSAGE="Sucessfully deployed <"$DESTINATION_URL"|#"$TRAVIS_BUILD_NUMBER"> for <\"commit\"|\"https://github.com/boredland/MeteorKalender/commit/$TRAVIS_COMMIT\">."
 else
   echo "Deployment failed."
   RESULT_MESSAGE="Deployment for #'"$TRAVIS_BUILD_NUMBER"' failed. Reverted back to previous version on '"$DESTINATION_URL"'"
