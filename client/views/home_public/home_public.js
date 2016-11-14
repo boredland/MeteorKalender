@@ -13,7 +13,7 @@ Template.HomePublic.helpers({
 
 //Try to add new Task
 Template.HomePublic.events({
-    'submit .new-tas'(event) {
+    'submit .new-task'(event) {
         // Prevent default browser submit
         event.preventDefault();
 
