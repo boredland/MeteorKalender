@@ -11,7 +11,7 @@ Template.HomePublic.events({
 //noinspection JSAnnotator,JSAnnotator
 Template.HomePublic.helpers({
     tasks(){
-        return Test.find({});
+        return Test.find({}).count();
     }
 });
 
@@ -26,7 +26,7 @@ Template.HomePublic.events({
         const text = target.text.value;
 
         // insert a task into the collection
-        Task.insert({
+        Test.insert({
             createdAt: new Date(), //current time
             text,
         });
