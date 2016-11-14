@@ -4,14 +4,10 @@ Template.HomePublic.rendered = function() {
 	
 };
 
-Template.HomePublic.events({
-	
-});
-
 //noinspection JSAnnotator,JSAnnotator
 Template.HomePublic.helpers({
     tasks(){
-        return Test.find({}).count();
+        return Test.find({});
     }
 });
 
