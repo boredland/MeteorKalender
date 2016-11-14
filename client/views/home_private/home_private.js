@@ -10,7 +10,7 @@ Availabilities.insert({
 //
 
 var avail = Availabilities.find({userId:Meteor.userId()}).fetch();
-Meteor.subscribe('availabilities', 'ru_RU');
+Meteor.subscribe('availabilities', Meteor.userId());
 Template.HomePrivate.rendered = function() {
 
 };
