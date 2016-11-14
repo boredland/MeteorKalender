@@ -5,20 +5,12 @@
 				<div id="page_menu" class="pull-right">
 				</div>
 			</div>
-           <!-- <div class="new-task">
-                <input type="text" name="text" placeholder="Type to add a new task" />
-            </div> -->
+            <div>result: {{tasks}}</div>
 		</div>
 
 
 	</div>
     <ul>
-        {{#each tasks}}
-            {{> task}}
-        {{/each}}
-    </ul>
-</template>
 
-<template name="task">
-    <li>{{text}}</li>
+    </ul>
 </template>

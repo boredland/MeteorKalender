@@ -2,7 +2,23 @@
 	"application": {
 		"title": "MeteorKalender",
 		"theme": "bootswatch-paper",
-		"collections": [],
+		"collections": [
+			{
+				"name": "consult_hours",
+				"fields": [
+					{ "name": "name", "title": "Name", "required": true, "exportable": true },
+					{ "name": "phone", "title": "Phone", "default": "-", "exportable": true },
+					{ "name": "email", "title": "E-mail", "type": "email", "exportable": true },
+					{ "name": "note", "title": "Note", "input": "textarea", "exportable": true, "show_in_dataview": false },
+					{ "name": "totalAmount", "title": "Invoiced", "type": "float", "show_in_insert_form": false, "show_in_update_form": false, "exportable": true }
+				],
+				"owner_field": "ownerId",
+
+				"roles_allowed_to_read": ["owner"],
+				"roles_allowed_to_update": ["owner"],
+				"roles_allowed_to_delete": ["owner"]
+			}
+		],
 		"queries": [
 			{
 				"name": "current_user_data",
