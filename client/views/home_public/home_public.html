@@ -1,13 +1,22 @@
 <template name="HomePublic">
-	<div class="page-container container" id="content">
-		<div class="row" id="title_row">
-			<div class="col-md-12">
-				<div id="page_menu" class="pull-right">
-				</div>
-			</div>
-		</div>
-        Works on test??
-		{{> fullcalendar defaultView='agendaWeek'}}
-	</div>
+    <div class="page-container container" id="content">
+        <div class="row" id="title_row">
+            <div class="col-md-12">
+                <div id="page_menu" class="pull-right">
+                </div>
+            </div>
+            <div>result: {{tasks}}</div>
+        </div>
+
+
+    </div>
+    <ul>
+        {{#each taskiter}}
+            {{> task}}
+        {{/each}}
+    </ul>
 </template>
 
+<template name="task">
+    <li>{{text}}</li>
+</template>
