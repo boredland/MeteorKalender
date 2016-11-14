@@ -9,6 +9,18 @@
 				</div>
 			</div>
 		</div>
+        <ul>
+            {{#each availabilities}}
+                {{> availability}}
+            {{/each}}
+            {{ userid }}
+        </ul>
 	</div>
 </template>
 
+<template name="availability">
+    <li>{{userId}}</li>
+    <li>{{startDate}}</li>
+    <li>{{endDate}}</li>
+    <li>{{categoryId}}</li>
+</template>
