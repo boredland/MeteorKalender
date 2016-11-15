@@ -1,5 +1,5 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection'
-
+import { Meteor } from 'meteor/meteor';
 Template.HomePublic.rendered = function() {
 
 };
@@ -14,10 +14,7 @@ Template.HomePublic.events({
         const text = target.text.value;
 
         // Insert a task into the collection
-        Availabilities.insert({
-            text,
-            createdAt: new Date(), // current time
-        });
+        Meteor.call('availabilities.insert', text)
 
         // Clear form
         target.text.value = '';
