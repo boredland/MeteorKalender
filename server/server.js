@@ -1,3 +1,4 @@
+import '/imports/api/availabilitiesCollection'
 var verifyEmail = true;
 
 Accounts.config({ sendVerificationEmail: verifyEmail });

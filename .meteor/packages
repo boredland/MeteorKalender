@@ -39,3 +39,4 @@ rzymek:fullcalendar
 dispatch:mocha
 dispatch:mocha-phantomjs
 insecure@1.0.7
+autopublish

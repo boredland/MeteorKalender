@@ -1,17 +1,32 @@
-import {TestCollection} from '/both/collections/testcollection'
-var elementtest = TestCollection.findOne();
-var coll = TestCollection.find().fetch();
+import {Availabilities} from '/imports/api/availabilitiesCollection'
 
 Template.HomePublic.rendered = function() {
 
 };
 
-Template.HomePublic.helpers({
-    tasks(){
-        console.log(elementtest.text);
-        return elementtest.text;
+Template.HomePublic.events({
+    'submit .new-availability'(event) {
+        // Prevent default browser form submit
+        event.preventDefault();
+
+        // Get value from form element
+        const target = event.target;
+        const text = target.text.value;
+
+        // Insert a task into the collection
+        Availabilities.insert({
+            text,
+            createdAt: new Date(), // current time
+        });
+
+        // Clear form
+        target.text.value = '';
     },
-    taskiter(){
-        return coll;
+});
+
+Template.HomePublic.helpers({
+
+    getAvailabilities(){
+        return Availabilities.find();
     }
 });

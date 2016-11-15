@@ -1,16 +1,3 @@
-import {Availabilities} from '/both/collections/availabilities'
-var pageSession = new ReactiveDict();
-//test data insert.
-Availabilities.insert({
-    userId: Meteor.userId(),
-    startDate: Date.now,
-    endDate: Date.now,
-    categoryId: "blacategorienummerwhatever"
-});
-//
-
-var avail = Availabilities.find({userId:Meteor.userId()}).fetch();
-Meteor.subscribe('availabilities', Meteor.userId());
 Template.HomePrivate.rendered = function() {
 
 };

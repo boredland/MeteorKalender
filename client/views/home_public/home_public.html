@@ -5,13 +5,14 @@
                 <div id="page_menu" class="pull-right">
                 </div>
             </div>
-            <div>result: {{tasks}}</div>
         </div>
-
+        <form class="new-availability">
+            <input type="text" name="text" placeholder="Type to add new Availability" />
+        </form>
 
     </div>
     <ul>
-        {{#each taskiter}}
+        {{#each getAvailabilities}}
             {{> task}}
         {{/each}}
     </ul>
