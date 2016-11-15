@@ -1,29 +1,30 @@
+import {Availabilities} from '/imports/api/availabilitiesCollection'
+import { Meteor } from 'meteor/meteor';
+
 Template.HomePrivate.rendered = function() {
 
 };
 
 Template.HomePrivate.events({
-    "submit": function(e, t) {
-        e.preventDefault();
-        pageSession.set("availabilitiesInsertInsertFormInfoMessage", "");
-        pageSession.set("availabilitiesInsertInsertFormErrorMessage", "");
-        Availabilities.insert({
-            userId: Meteor.userId(),
-            startDate: new Date(t.find('#startdate').value.trim()),
-            endDate: new Date(t.find('#enddate').value.trim()),
-            categoryId: t.find('#categoryid').value.trim()
-        });
-    }
+    'submit .new-availability'(event) {
+        // Prevent default browser form submit
+        event.preventDefault();
+
+        // Get value from form element
+        const target = event.target;
+        const text = target.text.value;
+
+        // Insert a task into the collection
+        Meteor.call('availabilities.insert', text)
+
+        // Clear form
+        target.text.value = '';
+    },
 });
 
 Template.HomePrivate.helpers({
-    "infoMessage": function() {
-        return pageSession.get("availabilitiesInsertInsertFormInfoMessage");
-    },
-    "errorMessage": function() {
-        return pageSession.get("availabilitiesInsertInsertFormErrorMessage");
-    },
-    availabilities(){
-        return avail;
+
+    getAvailabilities(){
+        return Availabilities.find();
     }
 });
