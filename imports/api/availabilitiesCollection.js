@@ -22,7 +22,10 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
 
-        //checks whether values are of an excepted Type. This way a DB schema can be "enforced".
+        /*
+         checks whether values are of an excepted Type. This way a DB schema can be "enforced".
+         ToDo: Replace it by aldeed:simple-schema
+         */
         check(userId, String);
         check(categoryId, String);
         check(startDate, Date);
@@ -33,7 +36,8 @@ Meteor.methods({
             userId: userId,
             startDate: startDate,
             endDate: endDate,
-            categoryId: categoryId
+            categoryId: categoryId,
+            bookedBy: 'not booked yet'
         });
     },
 });
