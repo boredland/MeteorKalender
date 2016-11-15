@@ -10,18 +10,17 @@ Meteor.methods({
     'availabilities.insert'(text) {
         check(text, String);
 
-        // Make sure the user is logged in before inserting a task
-        /*
         if (! this.userId) {
+            alert("login To create an Availability")
             throw new Meteor.Error('not-authorized');
+
         }
-        */
 
         Availabilities.insert({
             text,
             createdAt: new Date(),
             owner: this.userId,
-            //username: Meteor.users.findOne(this.userId).username,
+            username: Meteor.users.findOne(this.userId).username,
         });
     },
     /*
