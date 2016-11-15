@@ -7,27 +7,33 @@ import { check } from 'meteor/check';
 export const Availabilities = new Mongo.Collection("availabilities");
 
 if (Meteor.isServer) {
-    // This code only runs on the server
-    Meteor.publish('availabilities', function tasksPublication() {
+    // publication of Availabilities should only run on the server
+    Meteor.publish('allAvailabilities', function tasksPublication() {
         return Availabilities.find();
     });
 }
 
+//methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    'availabilities.insert'(text) {
-        check(text, String);
+    'availabilities.insert'(userId, startDate, endDate, categoryId) {
 
+        //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
-            alert("login To create an Availability")
             throw new Meteor.Error('not-authorized');
-
         }
 
+        //checks whether values are of an excepted Type. This way a DB scheme can be "enforced".
+        check(userId, String);
+        check(categoryId, String);
+        check(startDate, Date);
+        check(endDate, Date);
+
+        //finally, data are inserted into the collection
         Availabilities.insert({
-            text,
-            createdAt: new Date(),
-            owner: this.userId,
-            username: Meteor.users.findOne(this.userId).username,
+            userId: userId,
+            startDate: startDate,
+            endDate: endDate,
+            categoryId: categoryId
         });
     },
 });

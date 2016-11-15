@@ -5,28 +5,10 @@ Template.HomePublic.rendered = function() {
 };
 
 Template.HomePublic.onCreated(function bodyOnCreated() {
-    Meteor.subscribe('availabilities');
-});
-
-Template.HomePublic.events({
-    'submit .new-availability'(event) {
-        // Prevent default browser form submit
-        event.preventDefault();
-
-        // Get value from form element
-        const target = event.target;
-        const text = target.text.value;
-
-        // Insert a task into the collection
-        Meteor.call('availabilities.insert', text)
-
-        // Clear form
-        target.text.value = '';
-    },
+    Meteor.subscribe('allAvailabilities');
 });
 
 Template.HomePublic.helpers({
-
     getAvailabilities(){
         return Availabilities.find();
     }
