@@ -22,7 +22,7 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
 
-        //checks whether values are of an excepted Type. This way a DB scheme can be "enforced".
+        //checks whether values are of an excepted Type. This way a DB schema can be "enforced".
         check(userId, String);
         check(categoryId, String);
         check(startDate, Date);

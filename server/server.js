@@ -1,4 +1,5 @@
 import '/imports/api/availabilitiesCollection'
+//Import creates the collection on the server.
 var verifyEmail = true;
 
 Accounts.config({ sendVerificationEmail: verifyEmail });

@@ -4,13 +4,16 @@ Template.HomePrivate.rendered = function() {
 
 };
 
+///imports/api/availabilitiesCollection.js "publishes" the collection which is "subscribed" in this step. This way we can "use" the collection on the client.
 Template.HomePrivate.onCreated(function bodyOnCreated() {
     Meteor.subscribe('allAvailabilities');
 });
 
-Template.HomePrivate.events({
-    "submit": function(e, t) {
 
+Template.HomePrivate.events({
+    //function is triggered by "submit" event, which is defined in the home_private.html
+    "submit": function(e, t) {
+        //preventDefault prevents the event e from doing what it usually does. We define event e as "mongo collection insert"
         e.preventDefault();
 
         //pageSession.set("availabilitiesInsertInsertFormInfoMessage", "");   @Jonas: Was macht das???
