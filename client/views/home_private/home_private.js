@@ -5,6 +5,10 @@ Template.HomePrivate.rendered = function() {
 
 };
 
+Template.HomePrivate.onCreated(function bodyOnCreated() {
+    Meteor.subscribe('availabilities');
+});
+
 Template.HomePrivate.events({
     'submit .new-availability'(event) {
         // Prevent default browser form submit

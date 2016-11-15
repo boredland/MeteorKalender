@@ -6,6 +6,13 @@ import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
 export const Availabilities = new Mongo.Collection("availabilities");
 
+if (Meteor.isServer) {
+    // This code only runs on the server
+    Meteor.publish('availabilities', function tasksPublication() {
+        return Availabilities.find();
+    });
+}
+
 Meteor.methods({
     'availabilities.insert'(text) {
         check(text, String);
@@ -23,17 +30,4 @@ Meteor.methods({
             username: Meteor.users.findOne(this.userId).username,
         });
     },
-    /*
-    'tasks.remove'(taskId) {
-        check(taskId, String);
-
-        Tasks.remove(taskId);
-    },
-    'tasks.setChecked'(taskId, setChecked) {
-        check(taskId, String);
-        check(setChecked, Boolean);
-
-        Tasks.update(taskId, { $set: { checked: setChecked } });
-    },
-    */
 });
