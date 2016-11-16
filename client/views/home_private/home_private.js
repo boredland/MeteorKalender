@@ -16,9 +16,6 @@ Template.HomePrivate.events({
         //preventDefault prevents the event e from doing what it usually does. We define event e as "mongo collection insert"
         e.preventDefault();
 
-        //pageSession.set("availabilitiesInsertInsertFormInfoMessage", "");   @Jonas: Was macht das???
-        //pageSession.set("availabilitiesInsertInsertFormErrorMessage", "");
-
             //declaration of variables which gonna be inserted into collection
             var userId = Meteor.userId();
             var startDate = new Date(t.find('#startdate').value.trim());
