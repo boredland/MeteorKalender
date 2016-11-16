@@ -1,16 +1,17 @@
-import {Availabilities} from '/imports/api/availabilitiesCollection'
-import { Meteor } from 'meteor/meteor';
+//import {Availabilities} from '/imports/api/availabilitiesCollection'
+//import { Meteor } from 'meteor/meteor';
 Template.HomePrivate.rendered = function() {
 
 };
 
 ///imports/api/availabilitiesCollection.js "publishes" the collection which is "subscribed" in this step. This way we can "use" the collection on the client.
 Template.HomePrivate.onCreated(function bodyOnCreated() {
-    Meteor.subscribe('allAvailabilities');
+//    Meteor.subscribe('allAvailabilities');
 });
 
+
 Template.HomePrivate.events({
-    //function is triggered by "submit" event, which is defined in the home_private.html
+/*    //function is triggered by "submit" event, which is defined in the home_private.html
     "submit": function(e, t) {
         //preventDefault prevents the event e from doing what it usually does. We define event e as "mongo collection insert"
         e.preventDefault();
@@ -24,16 +25,38 @@ Template.HomePrivate.events({
         //calls the function wired to 'availabilities.insert' in /imports/api/availabilitiesCollection.js
         Meteor.call('availabilities.insert', userId, startDate, endDate, categoryId);
 
-    },
-
-    'click .delete':function(){
-        Meteor.call('availabilities.remove', this._id);
-    }
+    }*/
 });
 
 //function is called within home_private.html
 Template.HomePrivate.helpers({
-    getAvailabilities(){
+   /* getAvailabilities(){
         return Availabilities.find();
+    }*/
+});
+
+Template.HomePrivateSideMenu.rendered = function() {
+    $(".menu-item-collapse .dropdown-toggle").each(function() {
+        if($(this).find("li.active")) {
+            $(this).removeClass("collapsed");
+        }
+        $(this).parent().find(".collapse").each(function() {
+            if($(this).find("li.active").length) {
+                $(this).addClass("in");
+            }
+        });
+    });
+
+};
+
+Template.HomePrivateSideMenu.events({
+    "click .toggle-text": function(e, t) {
+        e.preventDefault();
+        $(e.target).closest("ul").toggleClass("menu-hide-text");
     }
+
+});
+
+Template.HomePrivateSideMenu.helpers({
+
 });

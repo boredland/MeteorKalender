@@ -12,7 +12,8 @@ this.HomePrivateController = RouteController.extend({
 
 	action: function() {
 		if(this.isReady()) { this.render(); } else { this.render("loading"); }
-		/*ACTION_FUNCTION*/
+        this.redirect('home_private.appointments', this.params || {}, { replaceState: true });
+        /*ACTION_FUNCTION*/
 	},
 
 	isReady: function() {
