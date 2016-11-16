@@ -3,7 +3,6 @@
  */
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import { check } from 'meteor/check';
 import {availabilitiesSchema} from './collectionSchemas'
 
 export const Availabilities = new Mongo.Collection("availabilities");
@@ -33,4 +32,7 @@ Meteor.methods({
             categoryId: categoryId
         });
     },
+    'availabilities.remove'(availabilityID){
+        Availabilities.remove(availabilityID);
+    }
 });

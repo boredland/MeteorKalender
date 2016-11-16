@@ -9,7 +9,6 @@ Template.HomePrivate.onCreated(function bodyOnCreated() {
     Meteor.subscribe('allAvailabilities');
 });
 
-
 Template.HomePrivate.events({
     //function is triggered by "submit" event, which is defined in the home_private.html
     "submit": function(e, t) {
@@ -25,6 +24,10 @@ Template.HomePrivate.events({
         //calls the function wired to 'availabilities.insert' in /imports/api/availabilitiesCollection.js
         Meteor.call('availabilities.insert', userId, startDate, endDate, categoryId);
 
+    },
+
+    'click .delete':function(){
+        Meteor.call('availabilities.remove', this._id);
     }
 });
 
