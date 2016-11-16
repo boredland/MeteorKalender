@@ -4,7 +4,10 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { check } from 'meteor/check';
+import {availabilitiesSchema} from './collectionSchemas'
+
 export const Availabilities = new Mongo.Collection("availabilities");
+Availabilities.attachSchema(availabilitiesSchema);
 
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
@@ -22,22 +25,12 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
 
-        /*
-         checks whether values are of an excepted Type. This way a DB schema can be "enforced".
-         ToDo: Replace it by aldeed:simple-schema
-         */
-        check(userId, String);
-        check(categoryId, String);
-        check(startDate, Date);
-        check(endDate, Date);
-
         //finally, data are inserted into the collection
         Availabilities.insert({
             userId: userId,
             startDate: startDate,
             endDate: endDate,
-            categoryId: categoryId,
-            bookedBy: 'not booked yet'
+            categoryId: categoryId
         });
     },
 });
