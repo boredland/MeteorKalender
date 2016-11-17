@@ -20,7 +20,10 @@ var privateRoutes = [
 	"user_settings",
 	"user_settings.profile",
 	"user_settings.change_pass",
-	"logout"
+    "home_private.appointments",
+    "home_private.availabilities",
+    "home_private.calendars",
+    "logout"
 ];
 
 var freeRoutes = [
@@ -185,7 +188,10 @@ Router.map(function () {
 	this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
 	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
-	this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
+    this.route("home_private.appointments", {path: "/home_private/appointments", controller: "AppointmentsController"});
+    this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
+    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController"});
+    this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
 	this.route("user_settings.profile", {path: "/user_settings/profile", controller: "UserSettingsProfileController"});
 	this.route("user_settings.change_pass", {path: "/user_settings/change_pass", controller: "UserSettingsChangePassController"});
 	this.route("logout", {path: "/logout", controller: "LogoutController"});
