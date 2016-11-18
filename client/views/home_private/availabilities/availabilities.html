@@ -7,7 +7,7 @@
             </div>
         </div>
         {{> AvailabilityInsertForm}}
-           <!-- <table id="dataview-table" class="table table-striped table-hover">
+        <table id="dataview-table" class="table table-striped table-hover">
                 <thead id="dataview-table-header">
                 <tr id="dataview-table-header-row">
                     <th class="th-sortable" data-sort="UserId">
@@ -31,7 +31,7 @@
                 </tr>
                 </thead>
                 {{#each getAvailabilities}} {{> availability}} {{/each}}
-            </table>-->
+        </table>
     </div>
 </template>
 
@@ -57,12 +57,11 @@
                     StartDate
                 </label>
                 <div class="input-div">
-                    <div class="input-group date">
-                        <input type="text" id="startdate" value="{{formatDate 'today' 'YYYY-MM-DDTHH:MM:SS'}}" class="form-control " required="required" data-type="date" data-format="YYYY-MM-DDTHH:MM:SS">
+                    <div class="input-group">
                         <span class="input-group-addon">
-							<i class="fa fa-calendars">
-							</i>
+                            <i class="fa fa-calendar"></i>
 						</span>
+                        <input type="text" class="datetimepicker_start form-control">
                     </div>
                     <span id="help-text" class="help-block">
 					</span>
@@ -75,12 +74,11 @@
                     EndDate
                 </label>
                 <div class="input-div">
-                    <div class="input-group date">
-                        <input type="text" id="enddate" value="{{formatDate 'today' 'YYYY-MM-DDTHH:MM:SS'}}" class="form-control " required="required" data-type="date" data-format="YYYY-MM-DDTHH:MM:SS">
+                    <div class="input-group">
                         <span class="input-group-addon">
-							<i class="fa fa-calendars">
-							</i>
+							<i class="fa fa-calendar"></i>
 						</span>
+                        <input type="text" class="datetimepicker_end form-control">
                     </div>
                     <span id="help-text" class="help-block">
 					</span>
@@ -137,11 +135,11 @@
             {{categoryId}}
         </td>
         <td class="td-icon">
-			<span id="edit-button" class="fa fa-pencil {{editButtonClass}}" title="Edit">
+			<span id="edit-button" class="fa fa-pencil" title="Edit">
 			</span>
         </td>
         <td class="td-icon">
-			<span id="delete-button" class="fa fa-trash-o {{deleteButtonClass}}" title="Delete">
+			<span id="delete-button" class="fa fa-trash-o" title="Delete">
 			</span>
         </td>
     </tr>

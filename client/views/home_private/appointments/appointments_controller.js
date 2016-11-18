@@ -6,6 +6,7 @@ this.AppointmentsController = RouteController.extend({
     },
 
     action: function() {
+        this.render("HomePrivate");
         if(this.isReady()) { this.render("Appointments", { to: "HomePrivateSubcontent"}); } else { this.render("HomePrivate"); this.render("loading", { to: "HomePrivateSubcontent" });}
         /*ACTION_FUNCTION*/
     },

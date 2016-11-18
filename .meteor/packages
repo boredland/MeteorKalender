@@ -39,3 +39,5 @@ rzymek:fullcalendar
 dispatch:mocha
 dispatch:mocha-phantomjs
 aldeed:collection2
+tsega:bootstrap3-datetimepicker
+aldeed:autoform

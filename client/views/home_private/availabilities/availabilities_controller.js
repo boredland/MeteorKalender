@@ -6,6 +6,7 @@ this.AvailabilitiesController = RouteController.extend({
     },
 
     action: function() {
+        this.render("HomePrivate");
         if(this.isReady()) { this.render("Availabilities", { to: "HomePrivateSubcontent"}); } else { this.render("HomePrivate"); this.render("loading", { to: "HomePrivateSubcontent" });}
         /*ACTION_FUNCTION*/
     },
