@@ -9,7 +9,6 @@ Template.Availabilities.onRendered(function() {
 Template.Availabilities.rendered = function() {
     pageSession.set("invoicesInsertInsertFormInfoMessage", "");
     pageSession.set("invoicesInsertInsertFormErrorMessage", "");
-
 };
 
 Template.Availabilities.helpers({
@@ -49,7 +48,12 @@ Template.Availabilities.events({
 })
 
 Template.AvailabilityInsertForm.events({
-
+    "change .startdate": function (e) {
+        console.log("Here we should set mindate of .enddate");
+    },
+    "change .enddate": function (e) {
+        console.log("Here we should set maxdate of .startdate");
+    }
 });
 
 Template.AvailabilityInsertForm.helpers({

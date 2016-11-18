@@ -20,7 +20,11 @@ export var availabilitiesSchema = new SimpleSchema({
         type: Date,
         autoform: {
             afFieldInput: {
-                type: "bootstrap-datetimepicker"
+                class: "startdate",
+                type: "bootstrap-datetimepicker",
+                dateTimePickerOptions: {
+
+                }
             }
         }
     },
@@ -28,7 +32,11 @@ export var availabilitiesSchema = new SimpleSchema({
         type: Date,
         autoform: {
             afFieldInput: {
-                type: "bootstrap-datetimepicker"
+                class: "enddate",
+                type: "bootstrap-datetimepicker",
+                dateTimePickerOptions: {
+                    useCurrent: false
+                }
             }
         }
     }
