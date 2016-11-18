@@ -36,87 +36,10 @@
 </template>
 
 <template name="AvailabilityInsertForm">
-    <div id="user-settings-profile-edit-form" class="">
-        <h2 id="component-title">
-            New availability
-        </h2>
-        <form role="form">
-            {{#if errorMessage}}
-                <div class="alert alert-warning">
-                    {{errorMessage}}
-                </div>
-            {{/if}}
-
-            {{#if infoMessage}}
-                <div class="alert alert-success">
-                    {{infoMessage}}
-                </div>
-            {{/if}}
-            <div class="form-group  field-date">
-                <label for="date">
-                    StartDate
-                </label>
-                <div class="input-div">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-                            <i class="fa fa-calendar"></i>
-						</span>
-                        <input type="text" class="datetimepicker_start form-control">
-                    </div>
-                    <span id="help-text" class="help-block">
-					</span>
-                    <span id="error-text" class="help-block">
-					</span>
-                </div>
-            </div>
-            <div class="form-group  field-date">
-                <label for="date">
-                    EndDate
-                </label>
-                <div class="input-div">
-                    <div class="input-group">
-                        <span class="input-group-addon">
-							<i class="fa fa-calendar"></i>
-						</span>
-                        <input type="text" class="datetimepicker_end form-control">
-                    </div>
-                    <span id="help-text" class="help-block">
-					</span>
-                    <span id="error-text" class="help-block">
-					</span>
-                </div>
-            </div>
-            <div class="form-group  field-customer-id">
-                <label for="categoryId">
-                    CategoryId
-                </label>
-                <div class="input-div">
-                    <input type="text" id="categoryid" value="exampleId" class="form-control " autofocus="autofocus" required="required">
-                    <!--<select class="form-control " name="categoryId" required="required">
-                        {{#each customer_list}}
-                            <option value="{{_id}}">							{{name}}</option>
-                        {{/each}}
-                    </select>-->
-                    <span id="help-text" class="help-block">
-					</span>
-                    <span id="error-text" class="help-block">
-					</span>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="submit-div">
-                    <button id="form-submit-button" class="btn btn-success" type="submit">
-						<span class="fa fa-check">
-						</span>
-                        Save
-                    </button>
-                    <a href="#" id="form-cancel-button" class="btn btn-default">
-                        Cancel
-                    </a>
-                </div>
-            </div>
-        </form>
-    </div>
+    <h2 id="component-title">
+        New availability
+    </h2>
+    {{> quickForm id="availabilityInsertForm" collection=formCollection type="insert"}}
 </template>
 
 <template name="availability">
