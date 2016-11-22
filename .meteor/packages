@@ -40,5 +40,5 @@ dispatch:mocha
 dispatch:mocha-phantomjs
 aldeed:collection2
 aldeed:autoform
-tsega:bootstrap3-datetimepicker
 aldeed:autoform-bs-datetimepicker
+tsega:bootstrap3-datetimepicker@=3.1.3_3
