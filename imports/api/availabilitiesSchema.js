@@ -21,6 +21,7 @@ export var availabilitiesSchema = new SimpleSchema({
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     sideBySide: true,
+                    minuteStepping: 10
                 }
             }
         }
@@ -32,8 +33,8 @@ export var availabilitiesSchema = new SimpleSchema({
                 class: "enddate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
-                    sideBySide: true,
-                    useCurrent: false
+                    useCurrent: false,
+                    minuteStepping: 10
                 }
             }
         }
@@ -81,6 +82,7 @@ export var availabilitiesSchema = new SimpleSchema({
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     sideBySide: true,
+                    pickTime: false
                 }
             }
         }
