@@ -25,7 +25,7 @@ Availabilities.allow({
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    'availabilities.insert'(userId, startDate, endDate, categoryId) {
+    'availabilities.insert'(startDate, endDate, categoryId) {
 
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
@@ -34,7 +34,7 @@ Meteor.methods({
 
         //finally, data are inserted into the collection
         Availabilities.insert({
-            userId: userId,
+            userId: this.userId,
             startDate: startDate,
             endDate: endDate,
             categoryId: categoryId
