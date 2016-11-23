@@ -1,6 +1,8 @@
 /**
  * Created by tobi on 16.11.16.
  */
+import {Calendars} from '/imports/api/calendarsCollection';
+
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
         type: String,
@@ -10,10 +12,6 @@ export var availabilitiesSchema = new SimpleSchema({
             label: false,
         },
         autoValue: function () { return Meteor.userId() },
-    },
-    calendarId: {
-        type: String,
-        max: 200
     },
     startDate: {
         type: Date,
@@ -61,6 +59,26 @@ export var availabilitiesSchema = new SimpleSchema({
         max: 72,
         autoform: {
             step: 0.25
+        }
+    },
+    calendarId: {
+        type: Array
+    },
+    'calendarId.$': {
+        type: String,
+        autoform: {
+            afFieldInput: {
+                type: "select",
+                options: function () {
+                    var opts = Calendars.find({}, { userId: this.userId}).map(function(calendars) {
+                        return {
+                            label: calendars.name,
+                            value: calendars._id
+                        };
+                    });
+                    return opts;
+                }
+            }
         }
     }
 });

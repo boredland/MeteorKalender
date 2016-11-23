@@ -24,7 +24,7 @@ Calendars.allow({
 
 Meteor.methods({
     'calendars.insert'(name,location,color,published,linkslug) {
-
+        console.log("calendars.insert run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');

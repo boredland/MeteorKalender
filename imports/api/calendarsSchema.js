@@ -1,6 +1,7 @@
 /**
  * Created by tobi on 23.11.16.
  */
+
 export var calendarsSchema = new SimpleSchema({
     userId: {
         type: String,

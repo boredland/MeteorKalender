@@ -26,7 +26,7 @@ Availabilities.allow({
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
     'availabilities.insert'(startDate, endDate, calendarId,bookFrom,bookUntil) {
-
+        console.log("availibilities.insert run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');
