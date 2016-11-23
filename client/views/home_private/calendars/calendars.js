@@ -8,8 +8,7 @@ Template.Calendars.rendered = function() {
 Template.Calendars.created = function() {
 };
 
-Template.Calendars.onCreated(
-    function bodyOnCreated() {
+Template.Calendars.onCreated(function bodyOnCreated() {
         Meteor.subscribe('allCalendars');
     }
 );
@@ -41,7 +40,7 @@ Template.Calendars.events({
 });
 
 Template.Calendars.helpers({
-    getAvailabilities(){
+    getCalendars(){
         return Calendars.find();
     }
 });

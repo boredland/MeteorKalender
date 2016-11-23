@@ -43,10 +43,19 @@ Meteor.methods({
         });
     },
 
-    'calendars.remove'(){
+    'calendars.remove'(calendarId){
         //check whether the ID which should be deleted is a String
 
         //Calendars.remove();
+        //check whether the ID which should be deleted is a String
+        check(calendarId, String);
+
+        //check whether the user is authorized to delete the task.
+        const toBeDeleted = Calendars.findOne(calendarId);
+        if (this.userId !== toBeDeleted.userId){
+            throw new Meteor.Error('not-authorized');
+        }
+        Calendars.remove(calendarId);
 
     }
 });
