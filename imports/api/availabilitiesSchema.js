@@ -61,6 +61,30 @@ export var availabilitiesSchema = new SimpleSchema({
             step: 0.25
         }
     },
+    repeatInterval:{
+        type: Number,
+        autoform: {
+            type: "select",
+            options: [
+                {label: "none", value: "0"},
+                {label: "1 week", value: "1"},
+                {label: "2 weeks", value: "2"},
+                {label: "3 weeks", value: "3"},
+                {label: "4 weeks", value: "4"}
+            ]
+        }
+    },
+    repeatUntil:{
+        type: Date,
+        autoform: {
+            afFieldInput: {
+                type: "bootstrap-datetimepicker",
+                dateTimePickerOptions: {
+                    sideBySide: true,
+                }
+            }
+        }
+    },
     calendarId: {
         type: Array
     },

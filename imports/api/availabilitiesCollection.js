@@ -18,14 +18,14 @@ if (Meteor.isServer) {
 
 // it is best practise to explicitly allow crud-actions
 Availabilities.allow({
-    insert: function (startDate, endDate, calendarId, bookFrom, bookUntil) {
+    insert: function (startDate, endDate, calendarId,bookFrom,bookUntil,repeatInterval,repeatUntil) {
         return true; // is there some meaningful check we could use?
     }
 });
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    'availabilities.insert'(startDate, endDate, calendarId,bookFrom,bookUntil) {
+    'availabilities.insert'(startDate, endDate, calendarId,bookFrom,bookUntil,repeatInterval,repeatUntil) {
         console.log("availibilities.insert run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
@@ -41,7 +41,9 @@ Meteor.methods({
             endDate: endDate,
             categoryId: calendarId,
             bookFrom: bookFrom,
-            bookUntil: bookUntil
+            bookUntil: bookUntil,
+            repeatInterval: repeatInterval,
+            repeatUntil: repeatUntil
         });
     },
 
