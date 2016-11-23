@@ -25,19 +25,23 @@ Availabilities.allow({
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    'availabilities.insert'(startDate, endDate, categoryId) {
+    'availabilities.insert'(startDate, endDate, categoryId,bookFrom,bookUntil) {
 
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');
         }
 
+        // add check for bookFrom > BookUntil..
+
         //finally, data are inserted into the collection
         Availabilities.insert({
             userId: this.userId,
             startDate: startDate,
             endDate: endDate,
-            categoryId: categoryId
+            categoryId: categoryId,
+            bookFrom: bookFrom,
+            bookUntil: bookUntil
         });
     },
 

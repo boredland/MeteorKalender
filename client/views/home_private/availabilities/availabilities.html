@@ -10,9 +10,6 @@
         <table id="dataview-table" class="table table-striped table-hover">
                 <thead id="dataview-table-header">
                 <tr id="dataview-table-header-row">
-                    <th class="th-sortable" data-sort="UserId" style="display:none;">
-                        UserId
-                    </th>
                     <th class="th-sortable" data-sort="StartDate">
                         StartDate
                     </th>
@@ -21,6 +18,12 @@
                     </th>
                     <th class="th-sortable" data-sort="CategoryId">
                         CategoryId
+                    </th>
+                    <th class="th-sortable" data-sort="bookFrom">
+                        bookFrom
+                    </th>
+                    <th class="th-sortable" data-sort="bookUntil">
+                        bookUntil
                     </th>
                     <th>
                         &nbsp;
@@ -44,9 +47,6 @@
 <template name="availability">
     <tbody id="dataview-table-items">
     <tr id="dataview-table-items-row">
-        <td style="display:none;">
-            {{userId}}
-        </td>
         <td>
             {{startDate}}
         </td>
@@ -55,6 +55,12 @@
         </td>
         <td>
             {{categoryId}}
+        </td>
+        <td>
+            {{bookFrom}}
+        </td>
+        <td>
+            {{bookUntil}}
         </td>
         <td class="td-icon">
 			<span id="edit-button" class="fa fa-pencil" title="Edit">
