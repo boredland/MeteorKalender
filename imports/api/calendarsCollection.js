@@ -17,13 +17,13 @@ if (Meteor.isServer) {
 };
 
 Calendars.allow({
-    insert: function (name,location,color,published,linkslug) {
+    insert: function (name,location,color,published) {
         return true; // is there some meaningful check we could use?
     }
 });
 
 Meteor.methods({
-    'calendars.insert'(name,location,color,published,linkslug) {
+    'calendars.insert'(name,location,color,published) {
         console.log("calendars.insert run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {

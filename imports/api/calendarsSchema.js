@@ -39,13 +39,14 @@ export var calendarsSchema = new SimpleSchema({
     },
     linkslug: {
         type: String,
+        max: 5,
         autoform: {
             type: "hidden",
             label: false,
         },
         autoValue: function() {
             if (this.isInsert) {
-                return Random.id();
+                return Random.id().substring(0,4);
             } else {
                 this.unset();  // Prevent user from supplying their own value
             }
