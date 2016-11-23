@@ -9,7 +9,6 @@ export var availabilitiesSchema = new SimpleSchema({
             type: "hidden",
             label: false,
         },
-
         autoValue: function () { return Meteor.userId() },
     },
     categoryId: {
@@ -23,7 +22,6 @@ export var availabilitiesSchema = new SimpleSchema({
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
-
                 }
             }
         }
