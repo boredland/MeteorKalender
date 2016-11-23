@@ -11,7 +11,7 @@ export var availabilitiesSchema = new SimpleSchema({
         },
         autoValue: function () { return Meteor.userId() },
     },
-    categoryId: {
+    calendarId: {
         type: String,
         max: 200
     },

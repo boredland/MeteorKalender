@@ -6,6 +6,65 @@
                 </div>
             </div>
         </div>
-        CalendarsPageContent
+        {{> CalendarInsertForm}}
+        <table id="dataview-table" class="table table-striped table-hover">
+            <thead id="dataview-table-header">
+            <tr id="dataview-table-header-row">
+                <th class="th-sortable" data-sort="name">
+                    name
+                </th>
+                <th class="th-sortable" data-sort="location">
+                    location
+                </th>
+                <th class="th-sortable" data-sort="color">
+                    color
+                </th>
+                <th class="th-sortable" data-sort="published">
+                    published
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+                <th>
+                    &nbsp;
+                </th>
+            </tr>
+            </thead>
+            {{#each getCalendars}} {{> calendar}} {{/each}}
+        </table>
     </div>
+</template>
+
+<template name="CalendarInsertForm">
+    <h2 id="component-title">
+        New calendar
+    </h2>
+    {{> quickForm id="calendarInsertForm" collection=formCollection type="insert"}}
+</template>
+
+<template name="calendar">
+    <tbody id="dataview-table-items">
+    <tr id="dataview-table-items-row">
+        <td>
+            {{name}}
+        </td>
+        <td>
+            {{location}}
+        </td>
+        <td>
+            {{color}}
+        </td>
+        <td>
+            {{published}}
+        </td>
+        <td class="td-icon">
+			<span id="edit-button" class="fa fa-pencil" title="Edit">
+			</span>
+        </td>
+        <td class="td-icon">
+			<span id="delete-button" class="fa fa-trash-o" title="Delete">
+			</span>
+        </td>
+    </tr>
+    </tbody>
 </template>

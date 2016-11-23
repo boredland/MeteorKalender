@@ -3,8 +3,8 @@
  */
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import {check} from 'meteor/check'
-import {availabilitiesSchema} from './availabilitiesSchema'
+import {check} from 'meteor/check';
+import {availabilitiesSchema} from './availabilitiesSchema';
 
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
@@ -14,18 +14,18 @@ if (Meteor.isServer) {
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find();
     });
-}
+};
 
 // it is best practise to explicitly allow crud-actions
 Availabilities.allow({
-    insert: function (userId, startDate, endDate, categoryId) {
+    insert: function (startDate, endDate, calendarId, bookFrom, bookUntil) {
         return true; // is there some meaningful check we could use?
     }
 });
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    'availabilities.insert'(startDate, endDate, categoryId,bookFrom,bookUntil) {
+    'availabilities.insert'(startDate, endDate, calendarId,bookFrom,bookUntil) {
 
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
@@ -39,7 +39,7 @@ Meteor.methods({
             userId: this.userId,
             startDate: startDate,
             endDate: endDate,
-            categoryId: categoryId,
+            categoryId: calendarId,
             bookFrom: bookFrom,
             bookUntil: bookUntil
         });

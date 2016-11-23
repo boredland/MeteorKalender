@@ -3,30 +3,43 @@
  */
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
-import {check} from 'meteor/check'
-import {calendarSchema} from './calendarSchema'
+import {check} from 'meteor/check';
+import {calendarsSchema} from './calendarsSchema';
 
 export const Calendars = new Mongo.Collection("calendars");
-Calendars.attachSchema(calendarSchema);
+Calendars.attachSchema(calendarsSchema);
 
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
-    Meteor.publish('allCalendars', function calendarPublication() {
+    Meteor.publish('allCalendars', function calendarsPublication() {
         return Calendars.find();
     });
-}
+};
+
+Calendars.allow({
+    insert: function (name,location,color,published,linkslug) {
+        return true; // is there some meaningful check we could use?
+    }
+});
 
 Meteor.methods({
-    'calendars.insert'() {
+    'calendars.insert'(name,location,color,published,linkslug) {
 
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');
         }
 
+        // add check for bookFrom > BookUntil..
+
         //finally, data are inserted into the collection
         Calendars.insert({
-
+            userId: this.userId,
+            name: name,
+            location: location,
+            color: color,
+            published: published,
+            linkslug: linkslug
         });
     },
 

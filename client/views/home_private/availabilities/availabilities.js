@@ -1,10 +1,16 @@
-import {Availabilities} from '/imports/api/availabilitiesCollection'
+import {Availabilities} from '/imports/api/availabilitiesCollection';
 import { Meteor } from 'meteor/meteor';
 var pageSession = new ReactiveDict();
 
 Template.Availabilities.onRendered(function() {
 
 });
+///imports/api/availabilitiesCollection.js "publishes" the collection which is "subscribed" in this step. This way we can "use" the collection on the client.
+Template.Availabilities.onCreated(
+    function bodyOnCreated() {
+    Meteor.subscribe('allAvailabilities');
+    }
+);
 
 Template.Availabilities.rendered = function() {
     pageSession.set("invoicesInsertInsertFormInfoMessage", "");
@@ -22,7 +28,7 @@ Template.Availabilities.created = function() {};
 Template.dpReplacement.replaces("afBootstrapDateTimePicker");
 
 Template.Availabilities.events({
-    "click #delete-button": function(e, t) {
+    "click #delete-button": function(e) {
         e.preventDefault();
         var me = this;
         bootbox.dialog({

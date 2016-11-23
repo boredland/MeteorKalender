@@ -43,3 +43,4 @@ aldeed:autoform
 aldeed:autoform-bs-datetimepicker
 tsega:bootstrap3-datetimepicker@=3.1.3_3
 aldeed:template-extension
+michalvalasek:autoform-bootstrap-colorpicker

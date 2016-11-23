@@ -3,12 +3,6 @@ Template.HomePrivate.rendered = function() {
 
 };
 
-///imports/api/availabilitiesCollection.js "publishes" the collection which is "subscribed" in this step. This way we can "use" the collection on the client.
-Template.HomePrivate.onCreated(function bodyOnCreated() {
-    Meteor.subscribe('allAvailabilities');
-});
-
-
 Template.HomePrivate.events({
 
 });
