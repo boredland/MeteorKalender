@@ -4,14 +4,14 @@
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check'
-import {availabilitiesSchema} from './collectionSchemas'
+import {availabilitiesSchema} from './availabilitiesSchema'
 
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
 
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
-    Meteor.publish('allAvailabilities', function tasksPublication() {
+    Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find();
     });
 }
