@@ -2,6 +2,7 @@
  * Created by tobi on 16.11.16.
  */
 import {Calendars} from '/imports/api/calendarsCollection';
+import { Match } from 'meteor/check';
 
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
@@ -15,6 +16,9 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     startDate: {
         type: Date,
+        min: function () {
+            return new Date();
+        },
         autoform: {
             afFieldInput: {
                 class: "startdate",
@@ -28,12 +32,28 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     endDate: {
         type: Date,
+        min: function () {
+            var probe = AutoForm.getFieldValue("startDate");
+            if (Match.test(probe, undefined)){
+                return new Date();
+            }
+            return AutoForm.getFieldValue("startDate");
+
+        },
         autoform: {
             afFieldInput: {
                 class: "enddate",
-                type: "bootstrap-datetimepicker",
+                type: function () {
+                    /*var probe = AutoForm.getFieldValue("startDate");
+                    if (Match.test(probe, undefined)){
+                        console.log("match.")
+                        return "hidden";
+                    }*/
+                    return "bootstrap-datetimepicker";
+                },
                 dateTimePickerOptions: {
                     useCurrent: false,
+                    sideBySide: true,
                     minuteStepping: 10
                 }
             }
@@ -77,6 +97,7 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     repeatUntil:{
         type: Date,
+        allowedValues: [`1/1/2020`],
         autoform: {
             afFieldInput: {
                 type: "bootstrap-datetimepicker",

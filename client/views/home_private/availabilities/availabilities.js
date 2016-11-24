@@ -51,14 +51,18 @@ Template.Availabilities.events({
         });
         return false;
     }
-})
+});
 
 Template.AvailabilityInsertForm.events({
-    "change .startdate": function (e) {
-        console.log("Here we should set mindate of .enddate");
+    "change .startdate": function (event, template) {
+        var startdate = $(event.target).val();
+        console.log(startdate);
+        //template.$('.enddate').val(startdate);
     },
-    "change .enddate": function (e) {
-        console.log("Here we should set maxdate of .startdate");
+    "change .enddate": function (event, template) {
+        var enddate = $(event.target).val();
+        console.log(enddate);
+        /*template.$('.startdate').val(enddate);*/
     }
 });
 
