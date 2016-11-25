@@ -9,6 +9,7 @@ Template.Availabilities.onRendered(function() {
 Template.Availabilities.onCreated(
     function bodyOnCreated() {
     Meteor.subscribe('allAvailabilities');
+    Meteor.subscribe('allCalendars');
     }
 );
 

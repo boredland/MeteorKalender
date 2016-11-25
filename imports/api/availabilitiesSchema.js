@@ -32,25 +32,26 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     endDate: {
         type: Date,
-        min: function () {
+        /*min: function () {
             var probe = AutoForm.getFieldValue("startDate");
             if (Match.test(probe, undefined)){
                 return new Date();
             }
             return AutoForm.getFieldValue("startDate");
 
-        },
+        },*/
         autoform: {
             afFieldInput: {
                 class: "enddate",
-                type: function () {
-                    /*var probe = AutoForm.getFieldValue("startDate");
+                type:  "bootstrap-datetimepicker",
+                /*function () {
+                    var probe = AutoForm.getFieldValue("startDate");
                     if (Match.test(probe, undefined)){
                         console.log("match.")
                         return "hidden";
-                    }*/
-                    return "bootstrap-datetimepicker";
-                },
+                    }
+                    return;
+                }*/
                 dateTimePickerOptions: {
                     useCurrent: false,
                     sideBySide: true,
@@ -97,7 +98,7 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     repeatUntil:{
         type: Date,
-        allowedValues: [`1/1/2020`],
+        //allowedValues: [`1/1/2020`],
         autoform: {
             afFieldInput: {
                 type: "bootstrap-datetimepicker",
