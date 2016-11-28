@@ -40,7 +40,7 @@ dispatch:mocha
 dispatch:mocha-phantomjs
 aldeed:collection2
 aldeed:autoform
-aldeed:autoform-bs-datetimepicker
-tsega:bootstrap3-datetimepicker@=3.1.3_3
+tsega:bootstrap3-datetimepicker
 aldeed:template-extension
 michalvalasek:autoform-bootstrap-colorpicker
+qubitdev:autoform-bs-datetimepicker-updated

@@ -2,7 +2,6 @@
  * Created by tobi on 16.11.16.
  */
 import {Calendars} from '/imports/api/calendarsCollection';
-import { HTTP } from 'meteor/http';
 
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
@@ -18,38 +17,46 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     startDate: {
         type: Date,
-        min: function () {
-            return new Date();
-        },
         autoform: {
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     sideBySide: true,
-                    minuteStepping: 10,
-                    defaultValue: function(){
-                        return new Date();
-                    }
+                    stepping: 10,
+                    inline: true,
+                    locale: 'de',
+                    format: 'LL'
+                }
+            }
+        }
+    },
+    startTime: {
+        type: Date,
+        autoform: {
+            afFieldInput: {
+                class: "enddate",
+                type:  "bootstrap-datetimepicker",
+                dateTimePickerOptions: {
+                    inline: true,
+                    locale: 'de',
+                    format: 'LT',
+                    stepping: 10,
                 }
             }
         }
     },
     endTime: {
         type: Date,
-        /*min: function () {
-            return new Date();
-        },*/
         autoform: {
             afFieldInput: {
                 class: "enddate",
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
-                    useCurrent: false,
+                    inline: true,
+                    locale: 'de',
                     format: 'LT',
-                    pickDate: false,
-                    minuteStepping: 10,
-
+                    stepping: 10,
                 }
             }
         }
@@ -78,11 +85,12 @@ export var availabilitiesSchema = new SimpleSchema({
         }
     },*/
     chunkPeriod: {
-        label: "Split the Availibility into chunks of size [Minutes]",
+        label: "Split the Availibility into chunks of duration [Minutes]",
         type: Number,
         optional: true,
         autoform: {
-            step: 5
+            step: 5,
+            defaultValue: 0,
         }
     },
     repeatInterval:{
@@ -90,6 +98,7 @@ export var availabilitiesSchema = new SimpleSchema({
         optional: true,
         autoform: {
             type: "select",
+            firstOption: false,
             options: [
                 {label: "none", value: "0"},
                 {label: "1 week", value: "1"},
@@ -107,8 +116,8 @@ export var availabilitiesSchema = new SimpleSchema({
             afFieldInput: {
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
-                    sideBySide: true,
-                    pickTime: false
+                    //sideBySide: true,
+                    //pickTime: false,
                 }
             }
         }

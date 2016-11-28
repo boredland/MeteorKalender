@@ -23,6 +23,7 @@ Calendars.allow({
 });
 
 Meteor.methods({
+    /*
     'calendars.insert'(name,location,color,published) {
         console.log("calendars.insert run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
@@ -41,7 +42,7 @@ Meteor.methods({
             published: published,
             linkslug: linkslug
         });
-    },
+    },*/
 
     'calendars.remove'(calendarId){
         //check whether the ID which should be deleted is a String
@@ -60,6 +61,6 @@ Meteor.methods({
     },
     'calendars.addAvailability'(calendarID, availabilityID){
         console.log("insert availability called");
-        Calendars.update(calendarID, {$set: {availabilities: availabilities.push(availabilityID)}});
+        //Calendars.update(calendarID, {$set: {availabilities: availabilityID}});
     }
 });
