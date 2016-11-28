@@ -65,10 +65,6 @@ Meteor.methods({
             startDate: doc.startDate,
             endTime: doc.endTime,
             calendarId: doc.calendarId,
-            //bookFrom: bookFrom,
-            //bookUntil: bookUntil,
-            //repeatInterval: repeatInterval,
-            //repeatUntil: repeatUntil
         });
         var insertedAvailabilityID = Availabilities.findOne({userId: this.userId, startDate: doc.startDate, endTime: doc.endTime})._id
         Meteor.call('calendars.addAvailability', doc.calendarId, insertedAvailabilityID);
