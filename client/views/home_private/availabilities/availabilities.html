@@ -48,7 +48,7 @@
     <h2 id="component-title">
         New availability
     </h2>
-    {{> quickForm id="availabilityInsertForm" collection=formCollection type="insert"}}
+    {{> quickForm id="availabilityInsertForm" collection=formCollection type="method" meteormethod="insertAvailability"}}
 </template>
 <template name="availability">
     <tbody id="dataview-table-items">

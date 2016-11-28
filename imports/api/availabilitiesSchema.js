@@ -4,9 +4,6 @@
 import {Calendars} from '/imports/api/calendarsCollection';
 import { HTTP } from 'meteor/http';
 
-//var result = HTTP.call("GET", "http://feiertage.jarmedia.de/api/?jahr=2016&nur_land=HE&nur_daten=1&callback=hessenarray");
-
-
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
         type: String,
@@ -83,12 +80,14 @@ export var availabilitiesSchema = new SimpleSchema({
     chunkPeriod: {
         label: "Split the Availibility into chunks of size [Minutes]",
         type: Number,
+        optional: true,
         autoform: {
             step: 5
         }
     },
     repeatInterval:{
         type: Number,
+        optional: true,
         autoform: {
             type: "select",
             options: [
@@ -102,6 +101,7 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     repeatUntil:{
         type: Date,
+        optional: true,
         //allowedValues: [`1/1/2020`],
         autoform: {
             afFieldInput: {
@@ -114,7 +114,8 @@ export var availabilitiesSchema = new SimpleSchema({
         }
     },
     legalHolidays:{
-      type: Boolean
+      type: Boolean,
+        optional: true
     },
     calendarId: {
         type: Array

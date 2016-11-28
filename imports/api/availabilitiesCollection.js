@@ -8,6 +8,7 @@ import {availabilitiesSchema} from './availabilitiesSchema';
 
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
+
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
@@ -24,8 +25,7 @@ Availabilities.allow({
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    'availabilities.insert'(startDate, endDate, calendarId, repeatInterval,repeatUntil) {
-
+    'availabilities.insert'(startDate, endDate, calendarId,bookFrom,bookUntil,repeatInterval,repeatUntil) {
         console.log("availibilities.insert run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
@@ -40,14 +40,12 @@ Meteor.methods({
             startDate: startDate,
             endTime: endTime,
             categoryId: calendarId,
+            //bookFrom: bookFrom,
+            //bookUntil: bookUntil,
             repeatInterval: repeatInterval,
             repeatUntil: repeatUntil,
             chunkPeriod: chunkPeriod
         });
-
-        var thisUserId = this.userId;
-        var insertedAvailabilityID = Availabilities.findOne({userId: {thisUserId}, startDate: {startDate}, endDate: {endDate}})._id
-        Meteor.call('calendars.addAvailability', calendarId, insertedAvailabilityID);
     },
 
     'availabilities.remove'(availabilityID){
