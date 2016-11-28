@@ -2,7 +2,6 @@
  * Created by tobi on 16.11.16.
  */
 import {Calendars} from '/imports/api/calendarsCollection';
-import { Match } from 'meteor/check';
 
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
@@ -10,9 +9,11 @@ export var availabilitiesSchema = new SimpleSchema({
         max: 200,
         autoform: {
             type: "hidden",
-            label: false,
+            //label: false,
         },
-        autoValue: function () { return Meteor.userId() },
+        autoValue: function () {
+            return Meteor.userId()
+        },
     },
     startDate: {
         type: Date,
@@ -25,7 +26,10 @@ export var availabilitiesSchema = new SimpleSchema({
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     sideBySide: true,
-                    minuteStepping: 10
+                    minuteStepping: 10,
+                    defaultValue: function(){
+                        return new Date();
+                    }
                 }
             }
         }
@@ -33,25 +37,12 @@ export var availabilitiesSchema = new SimpleSchema({
     endDate: {
         type: Date,
         /*min: function () {
-            var probe = AutoForm.getFieldValue("startDate");
-            if (Match.test(probe, undefined)){
-                return new Date();
-            }
-            return AutoForm.getFieldValue("startDate");
-
+            return new Date();
         },*/
         autoform: {
             afFieldInput: {
                 class: "enddate",
                 type:  "bootstrap-datetimepicker",
-                /*function () {
-                    var probe = AutoForm.getFieldValue("startDate");
-                    if (Match.test(probe, undefined)){
-                        console.log("match.")
-                        return "hidden";
-                    }
-                    return;
-                }*/
                 dateTimePickerOptions: {
                     useCurrent: false,
                     sideBySide: true,
@@ -60,7 +51,7 @@ export var availabilitiesSchema = new SimpleSchema({
             }
         }
     },
-    bookFrom: {
+    /*bookFrom: {
         type: Number,
         autoform: {
             type: "select",
@@ -81,6 +72,13 @@ export var availabilitiesSchema = new SimpleSchema({
         max: 72,
         autoform: {
             step: 0.25
+        }
+    },*/
+    chunkPeriod: {
+        label: "Split the Availibility into chunks of size [Minutes]",
+        type: Number,
+        autoform: {
+            step: 5
         }
     },
     repeatInterval:{

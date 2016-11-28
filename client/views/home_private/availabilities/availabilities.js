@@ -1,4 +1,5 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
+import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
 var pageSession = new ReactiveDict();
 
@@ -21,6 +22,9 @@ Template.Availabilities.rendered = function() {
 Template.Availabilities.helpers({
     getAvailabilities(){
         return Availabilities.find();
+    },
+    getCalendars(){
+        return Calendars.find();
     }
 });
 
@@ -58,12 +62,10 @@ Template.AvailabilityInsertForm.events({
     "change .startdate": function (event, template) {
         var startdate = $(event.target).val();
         console.log(startdate);
-        //template.$('.enddate').val(startdate);
     },
     "change .enddate": function (event, template) {
         var enddate = $(event.target).val();
         console.log(enddate);
-        /*template.$('.startdate').val(enddate);*/
     }
 });
 

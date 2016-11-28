@@ -43,7 +43,8 @@ Meteor.methods({
             bookFrom: bookFrom,
             bookUntil: bookUntil,
             repeatInterval: repeatInterval,
-            repeatUntil: repeatUntil
+            repeatUntil: repeatUntil,
+            chunkPeriod: chunkPeriod
         });
     },
 
