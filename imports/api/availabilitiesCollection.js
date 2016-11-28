@@ -18,7 +18,7 @@ if (Meteor.isServer) {
 
 // it is best practise to explicitly allow crud-actions
 Availabilities.allow({
-    insert: function (startDate, endDate, calendarId,bookFrom,bookUntil,repeatInterval,repeatUntil) {
+    insert: function (startDate, endDate, calendarId, bookFrom, bookUntil, repeatInterval, repeatUntil) {
         return true; // is there some meaningful check we could use?
     }
 });
@@ -40,8 +40,8 @@ Meteor.methods({
             startDate: startDate,
             endDate: endDate,
             categoryId: calendarId,
-            bookFrom: bookFrom,
-            bookUntil: bookUntil,
+            //bookFrom: bookFrom,
+            //bookUntil: bookUntil,
             repeatInterval: repeatInterval,
             repeatUntil: repeatUntil,
             chunkPeriod: chunkPeriod
