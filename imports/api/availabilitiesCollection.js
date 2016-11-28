@@ -25,27 +25,54 @@ Availabilities.allow({
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    'availabilities.insert'(startDate, endDate, calendarId,bookFrom,bookUntil,repeatInterval,repeatUntil) {
-        console.log("availibilities.insert run");
-        //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
+    insertAvailability: function(doc) {
+        var checklegalholidays = function (startDate) {
+            HTTP.call( 'GET', 'http://cors.io/?http://feiertage.jarmedia.de/api/?jahr=2016&nur_land=HE', {}, function( error, response ) {
+                if ( error ) {
+                    console.log( error );
+                } else {
+                    console.log(JSON.parse(response.content));
+                    if (JSON.parse(response.content)){ //not ready yet.
+                        return true;
+                    } else if (!JSON.parse(response.content)){
+                        return true;
+                    }
+                }
+            });
+        };
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');
         }
+        if (doc.legalHolidays) {
+            console.log("calculate legal holidays..");
+            checklegalholidays(doc.startDate); //only for the startdate right now...
+        }
 
-        // add check for bookFrom > BookUntil..
+        if (doc.chunkPeriod) {
+            console.log("calculate the chunks with a duration of "+doc.chunkPeriod)
+        }
+
+        if (doc.repeatInterval>0) {
+            console.log("calculate repetition-date for interval"+doc.repeatInterval)
+        }
+
+        if (doc.repeatUntil){
+        }
 
         //finally, data are inserted into the collection
         Availabilities.insert({
             userId: this.userId,
-            startDate: startDate,
-            endTime: endTime,
-            categoryId: calendarId,
+            startDate: doc.startDate,
+            endTime: doc.endTime,
+            calendarId: doc.calendarId,
             //bookFrom: bookFrom,
             //bookUntil: bookUntil,
-            repeatInterval: repeatInterval,
-            repeatUntil: repeatUntil,
-            chunkPeriod: chunkPeriod
+            //repeatInterval: repeatInterval,
+            //repeatUntil: repeatUntil
         });
+        var insertedAvailabilityID = Availabilities.findOne({userId: this.userId, startDate: doc.startDate, endTime: doc.endTime})._id
+        Meteor.call('calendars.addAvailability', doc.calendarId, insertedAvailabilityID);
+        console.log("called insertAvailability")
     },
 
     'availabilities.remove'(availabilityID){

@@ -60,6 +60,6 @@ Meteor.methods({
     },
     'calendars.addAvailability'(calendarID, availabilityID){
         console.log("insert availability called");
-        Calendars.update(calendarID, {$set: {availavilities: availabilities.push(availabilityID)}});
+        Calendars.update(calendarID, {$set: {availabilities: availabilities.push(availabilityID)}});
     }
 });
