@@ -38,7 +38,7 @@ Meteor.methods({
         Availabilities.insert({
             userId: this.userId,
             startDate: startDate,
-            endDate: endTime,
+            endTime: endTime,
             categoryId: calendarId,
             //bookFrom: bookFrom,
             //bookUntil: bookUntil,
