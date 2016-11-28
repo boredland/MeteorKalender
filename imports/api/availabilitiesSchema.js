@@ -33,6 +33,7 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     startTime: {
         type: Date,
+        optional: true,
         autoform: {
             afFieldInput: {
                 class: "enddate",
@@ -48,6 +49,7 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     endTime: {
         type: Date,
+        optional: true,
         autoform: {
             afFieldInput: {
                 class: "enddate",

@@ -39,6 +39,10 @@ export var calendarsSchema = new SimpleSchema({
     },
     availabilities:{
         type: Array,
+        optional: true,
+        autoform: {
+            type: "hidden"
+        }
     },
     "availabilities.$": {
         type: String

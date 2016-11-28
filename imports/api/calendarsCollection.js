@@ -23,26 +23,22 @@ Calendars.allow({
 });
 
 Meteor.methods({
-    /*
-    'calendars.insert'(name,location,color,published) {
-        console.log("calendars.insert run");
+     insertCalendar: function(doc) {
+        console.log("insertCalendar run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');
         }
-
-        // add check for bookFrom > BookUntil..
-
         //finally, data are inserted into the collection
         Calendars.insert({
             userId: this.userId,
-            name: name,
-            location: location,
-            color: color,
-            published: published,
-            linkslug: linkslug
+            name: doc.name,
+            location: doc.location,
+            color: doc.color,
+            published: doc.published,
+            linkslug: doc.linkslug
         });
-    },*/
+    },
 
     'calendars.remove'(calendarId){
         //check whether the ID which should be deleted is a String
