@@ -2,6 +2,10 @@
  * Created by tobi on 16.11.16.
  */
 import {Calendars} from '/imports/api/calendarsCollection';
+import { HTTP } from 'meteor/http';
+
+//var result = HTTP.call("GET", "http://feiertage.jarmedia.de/api/?jahr=2016&nur_land=HE&nur_daten=1&callback=hessenarray");
+
 
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
@@ -34,7 +38,7 @@ export var availabilitiesSchema = new SimpleSchema({
             }
         }
     },
-    endDate: {
+    endTime: {
         type: Date,
         /*min: function () {
             return new Date();
@@ -45,8 +49,10 @@ export var availabilitiesSchema = new SimpleSchema({
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     useCurrent: false,
-                    sideBySide: true,
-                    minuteStepping: 10
+                    format: 'LT',
+                    pickDate: false,
+                    minuteStepping: 10,
+
                 }
             }
         }
@@ -107,6 +113,9 @@ export var availabilitiesSchema = new SimpleSchema({
             }
         }
     },
+    legalHolidays:{
+      type: Boolean
+    },
     calendarId: {
         type: Array
     },
@@ -116,7 +125,7 @@ export var availabilitiesSchema = new SimpleSchema({
             afFieldInput: {
                 type: "select",
                 options: function () {
-                    var opts = Calendars.find({}, { userId: this.userId}).map(function(calendars) {
+                    var opts = Calendars.find({}, {userId: this.userId}).map(function(calendars) {
                         return {
                             label: calendars.name,
                             value: calendars._id
