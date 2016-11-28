@@ -37,6 +37,12 @@ export var calendarsSchema = new SimpleSchema({
 
         }
     },
+    availabilities:{
+        type: Array,
+    },
+    "availabilities.$": {
+        type: String
+    },
     linkslug: {
         type: String,
         max: 5,
