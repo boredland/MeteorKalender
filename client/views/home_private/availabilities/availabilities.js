@@ -1,6 +1,7 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
+import {availabilitiesFormSchema} from "../../../../imports/api/availabilitiesSchema";
 var pageSession = new ReactiveDict();
 
 Template.Availabilities.onRendered(function() {
@@ -9,8 +10,8 @@ Template.Availabilities.onRendered(function() {
 ///imports/api/availabilitiesCollection.js "publishes" the collection which is "subscribed" in this step. This way we can "use" the collection on the client.
 Template.Availabilities.onCreated(
     function bodyOnCreated() {
-    Meteor.subscribe('allAvailabilities');
-    Meteor.subscribe('allCalendars');
+        Meteor.subscribe('allAvailabilities');
+        Meteor.subscribe('allCalendars');
     }
 );
 
@@ -59,18 +60,21 @@ Template.Availabilities.events({
 });
 
 Template.AvailabilityInsertForm.events({
-    "change .startdate": function (event, template) {
-        var startdate = $(event.target).val();
-        console.log(startdate);
+    "change .startTime": function (event, template) {
+        var starttime = $(event.target).val();
+        console.log(starttime);
     },
-    "change .enddate": function (event, template) {
-        var enddate = $(event.target).val();
-        console.log(enddate);
+    "change .endTime": function (event, template) {
+        var endtime = $(event.target).val();
+        console.log(endtime);
     }
 });
 
 Template.AvailabilityInsertForm.helpers({
     formCollection() {
         return Availabilities;
-    }
+    },
+    formSchema: function() {
+        return availabilitiesFormSchema;
+    },
 })

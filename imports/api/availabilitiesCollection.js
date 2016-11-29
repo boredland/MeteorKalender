@@ -16,9 +16,9 @@ if (Meteor.isServer) {
     });
 };
 
-// it is best practise to explicitly allow crud-actions
+// it is best practice to explicitly allow crud-actions
 Availabilities.allow({
-    insert: function (startDate, endTime, calendarId, bookFrom, bookUntil, repeatInterval, repeatUntil) {
+    insert: function (endTime,repeatInterval,repeatUntil,startDate,startTime) {
         return true; // is there some meaningful check we could use?
     }
 });
@@ -26,11 +26,11 @@ Availabilities.allow({
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
     insertAvailability: function(doc) {
+        console.log(doc);
         var startdate = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute'));
         var enddate = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
         var chunkarray = [];
-        var familyId = Random.id().substring(0,4);
-
+        var familyid = Random.id().substring(0, 4);
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');
         }
@@ -69,17 +69,17 @@ Meteor.methods({
             for (j=0;j<subarray.length;j++){
                     flatarray.push({start: subarray[j].start, end: subarray[j].end});
             }
-        }
-        console.log("That is what is in our flat array now: ")
+        };
         for (i=0;i<flatarray.length;i++){
-            console.log("Startdate: "+flatarray[i].start._d+" till Enddate: "+flatarray[i].end._d);
+            //console.log("Startdate: "+flatarray[i].start._d+" till Enddate: "+flatarray[i].end._d);
             Availabilities.insert({
                 userId: this.userId,
                 startDate: flatarray[i].start._d,
-                endTime: flatarray[i].end._d,
+                endDate: flatarray[i].end._d,
                 calendarId: doc.calendarId,
+                familyId: familyid,
             });
-        }
+        };
         /*
         var checkLegalHolidays = function (date) {
             HTTP.call( 'GET', 'http://cors.io/?http://feiertage.jarmedia.de/api/?jahr=2016&nur_land=HE', {}, function( error, response ) {
@@ -95,24 +95,20 @@ Meteor.methods({
                 }
             });
             return true;
-        };*/
-/*
+        };
+        */
+
+        /*
         if (doc.legalHolidays) {
             console.log("calculate legal holidays..");
             checkLegalHolidays(doc.startDate); //only for the startdate right now...
-        }*/
+        }
+        */
 
-        //finally, data gets inserted into the collection
-        /*Availabilities.insert({
-            userId: this.userId,
-            startDate: doc.startDate,
-            startTime: doc.startTime,
-            endTime: doc.endTime,
-            calendarId: doc.calendarId,
-        });*/
-        var insertedAvailabilityID = Availabilities.findOne({userId: this.userId, startDate: doc.startDate, endTime: doc.endTime})._id
-        Meteor.call('calendars.addAvailability', doc.calendarId, insertedAvailabilityID);
-        console.log("called insertAvailability")
+        // I dont understand what this is for and it throws an error...
+        //var insertedAvailabilityID = Availabilities.findOne({userId: this.userId, startDate: doc.startDate, endTime: doc.endTime})._id
+        //Meteor.call('calendars.addAvailability', doc.calendarId, insertedAvailabilityID);
+        //console.log("called insertAvailability")
     },
 
     'availabilities.remove'(availabilityID){

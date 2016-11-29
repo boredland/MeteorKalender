@@ -19,17 +19,8 @@
                     <th class="th-sortable" data-sort="categoryId">
                         calendarId
                     </th>
-                    <!--<th class="th-sortable" data-sort="bookFrom">
-                        bookFrom
-                    </th>
-                    <th class="th-sortable" data-sort="bookUntil">
-                        bookUntil
-                    </th>-->
-                    <th class="th-sortable" data-sort="repeatInterval">
-                        repeatInterval
-                    </th>
-                    <th class="th-sortable" data-sort="repeatUntil">
-                        repeatUntil
+                    <th class="th-sortable" data-sort="familyId">
+                        familyId
                     </th>
                     <th>
                         &nbsp;
@@ -48,7 +39,7 @@
     <h2 id="component-title">
         New availability
     </h2>
-    {{> quickForm id="availabilityInsertForm" collection=formCollection type="method" meteormethod="insertAvailability"}}
+    {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="insertAvailability"}}
 </template>
 <template name="availability">
     <tbody id="dataview-table-items">
@@ -57,22 +48,13 @@
             {{startDate}}
         </td>
         <td>
-            {{endTime}}
+            {{endDate}}
         </td>
         <td>
             {{calendarId}}
         </td>
-        <!--<td>
-            {{bookFrom}}
-        </td>
         <td>
-            {{bookUntil}}
-        </td>-->
-        <td>
-            {{repeatInterval}}
-        </td>
-        <td>
-            {{repeatUntil}}
+            {{familyId}}
         </td>
         <td class="td-icon">
 			<span id="edit-button" class="fa fa-pencil" title="Edit">

@@ -3,27 +3,41 @@
  */
 import {Calendars} from '/imports/api/calendarsCollection';
 
+// This schema validates the insertion.
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
-        type: String,
-        max: 200,
-        autoform: {
-            type: "hidden",
-            //label: false,
-        },
-        autoValue: function () {
-            return Meteor.userId()
-        },
+        type: String
     },
     startDate: {
+        type: Date
+    },
+    endDate: {
+        type: Date
+    },
+    familyId: {
+        type: String
+    },
+    calendarId: {
+        type: Array,
+        //type: Array,
+        optional: true
+    },
+    'calendarId.$': {
+        type: String
+    }
+});
+
+//This schema validates the form-submission.
+export var availabilitiesFormSchema = new SimpleSchema({
+    startDate: {
         type: Date,
-        autoform: {
+        optional: true,
+            autoform: {
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     sideBySide: true,
-                    stepping: 10,
                     inline: true,
                     locale: 'de',
                     format: 'LL'
@@ -36,13 +50,13 @@ export var availabilitiesSchema = new SimpleSchema({
         optional: true,
         autoform: {
             afFieldInput: {
-                class: "enddate",
+                class: "starttime",
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     inline: true,
                     locale: 'de',
                     format: 'LT',
-                    stepping: 10,
+                    stepping: 5,
                 }
             }
         }
@@ -52,47 +66,23 @@ export var availabilitiesSchema = new SimpleSchema({
         optional: true,
         autoform: {
             afFieldInput: {
-                class: "enddate",
+                class: "endtime",
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     inline: true,
                     locale: 'de',
                     format: 'LT',
-                    stepping: 10,
+                    stepping: 5,
                 }
             }
         }
     },
-    /*bookFrom: {
-        type: Number,
-        autoform: {
-            type: "select",
-            options: [
-                {label: "0 days", value: "0"},
-                {label: "1 day", value: "1"},
-                {label: "7 days", value: "7"},
-                {label: "14 days", value: "14"},
-                {label: "21 days", value: "21"},
-                {label: "28 days", value: "28"}
-            ]
-        }
-    },
-    bookUntil: {
-        type: Number,
-        decimal: true,
-        min: 0,
-        max: 72,
-        autoform: {
-            step: 0.25
-        }
-    },*/
     chunkPeriod: {
         label: "Split the Availibility into chunks of duration [Minutes]",
         type: Number,
-        optional: true,
         autoform: {
             step: 5,
-            defaultValue: 0,
+            defaultValue: 10,
         }
     },
     repeatInterval:{
@@ -118,18 +108,17 @@ export var availabilitiesSchema = new SimpleSchema({
             afFieldInput: {
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
-                    //sideBySide: true,
-                    //pickTime: false,
+                    sideBySide: true,
+                    inline: true,
+                    locale: 'de',
+                    format: 'LL'
                 }
             }
         }
     },
-    legalHolidays:{
-      type: Boolean,
-        optional: true
-    },
     calendarId: {
-        type: Array
+        type: Array,
+        optional: true,
     },
     'calendarId.$': {
         type: String,
@@ -137,7 +126,7 @@ export var availabilitiesSchema = new SimpleSchema({
             afFieldInput: {
                 type: "select",
                 options: function () {
-                    var opts = Calendars.find({}, {userId: this.userId}).map(function(calendars) {
+                    var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
                         return {
                             label: calendars.name,
                             value: calendars._id
@@ -148,4 +137,8 @@ export var availabilitiesSchema = new SimpleSchema({
             }
         }
     }
+    /*legalHolidays:{
+      type: Boolean,
+      optional: true
+    },*/
 });

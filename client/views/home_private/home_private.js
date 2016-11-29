@@ -1,22 +1,9 @@
+Template.HomePrivate.rendered = function() {};
 
-Template.HomePrivate.rendered = function() {
-
-};
-
-///imports/api/availabilitiesCollection.js "publishes" the collection which is "subscribed" in this step. This way we can "use" the collection on the client.
-/*Template.HomePrivate.onCreated(function bodyOnCreated() {
-    Meteor.subscribe('allAvailabilities');
-});*/
-
-
-Template.HomePrivate.events({
-
-});
+Template.HomePrivate.events({});
 
 //function is called within home_private.html
-Template.HomePrivate.helpers({
-
-});
+Template.HomePrivate.helpers({});
 
 Template.HomePrivateSideMenu.rendered = function() {
     $(".menu-item-collapse .dropdown-toggle").each(function() {
@@ -37,9 +24,6 @@ Template.HomePrivateSideMenu.events({
         e.preventDefault();
         $(e.target).closest("ul").toggleClass("menu-hide-text");
     }
-
 });
 
-Template.HomePrivateSideMenu.helpers({
-
-});
+Template.HomePrivateSideMenu.helpers({});
