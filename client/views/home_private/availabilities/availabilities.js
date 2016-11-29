@@ -60,21 +60,19 @@ Template.Availabilities.events({
 });
 
 Template.AvailabilityInsertForm.events({
-    "change .startTime": function (event, template) {
+    /*'click .starttime': function (event, template) {
         var starttime = $(event.target).val();
-        console.log(starttime);
+        console.log("clicked starttime. starttime is "+starttime);
     },
-    "change .endTime": function (event, template) {
+    'click .endtime': function (event, template) {
         var endtime = $(event.target).val();
-        console.log(endtime);
-    }
+        console.log("clicked endtime. endtime is "+endtime);
+    }*/
+
 });
 
 Template.AvailabilityInsertForm.helpers({
-    formCollection() {
-        return Availabilities;
-    },
     formSchema: function() {
         return availabilitiesFormSchema;
     },
-})
+});
