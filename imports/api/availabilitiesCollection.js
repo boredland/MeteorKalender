@@ -70,6 +70,7 @@ Meteor.methods({
                     flatarray.push({start: subarray[j].start, end: subarray[j].end});
             }
         };
+        // the actual insertion
         for (i=0;i<flatarray.length;i++){
             //console.log("Startdate: "+flatarray[i].start._d+" till Enddate: "+flatarray[i].end._d);
             Availabilities.insert({
@@ -80,35 +81,6 @@ Meteor.methods({
                 familyId: familyid,
             });
         };
-        /*
-        var checkLegalHolidays = function (date) {
-            HTTP.call( 'GET', 'http://cors.io/?http://feiertage.jarmedia.de/api/?jahr=2016&nur_land=HE', {}, function( error, response ) {
-                if ( error ) {
-                    console.log( error );
-                } else {
-                    console.log(JSON.parse(response.content));
-                    if (JSON.parse(response.content)){ //not ready yet.
-                        return true;
-                    } else if (!JSON.parse(response.content)){
-                        return true;
-                    }
-                }
-            });
-            return true;
-        };
-        */
-
-        /*
-        if (doc.legalHolidays) {
-            console.log("calculate legal holidays..");
-            checkLegalHolidays(doc.startDate); //only for the startdate right now...
-        }
-        */
-
-        // I dont understand what this is for and it throws an error...
-        //var insertedAvailabilityID = Availabilities.findOne({userId: this.userId, startDate: doc.startDate, endTime: doc.endTime})._id
-        //Meteor.call('calendars.addAvailability', doc.calendarId, insertedAvailabilityID);
-        //console.log("called insertAvailability")
     },
 
     'availabilities.remove'(availabilityID){
