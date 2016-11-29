@@ -37,6 +37,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    minDate: new Date(),
                     sideBySide: true,
                     inline: true,
                     locale: 'de',
