@@ -26,7 +26,7 @@ Availabilities.allow({
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
     insertAvailability: function(doc) {
-        console.log(doc);
+        //console.log(doc);
         var startdate = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute'));
         var enddate = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
         var duration = (moment(doc.endTime)-moment(doc.startTime))/(1000*60)|0;

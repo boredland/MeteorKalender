@@ -69,7 +69,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         optional: true,
         autoform: {
             afFieldInput: {
-                value: new Date(moment().add(5,'m')),
+                value: new Date(moment().add(10,'m')),
                 class: "endtime",
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
@@ -108,7 +108,6 @@ export var availabilitiesFormSchema = new SimpleSchema({
     repeatUntil:{
         type: Date,
         optional: true,
-        //allowedValues: [`1/1/2020`],
         autoform: {
             value: new Date(),
             afFieldInput: {
@@ -132,6 +131,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         autoform: {
             afFieldInput: {
                 type: "select",
+                firstOption: false,
                 options: function () {
                     var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
                         return {
