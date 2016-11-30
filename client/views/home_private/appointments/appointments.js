@@ -44,10 +44,10 @@ Template.Appointments.helpers({
     appointmentsCalendarOptions: {
         // Standard fullcalendar options
         defaultView: 'listWeek',
-        hiddenDays: [ 0 ],
-        slotDuration: '01:00:00',
-        minTime: '08:00:00',
-        maxTime: '19:00:00',
+        //hiddenDays: [ 0 ],
+        //slotDuration: '01:00:00',
+        //minTime: '08:00:00',
+        //maxTime: '19:00:00',
         lang: 'de',
         // Function providing events reactive computation for fullcalendar plugin
         events( start, end, timezone, callback ) {
