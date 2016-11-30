@@ -64,7 +64,7 @@ Template.Availabilities.helpers({
 
 Template.Availabilities.created = function() {};
 
-//Template.dpReplacement.replaces("afBootstrapDateTimePicker");
+Template.dpReplacement.replaces("afBootstrapDateTimePicker");
 
 Template.Availabilities.events({
     "click #delete-button": function(e) {
