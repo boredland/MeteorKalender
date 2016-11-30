@@ -18,20 +18,52 @@ Template.Availabilities.onCreated(
 Template.Availabilities.rendered = function() {
     pageSession.set("invoicesInsertInsertFormInfoMessage", "");
     pageSession.set("invoicesInsertInsertFormErrorMessage", "");
-};
+    /*$('#availibilitiesCalendar').fullCalendar({
+        events: function(callback) {
+            var eventsArray = [];
+            Availabilities.find().forEach(function(m){
+                //console.log(m.startDate+" "+m.endDate)
+                eventsArray.push(
+                    { start: m.startDate, end: m.endDate }
+                );
+            });
+            console.log(eventsArray);
+            callback(eventsArray);
+        },
+        id: "availibilityCalendar",
+        defaultView: 'listDay',
+    });*/
 
+    Meteor.autorun(function() {
+        var eventsArray = [];
+        Availabilities.find().forEach(function(m){
+            eventsArray.push(
+                { start: m.startDate, end: m.endDate }
+            );
+        });
+        console.log(eventsArray);
+    });
+};
 Template.Availabilities.helpers({
     getAvailabilities(){
         return Availabilities.find();
     },
     getCalendars(){
         return Calendars.find();
+    },
+    availabilitiesCalendarOptions () {
+        var eventsArray = [ {start: new Date(), end: new Date(moment().add(60,'m'))}];
+        return {
+            id: "availibilityCalendar",
+            events: eventsArray,
+            defaultView: 'agendaWeek',
+        };
     }
 });
 
 Template.Availabilities.created = function() {};
 
-Template.dpReplacement.replaces("afBootstrapDateTimePicker");
+//Template.dpReplacement.replaces("afBootstrapDateTimePicker");
 
 Template.Availabilities.events({
     "click #delete-button": function(e) {
