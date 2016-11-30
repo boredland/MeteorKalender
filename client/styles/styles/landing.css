@@ -241,6 +241,8 @@ a:focus {
     vertical-align: middle; }
 
 /* Focus stylesheet effect for 'input' */
+
+/*
 .form-control {
     color: #97a7b4;
     font-size: 17px;
@@ -262,6 +264,7 @@ a:focus {
 .form-control:focus {
     box-shadow: none;
     border-color: #3b4e5f; }
+*/
 
 /* Media Queries */
 @media (max-width: 768px) {

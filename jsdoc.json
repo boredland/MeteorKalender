@@ -2,7 +2,7 @@
   // Execute meteor-jsdoc in debug mode to track down errors.
   "debug": false,
   // node.js install path, default to: "`which node`" on Mac and Linux, "`where node`" on Windows
-  "nodePath": "",
+  "nodePath": "/usr/local/bin/node",
   // Project docs path
   "docsPath": "~/myproject-docs",
   // Project docs Meteor server port, default to: 3333
@@ -16,7 +16,7 @@
   // Add a preamble to your project's docs that will appear at the top of the docs.
   "preamble": true,
   // Link to the project repository (used to construct the file path in the docs). Optional.
-  "projectRepo": "https://github.com/username/myproject/tree/master",
+  "projectRepo": "https://github.com/boredland/MeteorKalender/tree/test",
   // Values to be used in the `<head>` for the docs.
   "docsConfig": {
     "title": "Meteor Project Docs",

@@ -57,7 +57,7 @@ Template.Availabilities.helpers({
         return {
             id: "availibilityCalendar",
             events: eventsArray,
-            defaultView: 'agendaWeek',
+            defaultView: 'listWeek',
         };
     }
 });
