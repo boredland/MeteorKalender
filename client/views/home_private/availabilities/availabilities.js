@@ -3,6 +3,7 @@ import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
 import {availabilitiesFormSchema} from "../../../../imports/api/availabilitiesSchema";
 var pageSession = new ReactiveDict();
+var eventsArray = [];
 
 Template.Availabilities.onRendered(function() {
 
@@ -35,7 +36,6 @@ Template.Availabilities.rendered = function() {
     });*/
 
     Meteor.autorun(function() {
-        var eventsArray = [];
         Availabilities.find().forEach(function(m){
             eventsArray.push(
                 { start: m.startDate, end: m.endDate }
@@ -52,7 +52,8 @@ Template.Availabilities.helpers({
         return Calendars.find();
     },
     availabilitiesCalendarOptions () {
-        var eventsArray = [ {start: new Date(), end: new Date(moment().add(60,'m'))}];
+        console.log(eventsArray);
+        eventsArray.push({start: new Date(), end: new Date(moment().add(60,'m'))});
         return {
             id: "availibilityCalendar",
             events: eventsArray,
