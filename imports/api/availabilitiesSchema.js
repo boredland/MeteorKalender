@@ -31,13 +31,15 @@ export var availabilitiesSchema = new SimpleSchema({
 export var availabilitiesFormSchema = new SimpleSchema({
     startDate: {
         type: Date,
-        optional: true,
-            autoform: {
+        //min: new Date(),
+        autoform: {
+            value: new Date(),
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
                     sideBySide: true,
+                    minDate: new Date(),
                     inline: true,
                     locale: 'de',
                     format: 'LL'
@@ -47,12 +49,13 @@ export var availabilitiesFormSchema = new SimpleSchema({
     },
     startTime: {
         type: Date,
-        optional: true,
         autoform: {
+            value: new Date(),
             afFieldInput: {
                 class: "starttime",
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    sideBySide: true,
                     inline: true,
                     locale: 'de',
                     format: 'LT',
@@ -66,9 +69,11 @@ export var availabilitiesFormSchema = new SimpleSchema({
         optional: true,
         autoform: {
             afFieldInput: {
+                value: new Date(moment().add(10,'m')),
                 class: "endtime",
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    sideBySide: true,
                     inline: true,
                     locale: 'de',
                     format: 'LT',
@@ -103,15 +108,16 @@ export var availabilitiesFormSchema = new SimpleSchema({
     repeatUntil:{
         type: Date,
         optional: true,
-        //allowedValues: [`1/1/2020`],
         autoform: {
+            value: new Date(),
             afFieldInput: {
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    minDate: new Date(),
                     sideBySide: true,
                     inline: true,
                     locale: 'de',
-                    format: 'LL'
+                    format: 'LL',
                 }
             }
         }
@@ -125,6 +131,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         autoform: {
             afFieldInput: {
                 type: "select",
+                firstOption: false,
                 options: function () {
                     var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
                         return {
@@ -137,8 +144,4 @@ export var availabilitiesFormSchema = new SimpleSchema({
             }
         }
     }
-    /*legalHolidays:{
-      type: Boolean,
-      optional: true
-    },*/
 });

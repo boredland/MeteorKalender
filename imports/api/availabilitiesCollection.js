@@ -25,12 +25,20 @@ Availabilities.allow({
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    insertAvailability: function(doc) {
-        console.log(doc);
+    'availabilities.insert'(doc) {
+        //console.log(doc);
         var startdate = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute'));
         var enddate = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
+        var duration = (moment(doc.endTime)-moment(doc.startTime))/(1000*60)|0;
         var chunkarray = [];
-        var familyid = Random.id().substring(0, 4);
+        var familyid = Random.id().substring(0, 8);
+
+        if (startdate > enddate){
+            throw new EvalError("Startdate: "+startdate+" is bigger than Enddate "+enddate);
+        }
+        if (duration < doc.chunkPeriod){
+            throw new EvalError("Duration "+duration+" is shorter than Chunkperiod "+doc.chunkPeriod);
+        }
         if (! this.userId) {
             throw new Meteor.Error('not-authorized');
         }
@@ -49,9 +57,7 @@ Meteor.methods({
         // create the chunks for the first period and their repetitions.
         if (doc.chunkPeriod > 0) {
             var current = startdate;
-            var counter=0;
             do {
-                //console.log(current._d);
                 last = current;
                 current = moment(current).add(doc.chunkPeriod,'m');
                 chunkarray.push(getRepetitionArrayForPeriod(last,current,doc.repeatInterval,doc.repeatUntil));
@@ -70,6 +76,7 @@ Meteor.methods({
                     flatarray.push({start: subarray[j].start, end: subarray[j].end});
             }
         };
+
         // the actual insertion
         for (i=0;i<flatarray.length;i++){
             //console.log("Startdate: "+flatarray[i].start._d+" till Enddate: "+flatarray[i].end._d);

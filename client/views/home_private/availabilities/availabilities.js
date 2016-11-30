@@ -3,6 +3,7 @@ import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
 import {availabilitiesFormSchema} from "../../../../imports/api/availabilitiesSchema";
 var pageSession = new ReactiveDict();
+var eventsArray = [];
 
 Template.Availabilities.onRendered(function() {
 
@@ -18,14 +19,46 @@ Template.Availabilities.onCreated(
 Template.Availabilities.rendered = function() {
     pageSession.set("invoicesInsertInsertFormInfoMessage", "");
     pageSession.set("invoicesInsertInsertFormErrorMessage", "");
-};
+    /*$('#availibilitiesCalendar').fullCalendar({
+        events: function(callback) {
+            var eventsArray = [];
+            Availabilities.find().forEach(function(m){
+                //console.log(m.startDate+" "+m.endDate)
+                eventsArray.push(
+                    { start: m.startDate, end: m.endDate }
+                );
+            });
+            console.log(eventsArray);
+            callback(eventsArray);
+        },
+        id: "availibilityCalendar",
+        defaultView: 'listDay',
+    });*/
 
+    Meteor.autorun(function() {
+        Availabilities.find().forEach(function(m){
+            eventsArray.push(
+                { start: m.startDate, end: m.endDate }
+            );
+        });
+        console.log(eventsArray);
+    });
+};
 Template.Availabilities.helpers({
     getAvailabilities(){
         return Availabilities.find();
     },
     getCalendars(){
         return Calendars.find();
+    },
+    availabilitiesCalendarOptions () {
+        console.log(eventsArray);
+        eventsArray.push({start: new Date(), end: new Date(moment().add(60,'m'))});
+        return {
+            id: "availibilityCalendar",
+            events: eventsArray,
+            defaultView: 'agendaWeek',
+        };
     }
 });
 
@@ -60,21 +93,19 @@ Template.Availabilities.events({
 });
 
 Template.AvailabilityInsertForm.events({
-    "change .startTime": function (event, template) {
+    /*'click .starttime': function (event, template) {
         var starttime = $(event.target).val();
-        console.log(starttime);
+        console.log("clicked starttime. starttime is "+starttime);
     },
-    "change .endTime": function (event, template) {
+    'click .endtime': function (event, template) {
         var endtime = $(event.target).val();
-        console.log(endtime);
-    }
+        console.log("clicked endtime. endtime is "+endtime);
+    }*/
+
 });
 
 Template.AvailabilityInsertForm.helpers({
-    formCollection() {
-        return Availabilities;
-    },
     formSchema: function() {
         return availabilitiesFormSchema;
     },
-})
+});

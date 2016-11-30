@@ -7,6 +7,7 @@
             </div>
         </div>
         {{> AvailabilityInsertForm}}
+        {{> fullcalendar availabilitiesCalendarOptions}}
         <table id="dataview-table" class="table table-striped table-hover">
                 <thead id="dataview-table-header">
                 <tr id="dataview-table-header-row">
@@ -39,7 +40,7 @@
     <h2 id="component-title">
         New availability
     </h2>
-    {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="insertAvailability"}}
+    {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="availabilities.insert"}}
 </template>
 
 <template name="availability">

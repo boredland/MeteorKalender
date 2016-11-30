@@ -12,8 +12,6 @@ this.AvailabilitiesController = RouteController.extend({
     },
 
     isReady: function() {
-
-
         var subs = [
         ];
         var ready = true;
