@@ -31,7 +31,7 @@ Meteor.methods({
         var enddate = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
         var duration = (moment(doc.endTime)-moment(doc.startTime))/(1000*60)|0;
         var chunkarray = [];
-        var familyid = Random.id().substring(0, 4);
+        var familyid = Random.id().substring(0, 8);
 
         if (startdate > enddate){
             throw new EvalError("Startdate: "+startdate+" is bigger than Enddate "+enddate);
