@@ -12,7 +12,7 @@ Calendars.attachSchema(calendarsSchema);
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
     Meteor.publish('allCalendars', function calendarsPublication() {
-        return Calendars.find();
+        return Calendars.find({userId: this.userId});
     });
 };
 

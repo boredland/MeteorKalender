@@ -12,7 +12,7 @@ Availabilities.attachSchema(availabilitiesSchema);
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
-        return Availabilities.find();
+        return Availabilities.find({userId: this.userId});
     });
 };
 
