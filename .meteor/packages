@@ -35,7 +35,6 @@ nemo64:bootstrap@=3.3.5_2
 reactive-dict@1.1.8
 mrt:moment
 mizzao:bootboxjs
-rzymek:fullcalendar
 dispatch:mocha
 dispatch:mocha-phantomjs
 aldeed:collection2
@@ -46,3 +45,4 @@ michalvalasek:autoform-bootstrap-colorpicker
 qubitdev:autoform-bs-datetimepicker-updated
 practicalmeteor:mocha
 xolvio:cleaner
+supaseca:reactive-fullcalendar
