@@ -53,7 +53,7 @@ Template.Appointments.helpers({
         events( start, end, timezone, callback ) {
             let data = Availabilities.find().fetch().map( ( appointment ) => {
                 //event.editable = !isPast( event.start );
-                appointment = {start: appointment.startDate,end: appointment.endDate, title: 'test'};
+                appointment = {start: appointment.startDate,end: appointment.endDate};
                 return appointment;
             });
             if ( data ) {
