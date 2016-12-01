@@ -1,14 +1,16 @@
 //var pageSession = new ReactiveDict();
 import {Availabilities} from '/imports/api/availabilitiesCollection';
+import {Calendars} from '/imports/api/calendarsCollection';
 
 Template.Appointments.onCreated(
     function bodyOnCreated() {
         Meteor.subscribe('allAvailabilities');
+        Meteor.subscribe('allCalendars');
     }
 );
 
 Template.Appointments.onRendered( () => {
-    $( '#appointments-calendar' ).fullCalendar({
+    /*$( '#appointments-calendar' ).fullCalendar({
         events( start, end, timezone, callback ) {
             let data = Availabilities.find().fetch().map( ( appointment ) => {
                 //event.editable = !isPast( event.start );
@@ -22,7 +24,7 @@ Template.Appointments.onRendered( () => {
             }
         },
         defaultView: 'listWeek'
-    });
+    });*/
     /*
     Tracker.autorun( () => {
         Availabilities.find().fetch();
@@ -53,7 +55,10 @@ Template.Appointments.helpers({
         events( start, end, timezone, callback ) {
             let data = Availabilities.find().fetch().map( ( appointment ) => {
                 //event.editable = !isPast( event.start );
-                appointment = {start: appointment.startDate,end: appointment.endDate};
+                //console.log(appointment.calendarId);
+                var calendar = Calendars.findOne({}, {_id: appointment.calendarId});
+                console.log(calendar.color);
+                appointment = {start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: calendar.name};
                 return appointment;
             });
             if ( data ) {
