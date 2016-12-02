@@ -9,6 +9,11 @@ import {availabilitiesSchema} from './availabilitiesSchema';
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
 
+Meteor.startup(function(){
+    Availabilities._ensureIndex({"calendarID":1})
+    console.log("created Index over calenderID in Availabilities Colleciton")
+})
+
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
@@ -22,7 +27,7 @@ Availabilities.allow({
         return true; // is there some meaningful check we could use?
     }
 });
-
+1
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
     'availabilities.insert'(doc) {
