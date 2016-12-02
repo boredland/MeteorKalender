@@ -10,7 +10,7 @@ export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
 
 Meteor.startup(function(){
-    Availabilities._ensureIndex({"calendarID":1})
+    //Availabilities._ensureIndex({"calendarID":1})
     console.log("created Index over calenderID in Availabilities Colleciton")
 })
 
@@ -27,7 +27,7 @@ Availabilities.allow({
         return true; // is there some meaningful check we could use?
     }
 });
-1
+
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
     'availabilities.insert'(doc) {
