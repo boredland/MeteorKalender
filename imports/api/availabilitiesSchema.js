@@ -106,8 +106,26 @@ export var availabilitiesFormSchema = new SimpleSchema({
         autoform: {
             step: 5,
             defaultValue: 10,
+        },
+        custom: function() {
+            var starttime = moment(new Date(this.field("startTime").value));
+            var endtime = moment(new Date(this.field("endTime").value));
+            var duration = (moment(endtime)-moment(starttime))/(1000*60)|0; // <-- das ist die duration in minuten
+
+            /* I think you should add two errors here:
+
+            1. Duration < chunkPeriod
+            2. Duration mod chunkPeriod > 0
+
+            Errormessages (ideas..):
+            1. "The duration of your consultation hour is smaller than chunk-period you selected"
+            2. "The duration of your consultation hour is not a multiple of the chunk-period you selected"
+
+            Mod in Javascript is "%". Ref: http://www.w3schools.com/js/js_operators.asp
+
+             */
         }
-    },
+},
     repeatInterval:{
         type: Number,
         optional: true,
