@@ -78,7 +78,6 @@ export var availabilitiesFormSchema = new SimpleSchema({
     },
     endTime: {
         type: Date,
-        optional: true,
         autoform: {
             value: new Date(moment().add(10,'m')),
             afFieldInput: {
