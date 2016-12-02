@@ -3,6 +3,11 @@
  */
 import {Calendars} from '/imports/api/calendarsCollection';
 
+SimpleSchema.messages({
+    'startTimeAfterEnd': 'The start-time is after the end-time',
+    'endTimeBeforeStart': 'The end-time is before the start-time'
+})
+
 // This schema validates the insertion.
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
@@ -62,14 +67,21 @@ export var availabilitiesFormSchema = new SimpleSchema({
                     stepping: 5,
                 }
             }
+        },
+        custom: function() {
+            var starttime = moment(new Date(this.field("startTime").value));
+            var endtime = moment(new Date(this.field("endTime").value));
+            if (starttime >= endtime) {
+                return 'startTimeAfterEnd';
+            }
         }
     },
     endTime: {
         type: Date,
         optional: true,
         autoform: {
+            value: new Date(moment().add(10,'m')),
             afFieldInput: {
-                value: new Date(moment().add(10,'m')),
                 class: "endtime",
                 type:  "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
@@ -79,6 +91,13 @@ export var availabilitiesFormSchema = new SimpleSchema({
                     format: 'LT',
                     stepping: 5,
                 }
+            }
+        },
+        custom: function() {
+            var starttime = moment(new Date(this.field("startTime").value));
+            var endtime = moment(new Date(this.field("endTime").value));
+            if (starttime >= endtime) {
+                return 'endTimeBeforeStart';
             }
         }
     },
