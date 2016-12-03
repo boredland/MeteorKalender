@@ -12,7 +12,8 @@ var publicRoutes = [
 	"register",
 	"verify_email",
 	"forgot_password",
-	"reset_password"
+	"reset_password",
+	"calendar_public",
 ];
 
 var privateRoutes = [
@@ -31,7 +32,6 @@ var privateRoutes = [
 ];
 
 var freeRoutes = [
-	
 ];
 
 var roleMap = [
@@ -180,7 +180,9 @@ Router.onBeforeAction(function() {
 });
 
 Router.onBeforeAction(Router.ensureNotLogged, {only: publicRoutes});
-Router.onBeforeAction(Router.ensureLogged, {only: privateRoutes});
+Router.onBeforeAction(
+	Router.ensureLogged, {only: privateRoutes}
+);
 Router.onBeforeAction(Router.ensureGranted, {only: freeRoutes}); // yes, route from free zone can be restricted to specific set of user roles
 
 Router.map(function () {
@@ -189,7 +191,8 @@ Router.map(function () {
 	this.route("login", {path: "/login", controller: "LoginController"});
 	this.route("register", {path: "/register", controller: "RegisterController"});
 	this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
-	this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
+    this.route("calendar_public", {path: "/calendar_public/:calendarPublicToken", controller: "CalendarPublicController"});
+    this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
 	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
     this.route("home_private.appointments", {path: "/home_private/appointments", controller: "AppointmentsController"});
