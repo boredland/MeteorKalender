@@ -5,7 +5,7 @@ Template.CalendarPublic.rendered = function() {
 
   var calendarPublicToken = Router.current().params.calendarPublicToken;
   if (calendarPublicToken) {
-      pageSession.set("errorMessage", "Current this is a "+calendarPublicToken+".");
+      pageSession.set("errorMessage", "Wie es in den Wald hineinschallt, "+calendarPublicToken);
   }
 	
 };
