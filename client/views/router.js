@@ -22,7 +22,11 @@ var privateRoutes = [
 	"user_settings.change_pass",
     "home_private.appointments",
     "home_private.availabilities",
+    "home_private.new_availability",
+    "home_private.edit_availability",
     "home_private.calendars",
+    "home_private.new_calendar",
+    "home_private.edit_calendar",
     "logout"
 ];
 
@@ -189,8 +193,12 @@ Router.map(function () {
 	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
     this.route("home_private.appointments", {path: "/home_private/appointments", controller: "AppointmentsController"});
-    this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
     this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController"});
+    this.route("home_private.new_availability", {path: "/home_private/availabilities/new_availability", controller: "NewAvailabilityController"});
+    this.route("home_private.edit_availability", {path: "/home_private/availabilities/edit_availability", controller: "EditAvailabilityController"});
+    this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
+    this.route("home_private.new_calendar", {path: "/home_private/new_calendar", controller: "NewCalendarController"});
+    this.route("home_private.edit_calendar", {path: "/home_private/edit_calendar", controller: "EditCalendarController"});
     this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
 	this.route("user_settings.profile", {path: "/user_settings/profile", controller: "UserSettingsProfileController"});
 	this.route("user_settings.change_pass", {path: "/user_settings/change_pass", controller: "UserSettingsChangePassController"});
