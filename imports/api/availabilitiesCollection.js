@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check';
 import {availabilitiesSchema} from './availabilitiesSchema';
+import {Calendars} from './calendarsCollection';
 
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
@@ -20,6 +21,15 @@ if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find({userId: this.userId},{sort: {startdate: -1}});
+    });
+    Meteor.publish('calendarAvailabilities', function availabilitiesPublication(input_linkslug) {
+        console.log("Linkslug: ",input_linkslug);
+        var calendarid = Calendars.findOne({linkslug: input_linkslug, published: true})._id
+        console.log("CalendarId: ", calendarid);
+        var options = {fields: {startDate: 1, endDate: 1}, sort: {startdate: -1}};
+        var calendarEvents = Availabilities.find({calendarId: calendarid},options);
+        //console.log(calendarEvents);
+        return calendarEvents;
     });
 };
 

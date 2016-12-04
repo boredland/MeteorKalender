@@ -1,13 +1,17 @@
 var pageSession = new ReactiveDict();
+import {Availabilities} from '/imports/api/availabilitiesCollection';
+import { Meteor } from 'meteor/meteor';
+
+
+Template.CalendarPublic.onCreated(function bodyOnCreated() {
+    }
+);
 
 Template.CalendarPublic.rendered = function() {
-	pageSession.set("errorMessage", "");
-
-  var calendarPublicToken = Router.current().params.calendarPublicToken;
-  if (calendarPublicToken) {
-      pageSession.set("errorMessage", "Wie es in den Wald hineinschallt, "+calendarPublicToken);
-  }
-	
+    var calendarPublicToken = Router.current().params.calendarPublicToken;
+    //Meteor.subscribe('publicCalendar', calendarPublicToken)
+    Meteor.subscribe('calendarAvailabilities', calendarPublicToken);
+    pageSession.set("errorMessage", "");
 };
 
 Template.CalendarPublic.events({
@@ -20,6 +24,8 @@ Template.CalendarPublic.events({
 Template.CalendarPublic.helpers({
   "errorMessage": function() {
     return pageSession.get("errorMessage");
+  },
+  getCalendarAvailabilities(){
+    return Availabilities.find();
   }
-  
 });
