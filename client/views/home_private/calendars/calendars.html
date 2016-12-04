@@ -22,7 +22,7 @@
         </li>
 
         ----
-        {{> CalendarInsertForm}}
+
         <table id="dataview-table" class="table table-striped table-hover">
             <thead id="dataview-table-header">
             <tr id="dataview-table-header-row">
@@ -56,7 +56,7 @@
 
 <template name="CalendarInsertForm">
     <h2 id="component-title">
-        New calendar
+        New Calendar
     </h2>
     {{> quickForm id="calendarInsertForm" collection=formCollection type="method" meteormethod="calendars.insert"}}
 </template>

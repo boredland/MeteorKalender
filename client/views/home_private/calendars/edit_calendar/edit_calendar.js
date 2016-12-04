@@ -15,5 +15,12 @@ Template.EditCalendar.events({
 });
 
 Template.EditCalendar.helpers({
-
+    getCalendars(){
+        return Calendars.find();
+    }
+});
+Template.CalendarInsertForm.helpers({
+    formCollection() {
+        return Calendars;
+    }
 });
