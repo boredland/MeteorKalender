@@ -11,8 +11,8 @@ Availabilities.attachSchema(availabilitiesSchema);
 
 Meteor.startup(function(){
     if (Meteor.isServer) {
-    itAvailabilities._ensureIndex({"calendarID":1})
-    console.log("created Index over calenderID in Availabilities Colleciton")
+        Availabilities._ensureIndex({"calendarID":1})
+        console.log("created Index over calenderID in Availabilities Colleciton")
     }
 })
 
