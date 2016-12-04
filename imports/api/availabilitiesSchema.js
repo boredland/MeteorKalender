@@ -5,7 +5,9 @@ import {Calendars} from '/imports/api/calendarsCollection';
 
 SimpleSchema.messages({
     'startTimeAfterEnd': 'The start-time is after the end-time',
-    'endTimeBeforeStart': 'The end-time is before the start-time'
+    'endTimeBeforeStart': 'The end-time is before the start-time',
+    'durationSmaller': 'The duration of your consultation hour is smaller than chunk-period you selected',
+    'durationNotMultiple': 'The duration of your consultation hour is not a multiple of the chunk-period you selected'
 })
 
 // This schema validates the insertion.
@@ -112,19 +114,15 @@ export var availabilitiesFormSchema = new SimpleSchema({
             var starttime = moment(new Date(this.field("startTime").value));
             var endtime = moment(new Date(this.field("endTime").value));
             var duration = (moment(endtime)-moment(starttime))/(1000*60)|0; // <-- das ist die duration in minuten
+            var chunkperiod = this.field("chunkPeriod").value;
 
-            /* I think you should add two errors here:
+            if (duration<chunkperiod){
+                return 'durationSmaller';
+            }
 
-            1. Duration < chunkPeriod
-            2. Duration mod chunkPeriod > 0
-
-            Errormessages (ideas..):
-            1. "The duration of your consultation hour is smaller than chunk-period you selected"
-            2. "The duration of your consultation hour is not a multiple of the chunk-period you selected"
-
-            Mod in Javascript is "%". Ref: http://www.w3schools.com/js/js_operators.asp
-
-             */
+            if ((duration%chunkperiod)!=0) {
+                return 'durationNotMultiple';
+            }
         }
 },
     repeatInterval:{
