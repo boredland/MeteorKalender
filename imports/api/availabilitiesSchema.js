@@ -6,7 +6,7 @@ import {Calendars} from '/imports/api/calendarsCollection';
 SimpleSchema.messages({
     'startTimeAfterEnd': 'The start-time is after the end-time',
     'endTimeBeforeStart': 'The end-time is before the start-time',
-    'durationSmaller': 'The duration of your consultation hour is smaller than chunk-period you selected',
+    'durationSmaller': 'The duration of your consultation hour is smaller than the chunk-period you selected',
     'durationNotMultiple': 'The duration of your consultation hour is not a multiple of the chunk-period you selected'
 })
 
