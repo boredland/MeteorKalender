@@ -10,8 +10,10 @@ export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
 
 Meteor.startup(function(){
-    Availabilities._ensureIndex({"calendarID":1})
+    if (Meteor.isServer) {
+    itAvailabilities._ensureIndex({"calendarID":1})
     console.log("created Index over calenderID in Availabilities Colleciton")
+    }
 })
 
 if (Meteor.isServer) {
