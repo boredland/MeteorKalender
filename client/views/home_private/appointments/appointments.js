@@ -55,9 +55,12 @@ Template.Appointments.helpers({
         events( start, end, timezone, callback ) {
             let data = Availabilities.find().fetch().map( ( appointment ) => {
                 //event.editable = !isPast( event.start );
-                var calendar = Calendars.findOne({}, {_id: appointment.calendarId});
-                appointment = {start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: calendar.name};
-                return appointment;
+                var calendar = [];
+                calendar = Calendars.findOne({}, {_id: appointment.calendarId});
+                if (appointment !== undefined){
+                    appointment = {start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: calendar.name};
+                    return appointment;
+                }
             });
             if ( data ) {
                 callback( data );
