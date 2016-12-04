@@ -4,8 +4,7 @@ import { Meteor } from 'meteor/meteor';
 
 var pageSession = new ReactiveDict();
 
-Template.Availabilities.onRendered(function() {
-
+Template.Availabilities.onRendered( () => {
 });
 
 Template.Availabilities.onCreated(
@@ -18,10 +17,8 @@ Template.Availabilities.onCreated(
 Template.Availabilities.rendered = function() {
     pageSession.set("invoicesInsertInsertFormInfoMessage", "");
     pageSession.set("invoicesInsertInsertFormErrorMessage", "");
-};
-Template.Availabilities.helpers({
 
-});
+};
 
 Template.Availabilities.created = function() {
 
@@ -35,9 +32,13 @@ Template.Availabilities.events({
 });
 
 Template.Availabilities.helpers({
+    onEventClicked: function(){
+
+    },
     availibilityCalendarOptions: {
         // Standard fullcalendar options
-        defaultView: 'listWeek',
+        //editable: true,
+        defaultView: 'agendaWeek',
         //hiddenDays: [ 0 ],
         //slotDuration: '01:00:00',
         //minTime: '08:00:00',
@@ -46,10 +47,10 @@ Template.Availabilities.helpers({
         // Function providing events reactive computation for fullcalendar plugin
         events( start, end, timezone, callback ) {
             let data = Availabilities.find().fetch().map( ( availability ) => {
-                //event.editable = !isPast( event.start );
+                //availability.editable = true; //availability.startDate
                 var calendar = Calendars.findOne({}, {_id: availability.calendarId});
                 if (availability !== undefined){
-                    availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name};
+                    availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name, id: availability._id};
                     return availability;
                 }
             });
@@ -57,8 +58,13 @@ Template.Availabilities.helpers({
                 callback( data );
             }
         },
+        eventClick: function(calEvent, jsEvent, view) {
+            alert('EventId: ' + calEvent.id);
+            // change the border color just for fun
+            $(this).css('border-color', 'red');
+        },
         // Optional: id of the calendar
-        //id: "appointmentscalendar",
+        id: "availabilitiesCalendar",
         // Optional: Additional classes to apply to the calendar
         //addedClasses: "col-md-8",
         // Optional: Additional functions to apply after each reactive events computation
@@ -67,5 +73,5 @@ Template.Availabilities.helpers({
         //        console.log("user defined autorun function executed!");
         //    }
         //]
-    },
+    }
 });
