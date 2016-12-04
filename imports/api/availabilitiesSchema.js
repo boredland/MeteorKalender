@@ -116,11 +116,11 @@ export var availabilitiesFormSchema = new SimpleSchema({
             var duration = (moment(endtime)-moment(starttime))/(1000*60)|0; // <-- das ist die duration in minuten
             var chunkperiod = this.field("chunkPeriod").value;
 
-            if (duration<chunkperiod){
+            if (duration > 0 && duration < chunkperiod){
                 return 'durationSmaller';
             }
 
-            if ((duration%chunkperiod)!=0) {
+            if ((duration%chunkperiod) !== 0) {
                 return 'durationNotMultiple';
             }
         }
