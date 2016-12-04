@@ -38,7 +38,7 @@ Template.Availabilities.helpers({
     availibilityCalendarOptions: {
         // Standard fullcalendar options
         //editable: true,
-        defaultView: 'agendaWeek',
+        defaultView: 'listWeek',
         //hiddenDays: [ 0 ],
         //slotDuration: '01:00:00',
         //minTime: '08:00:00',
