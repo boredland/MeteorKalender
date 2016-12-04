@@ -36,7 +36,11 @@ Template.Calendars.events({
             }
         });
         return false;
-    }
+    },
+    "click #dataview-insert-button": function(e, t) {
+        e.preventDefault();
+        Router.go("home_private.new_calendar", {});
+    },
 });
 
 Template.Calendars.helpers({

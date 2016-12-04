@@ -1,4 +1,3 @@
-//var pageSession = new ReactiveDict();
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
 
@@ -10,26 +9,6 @@ Template.Appointments.onCreated(
 );
 
 Template.Appointments.onRendered( () => {
-    /*$( '#appointments-calendar' ).fullCalendar({
-        events( start, end, timezone, callback ) {
-            let data = Availabilities.find().fetch().map( ( appointment ) => {
-                //event.editable = !isPast( event.start );
-                appointment = {start: appointment.startDate,end: appointment.endDate, title: 'test'};
-                console.log(appointment);
-                return appointment;
-            });
-            console.log(data);
-            if ( data ) {
-                callback( data );
-            }
-        },
-        defaultView: 'listWeek'
-    });*/
-    /*
-    Tracker.autorun( () => {
-        Availabilities.find().fetch();
-        $( '#events-calendar' ).fullCalendar( 'refetchEvents' );
-    });*/
 
 });
 
@@ -40,6 +19,7 @@ Template.Appointments.created = function() {
 };
 
 Template.Appointments.events({
+
 });
 
 Template.Appointments.helpers({

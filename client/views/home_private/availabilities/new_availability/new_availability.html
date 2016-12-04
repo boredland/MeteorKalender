@@ -5,8 +5,21 @@
                 <div id="page_menu" class="pull-right">
                 </div>
             </div>
-
         </div>
-        <h2>New Availability</h2>
+        {{> AvailabilityInsertForm}}
+    </div>
+</template>
+
+<template name="AvailabilityInsertForm">
+    <h2 id="component-title">
+        New availability
+    </h2>
+    {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="availabilities.insert"}}
+</template>
+
+<template name="dpReplacement">
+    <div class='input-group date'>
+        <span class="input-group-addon fa fa-calendar" id="basic-addon1"></span>
+        <input type="text" value="" {{atts}} aria-describedby="basic-addon1"/>
     </div>
 </template>

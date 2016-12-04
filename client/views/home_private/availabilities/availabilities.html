@@ -6,14 +6,6 @@
                 </div>
             </div>
         </div>
-
-        <li id="menu-item-simple" class="{{menuItemClass 'home_private.new_availability'}}">
-            <a href="{{pathFor 'home_private.new_availability'}}">
-				<span class="item-title">
-					NewAvailability
-				</span>
-            </a>
-        </li>
         <li id="menu-item-simple" class="{{menuItemClass 'home_private.edit_availability'}}">
             <a href="{{pathFor 'home_private.edit_availability'}}">
 				<span class="item-title">
@@ -21,75 +13,16 @@
 				</span>
             </a>
         </li>
-
-        ----
-        {{> AvailabilityInsertForm}}
-        <!--{{> fullcalendar availabilitiesCalendarOptions}}-->
-        <table id="dataview-table" class="table table-striped table-hover">
-                <thead id="dataview-table-header">
-                <tr id="dataview-table-header-row">
-                    <th class="th-sortable" data-sort="startDate">
-                        startDate
-                    </th>
-                    <th class="th-sortable" data-sort="endDate">
-                        endDate
-                    </th>
-                    <th class="th-sortable" data-sort="categoryId">
-                        calendarId
-                    </th>
-                    <th class="th-sortable" data-sort="familyId">
-                        familyId
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                </tr>
-                </thead>
-                {{#each getAvailabilities}} {{> availability}} {{/each}}
-        </table>
-    </div>
-</template>
-
-<template name="AvailabilityInsertForm">
-    <h2 id="component-title">
-        New availability
-    </h2>
-    {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="availabilities.insert"}}
-</template>
-
-<template name="availability">
-    <tbody id="dataview-table-items">
-    <tr id="dataview-table-items-row">
-        <td>
-            {{startDate}}
-        </td>
-        <td>
-            {{endDate}}
-        </td>
-        <td>
-            {{calendarId}}
-        </td>
-        <td>
-            {{familyId}}
-        </td>
-        <td class="td-icon">
-			<span id="edit-button" class="fa fa-pencil" title="Edit">
-			</span>
-        </td>
-        <td class="td-icon">
-			<span id="delete-button" class="fa fa-trash-o" title="Delete">
-			</span>
-        </td>
-    </tr>
-    </tbody>
-</template>
-
-<template name="dpReplacement">
-    <div class='input-group date'>
-        <span class="input-group-addon fa fa-calendar" id="basic-addon1"></span>
-        <input type="text" value="" {{atts}} aria-describedby="basic-addon1"/>
+        <div id="dataview-controls-insert" class="form-group {{insertButtonClass}}">
+            <button type="submit" id="dataview-insert-button" class="btn btn-success">
+					<span class="fa fa-plus">
+					</span>
+                Add new
+            </button>
+        </div>
+        <h2 id="component-title">
+            All Availabilities
+        </h2>
+        {{> ReactiveFullcalendar options=availibilityCalendarOptions }}
     </div>
 </template>
