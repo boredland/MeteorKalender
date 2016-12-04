@@ -1,6 +1,6 @@
 import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
-var pageSession = new ReactiveDict();
+//var pageSession = new ReactiveDict();
 
 Template.Calendars.rendered = function() {
 };
@@ -44,9 +44,3 @@ Template.Calendars.helpers({
         return Calendars.find();
     }
 });
-
-Template.CalendarInsertForm.helpers({
-    formCollection() {
-        return Calendars;
-    }
-})

@@ -1,3 +1,5 @@
+import {Calendars} from '/imports/api/calendarsCollection';
+
 Template.NewCalendar.onRendered( () => {
 
 });
@@ -19,6 +21,12 @@ Template.NewCalendar.helpers({
 });
 
 
+Template.CalendarInsertForm.helpers({
+    formCollection() {
+        return Calendars;
+    }
+});
+
 AutoForm.hooks({
     calendarInsertForm: {
         onSuccess: function() {
@@ -26,5 +34,4 @@ AutoForm.hooks({
             Router.go('home_private.calendars');
         }
     }
-
 });
