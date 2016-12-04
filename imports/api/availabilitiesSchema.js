@@ -24,7 +24,6 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     calendarId: {
         type: Array,
-        //type: Array,
         optional: true
     },
     'calendarId.$': {

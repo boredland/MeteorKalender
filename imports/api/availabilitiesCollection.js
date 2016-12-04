@@ -19,7 +19,7 @@ Meteor.startup(function(){
 if (Meteor.isServer) {
     // publication of Availabilities should only run on the server
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
-        return Availabilities.find({userId: this.userId});
+        return Availabilities.find({userId: this.userId},{sort: {startdate: -1}});
     });
 };
 
@@ -38,7 +38,7 @@ Meteor.methods({
         var enddate = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
         var duration = (moment(doc.endTime)-moment(doc.startTime))/(1000*60)|0;
         var chunkarray = [];
-        var familyid = Random.id().substring(0, 8);
+        var familyid = Random.id().substring(0, 4);
 
         if (startdate > enddate){
             throw new EvalError("Startdate: "+startdate+" is bigger than Enddate "+enddate);
