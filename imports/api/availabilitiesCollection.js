@@ -39,6 +39,9 @@ if (Meteor.isServer) {
 Availabilities.allow({
     insert: function (endTime,repeatInterval,repeatUntil,startDate,startTime) {
         return true; // is there some meaningful check we could use?
+    },
+    update: function (startDate,endDate,calendarId,userId){
+        return true;
     }
 });
 

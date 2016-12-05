@@ -8,7 +8,6 @@
 
         </div>
         <h2>Edit Availability</h2>
-        {{#if Template.subscriptionsReady }}
         <tr id="dataview-table-items-row">
             <td>
                {{startDate}}
@@ -17,7 +16,17 @@
                 {{endDate}}
             </td>
         </tr>
-        {{/if}}
+    {{#if Template.subscriptionsReady }}
+    {{> AvailabilityUpdateForm}}
+    {{/if}}
 
     </div>
+</template>
+
+<template name="AvailabilityUpdateForm">
+    <h2 id="component-title">
+        Edit availability
+    </h2>
+    {{> quickForm collection="Availabilities" doc=exampleDoc id="availabilityUpdateForm" type="update"}}
+    <!--{{> quickForm id="availabilityUpdateForm" doc=this type="update"}}-->
 </template>

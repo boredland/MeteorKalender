@@ -1,5 +1,6 @@
+import {availabilitiesSchema} from "../../../../../imports/api/availabilitiesSchema";
 import {Availabilities} from '/imports/api/availabilitiesCollection';
-
+window.Availabilities = Availabilities;
 function getCurrentAvailabilityId(){
     var currentId = Router.current().params._eventId;
     if (currentId != undefined) {
@@ -9,6 +10,7 @@ function getCurrentAvailabilityId(){
 
 function getCurrentAvailability() {
     var availability = Availabilities.findOne({_id: getCurrentAvailabilityId()});
+    this.doc = availability;
     if (availability != undefined){
         return availability;
     }
@@ -35,7 +37,10 @@ Template.EditAvailability.events({
 });
 
 Template.EditAvailability.helpers({
-    startDate(){
+    getAvailabilities(){
+
+    }
+    /*startDate(){
         if (getCurrentAvailability() != undefined){
             return getCurrentAvailability().startDate;
         }
@@ -44,6 +49,21 @@ Template.EditAvailability.helpers({
         if (getCurrentAvailability() != undefined) {
             return getCurrentAvailability().endDate;
         }
+    }*/
+});
+Template.AvailabilityUpdateForm.helpers({
+    formSchema: function() {
+        return availabilitiesSchema;
+    },
+    exampleDoc: function () {
+        return getCurrentAvailability();
     }
+});
 
+AutoForm.hooks({
+    availabilityUpdateForm: {
+        onSuccess: function() {
+            Router.go('home_private.availabilities');
+        }
+    }
 });

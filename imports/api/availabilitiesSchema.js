@@ -13,23 +13,64 @@ SimpleSchema.messages({
 // This schema validates the insertion.
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
-        type: String
+        type: String,
+        autoform: {
+            type: "hidden",
+            label: false
+        }
     },
     startDate: {
-        type: Date
+        type: Date,
+        autoform: {
+            afFieldInput: {
+                class: "startdate",
+                type: "bootstrap-datetimepicker",
+                inline: true,
+                locale: 'de',
+                sideBySide: true
+            }
+        }
     },
     endDate: {
-        type: Date
+        type: Date,
+        autoform: {
+            afFieldInput: {
+                class: "startdate",
+                type: "bootstrap-datetimepicker",
+                inline: true,
+                locale: 'de',
+                sideBySide: true
+            }
+        }
     },
     familyId: {
-        type: String
+        type: String,
+        autoform: {
+            type: "hidden",
+            label: false
+        }
     },
     calendarId: {
         type: Array,
-        optional: true
+        optional: true,
     },
     'calendarId.$': {
-        type: String
+        type: String,
+        autoform: {
+            afFieldInput: {
+                type: "select",
+                firstOption: false,
+                options: function () {
+                    var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
+                        return {
+                            label: calendars.name,
+                            value: calendars._id
+                        };
+                    });
+                    return opts;
+                }
+            }
+        }
     }
 });
 
