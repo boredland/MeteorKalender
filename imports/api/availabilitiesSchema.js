@@ -120,7 +120,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 return 'durationSmaller';
             }
 
-            if ((duration%chunkperiod) !== 0) {
+            if ((duration%chunkperiod) != 0) {
                 return 'durationNotMultiple';
             }
         }
