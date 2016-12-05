@@ -39,7 +39,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         //min: new Date(),
         autoform: {
-            value: new Date(moment().set(0,'ms')),
+            value: new Date(moment().set(0,'ms').set(0,'s')),
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
@@ -56,7 +56,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
     startTime: {
         type: Date,
         autoform: {
-            value: new Date(),
+            value: new Date(moment().set(0,'ms').set(0,'s')),
             afFieldInput: {
                 class: "starttime",
                 type:  "bootstrap-datetimepicker",
@@ -81,7 +81,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
     endTime: {
         type: Date,
         autoform: {
-            value: new Date(moment().add(10,'m')),
+            value: new Date(moment().set(0,'ms').add(10,'m').set(0,'s')),
             afFieldInput: {
                 class: "endtime",
                 type:  "bootstrap-datetimepicker",
@@ -113,12 +113,12 @@ export var availabilitiesFormSchema = new SimpleSchema({
         custom: function() {
             var starttime = moment(new Date(this.field("startTime").value));
             var endtime = moment(new Date(this.field("endTime").value));
-            var duration = (moment(endtime)-moment(starttime))/(1000*60); // <-- das ist die duration in minuten
+            var duration = (moment(endtime)-moment(starttime))/(1000*60)|0; // <-- das ist die duration in minuten
             var chunkperiod = this.field("chunkPeriod").value;
-            /*console.log("Duration",duration);
+            console.log("Duration",duration);
             console.log("Starttime",starttime);
             console.log("Endtime",endtime);
-            console.log("Chunkperiod",chunkperiod);*/
+            console.log("Chunkperiod",chunkperiod);
 
             if (duration > 0 && duration < chunkperiod){
                 return 'durationSmaller';
