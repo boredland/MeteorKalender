@@ -112,6 +112,12 @@ Meteor.startup(function() {
 		}
 	}
 
+	//get private key and add it to package
+    reCAPTCHA.config({
+
+        privatekey: process.env.RE_CAPTCHA
+    });
+
 	
 });
 

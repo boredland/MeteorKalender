@@ -2,7 +2,11 @@ this.App = {};
 this.Helpers = {};
 
 Meteor.startup(function() {
-	
+	// add public key to package
+    reCAPTCHA.config({
+        publickey: '6LcS6w0UAAAAADwovEr28eAoj882yDIDWSKY74SG',
+        hl: 'en' // optional display language
+    });
 });
 
 Template.dpReplacement.replaces("afBootstrapDateTimePicker");
