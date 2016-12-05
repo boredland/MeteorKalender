@@ -13,6 +13,7 @@ before_install:
 - sed -i 's/ANCHOR/'"#$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/production/mup.js
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
+- sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/test/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
 - echo $HEROKU
