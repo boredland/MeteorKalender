@@ -36,10 +36,14 @@ Template.EditAvailability.events({
 
 Template.EditAvailability.helpers({
     startDate(){
-        return getCurrentAvailability().startDate;
+        if (getCurrentAvailability() != undefined){
+            return getCurrentAvailability().startDate;
+        }
     },
     endDate(){
-        return getCurrentAvailability().endDate;
+        if (getCurrentAvailability() != undefined) {
+            return getCurrentAvailability().endDate;
+        }
     }
 
 });
