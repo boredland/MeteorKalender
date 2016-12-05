@@ -30,7 +30,6 @@ Template.CalendarInsertForm.helpers({
 AutoForm.hooks({
     calendarInsertForm: {
         onSuccess: function() {
-            console.log("sdiusud")
             Router.go('home_private.calendars');
         }
     }

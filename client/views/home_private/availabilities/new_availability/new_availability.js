@@ -47,3 +47,12 @@ Template.AvailabilityInsertForm.helpers({
         return availabilitiesFormSchema;
     },
 });
+
+
+AutoForm.hooks({
+    calendarInsertForm: {
+        onSuccess: function() {
+            Router.go('home_private.availabilities');
+        }
+    }
+});

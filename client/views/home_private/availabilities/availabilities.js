@@ -32,9 +32,6 @@ Template.Availabilities.events({
 });
 
 Template.Availabilities.helpers({
-    onEventClicked: function(){
-
-    },
     availibilityCalendarOptions: {
         // Standard fullcalendar options
         //editable: true,
@@ -62,6 +59,7 @@ Template.Availabilities.helpers({
             alert('EventId: ' + calEvent.id);
             // change the border color just for fun
             $(this).css('border-color', 'red');
+            Router.go("home_private.edit_availability", {});
         },
         // Optional: id of the calendar
         id: "availabilitiesCalendar",
