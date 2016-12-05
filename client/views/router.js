@@ -12,8 +12,7 @@ var publicRoutes = [
 	"register",
 	"verify_email",
 	"forgot_password",
-	"reset_password",
-	"calendar_public",
+	"reset_password"
 ];
 
 var privateRoutes = [
