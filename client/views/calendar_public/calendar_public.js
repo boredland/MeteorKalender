@@ -15,10 +15,7 @@ Template.CalendarPublic.rendered = function() {
 };
 
 Template.CalendarPublic.events({
-  /*"click .go-home": function(e, t) {
-    Router.go("/");
-  }*/
-  
+
 });
 
 Template.CalendarPublic.helpers({

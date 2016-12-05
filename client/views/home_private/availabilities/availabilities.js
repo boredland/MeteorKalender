@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 var pageSession = new ReactiveDict();
 
 Template.Availabilities.onRendered( () => {
+
 });
 
 Template.Availabilities.onCreated(
@@ -56,10 +57,7 @@ Template.Availabilities.helpers({
             }
         },
         eventClick: function(calEvent, jsEvent, view) {
-            alert('EventId: ' + calEvent.id);
-            // change the border color just for fun
-            $(this).css('border-color', 'red');
-            Router.go("home_private.edit_availability", {});
+            Router.go("home_private.edit_availability",{_eventId: calEvent.id});
         },
         // Optional: id of the calendar
         id: "availabilitiesCalendar",

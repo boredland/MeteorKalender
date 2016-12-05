@@ -8,5 +8,16 @@
 
         </div>
         <h2>Edit Availability</h2>
+        {{#if Template.subscriptionsReady }}
+        <tr id="dataview-table-items-row">
+            <td>
+               {{startDate}}
+            </td>
+            <td>
+                {{endDate}}
+            </td>
+        </tr>
+        {{/if}}
+
     </div>
 </template>

@@ -31,6 +31,11 @@ if (Meteor.isServer) {
         //console.log(calendarEvents);
         return calendarEvents;
     });
+    Meteor.publish('singleAvailability', function availabilitiesPublication(input_availabilityId) {
+        var availability = Availabilities.find({_id: input_availabilityId, userId: this.userId});
+        console.log("Availability", availability);
+        return availability;
+    });
 };
 
 // it is best practice to explicitly allow crud-actions
