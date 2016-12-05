@@ -1,6 +1,7 @@
 /**
  * Created by tobi on 23.11.16.
  */
+
 import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check';
