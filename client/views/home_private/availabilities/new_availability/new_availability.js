@@ -50,7 +50,7 @@ Template.AvailabilityInsertForm.helpers({
 
 
 AutoForm.hooks({
-    calendarInsertForm: {
+    availabilityInsertForm: {
         onSuccess: function() {
             Router.go('home_private.availabilities');
         }

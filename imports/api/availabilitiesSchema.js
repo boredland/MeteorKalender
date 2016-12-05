@@ -39,7 +39,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         //min: new Date(),
         autoform: {
-            value: new Date(),
+            value: new Date(moment().set(0,'ms')),
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
@@ -113,14 +113,19 @@ export var availabilitiesFormSchema = new SimpleSchema({
         custom: function() {
             var starttime = moment(new Date(this.field("startTime").value));
             var endtime = moment(new Date(this.field("endTime").value));
-            var duration = (moment(endtime)-moment(starttime))/(1000*60)|0; // <-- das ist die duration in minuten
+            var duration = (moment(endtime)-moment(starttime))/(1000*60); // <-- das ist die duration in minuten
             var chunkperiod = this.field("chunkPeriod").value;
+            /*console.log("Duration",duration);
+            console.log("Starttime",starttime);
+            console.log("Endtime",endtime);
+            console.log("Chunkperiod",chunkperiod);*/
 
             if (duration > 0 && duration < chunkperiod){
                 return 'durationSmaller';
             }
 
             if ((duration%chunkperiod) != 0) {
+                //console.log("MOD",duration%chunkperiod);
                 return 'durationNotMultiple';
             }
         }
