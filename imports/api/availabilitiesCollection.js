@@ -23,11 +23,18 @@ if (Meteor.isServer) {
         return Availabilities.find({userId: this.userId},{sort: {startdate: -1}});
     });
     Meteor.publish('calendarAvailabilities', function availabilitiesPublication(input_linkslug) {
-        var calendarid = Calendars.findOne({linkslug: input_linkslug, published: true})._id
+        var calendar = Calendars.findOne({linkslug: input_linkslug, published: true});
+        var calendarid = calendar._id;
+        var calendarName = calendar.name;
         var options = {fields: {startDate: 1, endDate: 1}, sort: {startdate: -1}};
         var calendarEvents = Availabilities.find({calendarId: calendarid, startDate: {$gt: new Date()}},options);
         //console.log(calendarEvents);
         return calendarEvents;
+    });
+    Meteor.publish('singleCalendarName', function availabilitiesPublication(input_linkslug) {
+        var options = {fields: {name: 1}};
+        var calendar = Calendars.find({linkslug: input_linkslug, published: true},options);
+        return calendar;
     });
     Meteor.publish('singleAvailability', function availabilitiesPublication(input_availabilityId) {
         var availability = Availabilities.find({_id: input_availabilityId, userId: this.userId});

@@ -7,31 +7,13 @@
 			</div>
 			{{/if}}
 		</div>
-        <table id="dataview-table" class="table table-striped table-hover">
-            <thead id="dataview-table-header">
-            <tr id="dataview-table-header-row">
-                <th class="th-sortable" data-sort="startDate">
-                    startDate
-                </th>
-                <th class="th-sortable" data-sort="endDate">
-                    endDate
-                </th>
-            </tr>
-            </thead>
-            {{#each getCalendarAvailabilities}} {{> event }} {{/each}}
-        </table>
+        <h2>{{#each getCalendarName}} {{> printName }} {{/each}}</h2>
+        {{#if Template.subscriptionsReady }}
+            {{> ReactiveFullcalendar options=publicCalendarOptions}}
+        {{/if}}
 	</div>
 </template>
 
-<template name="event">
-    <tbody id="dataview-table-items">
-    <tr id="dataview-table-items-row">
-        <td>
-            {{startDate}}
-        </td>
-        <td>
-            {{endDate}}
-        </td>
-    </tr>
-    </tbody>
+<template name="printName">
+    {{name}}
 </template>
