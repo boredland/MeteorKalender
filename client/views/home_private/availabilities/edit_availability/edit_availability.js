@@ -1,5 +1,5 @@
-import {availabilitiesSchema} from "../../../../../imports/api/availabilitiesSchema";
 import {Availabilities} from '/imports/api/availabilitiesCollection';
+
 window.Availabilities = Availabilities;
 function getCurrentAvailabilityId(){
     var currentId = Router.current().params._eventId;
@@ -32,30 +32,38 @@ Template.EditAvailability.created = function() {
 };
 
 Template.EditAvailability.events({
-
-
+    "click #dataview-delete-button": function(e) {
+        e.preventDefault();
+        bootbox.dialog({
+            message: "Delete? Are you sure?",
+            title: "Delete",
+            animate: false,
+            buttons: {
+                success: {
+                    label: "Yes",
+                    className: "btn-success",
+                    callback: function() {
+                        Meteor.call('availabilities.remove', getCurrentAvailabilityId());
+                        Router.go('home_private.availabilities');
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-default"
+                }
+            }
+        });
+        return false;
+    }
 });
 
 Template.EditAvailability.helpers({
-    getAvailabilities(){
 
-    }
-    /*startDate(){
-        if (getCurrentAvailability() != undefined){
-            return getCurrentAvailability().startDate;
-        }
-    },
-    endDate(){
-        if (getCurrentAvailability() != undefined) {
-            return getCurrentAvailability().endDate;
-        }
-    }*/
 });
+
+
 Template.AvailabilityUpdateForm.helpers({
-    formSchema: function() {
-        return availabilitiesSchema;
-    },
-    exampleDoc: function () {
+    updateDoc: function () {
         return getCurrentAvailability();
     }
 });

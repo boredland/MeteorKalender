@@ -7,7 +7,6 @@
             </div>
 
         </div>
-        <h2>Edit Availability</h2>
         <tr id="dataview-table-items-row">
             <td>
                {{startDate}}
@@ -19,7 +18,13 @@
     {{#if Template.subscriptionsReady }}
     {{> AvailabilityUpdateForm}}
     {{/if}}
-
+        <div id="dataview-controls-delete" class="form-group {{deleteButtonClass}}">
+            <button type="submit" id="dataview-delete-button" class="btn btn-fail">
+					<span class="fa fa-minus">
+					</span>
+                Delete
+            </button>
+        </div>
     </div>
 </template>
 
@@ -27,6 +32,6 @@
     <h2 id="component-title">
         Edit availability
     </h2>
-    {{> quickForm collection="Availabilities" doc=exampleDoc id="availabilityUpdateForm" type="update"}}
-    <!--{{> quickForm id="availabilityUpdateForm" doc=this type="update"}}-->
+    {{> quickForm collection="Availabilities" doc=updateDoc id="availabilityUpdateForm" type="update"}}
+
 </template>
