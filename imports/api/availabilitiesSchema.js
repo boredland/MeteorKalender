@@ -110,7 +110,6 @@ export var availabilitiesSchema = new SimpleSchema({
 export var availabilitiesFormSchema = new SimpleSchema({
     startDate: {
         type: Date,
-        //min: new Date(),
         autoform: {
             value: new Date(moment().set(0,'ms').set(0,'s')),
             afFieldInput: {
@@ -186,18 +185,26 @@ export var availabilitiesFormSchema = new SimpleSchema({
         custom: function() {
             var starttime = moment(new Date(this.field("startTime").value));
             var endtime = moment(new Date(this.field("endTime").value));
-            var duration = (moment(endtime)-moment(starttime))/(1000*60)|0; // <-- das ist die duration in minuten
+            var duration = (moment(endtime)-moment(starttime))/(1000*60); //|0; <-- das ist die duration in minuten
             var chunkperiod = this.field("chunkPeriod").value;
 
-            if (duration > 0 && duration < chunkperiod){
+            if ((duration > 0) && (duration < chunkperiod)){
                 return 'durationSmaller';
             }
+
+            console.log(duration%chunkperiod);
 
             if ((duration%chunkperiod) != 0) {
                 return 'durationNotMultiple';
             }
         }
-},
+    },
+    dontSkipHolidays:{
+        type: Boolean,
+        optional: true,
+        defaultValue: false,
+        label: "Don't skip holidays",
+    },
     repeatInterval:{
         type: Number,
         optional: true,
