@@ -1,7 +1,15 @@
 import {Calendars} from '/imports/api/calendarsCollection';
 
-Template.EditCalendar.onRendered( () => {
+function getCurrentCalendarId(){
+    var currentId = Router.current().params._calendarId;
+    if (currentId != undefined) {
+        console.log(currentId);
+        return currentId;
+    }
+}
 
+Template.EditCalendar.onRendered( () => {
+    getCurrentCalendarId();
 });
 
 Template.EditCalendar.rendered = function() {
