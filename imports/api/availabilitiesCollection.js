@@ -41,7 +41,7 @@ if (Meteor.isServer) {
         return availability;
     });
     Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
-        var availabilities = Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().set('h',0).set('m',0))}},{sort: {startdate: -1}});
+        var availabilities = Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add('h',-1).set('m',0))}},{sort: {startdate: -1}});
         return availabilities;
     });
 };

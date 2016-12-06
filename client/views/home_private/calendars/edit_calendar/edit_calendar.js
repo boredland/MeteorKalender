@@ -1,15 +1,21 @@
 import {Calendars} from '/imports/api/calendarsCollection';
+window.Calendars = Calendars;
 
 function getCurrentCalendarId(){
     var currentId = Router.current().params._calendarId;
     if (currentId != undefined) {
-        console.log(currentId);
         return currentId;
+    }
+}
+function getCurrentCalendar() {
+    var calendar = Calendars.findOne({_id: getCurrentCalendarId()});
+    if (calendar != undefined){
+        return calendar;
     }
 }
 
 Template.EditCalendar.onRendered( () => {
-    getCurrentCalendarId();
+
 });
 
 Template.EditCalendar.rendered = function() {
@@ -46,14 +52,21 @@ Template.EditCalendar.events({
     }
 });
 
-Template.EditCalendar.helpers({
-    getCalendars(){
-        return Calendars.find();
+
+Template.CalendarUpdateForm.onCreated(
+    function bodyOnCreated() {
+        Meteor.subscribe('singleCalendar',getCurrentCalendarId());
+    }
+);
+
+Template.CalendarUpdateForm.helpers({
+    updateDoc: function () {
+        return getCurrentCalendar();
     }
 });
 
 AutoForm.hooks({
-    calendarEditForm: {
+    calendarUpdateForm: {
         onSuccess: function() {
             Router.go('home_private.calendars');
         }
