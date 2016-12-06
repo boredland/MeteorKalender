@@ -19,8 +19,3 @@ Template.EditCalendar.helpers({
         return Calendars.find();
     }
 });
-Template.CalendarInsertForm.helpers({
-    formCollection() {
-        return Calendars;
-    }
-});

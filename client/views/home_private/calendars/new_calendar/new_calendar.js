@@ -17,11 +17,6 @@ Template.NewCalendar.events({
 });
 
 Template.NewCalendar.helpers({
-
-});
-
-
-Template.CalendarInsertForm.helpers({
     formCollection() {
         return Calendars;
     }
