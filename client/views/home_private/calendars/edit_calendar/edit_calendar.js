@@ -1,3 +1,5 @@
+import {Calendars} from '/imports/api/calendarsCollection';
+
 Template.EditCalendar.onRendered( () => {
 
 });
