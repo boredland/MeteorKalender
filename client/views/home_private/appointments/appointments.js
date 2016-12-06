@@ -3,7 +3,7 @@ import {Calendars} from '/imports/api/calendarsCollection';
 
 Template.Appointments.onCreated(
     function bodyOnCreated() {
-        Meteor.subscribe('allAvailabilities');
+        Meteor.subscribe('allFutureAvailabilities');
         Meteor.subscribe('allCalendars');
     }
 );

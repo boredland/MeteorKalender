@@ -14,7 +14,7 @@ function getEvents(){
     });
     return data;
 }
-
+/*
 function getMinTime() {
     var events = getEvents();
     var minTime;
@@ -26,7 +26,6 @@ function getMinTime() {
                 minTime = events[i].start;
             }
         }
-
         minTime = moment(minTime);
         //console.log("Mintime: ",minTime);
         var minTimeString = minTime.get('h')+":"+minTime.get('m')+":00";
@@ -35,10 +34,7 @@ function getMinTime() {
     }
 
 }
-
-function getMaxTime() {
-    
-}
+*/
 
 Template.CalendarPublic.onCreated(function bodyOnCreated() {
     }
