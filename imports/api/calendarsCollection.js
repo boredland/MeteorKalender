@@ -15,11 +15,18 @@ if (Meteor.isServer) {
     Meteor.publish('allCalendars', function calendarsPublication() {
         return Calendars.find({userId: this.userId});
     });
+    Meteor.publish('singleCalendar', function calendarsPublication(input_calendarId) {
+        var calendar = Calendars.find({_id: input_calendarId, userId: this.userId});
+        return calendar;
+    });
 };
 
 Calendars.allow({
     insert: function (name,location,color,published) {
         return true; // is there some meaningful check we could use?
+    },
+    update: function(name, location,color,published) {
+        return true;
     }
 });
 
