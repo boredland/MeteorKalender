@@ -44,7 +44,7 @@ Template.Calendars.events({
     "click #edit-button": function(e) {
         e.preventDefault();
         var me = this;
-        Router.go('home_private.edit_calendar',{_calendarId: me._id});
+        Router.go("home_private.calendars.edit_calendars",{_calendarId: me._id});
     }
 });
 
