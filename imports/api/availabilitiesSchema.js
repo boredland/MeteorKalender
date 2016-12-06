@@ -7,7 +7,8 @@ SimpleSchema.messages({
     'startTimeAfterEnd': 'The start-time is after the end-time',
     'endTimeBeforeStart': 'The end-time is before the start-time',
     'durationSmaller': 'The duration of your consultation hour is smaller than the chunk-period you selected',
-    'durationNotMultiple': 'The duration of your consultation hour is not a multiple of the chunk-period you selected'
+    'durationNotMultiple': 'The duration of your consultation hour is not a multiple of the chunk-period you selected',
+    'sameTime': 'Start- and Endtime are the same',
 })
 
 // This schema validates the insertion.
@@ -34,18 +35,44 @@ export var availabilitiesSchema = new SimpleSchema({
                     minDate: new Date(),
                 }
             }
+        },
+        custom: function() {
+            var startdate = moment(new Date(this.field("startDate").value));
+            var enddate = moment(new Date(this.field("endDate").value));
+            if (startdate >= enddate) {
+                return 'startTimeAfterEnd';
+            }
+            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
+                return 'sameTime';
+            }
         }
     },
     endDate: {
         type: Date,
         autoform: {
             afFieldInput: {
-                class: "startdate",
+                class: "enddate",
                 type: "bootstrap-datetimepicker",
-                inline: true,
-                locale: 'de',
-                sideBySide: true
+                dateTimePickerOptions: {
+                    sideBySide: true,
+                    inline: true,
+                    locale: 'de',
+                    stepping: 5,
+                    enabledHours: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+                    minDate: new Date(),
+                }
             }
+        },
+        custom: function() {
+            var startdate = moment(new Date(this.field("startDate").value));
+            var enddate = moment(new Date(this.field("endDate").value));
+            if (startdate >= enddate) {
+                return 'endTimeBeforeStart';
+            };
+            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
+                return 'sameTime';
+            }
+
         }
     },
     familyId: {
@@ -161,17 +188,12 @@ export var availabilitiesFormSchema = new SimpleSchema({
             var endtime = moment(new Date(this.field("endTime").value));
             var duration = (moment(endtime)-moment(starttime))/(1000*60)|0; // <-- das ist die duration in minuten
             var chunkperiod = this.field("chunkPeriod").value;
-            console.log("Duration",duration);
-            console.log("Starttime",starttime);
-            console.log("Endtime",endtime);
-            console.log("Chunkperiod",chunkperiod);
 
             if (duration > 0 && duration < chunkperiod){
                 return 'durationSmaller';
             }
 
             if ((duration%chunkperiod) != 0) {
-                //console.log("MOD",duration%chunkperiod);
                 return 'durationNotMultiple';
             }
         }

@@ -57,8 +57,6 @@ Template.Availabilities.helpers({
             }
         },
         eventClick: function(calEvent, jsEvent, view) {
-            console.log(calEvent.start);
-            console.log(moment());
             if (calEvent.start > moment()){
                 Router.go("home_private.edit_availability",{_eventId: calEvent.id});
             } else if (calEvent.start < moment()){
