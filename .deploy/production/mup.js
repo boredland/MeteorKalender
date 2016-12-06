@@ -34,7 +34,8 @@ module.exports = {
       PORT: 3000,
       ROOT_URL: 'https://meteorkalender.freeddns.org',
       //MONGO_URL: 'mongodb://localhost/meteor'
-      MAIL_URL: "MAILURL"
+      MAIL_URL: "MAILURL",
+      RE_CAPTCHA: "RECAPTCHA",
     },
     dockerImage: 'cwaring/meteord:base',
     deployCheckWaitTime: 120

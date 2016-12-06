@@ -14,6 +14,7 @@ before_install:
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/production/mup.js
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
 - sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/test/mup.js
+- sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/production/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
 - echo $HEROKU
