@@ -3,7 +3,6 @@ var pageSession = new ReactiveDict();
 Template.Register.rendered = function() {
 	pageSession.set("errorMessage", "");
 	pageSession.set("verificationEmailSent", false);
-    //pageSession.set("isStudent", true);
 	Meteor.defer(function() {
 		$("input[autofocus]").focus();
 	});
@@ -15,15 +14,6 @@ Template.Register.created = function() {
 };
 
 Template.Register.events({
-    /*"change #register_status": function(event, template){
-        var selectValue = template.$("#register_status").val();
-        if (selectValue === 'professor'){
-            pageSession.set("isStudent", false);
-        }
-        else if (selectValue === 'student'){
-            pageSession.set("isStudent", true);
-        }
-    },*/
 	'submit #register_form' : function(e, t) {
 		e.preventDefault();
 
@@ -44,13 +34,6 @@ Template.Register.events({
 			t.find('#register_name').focus();
 			return false;
 		}
-		// check student number
-		/*if(register_studentno == "")
-		{
-			pageSession.set("errorMessage", "Please enter your student number.");
-			t.find('#register_studentno').focus();
-			return false;
-		}*/
 		// check email
 		if(!isValidEmail(register_email))
 		{
@@ -69,8 +52,6 @@ Template.Register.events({
 		}
 
 		submit_button.button("loading");
-		//, status: register_status, studentno: register_studentno
-
 		Meteor.call("validateCaptcha", captchaData, function(error,result){
             grecaptcha.reset();
 			if (error) {
@@ -116,9 +97,5 @@ Template.Register.helpers({
 	},
 	verificationEmailSent: function() {
 		return pageSession.get("verificationEmailSent");
-	}/*,
-    isStudent: function() {
-        //return
-        return pageSession.get("isStudent");
-    }*/
+	}
 });
