@@ -66,7 +66,7 @@ Template.Register.events({
 
 		submit_button.button("loading");
 		//, status: register_status, studentno: register_studentno
-		Meteor.call()
+		//Meteor.call()
 		Accounts.createUser({email: register_email, password : register_password, profile: { name: register_name }}, function(err) {
 			submit_button.button("reset");
 			if(err) {
