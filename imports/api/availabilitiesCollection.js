@@ -6,6 +6,7 @@ import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check';
 import {availabilitiesSchema} from './availabilitiesSchema';
 import {Calendars} from './calendarsCollection';
+import feiertagejs from 'feiertagejs';
 
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
@@ -76,6 +77,13 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
 
+        var isThisBankHoliday = function (date) {
+            /*if (feiertagejs.isHoliday(new Date(date), 'HE')){
+                console.log("this is a bankholiday",date);
+            }*/
+            return feiertagejs.isHoliday(new Date(date), 'HE');
+        }
+
         // get an repetitionarray for the single interval
         var getRepetitionArrayForPeriod = function (startdate,enddate,interval,until){
             var datearray = [];
@@ -106,7 +114,10 @@ Meteor.methods({
         for (i=0;i<chunkarray.length;i++){
             subarray = chunkarray[i];
             for (j=0;j<subarray.length;j++){
+                if ((!isThisBankHoliday(subarray[j].start) && (doc.dontSkipHolidays == false))||doc.dontSkipHolidays == true){
+                    console.log("this is not a bank holiday");
                     flatarray.push({start: subarray[j].start, end: subarray[j].end});
+                }
             }
         };
 
@@ -122,7 +133,6 @@ Meteor.methods({
             });
         };
     },
-
     'availabilities.remove'(availabilityID){
         //check whether the ID which should be deleted is a String
         check(availabilityID, String);
