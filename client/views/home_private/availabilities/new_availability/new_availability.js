@@ -1,4 +1,5 @@
 import {availabilitiesFormSchema} from "../../../../../imports/api/availabilitiesSchema";
+import {Calendars} from '/imports/api/calendarsCollection';
 
 Template.NewAvailability.onRendered( () => {
 
@@ -11,6 +12,12 @@ Template.NewAvailability.rendered = function() {
 Template.NewAvailability.created = function() {
 
 };
+
+Template.AvailabilityInsertForm.onCreated(
+    function bodyOnCreated() {
+        Meteor.subscribe('allCalendars');
+    }
+);
 
 Template.NewAvailability.events({
 

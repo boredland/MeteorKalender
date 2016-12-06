@@ -1,4 +1,5 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
+import {Calendars} from '/imports/api/calendarsCollection';
 
 window.Availabilities = Availabilities;
 function getCurrentAvailabilityId(){
@@ -15,13 +16,6 @@ function getCurrentAvailability() {
         return availability;
     }
 }
-
-Template.EditAvailability.onRendered( () => {
-    Meteor.subscribe('singleAvailability', getCurrentAvailabilityId());
-});
-
-var pageSession = new ReactiveDict();
-
 
 Template.EditAvailability.rendered = function() {
 
@@ -61,6 +55,12 @@ Template.EditAvailability.helpers({
 
 });
 
+Template.AvailabilityUpdateForm.onCreated(
+    function bodyOnCreated() {
+        Meteor.subscribe('singleAvailability', getCurrentAvailabilityId());
+        Meteor.subscribe('allCalendars');
+    }
+);
 
 Template.AvailabilityUpdateForm.helpers({
     updateDoc: function () {
