@@ -11,7 +11,6 @@ function getCurrentAvailabilityId(){
 
 function getCurrentAvailability() {
     var availability = Availabilities.findOne({_id: getCurrentAvailabilityId()});
-    this.doc = availability;
     if (availability != undefined){
         return availability;
     }
