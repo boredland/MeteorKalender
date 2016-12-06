@@ -37,10 +37,15 @@ Template.Calendars.events({
         });
         return false;
     },
-    "click #dataview-insert-button": function(e, t) {
+    "click #dataview-insert-button": function(e) {
         e.preventDefault();
         Router.go("home_private.new_calendar", {});
     },
+    "click #edit-button": function(e) {
+        e.preventDefault();
+        var me = this;
+        Router.go('home_private.edit_calendar',{_calendarId: me._id});
+    }
 });
 
 Template.Calendars.helpers({

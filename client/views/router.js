@@ -200,7 +200,7 @@ Router.map(function () {
     this.route("home_private.edit_availability", {path: "/home_private/availabilities/edit_availability/:_eventId", controller: "EditAvailabilityController",});
     this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
     this.route("home_private.new_calendar", {path: "/home_private/new_calendar", controller: "NewCalendarController"});
-    this.route("home_private.edit_calendar", {path: "/home_private/edit_calendar", controller: "EditCalendarController"});
+    this.route("home_private.edit_calendar", {path: "/home_private/edit_calendar/:_calendarId", controller: "EditCalendarController"});
     this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
 	this.route("user_settings.profile", {path: "/user_settings/profile", controller: "UserSettingsProfileController"});
 	this.route("user_settings.change_pass", {path: "/user_settings/change_pass", controller: "UserSettingsChangePassController"});
