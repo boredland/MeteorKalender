@@ -25,9 +25,14 @@ export var availabilitiesSchema = new SimpleSchema({
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
-                inline: true,
-                locale: 'de',
-                sideBySide: true
+                dateTimePickerOptions: {
+                    sideBySide: true,
+                    inline: true,
+                    locale: 'de',
+                    stepping: 5,
+                    enabledHours: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
+                    minDate: new Date(),
+                }
             }
         }
     },

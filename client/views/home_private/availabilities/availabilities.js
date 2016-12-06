@@ -10,7 +10,7 @@ Template.Availabilities.onRendered( () => {
 
 Template.Availabilities.onCreated(
     function bodyOnCreated() {
-        Meteor.subscribe('allAvailabilities');
+        Meteor.subscribe('allFutureAvailabilities');
         Meteor.subscribe('allCalendars');
     }
 );
@@ -57,7 +57,13 @@ Template.Availabilities.helpers({
             }
         },
         eventClick: function(calEvent, jsEvent, view) {
-            Router.go("home_private.edit_availability",{_eventId: calEvent.id});
+            console.log(calEvent.start);
+            console.log(moment());
+            if (calEvent.start > moment()){
+                Router.go("home_private.edit_availability",{_eventId: calEvent.id});
+            } else if (calEvent.start < moment()){
+                console.log("The event is in the past. You are not allowed to edit."); //<-- Perhaps this may be added as a pagesession error message..?
+            }
         },
         // Optional: id of the calendar
         id: "availabilitiesCalendar",
