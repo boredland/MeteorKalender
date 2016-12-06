@@ -9,7 +9,7 @@ SimpleSchema.messages({
     'durationSmaller': 'The duration of your consultation hour is smaller than the chunk-period you selected',
     'durationNotMultiple': 'The duration of your consultation hour is not a multiple of the chunk-period you selected',
     'sameTime': 'Start- and Endtime are the same',
-})
+});
 
 // This schema validates the insertion.
 export var availabilitiesSchema = new SimpleSchema({
@@ -79,7 +79,7 @@ export var availabilitiesSchema = new SimpleSchema({
         type: String,
         autoform: {
             type: "hidden",
-            label: false
+            label: false,
         }
     },
     calendarId: {
@@ -185,14 +185,14 @@ export var availabilitiesFormSchema = new SimpleSchema({
         custom: function() {
             var starttime = moment(new Date(this.field("startTime").value));
             var endtime = moment(new Date(this.field("endTime").value));
-            var duration = (moment(endtime)-moment(starttime))/(1000*60); //|0; <-- das ist die duration in minuten
+            var duration = Math.round((moment(endtime)-moment(starttime))/(1000*60));//|0; //<-- das ist die duration in minuten
+            //console.log(duration);
+
             var chunkperiod = this.field("chunkPeriod").value;
 
             if ((duration > 0) && (duration < chunkperiod)){
                 return 'durationSmaller';
             }
-
-            console.log(duration%chunkperiod);
 
             if ((duration%chunkperiod) != 0) {
                 return 'durationNotMultiple';
