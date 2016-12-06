@@ -122,6 +122,19 @@ Meteor.startup(function() {
 });
 
 Meteor.methods({
+
+	"validateCaptcha": function(captchaData){
+        var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captchaData);
+        if (!verifyCaptchaResponse.success) {
+            console.log('reCAPTCHA check failed!', verifyCaptchaResponse);
+            throw new Meteor.Error(422, 'reCAPTCHA Failed: ' + verifyCaptchaResponse.error);
+            return false;
+        } else
+            console.log('reCAPTCHA verification passed!');
+
+        return true;
+	},
+
 	"createUserAccount": function(options) {
 		if(!Users.isAdmin(Meteor.userId())) {
 			throw new Meteor.Error(403, "Access denied.");
