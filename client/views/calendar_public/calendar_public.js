@@ -95,5 +95,10 @@ Template.CalendarPublic.helpers({
         //        console.log("user defined autorun function executed!");
         //    }
         //]
+        eventClick: function(calEvent, jsEvent, view) {
+          if (calEvent.start > moment()){
+              Router.go("calendar_public.book",{_eventId: calEvent.id});
+          }
+        }
     }
 });
