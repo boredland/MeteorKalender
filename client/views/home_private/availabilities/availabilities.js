@@ -46,7 +46,7 @@ Template.Availabilities.helpers({
         events( start, end, timezone, callback ) {
             let data = Availabilities.find().fetch().map( ( availability ) => {
                 //availability.editable = true; //availability.startDate
-                var calendar = Calendars.find({_id: availability.calendarId});
+                var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
                 if (availability !== undefined){
                     availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name, id: availability._id};
                     return availability;

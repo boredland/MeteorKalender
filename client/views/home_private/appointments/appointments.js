@@ -36,7 +36,7 @@ Template.Appointments.helpers({
             let data = Availabilities.find().fetch().map( ( appointment ) => {
                 //event.editable = !isPast( event.start );
                 var calendar = [];
-                calendar = Calendars.findOne({}, {_id: appointment.calendarId});
+                calendar = Calendars.findOne({_id: appointment.calendarId.toString()});
                 if (appointment !== undefined){
                     appointment = {start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: calendar.name};
                     return appointment;
