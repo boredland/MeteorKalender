@@ -35,8 +35,8 @@ nemo64:bootstrap
 reactive-dict@1.1.8
 mrt:moment
 mizzao:bootboxjs
-dispatch:mocha-phantomjs@=0.1.7
-dispatch:phantomjs-tests@=0.0.5
+dispatch:mocha-phantomjs
+dispatch:phantomjs-tests@=0.0.6
 aldeed:collection2
 aldeed:autoform
 tsega:bootstrap3-datetimepicker
