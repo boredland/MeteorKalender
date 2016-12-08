@@ -10,7 +10,7 @@ before_install:
   -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - npm install -g mup ssh2
 - curl https://install.meteor.com | /bin/sh
-- sed -i 's/ANCHOR/'#"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'/g' client/views/layout/layout.html
+- sed -i 's|ANCHOR|'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'|g' client/views/layout/layout.html
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/production/mup.js
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
 - sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/test/mup.js
