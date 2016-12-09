@@ -106,21 +106,18 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     bookedByDate: {
         type: Date,
-        optional: true,
         autoform: {
             type: "hidden",
         }
     },
     bookedByConfirmed: {
         type: Boolean,
-        optional: true,
         autoform: {
             type: "hidden",
         }
     },
     bookedByName: {
         type: String,
-        optional: true,
         autoform: {
             type: "hidden",
         }
@@ -128,7 +125,6 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     bookedByEmail: {
         type: String,
-        optional: true,
         autoform: {
             type: "hidden",
         }

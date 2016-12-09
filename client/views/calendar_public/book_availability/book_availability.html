@@ -6,6 +6,14 @@
 				{{errorMessage}}
 			</div>
 			{{/if}}
+            {{> quickForm id="bookavailabilityForm" type="update" doc=updateDoc schema="availabilitiesSchema" }}
+              {{> afQuickField name="bookedByName"}}
+              {{> afQuickField name="bookedByEmail"}}
+              <div class="form-group">
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-default">Reset Form</button>
+              </div>
+
 		</div>
 	</div>
 </template>

@@ -1,6 +1,5 @@
-//var pageSession = new ReactiveDict();
+var pageSession = new ReactiveDict();
 //import {Availabilities} from '/imports/api/availabilitiesCollection';
-//import {Calendars} from '/imports/api/calendarsCollection';
 //import { Meteor } from 'meteor/meteor';
 
 function getCurrentAvailabilityId(){
@@ -24,4 +23,12 @@ Template.Booking.events({
 
 Template.Booking.helpers({
 
+});
+AutoForm.hooks({
+    bookavailabilityForm: {
+        onSuccess: function() {
+
+            Router.go('calendar_public');
+        }
+    }
 });
