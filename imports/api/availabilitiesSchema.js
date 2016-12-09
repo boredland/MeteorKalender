@@ -105,27 +105,46 @@ export var availabilitiesSchema = new SimpleSchema({
         }
     },
     bookedByDate: {
+        optional: true,
         type: Date,
         autoform: {
             type: "hidden",
         }
     },
     bookedByConfirmed: {
+        optional: true,
         type: Boolean,
         autoform: {
-            type: "hidden",
+            type: Boolean,
+            autoform: {
+                affieldInput:{
+                    type: "select",
+                    options: [
+                        {label: "Yes", value: "true"},
+                        {label: "No", value: "false"}
+                    ]
+                },
+            }
         }
     },
     bookedByName: {
+        optional: true,
         type: String,
         autoform: {
+            afFieldInput:{
+            label: "Name",
+            },
             type: "hidden",
         }
 
     },
     bookedByEmail: {
+        optional: true,
         type: String,
         autoform: {
+            afFieldInput:{
+                label: "E-Mail",
+            },
             type: "hidden",
         }
     }
