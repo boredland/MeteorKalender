@@ -105,52 +105,37 @@ export var availabilitiesSchema = new SimpleSchema({
         }
     },
     bookedByDate: {
-        optional: true,
         type: Date,
+        optional: true,
         autoform: {
             type: "hidden",
         }
     },
     bookedByConfirmed: {
-        optional: true,
         type: Boolean,
+        optional: true,
         autoform: {
-            type: Boolean,
-            autoform: {
-                affieldInput:{
-                    type: "select",
-                    options: [
-                        {label: "Yes", value: "true"},
-                        {label: "No", value: "false"}
-                    ]
-                },
-            }
+            type: "hidden",
         }
     },
     bookedByName: {
-        optional: true,
         type: String,
+        optional: true,
         autoform: {
-            afFieldInput:{
-            label: "Name",
-            },
             type: "hidden",
         }
 
     },
     bookedByEmail: {
-        optional: true,
         type: String,
+        optional: true,
         autoform: {
-            afFieldInput:{
-                label: "E-Mail",
-            },
             type: "hidden",
         }
     }
 });
 
-//This schema validates the form-submission.
+//This schema validates the form-submission for the insertions.
 export var availabilitiesFormSchema = new SimpleSchema({
     startDate: {
         type: Date,
@@ -302,5 +287,43 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 }
             }
         }
+    }
+});
+
+
+export var bookingFormSchema = new SimpleSchema({
+    availabilityId: {
+        type: String,
+        autoform: {
+            type: "hidden",
+        }
+    },
+    bookedByDate: {
+        type: Date,
+        autoValue: function() {
+          return new Date();
+        },
+        autoform: {
+            type: "hidden",
+        },
+        // this needs to be an autovalue of moment();
+    },
+    bookedByConfirmed: {
+        type: Boolean,
+        autoform: {
+            type: "hidden",
+        },
+        // this should be false, once we've email-confirms.
+        defaultValue: true
+    },
+    bookedByName: {
+        optional: true,
+        type: String,
+        label: "Name"
+    },
+    bookedByEmail: {
+        optional: true,
+        type: String,
+        regEx: SimpleSchema.RegEx.Email
     }
 });

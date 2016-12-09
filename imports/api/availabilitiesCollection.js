@@ -31,11 +31,11 @@ if (Meteor.isServer) {
         //console.log(calendarEvents);
         return calendarEvents;
     });
-    Meteor.publish('singleCalendarName', function availabilitiesPublication(input_linkslug) {
+    /*Meteor.publish('singleCalendarName', function calendarPublication(input_linkslug) {
         var options = {fields: {name: 1}};
         var calendar = Calendars.find({linkslug: input_linkslug, published: true},options);
         return calendar;
-    });
+    });*/
     Meteor.publish('singleAvailability', function availabilitiesPublication(input_availabilityId) {
         var availability = Availabilities.find({_id: input_availabilityId.toString(), userId: this.userId});
         return availability;
@@ -143,5 +143,9 @@ Meteor.methods({
         }
         Availabilities.remove(availabilityID);
 
+    },
+    'booking.insert'(doc){
+        //check whether the ID which should be deleted is a String
+        console.log(doc);
     }
 });

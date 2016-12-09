@@ -6,14 +6,15 @@
 				{{errorMessage}}
 			</div>
 			{{/if}}
-            {{> quickForm id="bookavailabilityForm" type="update" doc=updateDoc schema="availabilitiesSchema" }}
-              {{> afQuickField name="bookedByName"}}
-              {{> afQuickField name="bookedByEmail"}}
-              <div class="form-group">
-                <button type="submit" class="btn btn-primary">Submit </button>
-                <button type="reset" class="btn btn-default">Reset Form</button>
-              </div>
-
 		</div>
-	</div>
+        {{> BookingForm}}
+    </div>
+</template>
+
+<template name="BookingForm">
+    <h2 id="component-title">
+        Book a consultation hour
+    </h2>
+    <p>from {{CurrentAvailabilityFrom}} <br>to {{CurrentAvailabilityTo}} <br></p>
+    {{> quickForm id="bookAvailabilityForm" schema=formSchema type="method" meteormethod="booking.insert"}}
 </template>
