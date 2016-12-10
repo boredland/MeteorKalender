@@ -204,7 +204,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
             }
         }
     },
-    chunkPeriod: {
+    chunkDuration: {
         label: "Split the Availibility into chunks of duration [Minutes]",
         type: Number,
         autoform: {
@@ -217,13 +217,13 @@ export var availabilitiesFormSchema = new SimpleSchema({
             var duration = Math.round((moment(endtime)-moment(starttime))/(1000*60));//|0; //<-- das ist die duration in minuten
             //console.log(duration);
 
-            var chunkperiod = this.field("chunkPeriod").value;
+            var chunkDuration = this.field("chunkDuration").value;
 
-            if ((duration > 0) && (duration < chunkperiod)){
+            if ((duration > 0) && (duration < chunkDuration)){
                 return 'durationSmaller';
             }
 
-            if ((duration%chunkperiod) != 0) {
+            if ((duration%chunkDuration) != 0) {
                 return 'durationNotMultiple';
             }
         }

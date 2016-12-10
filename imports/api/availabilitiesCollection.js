@@ -66,22 +66,7 @@ Meteor.methods({
         var chunkarray = [];
         var familyid = Random.id().substring(0, 4);
 
-        if (startdate > enddate){
-            throw new EvalError("Startdate: "+startdate+" is bigger than Enddate "+enddate);
-        }
-        if (duration < doc.chunkPeriod){
-            throw new EvalError("Duration "+duration+" is shorter than Chunkperiod "+doc.chunkPeriod);
-        }
-        if (! this.userId) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        var isThisBankHoliday = function (date) {
-            /*if (feiertagejs.isHoliday(new Date(date), 'HE')){
-                console.log("this is a bankholiday",date);
-            }*/
-            return feiertagejs.isHoliday(new Date(date), 'HE');
-        }
+        checkInsertionConditions(startdate,enddate,duration,doc.chunkDuration,this.userId)
 
         // get an repetitionarray for the single interval
         var getRepetitionArrayForPeriod = function (startdate,enddate,interval,until){
@@ -95,14 +80,14 @@ Meteor.methods({
         }
 
         // create the chunks for the first period and their repetitions.
-        if (doc.chunkPeriod > 0) {
+        if (doc.chunkDuration > 0) {
             var current = startdate;
             do {
                 last = current;
-                current = moment(current).add(doc.chunkPeriod,'m');
+                current = moment(current).add(doc.chunkDuration,'m');
                 chunkarray.push(getRepetitionArrayForPeriod(last,current,doc.repeatInterval,doc.repeatUntil));
             } while (current < enddate);
-        } else if (doc.chunkPeriod = 0) {
+        } else if (doc.chunkDuration = 0) {
             chunkarray = [{start:startdate,end:enddate}];
         }
 
@@ -149,3 +134,20 @@ Meteor.methods({
         console.log(doc);
     }
 });
+
+var isThisBankHoliday = function (date) {
+
+    return feiertagejs.isHoliday(new Date(date), 'HE');
+}
+
+var checkInsertionConditions = function(startTime, endTime, duration, chunkDuration,thisUserId){
+    if (startTime > endTime){
+        throw new EvalError("Startdate: "+startTime+" is bigger than Enddate "+endTime);
+    }
+    if (duration < chunkDuration){
+        throw new EvalError("Duration "+duration+" is shorter than Chunkperiod "+chunkDuration);
+    }
+    if (! thisUserId) {
+        throw new Meteor.Error('not-authorized');
+    }
+}
