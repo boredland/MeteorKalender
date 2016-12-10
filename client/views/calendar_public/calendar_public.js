@@ -1,8 +1,4 @@
 var pageSession = new ReactiveDict();
-import {Availabilities} from '/imports/api/availabilitiesCollection';
-import {Calendars} from '/imports/api/calendarsCollection';
-import { Meteor } from 'meteor/meteor';
-
 var calendar,availabilities;
 
 function getEvents(){
@@ -41,11 +37,8 @@ Template.CalendarPublic.helpers({
   "errorMessage": function() {
     return pageSession.get("errorMessage");
   },
-  getCalendarAvailabilities(){
-    return Availabilities.find();
-  },
-  getCalendarName() {
-      return Calendars.find();
+  CurrentCalendarName() {
+      return calendar.name;
   },
   publicCalendarOptions: {
         // Standard fullcalendar options

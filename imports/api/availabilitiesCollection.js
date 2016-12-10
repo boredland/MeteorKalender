@@ -5,7 +5,6 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check';
 import {availabilitiesSchema} from './availabilitiesSchema';
-import {Calendars} from './calendarsCollection';
 import feiertagejs from 'feiertagejs';
 
 export const Availabilities = new Mongo.Collection("availabilities");
@@ -33,15 +32,6 @@ if (Meteor.isServer) {
         var availability = Availabilities.find({_id: input_availabilityId.toString()},availabilityOptions);
         return availability;
     });
-    /*
-    Meteor.publish('singleAvailability', function availabilitiesPublication(input_availabilityId) {
-        var availability = Availabilities.find({_id: input_availabilityId.toString(), userId: this.userId});
-        return availability;
-    });
-    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
-        var availabilities = Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add(-1,'h').set(0,'m'))}},{sort: {startdate: -1}});
-        return availabilities;
-    });*/
 };
 
 // it is best practice to explicitly allow crud-actions
@@ -129,12 +119,15 @@ Meteor.methods({
     },
     'booking.insert'(doc){
         //check whether the ID which should be deleted is a String
+        /**
+         * Add a check here if the item is without booking or booking unconfirmed and older than 10 minutes
+         * this additionally could be the place to send the confirmation-mail.
+         */
         console.log(doc);
     }
 });
 
 var isThisBankHoliday = function (date) {
-
     return feiertagejs.isHoliday(new Date(date), 'HE');
 }
 
