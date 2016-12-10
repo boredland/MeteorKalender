@@ -1,10 +1,6 @@
 var pageSession = new ReactiveDict();
 var calendar,availabilities;
 
-function getEvents(){
-    let data = "bla";
-    return data;
-}
 function dataReady() {
     if (availabilities && calendar){
         return true
@@ -28,11 +24,7 @@ Template.CalendarPublic.events({
 
 Template.CalendarPublic.helpers({
     itemsReady:function() {
-        if (availabilities && calendar){
-            return true
-        } else {
-            return false
-        }
+        return dataReady();
     },
   "errorMessage": function() {
     return pageSession.get("errorMessage");

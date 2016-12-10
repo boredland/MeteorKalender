@@ -8,12 +8,10 @@ Template.Availabilities.onRendered( () => {
 
 });
 
-Template.Availabilities.onCreated(
-    function bodyOnCreated() {
+Template.Availabilities.onCreated(function bodyOnCreated() {
         Meteor.subscribe('allFutureAvailabilities');
         Meteor.subscribe('allCalendars');
-    }
-);
+});
 
 Template.Availabilities.rendered = function() {
     pageSession.set("invoicesInsertInsertFormInfoMessage", "");

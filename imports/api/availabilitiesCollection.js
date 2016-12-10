@@ -22,6 +22,9 @@ if (Meteor.isServer) {
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find({userId: this.userId},{sort: {startdate: -1}});
     });
+    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
+        return Availabilities.find({userId: this.userId, startDate: {$gt: new Date()}},{sort: {startdate: -1}});
+    });
     Meteor.publish('allPublicFutureAvailabilitiesByCalendarId', function availabilitiesPublication(input_calendarid) {
         var options = {fields: {startDate: 1, endDate: 1}, sort: {startdate: -1}};
         var calendarEvents = Availabilities.find({calendarId: input_calendarid, startDate: {$gt: new Date()}},options);

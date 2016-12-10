@@ -256,7 +256,7 @@ Router.map(function () {
 	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
     this.route("home_private.appointments", {path: "/home_private/appointments", controller: "AppointmentsController"});
-    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController"});
+    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController", template: 'Availabilities'});
     this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
     this.route("home_private.edit_availability", {path: "/home_private/edit_availability/:_eventId", controller: "EditAvailabilityController",});
     this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
