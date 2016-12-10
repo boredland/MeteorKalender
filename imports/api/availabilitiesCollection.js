@@ -72,7 +72,7 @@ Meteor.methods({
             }
             startTimeModified.add(doc.repeatInterval, 'w')
             endTimeModified.add(doc.repeatInterval, 'w')
-        } while (startTimeModified <= repeatUntil)
+        } while (startTimeModified <= repeatUntil && repeatUntil != 0)
 
     },
     'availabilities.remove'(availabilityID){
