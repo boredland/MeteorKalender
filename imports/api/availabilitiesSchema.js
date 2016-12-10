@@ -235,13 +235,14 @@ export var availabilitiesFormSchema = new SimpleSchema({
         label: "Don't skip holidays",
     },
     repeatInterval:{
+        label: "Repeat Every",
         type: Number,
         optional: true,
         autoform: {
             type: "select",
             firstOption: false,
             options: [
-                {label: "none", value: "1"},
+                {label: "Don't repeat", value: "0"},
                 {label: "1 week", value: "1"},
                 {label: "2 weeks", value: "2"},
                 {label: "3 weeks", value: "3"},
@@ -253,7 +254,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         optional: true,
         autoform: {
-            value: new Date(),
+            value: new Date(moment().add(7,'d')),
             afFieldInput: {
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
