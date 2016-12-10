@@ -60,62 +60,28 @@ Availabilities.allow({
 Meteor.methods({
     'availabilities.insert'(doc) {
         //console.log(doc);
-        var startdate = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute'));
-        var enddate = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
-        var duration = Math.round((moment(doc.endTime)-moment(doc.startTime))/(1000*60));
-        var chunkarray = [];
+        var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute'));
+        var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
+
+        var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
         var familyid = Random.id().substring(0, 4);
 
-        checkInsertionConditions(startdate,enddate,duration,doc.chunkDuration,this.userId)
+        checkInsertionConditions(startTime,endTime,doc,this.userId)
 
-        // get an repetitionarray for the single interval
-        var getRepetitionArrayForPeriod = function (startdate,enddate,interval,until){
-            var datearray = [];
-            do {
-                datearray.push({start: startdate, end: enddate});
-                startdate = moment(startdate).add(interval,'w');
-                enddate = moment(enddate).add(interval,'w');
-            } while (enddate < until);
-            return datearray;
-        }
+        var startTimeModified = startTime;
+        var endTimeModified = endTime;
+        do{
+            var chunkEndTime = startTimeModified;
+             do {
+                chunkStartTime = chunkEndTime;
+                chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration,'m');
+                insertAvailability(this.userId,chunkStartTime._d,chunkEndTime._d,doc.calendarId,familyid)
 
-        // create the chunks for the first period and their repetitions.
-        if (doc.chunkDuration > 0) {
-            var current = startdate;
-            do {
-                last = current;
-                current = moment(current).add(doc.chunkDuration,'m');
-                chunkarray.push(getRepetitionArrayForPeriod(last,current,doc.repeatInterval,doc.repeatUntil));
-            } while (current < enddate);
-        } else if (doc.chunkDuration = 0) {
-            chunkarray = [{start:startdate,end:enddate}];
-        }
+            } while (chunkEndTime < endTimeModified);
+            startTimeModified.add(doc.repeatInterval,'w')
+            endTimeModified.add(doc.repeatInterval,'w')
+        }while(startTimeModified <= repeatUntil)
 
-        // I think we wont need that, it's only to demonstrate how we can prepare (and reduce) the data preprocessing. Do we need that sorted?
-        var subarray = [];
-        var i,j = 0;
-        var flatarray = [];
-        for (i=0;i<chunkarray.length;i++){
-            subarray = chunkarray[i];
-            for (j=0;j<subarray.length;j++){
-                if ((!isThisBankHoliday(subarray[j].start) && (doc.dontSkipHolidays == false))||doc.dontSkipHolidays == true){
-                    //console.log("this is not a bank holiday");
-                    flatarray.push({start: subarray[j].start, end: subarray[j].end});
-                }
-            }
-        };
-
-        // the actual insertion
-        for (i=0;i<flatarray.length;i++){
-            //console.log("Startdate: "+flatarray[i].start._d+" till Enddate: "+flatarray[i].end._d);
-            Availabilities.insert({
-                userId: this.userId,
-                startDate: flatarray[i].start._d,
-                endDate: flatarray[i].end._d,
-                calendarId: doc.calendarId,
-                familyId: familyid,
-            });
-        };
     },
     'availabilities.remove'(availabilityID){
         //check whether the ID which should be deleted is a String
@@ -140,14 +106,26 @@ var isThisBankHoliday = function (date) {
     return feiertagejs.isHoliday(new Date(date), 'HE');
 }
 
-var checkInsertionConditions = function(startTime, endTime, duration, chunkDuration,thisUserId){
+var checkInsertionConditions = function(startTime, endTime, doc, thisUserId){
+    var duration = Math.round((moment(doc.endTime)-moment(doc.startTime))/(1000*60));
     if (startTime > endTime){
         throw new EvalError("Startdate: "+startTime+" is bigger than Enddate "+endTime);
     }
-    if (duration < chunkDuration){
-        throw new EvalError("Duration "+duration+" is shorter than Chunkperiod "+chunkDuration);
+    if (duration < doc.chunkDuration){
+        throw new EvalError("Duration "+duration+" is shorter than Chunkperiod "+doc.chunkDuration);
     }
     if (! thisUserId) {
         throw new Meteor.Error('not-authorized');
     }
+}
+
+var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
+
+    Availabilities.insert({
+        userId: thisUserId,
+        startDate: startDate,
+        endDate: endDate,
+        calendarId: calendarID,
+        familyId: familyId,
+    });
 }

@@ -241,7 +241,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
             type: "select",
             firstOption: false,
             options: [
-                {label: "none", value: "0"},
+                {label: "none", value: "1"},
                 {label: "1 week", value: "1"},
                 {label: "2 weeks", value: "2"},
                 {label: "3 weeks", value: "3"},
