@@ -5,7 +5,6 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check';
 import {availabilitiesSchema} from './availabilitiesSchema';
-import {Calendars} from './calendarsCollection';
 import feiertagejs from 'feiertagejs';
 
 export const Availabilities = new Mongo.Collection("availabilities");
@@ -23,26 +22,18 @@ if (Meteor.isServer) {
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find({userId: this.userId},{sort: {startdate: -1}});
     });
-    Meteor.publish('calendarAvailabilities', function availabilitiesPublication(input_linkslug) {
-        var calendar = Calendars.findOne({linkslug: input_linkslug, published: true});
-        var calendarid = calendar._id;
+    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
+        return Availabilities.find({userId: this.userId, startDate: {$gt: new Date()}},{sort: {startdate: -1}});
+    });
+    Meteor.publish('allPublicFutureAvailabilitiesByCalendarId', function availabilitiesPublication(input_calendarid) {
         var options = {fields: {startDate: 1, endDate: 1}, sort: {startdate: -1}};
-        var calendarEvents = Availabilities.find({calendarId: calendarid.toString(), startDate: {$gt: new Date()}},options);
-        //console.log(calendarEvents);
+        var calendarEvents = Availabilities.find({calendarId: input_calendarid, startDate: {$gt: new Date()}},options);
         return calendarEvents;
     });
-    /*Meteor.publish('singleCalendarName', function calendarPublication(input_linkslug) {
-        var options = {fields: {name: 1}};
-        var calendar = Calendars.find({linkslug: input_linkslug, published: true},options);
-        return calendar;
-    });*/
-    Meteor.publish('singleAvailability', function availabilitiesPublication(input_availabilityId) {
-        var availability = Availabilities.find({_id: input_availabilityId.toString(), userId: this.userId});
+    Meteor.publish('singlePublicAvailabilityById', function availabilitiesPublication(input_availabilityId) {
+        var availabilityOptions = {fields: {_id: 1, startDate: 1, endDate: 1}};
+        var availability = Availabilities.find({_id: input_availabilityId.toString()},availabilityOptions);
         return availability;
-    });
-    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
-        var availabilities = Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add(-1,'h').set(0,'m'))}},{sort: {startdate: -1}});
-        return availabilities;
     });
 };
 
@@ -97,12 +88,15 @@ Meteor.methods({
     },
     'booking.insert'(doc){
         //check whether the ID which should be deleted is a String
+        /**
+         * Add a check here if the item is without booking or booking unconfirmed and older than 10 minutes
+         * this additionally could be the place to send the confirmation-mail.
+         */
         console.log(doc);
     }
 });
 
 var isThisBankHoliday = function (date) {
-
     return feiertagejs.isHoliday(new Date(date), 'HE');
 }
 

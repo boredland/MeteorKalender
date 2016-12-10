@@ -1,3 +1,6 @@
+import {Availabilities} from '/imports/api/availabilitiesCollection';
+import {Calendars} from '/imports/api/calendarsCollection';
+
 Router.configure({
 	templateNameConverter: "upperCamelCase",
 	routeControllerNameConverter: "upperCamelCase",
@@ -34,7 +37,7 @@ var freeRoutes = [
 ];
 
 var roleMap = [
-	
+
 ];
 
 this.firstGrantedRoute = function(preferredRoute) {
@@ -163,7 +166,7 @@ Router.ensureGranted = function() {
 	}
 };
 
-Router.waitOn(function() { 
+Router.waitOn(function() {
 	Meteor.subscribe("current_user_data");
 });
 
@@ -189,13 +192,71 @@ Router.map(function () {
 	this.route("login", {path: "/login", controller: "LoginController"});
 	this.route("register", {path: "/register", controller: "RegisterController"});
 	this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
-    this.route("calendar_public", {path: "/calendar_public/:calendarPublicToken", controller: "CalendarPublicController"});
-    this.route("calendar_public.book", {path: "/book_availability/:_eventId", controller: "BookingController"});
+    this.route("calendar_public", {
+    	path: "/calendar_public/:_calendarSlug",
+		controller: "CalendarPublicController",
+        template: 'CalendarPublic', // <-- to be explicit
+        data: function(){
+            var currentCalendarSlug = this.params._calendarSlug;
+            var currentCalendarFull, currentCalendarPublic, currentAvailabilities,availabilitySubscription,calendarSubscription;
+            calendarSubscription = Meteor.subscribe('singlePublicCalendarBySlug', currentCalendarSlug);
+            // ready() is true if all items in the wait list are ready
+            if (calendarSubscription.ready()) {
+            	currentCalendarFull = Calendars.findOne({})
+                availabilitySubscription = Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarId', currentCalendarFull._id);
+                if (availabilitySubscription.ready()){
+                    currentCalendarPublic = Calendars.findOne({},{fields: {name: 1, location: 1, linkslug: 1}});
+                    /**
+					 * Add a check here to show only items without booking or booking unconfirmed and older than 10 minutes
+                     */
+                    currentAvailabilities = Availabilities.find().fetch().map( ( availability ) => {
+                        if (availability !== undefined){
+                            availability = {start: availability.startDate,end: availability.endDate, id: availability._id};
+                            return availability;
+                        }
+                    });
+                }
+            }
+            if (calendarSubscription.ready() && availabilitySubscription.ready() && currentCalendarPublic != undefined){
+                this.render();
+                return [
+                    currentCalendarPublic,
+                    currentAvailabilities
+                ]
+			} else {
+                this.render('Loading');
+            }
+        }
+    });
+    this.route("calendar_public.book", {
+    	path: "/book_availability/:_availabilityId/:_calendarSlug",
+		controller: "BookingController",
+        template: 'Booking', // <-- to be explicit
+        data: function(){
+            var currentAvailabilityId = this.params._availabilityId;
+            var currentCalendarSlug = this.params._calendarSlug;
+            // add the subscription handle to our waitlist
+            this.wait(Meteor.subscribe('singlePublicCalendarBySlug', currentCalendarSlug));
+            this.wait(Meteor.subscribe('singlePublicAvailabilityById', currentAvailabilityId));
+            var currentCalendar = Calendars.findOne({});
+            var currentAvailability = Availabilities.findOne({});
+            // this.ready() is true if all items in the wait list are ready
+            if (this.ready() && currentCalendar != undefined) {
+                this.render();
+                return [
+                    currentCalendar,
+                    currentAvailability
+                ];
+            } else {
+                this.render('Loading');
+            }
+        }
+    });
     this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
 	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
     this.route("home_private.appointments", {path: "/home_private/appointments", controller: "AppointmentsController"});
-    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController"});
+    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController", template: 'Availabilities'});
     this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
     this.route("home_private.edit_availability", {path: "/home_private/edit_availability/:_eventId", controller: "EditAvailabilityController",});
     this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});

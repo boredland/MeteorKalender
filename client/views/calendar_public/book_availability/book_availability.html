@@ -7,14 +7,16 @@
 			</div>
 			{{/if}}
 		</div>
+        {{#if itemsReady}}
+        <h2 id="component-title">
+            Book a consultation hour from Calendar {{ CurrentCalendarName }}
+        </h2>
+        <p>from {{CurrentAvailabilityFrom}} <br>to {{CurrentAvailabilityTo}} <br></p>
         {{> BookingForm}}
+        {{/if}}
     </div>
 </template>
 
 <template name="BookingForm">
-    <h2 id="component-title">
-        Book a consultation hour
-    </h2>
-    <p>from {{CurrentAvailabilityFrom}} <br>to {{CurrentAvailabilityTo}} <br></p>
     {{> quickForm id="bookAvailabilityForm" schema=formSchema type="method" meteormethod="booking.insert"}}
 </template>

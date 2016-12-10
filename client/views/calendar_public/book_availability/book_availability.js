@@ -1,81 +1,66 @@
 //var pageSession = new ReactiveDict();
 import {bookingFormSchema} from '/imports/api/availabilitiesSchema';
-import {Availabilities} from '/imports/api/availabilitiesCollection';
-import {Calendars} from '/imports/api/calendarsCollection';
 
-//import { Meteor } from 'meteor/meteor';
-var currentAvailabilityId;
-
-function getCurrentAvailabilityId(){
-    currentAvailabilityId = Router.current().params._eventId;
-    if (currentAvailabilityId != undefined) {
-        return currentAvailabilityId;
-    }
-}
-function getCurrentAvailability() {
-    var availability = Availabilities.findOne({_id: getCurrentAvailabilityId()});
-    if (availability != undefined){
-        return availability;
-    }
-}
-function getCurrentLinkSlug(){
-    var calendar = Calendars.find({});
-    return calendar.linkslug;
-}
+var calendar, availability;
 
 Template.Booking.onCreated(function bodyOnCreated() {
+    calendar = this.data[0];
+    availability = this.data[1];
 });
 
-Template.BookingForm.rendered = function() {
+Template.Booking.rendered = function() {
+
 };
+
+
 
 Template.Booking.events({
 
 });
 
 Template.Booking.helpers({
+    itemsReady:function() {
+        if (availability && calendar){
+            return true
+        } else {
+            return false
+        }
+    },
+    CurrentAvailabilityFrom: function () {
+        return availability.startDate;
+    },
+    CurrentAvailabilityTo: function () {
+        return availability.startDate;
+    },
+    CurrentCalendarName: function () {
+        return calendar.name;
+    }
+});
+
+Template.BookingForm.onCreated(function bodyOnCreated() {
 
 });
 
-Template.BookingForm.onCreated(
-    function bodyOnCreated() {
-        if (getCurrentAvailabilityId() != undefined){
-            Meteor.subscribe('singleAvailability', getCurrentAvailabilityId());
-            Meteor.subscribe('singleCalendarByAvailabilityId',getCurrentAvailabilityId());
-        }
-    }
-);
+Template.BookingForm.rendered = function() {
 
+};
 
 Template.BookingForm.helpers({
     formSchema: function() {
         return bookingFormSchema;
     },
-    CurrentAvailabilityFrom: function () {
-        var availabilitiy = getCurrentAvailability();
-        if (availabilitiy != undefined){
-            return availabilitiy.startDate;
-        }
-    },
-    CurrentAvailabilityTo: function () {
-        var availabilitiy = getCurrentAvailability();
-        if (availabilitiy != undefined){
-            return availabilitiy.endDate;
-        }
-    }
 });
 
 AutoForm.hooks({
     bookAvailabilityForm: {
         before: {
             method: function(doc){
-                doc.availabilityId = getCurrentAvailabilityId();
+                doc.availabilityId = availability._id;
                 return doc;
             }
         },
         onSuccess: function() {
-            console.log(getCurrentLinkSlug());
-            Router.go("calendar_public",{calendarPublicToken: getCurrentLinkSlug() });
+            Router.go("calendar_public",{_calendarSlug: calendar.linkslug });
         }
     }
 });
