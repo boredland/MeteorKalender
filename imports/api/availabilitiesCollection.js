@@ -23,19 +23,17 @@ if (Meteor.isServer) {
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find({userId: this.userId},{sort: {startdate: -1}});
     });
-    Meteor.publish('calendarAvailabilities', function availabilitiesPublication(input_linkslug) {
-        var calendar = Calendars.findOne({linkslug: input_linkslug, published: true});
-        var calendarid = calendar._id;
+    Meteor.publish('allPublicFutureAvailabilitiesByCalendarId', function availabilitiesPublication(input_calendarid) {
         var options = {fields: {startDate: 1, endDate: 1}, sort: {startdate: -1}};
-        var calendarEvents = Availabilities.find({calendarId: calendarid.toString(), startDate: {$gt: new Date()}},options);
-        //console.log(calendarEvents);
+        var calendarEvents = Availabilities.find({calendarId: input_calendarid, startDate: {$gt: new Date()}},options);
         return calendarEvents;
     });
-    /*Meteor.publish('singleCalendarName', function calendarPublication(input_linkslug) {
-        var options = {fields: {name: 1}};
-        var calendar = Calendars.find({linkslug: input_linkslug, published: true},options);
-        return calendar;
-    });*/
+    Meteor.publish('singlePublicAvailabilityById', function availabilitiesPublication(input_availabilityId) {
+        var availabilityOptions = {fields: {_id: 1, startDate: 1, endDate: 1}};
+        var availability = Availabilities.find({_id: input_availabilityId.toString()},availabilityOptions);
+        return availability;
+    });
+    /*
     Meteor.publish('singleAvailability', function availabilitiesPublication(input_availabilityId) {
         var availability = Availabilities.find({_id: input_availabilityId.toString(), userId: this.userId});
         return availability;
@@ -43,7 +41,7 @@ if (Meteor.isServer) {
     Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
         var availabilities = Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add(-1,'h').set(0,'m'))}},{sort: {startdate: -1}});
         return availabilities;
-    });
+    });*/
 };
 
 // it is best practice to explicitly allow crud-actions

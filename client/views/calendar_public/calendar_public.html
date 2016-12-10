@@ -7,13 +7,9 @@
 			</div>
 			{{/if}}
 		</div>
-        <h2>{{#each getCalendarName}} {{> printName }} {{/each}}</h2>
-        {{#if Template.subscriptionsReady }}
-            {{> ReactiveFullcalendar options=publicCalendarOptions}}
-        {{/if}}
-	</div>
-</template>
 
-<template name="printName">
-    {{name}}
+    {{#if itemsReady}}
+        {{> ReactiveFullcalendar options=publicCalendarOptions}}
+    {{/if}}
+	</div>
 </template>
