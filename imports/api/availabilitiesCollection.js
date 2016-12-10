@@ -54,7 +54,6 @@ Meteor.methods({
         //console.log(doc);
         var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute'));
         var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
-
         var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
         var familyid = Random.id().substring(0, 4);
 
@@ -101,7 +100,13 @@ Meteor.methods({
 var isThisBankHoliday = function (date) {
     return feiertagejs.isHoliday(new Date(date), 'HE');
 }
-
+/**
+ * Funktion checkt ob die Daten für den Insert ok sind
+ * @param startTime
+ * @param endTime
+ * @param doc
+ * @param thisUserId
+ */
 var checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
     var duration = Math.round((moment(doc.endTime) - moment(doc.startTime)) / (1000 * 60));
     if (startTime > endTime) {
@@ -115,6 +120,14 @@ var checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
     }
 }
 
+/**
+ * Funktion fügt Daten in die MongoDB Collection ein.
+ * @param thisUserId
+ * @param startDate
+ * @param endDate
+ * @param calendarID
+ * @param familyId
+ */
 var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
 
     Availabilities.insert({
