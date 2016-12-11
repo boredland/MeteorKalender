@@ -1,6 +1,6 @@
 /* remove the white navbar-spacer on the startpage */
 .page-container.container.landing {
-    margin-top: -70px;
+    margin-top: -85px;
 }
 
 /*--------------------------------------------------
