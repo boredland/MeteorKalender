@@ -47,3 +47,5 @@ practicalmeteor:mocha
 xolvio:cleaner
 supaseca:reactive-fullcalendar
 altapp:recaptcha
+practicalmeteor:chai
+duongthienduc:meteor-winston
