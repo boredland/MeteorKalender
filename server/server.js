@@ -1,12 +1,13 @@
 import '/imports/api/availabilitiesCollection'
+import '/imports/logger'
 //Import creates the collection on the server.
 var verifyEmail = true;
-var logger = require('winston');
+
 
 Accounts.config({ sendVerificationEmail: verifyEmail });
 
 Meteor.startup(function() {
-	logger.info('Meteor started');
+	logger.info('Meteor started!');
 	// read environment variables from Meteor.settings
 	if(Meteor.settings && Meteor.settings.env && _.isObject(Meteor.settings.env)) {
 		for(var variableName in Meteor.settings.env) {
