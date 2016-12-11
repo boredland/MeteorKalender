@@ -1,6 +1,12 @@
+/* remove the white navbar-spacer on the startpage */
+.page-container.container.landing {
+    margin-top: -70px;
+}
+
 /*--------------------------------------------------
     [SASS PLACEHOLDER]
 ----------------------------------------------------*/
+
 /* Carousel Title */
 .carousel .carousel-title-v1, .carousel .carousel-title-v2, .carousel .carousel-title-v3 {
     font-size: 60px;
