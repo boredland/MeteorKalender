@@ -95,10 +95,9 @@ Meteor.methods({
         console.log(doc);
         Availabilities.update(doc.availabilityId, {
             $set: {
-                bookedByDate: this.bookedByDate
-                /**
-                 *  Hier die restlichen Zuweisungen einfügen...
-                 */
+                bookedByDate: this.bookedByDate,
+                bookedByEmail: this.bookedByEmail,
+                bookedByName: this.bookedByName,
             },
         });
     }
