@@ -10,7 +10,7 @@ var consoleOptions = {
 };
 
 var fileOptions = {
-    name: 'file.error',
+    name: 'file.log',
     filename: base + '/meteor.log',
     colorize: true,
     level : 'debug',
