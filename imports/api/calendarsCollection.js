@@ -7,6 +7,7 @@ import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check';
 import {calendarsSchema} from './calendarsSchema';
 import {} from "/imports/api/collectionPublications";
+import {Availabilities} from '/imports/api/availabilitiesCollection';
 
 export const Calendars = new Mongo.Collection("calendars");
 Calendars.attachSchema(calendarsSchema);
@@ -44,11 +45,9 @@ Meteor.methods({
 
     'calendars.remove'(calendarId){
         //check whether the ID which should be deleted is a String
-
-        //Calendars.remove();
-        //check whether the ID which should be deleted is a String
         check(calendarId, String);
-
+        //check that there are no future availabilities
+        checkNoFutureAvailabilities(calendarId);
         //check whether the user is authorized to delete the task.
         const toBeDeleted = Calendars.findOne(calendarId);
         if (this.userId !== toBeDeleted.userId){
@@ -58,3 +57,13 @@ Meteor.methods({
 
     },
 });
+
+var checkNoFutureAvailabilities = function (calendarId){
+    var futurecount = 0;
+    Meteor.subscribe('allFutureAvailabilities', function() {
+        futurecount = Availabilities.find({calendarId: calendarId.toString()}).count();
+    });
+    if (futurecount >0){
+        throw new Meteor.Error("This calendar has "+futurecount+" availabilities");
+    }
+};
