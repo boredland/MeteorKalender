@@ -1,10 +1,12 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
+var pageSession = new ReactiveDict();
 
 Template.Appointments.onCreated(
     function bodyOnCreated() {
         Meteor.subscribe('allFutureAvailabilities');
         Meteor.subscribe('allCalendars');
+        pageSession.set("errorMessage", "");
     }
 );
 
@@ -23,6 +25,9 @@ Template.Appointments.events({
 });
 
 Template.Appointments.helpers({
+    "errorMessage": function() {
+        return pageSession.get("errorMessage");
+    },
     appointmentsCalendarOptions: {
         // Standard fullcalendar options
         defaultView: 'listWeek',
@@ -38,13 +43,16 @@ Template.Appointments.helpers({
                 var calendar = [];
                 calendar = Calendars.findOne({_id: appointment.calendarId.toString()});
                 if (appointment !== undefined){
-                    appointment = {start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: calendar.name};
+                    appointment = { id: appointment._id, start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: calendar.name};
                     return appointment;
                 }
             });
             if ( data ) {
                 callback( data );
             }
+        },
+        eventClick: function(calEvent, jsEvent, view) {
+            Router.go("home_private.appointment",{_eventId: calEvent.id});
         },
         // Optional: id of the calendar
         //id: "appointmentscalendar",

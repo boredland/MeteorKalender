@@ -7,6 +7,11 @@
             </div>
         </div>
         <div id="dataview-controls-insert" class="form-group {{insertButtonClass}}">
+            {{#if errorMessage}}
+                <div class="alert alert-warning">
+                    {{errorMessage}}
+                </div>
+            {{/if}}
             <button type="submit" id="dataview-insert-button" class="btn btn-success">
 					<span class="fa fa-plus">
 					</span>

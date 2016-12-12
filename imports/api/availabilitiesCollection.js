@@ -6,6 +6,7 @@ import {Mongo} from "meteor/mongo";
 import {check} from "meteor/check";
 import {availabilitiesSchema} from "./availabilitiesSchema";
 import feiertagejs from "feiertagejs";
+import {} from "/imports/api/collectionPublications";
 
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
@@ -15,31 +16,11 @@ Meteor.startup(function () {
         Availabilities._ensureIndex({"calendarID": 1})
         console.log("created Index over calenderID in Availabilities Colleciton")
     }
-})
+});
 
 if (Meteor.isServer) {
-    // publication of Availabilities should only run on the server
-    Meteor.publish('allAvailabilities', function availabilitiesPublication() {
-        return Availabilities.find({userId: this.userId}, {sort: {startdate: -1}});
-    });
-    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
-        return Availabilities.find({userId: this.userId, startDate: {$gt: new Date()}}, {sort: {startdate: -1}});
-    });
-    /**
-     * We should check if the calendar is public at this.
-     */
-    Meteor.publish('allPublicFutureAvailabilitiesByCalendarId', function availabilitiesPublication(input_calendarid) {
-        var options = {fields: {startDate: 1, endDate: 1}, sort: {startdate: -1}};
-        var calendarEvents = Availabilities.find({calendarId: input_calendarid, startDate: {$gt: new Date()}}, options);
-        return calendarEvents;
-    });
-    Meteor.publish('singlePublicAvailabilityById', function availabilitiesPublication(input_availabilityId) {
-        var availabilityOptions = {fields: {_id: 1, startDate: 1, endDate: 1}};
-        var availability = Availabilities.find({_id: input_availabilityId.toString()}, availabilityOptions);
-        return availability;
-    });
-}
-;
+
+};
 
 // it is best practice to explicitly allow crud-actions
 Availabilities.allow({

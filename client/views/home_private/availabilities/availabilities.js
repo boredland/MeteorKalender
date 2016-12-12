@@ -9,14 +9,14 @@ Template.Availabilities.onRendered( () => {
 });
 
 Template.Availabilities.onCreated(function bodyOnCreated() {
-        Meteor.subscribe('allFutureAvailabilities');
-        Meteor.subscribe('allCalendars');
+    Meteor.subscribe('allFutureAvailabilities');
+    Meteor.subscribe('allCalendars');
+    pageSession.set("errorMessage", "");
 });
 
 Template.Availabilities.rendered = function() {
     pageSession.set("invoicesInsertInsertFormInfoMessage", "");
     pageSession.set("invoicesInsertInsertFormErrorMessage", "");
-
 };
 
 Template.Availabilities.created = function() {
@@ -31,6 +31,9 @@ Template.Availabilities.events({
 });
 
 Template.Availabilities.helpers({
+    "errorMessage": function() {
+        return pageSession.get("errorMessage");
+    },
     availibilityCalendarOptions: {
         // Standard fullcalendar options
         //editable: true,
@@ -58,7 +61,7 @@ Template.Availabilities.helpers({
             if (calEvent.start > moment()){
                 Router.go("home_private.edit_availability",{_eventId: calEvent.id});
             } else if (calEvent.start < moment()){
-                console.log("The event is in the past. You are not allowed to edit."); //<-- Perhaps this may be added as a pagesession error message..?
+                pageSession.set("errorMessage", "The event is in the past. You are not allowed to edit.");
             }
         },
         // Optional: id of the calendar

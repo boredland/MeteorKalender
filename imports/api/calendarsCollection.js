@@ -6,24 +6,13 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import {check} from 'meteor/check';
 import {calendarsSchema} from './calendarsSchema';
+import {} from "/imports/api/collectionPublications";
+
 export const Calendars = new Mongo.Collection("calendars");
 Calendars.attachSchema(calendarsSchema);
 
 if (Meteor.isServer) {
-    // publication of Availabilities should only run on the server
-    Meteor.publish('allCalendars', function calendarsPublication() {
-        return Calendars.find({userId: this.userId});
-    });
-    Meteor.publish('singleCalendar', function calendarsPublication(input_calendarId) {
-        var calendar = Calendars.find({_id: input_calendarId, userId: this.userId});
-        return calendar;
-    });
 
-    Meteor.publish('singlePublicCalendarBySlug', function calendarsPublication(input_calendarSlug) {
-        var calendarOptions = {fields: {_id: 1, name: 1, location: 1,linkslug: 1}};
-        var calendar = Calendars.find({linkslug: input_calendarSlug, published: true},calendarOptions);
-        return calendar;
-    });
 };
 
 Calendars.allow({
