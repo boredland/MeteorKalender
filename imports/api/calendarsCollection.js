@@ -16,6 +16,7 @@ if (Meteor.isServer) {
 
 };
 
+
 Calendars.allow({
     insert: function (name,location,color,published) {
         return true; // is there some meaningful check we could use?
@@ -46,24 +47,11 @@ Meteor.methods({
     'calendars.remove'(calendarId){
         //check whether the ID which should be deleted is a String
         check(calendarId, String);
-        //check that there are no future availabilities
-        checkNoFutureAvailabilities(calendarId);
-        //check whether the user is authorized to delete the task.
+        //check whether the user is authorized to delete the calendar.
         const toBeDeleted = Calendars.findOne(calendarId);
         if (this.userId !== toBeDeleted.userId){
             throw new Meteor.Error('not-authorized');
         }
         Calendars.remove(calendarId);
-
     },
 });
-
-var checkNoFutureAvailabilities = function (calendarId){
-    var futurecount = 0;
-    Meteor.subscribe('allFutureAvailabilities', function() {
-        futurecount = Availabilities.find({calendarId: calendarId.toString()}).count();
-    });
-    if (futurecount >0){
-        throw new Meteor.Error("This calendar has "+futurecount+" availabilities");
-    }
-};

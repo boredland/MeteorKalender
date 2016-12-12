@@ -85,11 +85,6 @@ Meteor.methods({
      * @param doc
      */
     'booking.insert'(doc){
-        //check whether the ID which should be deleted is a String
-        /**
-         * Add a check here if the item is without booking or booking unconfirmed and older than 10 minutes
-         */
-
 
         Availabilities.update(doc.availabilityId, {
             $set: {
@@ -99,8 +94,6 @@ Meteor.methods({
                 bookedByDate: new Date(),
             },
         });
-
-        console.log(doc);
 
     },
     /**
