@@ -18,9 +18,10 @@ if (Meteor.isServer) {
         var calendar = Calendars.find({_id: input_calendarId, userId: this.userId});
         return calendar;
     });
+
     Meteor.publish('singlePublicCalendarBySlug', function calendarsPublication(input_calendarSlug) {
         var calendarOptions = {fields: {_id: 1, name: 1, location: 1,linkslug: 1}};
-        var calendar = Calendars.find({linkslug: input_calendarSlug},calendarOptions);
+        var calendar = Calendars.find({linkslug: input_calendarSlug, published: true},calendarOptions);
         return calendar;
     });
 };

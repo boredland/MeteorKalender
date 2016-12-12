@@ -12,6 +12,7 @@ function dataReady() {
 Template.CalendarPublic.onCreated(function bodyOnCreated() {
     calendar = this.data[0];
     availabilities = this.data[1];
+    pageSession.set("errorMessage", "");
 });
 
 Template.CalendarPublic.rendered = function() {
@@ -23,6 +24,21 @@ Template.CalendarPublic.events({
 });
 
 Template.CalendarPublic.helpers({
+
+    /**
+     *
+     * @returns {boolean}
+     */
+    hasItems: function () {
+      if (calendar && availabilities.length) {
+          return true;
+      } else if (calendar && (availabilities.length === 0)) {
+          pageSession.set("errorMessage", "This calendar is empty.");
+      } else if (!calendar) {
+          pageSession.set("errorMessage", "This calendar does not exist or is not public.");
+          return false;
+      }
+    },
     itemsReady:function() {
         return dataReady();
     },

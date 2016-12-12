@@ -7,9 +7,16 @@
 			</div>
 			{{/if}}
 		</div>
-        <h2>{{ CurrentCalendarName }}</h2>
-    {{#if itemsReady}}
-        {{> ReactiveFullcalendar options=publicCalendarOptions}}
-    {{/if}}
+
+
+        {{#if hasItems }}
+        <div>
+                <h2>{{ CurrentCalendarName }}</h2>
+                {{#if itemsReady}}
+                    {{> ReactiveFullcalendar options=publicCalendarOptions}}
+                {{/if}}
+        </div>
+        {{/if}}
+
 	</div>
 </template>

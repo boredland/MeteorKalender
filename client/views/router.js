@@ -196,36 +196,55 @@ Router.map(function () {
     	path: "/calendar_public/:_calendarSlug",
 		controller: "CalendarPublicController",
         template: 'CalendarPublic', // <-- to be explicit
+        /**
+		 *
+         * @returns {Array}
+         */
         data: function(){
             var currentCalendarSlug = this.params._calendarSlug;
             var currentCalendarFull, currentCalendarPublic, currentAvailabilities,availabilitySubscription,calendarSubscription;
             calendarSubscription = Meteor.subscribe('singlePublicCalendarBySlug', currentCalendarSlug);
             // ready() is true if all items in the wait list are ready
             if (calendarSubscription.ready()) {
-            	currentCalendarFull = Calendars.findOne({})
-                availabilitySubscription = Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarId', currentCalendarFull._id);
-                if (availabilitySubscription.ready()){
-                    currentCalendarPublic = Calendars.findOne({},{fields: {name: 1, location: 1, linkslug: 1}});
-                    /**
-					 * Add a check here to show only items without booking or booking unconfirmed and older than 10 minutes
-                     */
-                    currentAvailabilities = Availabilities.find().fetch().map( ( availability ) => {
-                        if (availability !== undefined){
-                            availability = {start: availability.startDate,end: availability.endDate, id: availability._id};
-                            return availability;
-                        }
-                    });
+            	currentCalendarFull = Calendars.findOne({});
+            	currentCalendarPublic = currentCalendarFull;
+            	if (currentCalendarFull !== undefined){
+                    availabilitySubscription = Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarId', currentCalendarFull._id);
+                    if (availabilitySubscription.ready()){
+                        currentCalendarPublic = Calendars.findOne({},{fields: {name: 1, location: 1, linkslug: 1}});
+                        /**
+                         * Add a check here to show only items without booking or booking unconfirmed and older than 10 minutes
+                         */
+                        currentAvailabilities = Availabilities.find().fetch().map( ( availability ) => {
+                            if (availability !== undefined){
+                                availability = {start: availability.startDate,end: availability.endDate, id: availability._id};
+                                return availability;
+                            }
+                        });
+                    }
+				}
+
+            }
+            /**
+			 *
+             */
+            if ((currentCalendarPublic && availabilitySubscription.ready()) || !currentCalendarPublic){
+                var resultarray = [];
+                if (currentCalendarPublic) {
+                    resultarray.push(currentCalendarPublic);
+                } else if (!currentCalendarPublic) {
+                    resultarray.push(undefined);
                 }
-            }
-            if (calendarSubscription.ready() && availabilitySubscription.ready() && currentCalendarPublic != undefined){
-                this.render();
-                return [
-                    currentCalendarPublic,
-                    currentAvailabilities
-                ]
-			} else {
-                this.render('Loading');
-            }
+                if (currentAvailabilities && currentCalendarPublic) {
+                    resultarray.push(currentAvailabilities);
+                } else if (!currentAvailabilities) {
+                    resultarray.push(undefined);
+                }
+            	this.render();
+            	return resultarray;
+            } else {
+            	this.render('Loading');
+			}
         }
     });
     this.route("calendar_public.book", {
