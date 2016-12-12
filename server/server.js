@@ -119,7 +119,17 @@ Meteor.startup(function() {
     reCAPTCHA.config({
         privatekey: process.env.RE_CAPTCHA
     });
-	console.log("Do I exist?",	Accounts.findUserByEmail("strassel@stud.fra-uas.de"));
+
+	//add test user if missing, still needs to be validated(how?)
+	if(Accounts.findUserByEmail("testuser@stud.fra-uas.de") === undefined) {
+        Accounts.createUser({
+            email: "testuser@stud.fra-uas.de",
+            password: "testpass",
+            profile: {name: "testname"}
+        });
+        console.log("testuser was missing - added successfully")
+	}
+
 });
 
 Meteor.methods({
