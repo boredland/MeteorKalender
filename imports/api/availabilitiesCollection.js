@@ -94,9 +94,17 @@ Meteor.methods({
          * this additionally could be the place to send the confirmation-mail.
          */
         console.log(doc);
+        Availabilities.update(doc.availabilityId, {
+            $set: {
+                bookedByDate: this.bookedByDate
+                /**
+                 *  Hier die restlichen Zuweisungen einfügen...
+                 */
+            },
+        });
     },
     'booking.confirm'(availabilityId){
-      Availabilities.update(availabilityId,{$set: {bookedByConfirmed: true}})
+        Availabilities.update(availabilityId,{$set: {bookedByConfirmed: true}})
     }
 });
 
@@ -116,7 +124,7 @@ var checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
         throw new EvalError("Startdate: " + startTime + " is bigger than Enddate " + endTime);
     }
     if (duration < doc.chunkDuration) {
-        throw new EvalError("Duration " + duration +     " is shorter than Chunkperiod " + doc.chunkDuration);
+        throw new EvalError("Duration " + duration + " is shorter than Chunkperiod " + doc.chunkDuration);
     }
     if (!thisUserId) {
         throw new Meteor.Error('not-authorized');
