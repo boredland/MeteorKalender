@@ -305,8 +305,8 @@ Router.map(function () {
             this.wait(Meteor.subscribe('singleAvailabilityById', currentAvailabilityId));
             var currentAvailability = Availabilities.findOne({_id: currentAvailabilityId});
             if (this.ready()){
-                this.render();
                 return currentAvailability;
+                this.render();
             } else {
                 this.render('Loading');
             }
