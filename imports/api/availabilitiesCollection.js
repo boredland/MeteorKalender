@@ -50,6 +50,11 @@ Availabilities.allow({
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
+    /**
+     * Fügt Availabilities ein. Dabei werden die Availabilities entsprechend der Inputwerte geteilt und einzeln eingefügt.
+     * Alle Availabilities die in einem aufruf erstellt werden, bekommen die selbe familyId zugewiesen.
+     * @param doc
+     */
     'availabilities.insert'(doc) {
         //console.log(doc);
         var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute'));
@@ -75,6 +80,10 @@ Meteor.methods({
         } while (startTimeModified <= repeatUntil && repeatUntil != 0)
 
     },
+    /**
+     * Löscht eine Availability.
+     * @param availabilityID
+     */
     'availabilities.remove'(availabilityID){
         //check whether the ID which should be deleted is a String
         check(availabilityID, String);
@@ -88,6 +97,7 @@ Meteor.methods({
 
     },
     'booking.insert'(doc){
+        //check whether the ID which should be deleted is a String
         /**
          * Add a check here if the item is without booking or booking unconfirmed and older than 10 minutes
          * this additionally could be the place to send the confirmation-mail.
@@ -100,6 +110,13 @@ Meteor.methods({
                 bookedByName: this.bookedByName,
             },
         });
+    },
+    /**
+     * setzt eine Availability auf "booking confirmed".
+     * @param availabilityId ID der Availability
+     */
+    'booking.confirm'(availabilityId){
+        Availabilities.update(availabilityId,{$set: {bookedByConfirmed: true}})
     }
 });
 
