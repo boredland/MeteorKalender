@@ -19,3 +19,4 @@ Würde .docs/client/data/ löschen
 /client/styles/styles/theme/theme.import.less
 /client/styles/styles/theme/themefix.import.less
 /client/styles/styles/theme/bootswatch.import.less
+/meteor.log
