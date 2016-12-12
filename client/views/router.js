@@ -217,8 +217,25 @@ Router.map(function () {
                          */
                         currentAvailabilities = Availabilities.find().fetch().map( ( availability ) => {
                             if (availability !== undefined){
-                                availability = {start: availability.startDate,end: availability.endDate, id: availability._id};
-                                return availability;
+                            	var color,title;
+                                /**
+								 * Confirmed or (unconfirmed and timestamp younger than moment-10m
+                                 */
+                            	if (availability.bookedByConfirmed) {
+                                    color = "#FF0000";
+                                    title = "booked";
+                                } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
+									color = "#FFFF00";
+                                    title = "reserved";
+                                } else if (!availability.bookedByConfirmed && ((moment(availability.bookedByDate) >= moment().add(-10,'m'))||!availability.bookedByDate)){
+                            		color = "#008000";
+                            		title = "free";
+								} else {
+									color = "#800080"
+								}
+                                availability = {start: availability.startDate,end: availability.endDate, id: availability._id, color: color, title: title};
+                                //console.log(availability);
+								return availability;
                             }
                         });
                     }
@@ -229,6 +246,7 @@ Router.map(function () {
 			 *
              */
             if ((currentCalendarPublic && availabilitySubscription.ready()) || !currentCalendarPublic){
+                this.render();
                 var resultarray = [];
                 if (currentCalendarPublic) {
                     resultarray.push(currentCalendarPublic);
@@ -241,7 +259,6 @@ Router.map(function () {
                     resultarray.push(undefined);
                 }
             	return resultarray;
-                this.render();
             } else {
             	this.render('Loading');
 			}
@@ -261,11 +278,11 @@ Router.map(function () {
             var currentAvailability = Availabilities.findOne({});
             // this.ready() is true if all items in the wait list are ready
             if (this.ready() && currentCalendar != undefined) {
+                this.render();
                 return [
                     currentCalendar,
                     currentAvailability
                 ];
-                this.render();
             } else {
                 this.render('Loading');
             }

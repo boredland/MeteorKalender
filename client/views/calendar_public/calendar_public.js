@@ -78,7 +78,15 @@ Template.CalendarPublic.helpers({
         //]
         eventClick: function(calEvent, jsEvent, view) {
           if (calEvent.start > moment()){
-              Router.go("calendar_public.book",{_availabilityId: calEvent.id, _calendarSlug: Router.current().params._calendarSlug});
+              if (calEvent.title === "free") {
+                  Router.go("calendar_public.book",{_availabilityId: calEvent.id, _calendarSlug: Router.current().params._calendarSlug});
+              } else if (calEvent.title == "reserved"){
+                  pageSession.set("errorMessage", "This availability is reserved by somebody. You may check back here in some minutes to check if this was confirmed.");
+              } else {
+                  pageSession.set("errorMessage", "This availability is booked by somebody.");
+              }
+          } else {
+              pageSession.set("errorMessage", "This availability is in the past.");
           }
         }
     }
