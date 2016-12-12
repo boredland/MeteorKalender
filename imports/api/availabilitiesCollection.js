@@ -52,6 +52,7 @@ Availabilities.allow({
 Meteor.methods({
     /**
      * Fügt Availabilities ein. Dabei werden die Availabilities entsprechend der Inputwerte geteilt und einzeln eingefügt.
+     * Alle Availabilities die in einem aufruf erstellt werden, bekommen die selbe familyId zugewiesen.
      * @param doc
      */
     'availabilities.insert'(doc) {
