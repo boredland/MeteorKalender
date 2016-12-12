@@ -99,20 +99,28 @@ Meteor.methods({
         Availabilities.remove(availabilityID);
 
     },
+    /**
+     * Erstellt eine Buchung.
+     * @param doc
+     */
     'booking.insert'(doc){
         //check whether the ID which should be deleted is a String
         /**
          * Add a check here if the item is without booking or booking unconfirmed and older than 10 minutes
-         * this additionally could be the place to send the confirmation-mail.
          */
-        console.log(doc);
+
+
         Availabilities.update(doc.availabilityId, {
             $set: {
-                bookedByDate: this.bookedByDate,
-                bookedByEmail: this.bookedByEmail,
-                bookedByName: this.bookedByName,
+                bookedByEmail: doc.bookedByEmail,
+                bookedByName: doc.bookedByName,
+                bookedByConfirmed: true, //should be false later.
+                bookedByDate: new Date(),
             },
         });
+
+        console.log(doc);
+
     },
     /**
      * setzt eine Availability auf "booking confirmed".
@@ -154,6 +162,7 @@ var checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
  * @param calendarID
  * @param familyId
  */
+
 var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
 
     Availabilities.insert({
