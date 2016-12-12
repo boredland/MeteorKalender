@@ -240,8 +240,8 @@ Router.map(function () {
                 } else if (!currentAvailabilities) {
                     resultarray.push(undefined);
                 }
-            	this.render();
             	return resultarray;
+                this.render();
             } else {
             	this.render('Loading');
 			}
@@ -261,11 +261,11 @@ Router.map(function () {
             var currentAvailability = Availabilities.findOne({});
             // this.ready() is true if all items in the wait list are ready
             if (this.ready() && currentCalendar != undefined) {
-                this.render();
                 return [
                     currentCalendar,
                     currentAvailability
                 ];
+                this.render();
             } else {
                 this.render('Loading');
             }
@@ -274,8 +274,27 @@ Router.map(function () {
     this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
 	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
-    this.route("home_private.appointments", {path: "/home_private/appointments", controller: "AppointmentsController"});
-    this.route("home_private.appointment", {path: "/home_private/appointment/:_eventId", controller: "AppointmentController"});
+    this.route("home_private.appointments", {
+    	path: "/home_private/appointments",
+		controller: "AppointmentsController",
+        template: "Appointments"
+    });
+    this.route("home_private.appointment", {
+    	path: "/home_private/appointment/:_eventId",
+		controller: "AppointmentController",
+		template: "Appointment",
+		data: function () {
+			var currentAvailabilityId = this.params._eventId;
+            this.wait(Meteor.subscribe('singleAvailabilityById', currentAvailabilityId));
+            var currentAvailability = Availabilities.findOne({_id: currentAvailabilityId});
+            if (this.ready()){
+                this.render();
+                return currentAvailability;
+            } else {
+                this.render('Loading');
+            }
+        }
+    });
     this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController", template: 'Availabilities'});
     this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
     this.route("home_private.edit_availability", {path: "/home_private/edit_availability/:_eventId", controller: "EditAvailabilityController",});

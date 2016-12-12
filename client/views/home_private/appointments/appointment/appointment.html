@@ -5,8 +5,21 @@
                 <div id="page_menu" class="pull-right">
                 </div>
             </div>
-
         </div>
-        <h2>Single Appointment</h2>
+        {{#if errorMessage}}
+            <div class="alert alert-warning">
+                {{errorMessage}}
+            </div>
+        {{/if}}
+        <h2>Appointment</h2>
+        {{#if itemsReady}}
+            The Appointment-Content will go here.
+            <p>From {{getFrom}}</p>
+            <p>To {{getTo}}</p>
+            <p>Booked on {{getBookedOn}}</p>
+            <p>Name: {{getName}}</p>
+            <p>Email: {{getEmail}}</p>
+            <p>Confirmed: {{getConfirmationStatus}}</p>
+        {{/if}}
     </div>
 </template>

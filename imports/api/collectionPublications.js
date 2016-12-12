@@ -22,6 +22,10 @@ if (Meteor.isServer) {
         var calendar = Calendars.find({_id: input_calendarId, userId: this.userId});
         return calendar;
     });
+    Meteor.publish('singleAvailabilityById', function availabilitiesPublication(input_availabilityid) {
+        var availability = Availabilities.find({_id: input_availabilityid, userId: this.userId});
+        return availability;
+    });
 
     /**
      * These are public publications

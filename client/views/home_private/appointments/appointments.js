@@ -1,11 +1,36 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
 var pageSession = new ReactiveDict();
+var availabilitiesSubscription,calendarsSubscription;
+
+function getEvents(){
+    var data = Availabilities.find({bookedByConfirmed: true}).fetch().map( ( appointment ) => {
+        //event.editable = !isPast( event.start );
+        var calendar = [];
+        calendar = Calendars.findOne({_id: appointment.calendarId.toString()});
+        if (appointment !== undefined){
+            appointment = { id: appointment._id, start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: appointment.bookedByName};
+            return appointment;
+        }
+    });
+    return data;
+}
+
+function dataReady() {
+    if (getEvents()){
+        return true
+    } else {
+        return false
+    }
+}
 
 Template.Appointments.onCreated(
     function bodyOnCreated() {
-        Meteor.subscribe('allFutureAvailabilities');
-        Meteor.subscribe('allCalendars');
+        availabilitiesSubscription = Meteor.subscribe('allFutureAvailabilities');
+        calendarsSubscription = Meteor.subscribe('allCalendars');
+        if (availabilitiesSubscription.ready() && calendarsSubscription.ready()) {
+            console.log("Both subscriptions are ready.")
+        }
         pageSession.set("errorMessage", "");
     }
 );
@@ -28,6 +53,9 @@ Template.Appointments.helpers({
     "errorMessage": function() {
         return pageSession.get("errorMessage");
     },
+    itemsReady:function() {
+        return dataReady();
+    },
     appointmentsCalendarOptions: {
         // Standard fullcalendar options
         defaultView: 'listWeek',
@@ -38,15 +66,7 @@ Template.Appointments.helpers({
         lang: 'de',
         // Function providing events reactive computation for fullcalendar plugin
         events( start, end, timezone, callback ) {
-            let data = Availabilities.find().fetch().map( ( appointment ) => {
-                //event.editable = !isPast( event.start );
-                var calendar = [];
-                calendar = Calendars.findOne({_id: appointment.calendarId.toString()});
-                if (appointment !== undefined){
-                    appointment = { id: appointment._id, start: appointment.startDate,end: appointment.endDate,color: calendar.color, title: calendar.name};
-                    return appointment;
-                }
-            });
+            data = getEvents();
             if ( data ) {
                 callback( data );
             }
