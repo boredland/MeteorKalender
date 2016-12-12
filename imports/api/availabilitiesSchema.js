@@ -299,24 +299,6 @@ export var bookingFormSchema = new SimpleSchema({
             type: "hidden",
         }
     },
-    bookedByDate: {
-        type: Date,
-        autoValue: function() {
-          return new Date();
-        },
-        autoform: {
-            type: "hidden",
-        },
-        // this needs to be an autovalue of moment();
-    },
-    bookedByConfirmed: {
-        type: Boolean,
-        autoform: {
-            type: "hidden",
-        },
-        // this should be false, once we've email-confirms.
-        defaultValue: true
-    },
     bookedByName: {
         optional: true,
         type: String,
