@@ -1,4 +1,5 @@
 import {Calendars} from '/imports/api/calendarsCollection';
+var pageSession = new ReactiveDict();
 window.Calendars = Calendars;
 
 function getCurrentCalendarId(){
@@ -14,8 +15,12 @@ function getCurrentCalendar() {
     }
 }
 
-Template.EditCalendar.onRendered( () => {
+function areThereAvailabilitiesIn(){
 
+}
+
+Template.EditCalendar.onRendered( () => {
+    pageSession.set("errorMessage", "");
 });
 
 Template.EditCalendar.rendered = function() {
@@ -25,6 +30,12 @@ Template.EditCalendar.rendered = function() {
 Template.EditCalendar.created = function() {
 
 };
+
+Template.EditCalendar.helpers({
+    "errorMessage": function () {
+        return pageSession.get("errorMessage");
+    }
+});
 
 Template.EditCalendar.events({
     "click #dataview-delete-button": function(e) {
@@ -38,8 +49,15 @@ Template.EditCalendar.events({
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
-                        Meteor.call('calendars.remove', getCurrentCalendarId());
-                        Router.go('home_private.calendars');
+                        Meteor.call('calendars.remove',getCurrentCalendarId(), function(err, data) {
+                            console.log("error",err.error)
+                            if (err && err.error === "bingoerror") {
+                                pageSession.set("errorMessage", err.reason);
+                                console.log("reason",err.reason)
+                            } else {
+                                Router.go('home_private.calendars');
+                            }
+                        });
                     }
                 },
                 danger: {

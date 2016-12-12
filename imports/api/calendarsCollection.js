@@ -53,5 +53,6 @@ Meteor.methods({
             throw new Meteor.Error('not-authorized');
         }
         Calendars.remove(calendarId);
+        throw new Meteor.Error('bingoerror',"this is the reason for this error");
     },
 });

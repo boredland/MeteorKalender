@@ -1,6 +1,6 @@
 import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
-//var pageSession = new ReactiveDict();
+var pageSession = new ReactiveDict();
 
 Template.Calendars.rendered = function() {
 };
@@ -10,6 +10,7 @@ Template.Calendars.created = function() {
 
 Template.Calendars.onCreated(function bodyOnCreated() {
         Meteor.subscribe('allCalendars');
+        pageSession.set("errorMessage", "");
     }
 );
 
@@ -49,6 +50,9 @@ Template.Calendars.events({
 });
 
 Template.Calendars.helpers({
+    "errorMessage": function() {
+        return pageSession.get("errorMessage");
+    },
     getCalendars(){
         return Calendars.find();
     }
