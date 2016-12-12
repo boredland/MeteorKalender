@@ -88,12 +88,19 @@ Meteor.methods({
 
     },
     'booking.insert'(doc){
-        //check whether the ID which should be deleted is a String
         /**
          * Add a check here if the item is without booking or booking unconfirmed and older than 10 minutes
          * this additionally could be the place to send the confirmation-mail.
          */
         console.log(doc);
+        Availabilities.update(doc.availabilityId, {
+            $set: {
+                bookedByDate: this.bookedByDate
+                /**
+                 *  Hier die restlichen Zuweisungen einfügen...
+                 */
+            },
+        });
     }
 });
 

@@ -4,6 +4,7 @@ import '/imports/logger'
 var verifyEmail = true;
 
 
+
 Accounts.config({ sendVerificationEmail: verifyEmail });
 
 Meteor.startup(function() {
@@ -116,11 +117,9 @@ Meteor.startup(function() {
 
 	//get private key and add it to package
     reCAPTCHA.config({
-
         privatekey: process.env.RE_CAPTCHA
     });
-
-	
+	console.log("Do I exist?",	Accounts.findUserByEmail("strassel@stud.fra-uas.de"));
 });
 
 Meteor.methods({
