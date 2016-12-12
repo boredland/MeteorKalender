@@ -12,11 +12,5 @@ npm-debug.log
 /client/styles/framework/bootstrap3/custom.bootstrap.import.less
 /client/styles/framework/bootstrap3/custom.bootstrap.less
 /client/styles/framework/bootstrap3/custom.bootstrap.mixins.import.less
-/client/styles/styles/styles.less
-!/client/styles/styles/styles.less
 Würde .docs/client/data/ löschen
-/client/styles/styles/theme/variables.import.less
-/client/styles/styles/theme/theme.import.less
-/client/styles/styles/theme/themefix.import.less
-/client/styles/styles/theme/bootswatch.import.less
 /meteor.log
