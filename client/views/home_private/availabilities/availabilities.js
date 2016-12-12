@@ -48,8 +48,19 @@ Template.Availabilities.helpers({
             let data = Availabilities.find().fetch().map( ( availability ) => {
                 //availability.editable = true; //availability.startDate
                 var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
+                var title, status;
+                if (availability.bookedByConfirmed) {
+                    title = " (booked)";
+                    status = false;
+                } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
+                    title = " (reserved)";
+                    status = false;
+                } else {
+                    title = "";
+                    status = true;
+                }
                 if (availability !== undefined){
-                    availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name, id: availability._id};
+                    availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name+title, id: availability._id, status: status};
                     return availability;
                 }
             });
@@ -59,7 +70,11 @@ Template.Availabilities.helpers({
         },
         eventClick: function(calEvent, jsEvent, view) {
             if (calEvent.start > moment()){
-                Router.go("home_private.edit_availability",{_eventId: calEvent.id});
+                if (calEvent.status) {
+                    Router.go("home_private.edit_availability",{_eventId: calEvent.id});
+                } else if (!calEvent.status){
+                    Router.go("home_private.appointment",{_eventId: calEvent.id});
+                }
             } else if (calEvent.start < moment()){
                 pageSession.set("errorMessage", "The event is in the past. You are not allowed to edit.");
             }
