@@ -85,7 +85,6 @@ Meteor.methods({
      * @param doc
      */
     'booking.insert'(doc){
-
         Availabilities.update(doc.availabilityId, {
             $set: {
                 bookedByEmail: doc.bookedByEmail,
@@ -94,7 +93,7 @@ Meteor.methods({
                 bookedByDate: new Date(),
             },
         });
-
+        console.log("insertion run",doc);
     },
     /**
      * setzt eine Availability auf "booking confirmed".
