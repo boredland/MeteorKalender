@@ -12,8 +12,8 @@ if (Meteor.isServer) {
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find({userId: this.userId}, {sort: {startdate: -1}});
     });
-    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication() {
-        return Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add(-30,'m'))}}, {sort: {startdate: -1}});
+    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication(pastminutes) {
+        return Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add(-pastminutes,'m'))}}, {sort: {startdate: -1}});
     });
     Meteor.publish('allCalendars', function calendarsPublication() {
         return Calendars.find({userId: this.userId});

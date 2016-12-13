@@ -22,6 +22,11 @@ if (Meteor.isServer) {
 
 };
 
+/**
+ * gives a booalean false, if there are no availabilities
+ * @param calendarid
+ */
+
 // it is best practice to explicitly allow crud-actions
 Availabilities.allow({
     insert: function (endTime, repeatInterval, repeatUntil, startDate, startTime) {
@@ -77,15 +82,14 @@ Meteor.methods({
         if (this.userId !== toBeDeleted.userId) {
             throw new Meteor.Error('not-authorized');
         }
-        Availabilities.remove(availabilityID);
-
+        return Availabilities.remove(availabilityID);
     },
     /**
      * Erstellt eine Buchung.
      * @param doc
      */
     'booking.insert'(doc){
-        Availabilities.update(doc.availabilityId, {
+        return Availabilities.update(doc.availabilityId, {
             $set: {
                 bookedByEmail: doc.bookedByEmail,
                 bookedByName: doc.bookedByName,
@@ -93,7 +97,6 @@ Meteor.methods({
                 bookedByDate: new Date(),
             },
         });
-        console.log("insertion run",doc);
     },
     /**
      * setzt eine Availability auf "booking confirmed".

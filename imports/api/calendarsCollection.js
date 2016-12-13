@@ -13,7 +13,16 @@ export const Calendars = new Mongo.Collection("calendars");
 Calendars.attachSchema(calendarsSchema);
 
 if (Meteor.isServer) {
-
+    /**
+     * This collection hook will check that no Calendar can be deleted that still contains elements in the future.
+     */
+    Calendars.before.remove((doc) => {
+        if (Availabilities.findOne({startDate: {$gt: new Date()}},{calendarId: {$elemMatch: doc}})){
+            throw new Meteor.Error('notEmpty', "Can't delete a calendar that contains future availabilities.");
+        } else {
+            return true;
+        }
+    });
 };
 
 
@@ -52,7 +61,7 @@ Meteor.methods({
         if (this.userId !== toBeDeleted.userId){
             throw new Meteor.Error('not-authorized');
         }
+        //throw new Meteor.Error('bingoerror',"this is the reason for this error");
         Calendars.remove(calendarId);
-        throw new Meteor.Error('bingoerror',"this is the reason for this error");
     },
 });

@@ -38,6 +38,7 @@ Template.EditCalendar.helpers({
 });
 
 Template.EditCalendar.events({
+    /*
     "click #dataview-delete-button": function(e) {
         e.preventDefault();
         bootbox.dialog({
@@ -67,7 +68,7 @@ Template.EditCalendar.events({
             }
         });
         return false;
-    }
+    }*/
 });
 
 

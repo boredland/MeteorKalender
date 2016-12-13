@@ -9,7 +9,7 @@ Template.Availabilities.onRendered( () => {
 });
 
 Template.Availabilities.onCreated(function bodyOnCreated() {
-    Meteor.subscribe('allFutureAvailabilities');
+    Meteor.subscribe('allFutureAvailabilities',0);
     Meteor.subscribe('allCalendars');
     pageSession.set("errorMessage", "");
 });

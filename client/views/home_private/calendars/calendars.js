@@ -27,7 +27,14 @@ Template.Calendars.events({
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
-                        Meteor.call('calendars.remove', me._id);
+                        Meteor.call('calendars.remove',me._id, function(err, data) {
+                            if (err && err.error === "notEmpty") {
+                                pageSession.set("errorMessage", err.reason);
+                                console.log(err.reason)
+                            } else {
+                                Router.go('home_private.calendars');
+                            }
+                        });
                     }
                 },
                 danger: {
