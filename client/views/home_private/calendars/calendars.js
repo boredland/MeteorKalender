@@ -53,8 +53,39 @@ Template.Calendars.events({
         e.preventDefault();
         var me = this;
         Router.go("home_private.edit_calendar",{_calendarId: me._id});
+    },
+    "click #copy-button": function(e) {
+        e.preventDefault();
+        var me = this;
+        var calendar = Calendars.findOne({_id: me._id});
+        var origin = window.location.origin;
+        var linkslug = calendar.linkslug;
+        var link = origin + "/calendar_public/" + linkslug;
+        //console.log(link);
+        // Create an auxiliary hidden input
+        var aux = document.createElement("input");
+        // Get the text from the element passed into the input
+        aux.setAttribute("value", link);
+        // Append the aux input to the body
+        document.body.appendChild(aux);
+        // Highlight the content
+        aux.select();
+        // Execute the copy command
+        document.execCommand("copy");
+        // Remove the input from the body
+        console.log("Link copied");
+    },
     }
-});
+);
+
+
+function clpSet() {
+    window.clipboardData.setData("Text", document.name.text.value);
+}
+
+function clpGet() {
+    a = window.clipboardData.getData('Text');
+}
 
 Template.Calendars.helpers({
     "errorMessage": function() {
@@ -63,4 +94,8 @@ Template.Calendars.helpers({
     getCalendars(){
         return Calendars.find();
     }
+});
+
+Template.Calendars.onRendered(function() {
+    var clipboard = new Clipboard('.btn-copy-link');
 });
