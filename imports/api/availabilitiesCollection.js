@@ -79,6 +79,17 @@ Meteor.methods({
         }
         return Availabilities.remove(availabilityID);
     },
+
+    /**
+     * Löscht alle Availabilities.
+     * @param availabilities.removeall
+     */
+    'availabilities.removeall'(){
+
+
+
+        return  Availabilities.remove({});
+    },
     /**
      * Erstellt eine Buchung.
      * @param doc

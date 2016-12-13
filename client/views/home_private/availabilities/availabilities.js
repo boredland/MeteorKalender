@@ -41,7 +41,7 @@ Template.Availabilities.events({
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
-                        Meteor.call('availabilities.allremove', getfamilyid ());//noch nicht implementiert
+                        Meteor.call('availabilities.removeall');//noch nicht implementiert
                         Router.go('home_private.availabilities');
                     }
                 },
