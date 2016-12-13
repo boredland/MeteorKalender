@@ -78,15 +78,6 @@ Template.Calendars.events({
     }
 );
 
-
-function clpSet() {
-    window.clipboardData.setData("Text", document.name.text.value);
-}
-
-function clpGet() {
-    a = window.clipboardData.getData('Text');
-}
-
 Template.Calendars.helpers({
     "errorMessage": function() {
         return pageSession.get("errorMessage");
