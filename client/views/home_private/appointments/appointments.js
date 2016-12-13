@@ -26,7 +26,7 @@ function dataReady() {
 
 Template.Appointments.onCreated(
     function bodyOnCreated() {
-        availabilitiesSubscription = Meteor.subscribe('allFutureAvailabilities'); // If we want to display some events (like 30m) from the past, we'd have to shift to iron-router as fast as we can!!!
+        availabilitiesSubscription = Meteor.subscribe('allFutureAvailabilities',0); // If we want to display some events (like 30m) from the past, we'd have to shift to iron-router as fast as we can!!!
         calendarsSubscription = Meteor.subscribe('allCalendars');
         if (availabilitiesSubscription.ready() && calendarsSubscription.ready()) {
             console.log("Both subscriptions are ready.")
