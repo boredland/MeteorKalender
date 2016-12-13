@@ -50,6 +50,59 @@ Template.EditAvailability.events({
     }
 });
 
+Template.EditAvailability.events({
+    "click #dataview-delete-button-family": function(e) {
+        e.preventDefault();
+        bootbox.dialog({
+            message: "Delete by FamilyID? Are you sure?",
+            title: "Delete",
+            animate: false,
+            buttons: {
+                success: {
+                    label: "Yes",
+                    className: "btn-success",
+                    callback: function() {
+                      //  Meteor.call(()); muss noch implementiert werden
+                        Router.go('home_private.availabilities');
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-default"
+                }
+            }
+        });
+        return false;
+    }
+});
+Template.EditAvailability.events({
+    "click #dataview-delete-button-chunk": function(e) {
+        e.preventDefault();
+        bootbox.dialog({
+            message: "Delete by ChunkID? Are you sure?",
+            title: "Delete",
+            animate: false,
+            buttons: {
+                success: {
+                    label: "Yes",
+                    className: "btn-success",
+                    callback: function() {
+                       // Meteor.call(()); muss noch implementiert werden
+                        Router.go('home_private.availabilities');
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-default"
+                }
+            }
+        });
+        return false;
+    }
+});
+
+
+
 Template.EditAvailability.helpers({
 
 });
