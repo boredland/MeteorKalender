@@ -79,16 +79,12 @@ Meteor.methods({
         }
         return Availabilities.remove(availabilityID);
     },
-
     /**
-     * Löscht alle Availabilities.
+     * Löscht alle Availabilities des gegenwärtigen Benutzers.
      * @param availabilities.removeall
      */
-    'availabilities.removeall'(){
-
-
-
-        return  Availabilities.remove({});
+    'availabilities.removeAll'(){
+        return Availabilities.remove({userId: this.userId});
     },
     /**
      * Erstellt eine Buchung.
