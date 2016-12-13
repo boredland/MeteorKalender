@@ -31,7 +31,6 @@ matb33:collection-hooks
 perak:user-roles
 copleykj:livestamp
 less@2.7.8
-nemo64:bootstrap@=3.3.5_2
 reactive-dict@1.1.8
 mrt:moment
 mizzao:bootboxjs
@@ -49,3 +48,4 @@ supaseca:reactive-fullcalendar
 altapp:recaptcha
 practicalmeteor:chai
 votercircle:winston
+huttonr:bootstrap3
