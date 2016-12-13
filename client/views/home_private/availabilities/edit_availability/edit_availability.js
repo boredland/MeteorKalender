@@ -62,7 +62,7 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
-                      //  Meteor.call(()); muss noch implementiert werden
+                        Meteor.call('availabilities.removebyFamilyID', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },
@@ -87,7 +87,7 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
-                       // Meteor.call(()); muss noch implementiert werden
+                        Meteor.call('availabilities.removebyChunkID', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },

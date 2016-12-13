@@ -87,6 +87,27 @@ Meteor.methods({
         return Availabilities.remove({userId: this.userId});
     },
     /**
+     * Löscht alle Availabilities der family des gegenwärtigen Benutzers.
+     * @param availabilities.removebyfamilyID
+     */
+    'availabilities.removebyFamilyID'(familyId){
+        check(familyId, String);
+        const deletethis = Availabilities.findOne(familyId);
+        if (this.userId !== deletethis.userId) {
+            throw new Meteor.Error('not-authorized');
+        }
+        console.log(familyId);
+
+        return Availabilities.remove(familyId);
+    },
+    /**
+     * Löscht alle Availabilities der family des gegenwärtigen Benutzers.
+     * @param availabilities.removebyChunkID
+     */
+    'availabilities.removebyChunkID'(){
+        return Availabilities.remove({userId: this.userId});
+    },
+    /**
      * Erstellt eine Buchung.
      * @param doc
      */
