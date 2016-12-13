@@ -29,6 +29,31 @@ Template.Availabilities.events({
         Router.go("home_private.new_availability", {});
     },
 });
+Template.Availabilities.events({
+    "click #delete-all-button": function(e) {
+        e.preventDefault();
+        bootbox.dialog({
+            message: "Delete all availabilities? Are you sure?",
+            title: "Delete",
+            animate: false,
+            buttons: {
+                success: {
+                    label: "Yes",
+                    className: "btn-success",
+                    callback: function() {
+                        Meteor.call('availabilities.allremove', getfamilyid ());//noch nicht implementiert
+                        Router.go('home_private.availabilities');
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-default"
+                }
+            }
+        });
+        return false;
+    }
+});
 
 Template.Availabilities.helpers({
     "errorMessage": function() {
