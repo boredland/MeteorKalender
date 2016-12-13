@@ -81,7 +81,7 @@ Template.Availabilities.helpers({
                     title = " (reserved)";
                     status = false;
                 } else {
-                    title = "";
+                    title = " (free)";
                     status = true;
                 }
                 if (availability !== undefined){
