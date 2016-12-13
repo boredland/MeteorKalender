@@ -22,11 +22,6 @@ if (Meteor.isServer) {
 
 };
 
-/**
- * gives a booalean false, if there are no availabilities
- * @param calendarid
- */
-
 // it is best practice to explicitly allow crud-actions
 Availabilities.allow({
     insert: function (endTime, repeatInterval, repeatUntil, startDate, startTime) {
