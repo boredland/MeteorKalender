@@ -73,6 +73,8 @@ Template.Calendars.events({
         // Execute the copy command
         document.execCommand("copy");
         // Remove the input from the body
+        document.body.removeChild(aux);
+
         console.log("Link copied");
     },
     }
