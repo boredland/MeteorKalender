@@ -127,8 +127,14 @@ Meteor.startup(function() {
             password: "testpass",
             profile: {name: "testname"}
         });
-        console.log("testuser was missing - added successfully")
+        console.log("testuser was missing - added successfully");
+        var userid = Accounts.findUserByEmail("testuser@stud.fra-uas.de")._id;
+        console.log("userid",userid);
+        var user = Meteor.users.findOne({_id: userid});
+        console.log("user", user);
 	}
+
+
 
 });
 
