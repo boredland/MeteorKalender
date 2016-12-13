@@ -4,6 +4,28 @@ import { Meteor } from 'meteor/meteor';
 
 var pageSession = new ReactiveDict();
 
+var getData = function(){
+    return Availabilities.find().fetch().map( ( availability ) => {
+        //availability.editable = true; //availability.startDate
+        var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
+        var title, status;
+        if (availability.bookedByConfirmed) {
+            title = " (booked)";
+            status = false;
+        } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
+            title = " (reserved)";
+            status = false;
+        } else {
+            title = " (free)";
+            status = true;
+        }
+        if (availability !== undefined){
+            availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name+title, id: availability._id, status: status};
+            return availability;
+        }
+    });
+};
+
 Template.Availabilities.onRendered( () => {
 
 });
@@ -70,25 +92,7 @@ Template.Availabilities.helpers({
         lang: 'de',
         // Function providing events reactive computation for fullcalendar plugin
         events( start, end, timezone, callback ) {
-            let data = Availabilities.find().fetch().map( ( availability ) => {
-                //availability.editable = true; //availability.startDate
-                var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
-                var title, status;
-                if (availability.bookedByConfirmed) {
-                    title = " (booked)";
-                    status = false;
-                } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
-                    title = " (reserved)";
-                    status = false;
-                } else {
-                    title = " (free)";
-                    status = true;
-                }
-                if (availability !== undefined){
-                    availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name+title, id: availability._id, status: status};
-                    return availability;
-                }
-            });
+            let data = getData();
             if ( data ) {
                 callback( data );
             }
