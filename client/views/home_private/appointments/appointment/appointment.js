@@ -8,6 +8,19 @@ function dataReady() {
         return false
     }
 }
+function getCurrentAvailabilityId(){
+    var currentId = Router.current().params._eventId;
+    if (currentId != undefined) {
+        return currentId;
+    }
+}
+
+function getCurrentAvailability() {
+    var availability = Availabilities.findOne({_id: getCurrentAvailabilityId()});
+    if (availability != undefined){
+        return availability;
+    }
+}
 
 Template.Appointment.onCreated(function bodyOnCreated() {
     appointment = this.data;
@@ -26,7 +39,33 @@ Template.Appointment.created = function() {
 };
 
 Template.Appointment.events({
-
+    "click #dataview-cancel-button": function(e) {
+        e.preventDefault();
+        console.log("Pressed Cancel");
+        bootbox.dialog({
+            message: "Want to Cancel?",
+            title: "Cancel",
+            animate: false,
+            buttons: {
+                success: {
+                    label: "Yes, with delete availability",
+                    className: "btn-success",
+                    callback: function() {
+                        Meteor.call('availabilities.remove',getCurrentAvailabilityId());
+                        Router.go('home_private.appointments');
+                    }
+                },
+                danger: {
+                    label: "Yes, without delete availability",
+                    className: "btn-default",
+                    callback: function () {
+                        meteor.call('');
+                        Router.go('home_private.appointments');
+                    }
+                }
+            }
+        });
+    },
 });
 
 Template.Appointment.helpers({

@@ -21,5 +21,12 @@
             <p>Email: {{getEmail}}</p>
             <p>Confirmed: {{getConfirmationStatus}}</p>
         {{/if}}
+        <div id="dataview-controls-cancel-button" class="form-group {{deleteButtonClass}}">
+            <button type="submit" id="dataview-cancel-button" class="btn btn-fail">
+					<span class="fa fa-minus">
+					</span>
+                Cancel
+            </button>
+        </div>
     </div>
 </template>
