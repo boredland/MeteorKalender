@@ -236,7 +236,7 @@ Router.map(function () {
                                 } else if (moment(availability.bookedByDate) >= moment().add(-10,'m') && !availability.bookedByConfirmed && availability.bookedByDate){
                                     color = "#FFFF00";
                                     title = "reserved";
-                                } else if (!availability.bookedByConfirmed && ((moment(availability.bookedByDate) >= moment().add(-10,'m'))||!availability.bookedByDate)){
+                                } else if (!availability.bookedByConfirmed && ((moment(availability.bookedByDate) < moment().add(-10,'m'))||!availability.bookedByDate)){
                                     color = "#008000";
                                     title = "free";
                                 } else {

@@ -156,7 +156,7 @@ Meteor.methods({
         // generate our random cancellation-token
         var cancellationToken = Random.id();
         // Send Mails if the insertion was successful.
-        if (Availabilities.update(doc.availabilityId, {
+        Availabilities.update(doc.availabilityId, {
             $set: {
                 bookedByEmail: doc.bookedByEmail,
                 bookedByName: doc.bookedByName,
@@ -165,19 +165,24 @@ Meteor.methods({
                 bookedByConfirmationToken: verificationToken,
                 bookedByCancellationToken: cancellationToken
             },
-        })) {
+        });
+        var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verificationToken});
+        // check if the availability is in the database.
+        if (availability != undefined){
             // Let other method calls from the same client start running,
             // without waiting for the email sending to complete.
+            console.log("is there.")
             this.unblock();
-            return Email.send({
+            Email.send({
                 to: doc.bookedByEmail,
                 from: "no-reply@meteor.com",
                 subject: "Your reservation at MeteorKalender needs your confirmation.",
                 text: "Thank you for your reservation at MeteorKalender. We need you to click at the following link to activate your booking: " +
                 Meteor.absoluteUrl()+"verify_booking/"+verificationToken
             });
+            return true;
         } else {
-            throw new Meteor.Error('booking-error',"There was an error either saving your booking information or sending you the confirmation-email.");
+            throw new Meteor.Error('booking-error',"There was an error saving your booking information.");
         }
     },
 
