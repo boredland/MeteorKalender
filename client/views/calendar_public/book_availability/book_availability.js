@@ -30,7 +30,7 @@ Template.Booking.helpers({
         return availability.startDate;
     },
     CurrentAvailabilityTo: function () {
-        return availability.startDate;
+        return availability.endDate;
     },
     CurrentCalendarName: function () {
         return calendar.name;
