@@ -76,7 +76,6 @@ Meteor.methods({
         var familyid = Random.id().substring(0, 4);
 
         checkInsertionConditions(startTime, endTime, doc, this.userId)
-
         var startTimeModified = startTime;
         var endTimeModified = endTime;
         var overlapErrorCount = 0;
@@ -97,7 +96,7 @@ Meteor.methods({
             }
             startTimeModified.add(doc.repeatInterval, 'w');
             endTimeModified.add(doc.repeatInterval, 'w');
-        } while (startTimeModified <= repeatUntil);
+        } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
         if (overlapErrorCount > 0) {
             throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
         }
@@ -150,14 +149,25 @@ Meteor.methods({
      * @param doc
      */
     'booking.insert'(doc){
-        return Availabilities.update(doc.availabilityId, {
+        // Send Mails if the insertion was successful.
+        if (Availabilities.update(doc.availabilityId, {
             $set: {
                 bookedByEmail: doc.bookedByEmail,
                 bookedByName: doc.bookedByName,
                 bookedByConfirmed: true, //should be false later.
                 bookedByDate: new Date(),
             },
-        });
+        })) {
+            // Let other method calls from the same client start running,
+            // without waiting for the email sending to complete.
+            this.unblock();
+            Email.send({
+                to: doc.bookedByEmail,
+                from: "no-reply@meteor.com",
+                subject: "testbetreff",
+                text: "blablabla"
+            });
+        }
     },
     /**
      * setzt eine Availability auf "booking confirmed".
