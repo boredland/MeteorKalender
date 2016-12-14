@@ -84,7 +84,6 @@ export var availabilitiesSchema = new SimpleSchema({
     },
     calendarId: {
         type: Array,
-        optional: true,
     },
     'calendarId.$': {
         type: String,
@@ -269,7 +268,6 @@ export var availabilitiesFormSchema = new SimpleSchema({
     },
     calendarId: {
         type: Array,
-        optional: true,
     },
     'calendarId.$': {
         type: String,
