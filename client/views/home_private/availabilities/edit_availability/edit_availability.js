@@ -87,7 +87,7 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
-                        Meteor.call('availabilities.removebyChunkID', getCurrentAvailabilityId());
+                        Meteor.call('availabilities.removebySiblingID', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },

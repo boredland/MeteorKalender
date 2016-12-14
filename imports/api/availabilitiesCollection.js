@@ -104,7 +104,7 @@ Meteor.methods({
      * Löscht alle Availabilities der family des gegenwärtigen Benutzers.
      * @param availabilities.removebyChunkID
      */
-    'availabilities.removebyChunkID'(){
+    'availabilities.removebySiblingID'(){
         return Availabilities.remove({userId: this.userId});
     },
     /**
