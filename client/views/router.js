@@ -233,7 +233,7 @@ Router.map(function () {
                                 if (availability.bookedByConfirmed) {
                                     color = "#FF0000";
                                     title = "booked";
-                                } else if (moment(availability.bookedByDate) >= moment().add(-10,'m') && !availability.bookedByConfirmed){
+                                } else if (moment(availability.bookedByDate) >= moment().add(-10,'m') && !availability.bookedByConfirmed && availability.bookedByDate){
                                     color = "#FFFF00";
                                     title = "reserved";
                                 } else if (!availability.bookedByConfirmed && ((moment(availability.bookedByDate) >= moment().add(-10,'m'))||!availability.bookedByDate)){
