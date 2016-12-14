@@ -1,3 +1,5 @@
+import {Availabilities} from '/imports/api/availabilitiesCollection';
+import {Calendars} from '/imports/api/calendarsCollection';
 var pageSession = new ReactiveDict();
 var appointment;
 
@@ -59,7 +61,7 @@ Template.Appointment.events({
                     label: "Yes, without delete availability",
                     className: "btn-default",
                     callback: function () {
-                        meteor.call('');
+                        Meteor.call('booking.cancel',getCurrentAvailabilityId());
                         Router.go('home_private.appointments');
                     }
                 }

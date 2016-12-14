@@ -116,6 +116,7 @@ Meteor.methods({
         }
         return Availabilities.remove(availabilityID);
     },
+
     /**
      * Löscht alle Availabilities des gegenwärtigen Benutzers.
      * @param availabilities.removeall
@@ -175,7 +176,15 @@ Meteor.methods({
      */
     'booking.confirm'(availabilityId){
         Availabilities.update(availabilityId,{$set: {bookedByConfirmed: true}})
-    }
+    },
+
+    /**
+     * Setzt die Buchung zurück
+     * @param availabilityID
+     */
+    'booking.cancel'(availabilityId){
+        Availabilities.update(availabilityId,{$set: {bookedByConfirmed: false}})
+},
 });
 
 var isThisBankHoliday = function (date) {
