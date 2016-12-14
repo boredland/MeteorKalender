@@ -23,14 +23,13 @@ if (Meteor.isServer) {
      * This will check that there are no Availabilities for this user at the same time or overlapping times.
      */
     Availabilities.before.insert(function (userId, doc) {
-        console.log(doc);
         var new_startdate = new Date(doc.startDate);
         var new_enddate = new Date(doc.endDate);
         Availabilities.find({},{userId: doc.userId, startDate: {$gt: new Date()}}).fetch().map( ( availability ) => {
             if (availability !== undefined) {
                 var existing_startdate = new Date(availability.startDate);
                 var existing_enddate = new Date(availability.endDate);
-                console.log("Are " + new_startdate + " or "+new_enddate+" between " + existing_startdate + " or " + existing_enddate + "?");
+                //console.log("Are " + new_startdate + " or "+new_enddate+" between " + existing_startdate + " or " + existing_enddate + "?");
                 if (
                     (
                         (existing_startdate <= new_startdate )&& (new_startdate <= existing_enddate)
@@ -42,10 +41,10 @@ if (Meteor.isServer) {
                         (new_startdate <= existing_startdate) && (new_enddate >= existing_enddate)
                     )
                 ) {
-                    console.log("yes");
+                    //console.log("yes");
                     throw new Meteor.Error("overlap");
                 }
-                console.log("no");
+                //console.log("no");
             }
             return true;
         });

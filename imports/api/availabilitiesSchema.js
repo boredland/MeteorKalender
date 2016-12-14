@@ -239,9 +239,8 @@ export var availabilitiesFormSchema = new SimpleSchema({
         optional: true,
         autoform: {
             type: "select",
-            firstOption: false,
+            firstOption: "Don't repeat",
             options: [
-                {label: "Don't repeat", value: "1"},
                 {label: "1 week", value: "1"},
                 {label: "2 weeks", value: "2"},
                 {label: "3 weeks", value: "3"},
