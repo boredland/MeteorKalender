@@ -120,7 +120,7 @@ Meteor.startup(function() {
         privatekey: process.env.RE_CAPTCHA
     });
 
-	//add test user if missing, still needs to be validated(how?)
+	//add test user if missing
 	if(Accounts.findUserByEmail("testuser@stud.fra-uas.de") === undefined) {
         Accounts.createUser({
             email: "testuser@stud.fra-uas.de",
@@ -129,9 +129,8 @@ Meteor.startup(function() {
         });
         console.log("testuser was missing - added successfully");
         var userid = Accounts.findUserByEmail("testuser@stud.fra-uas.de")._id;
-        console.log("userid",userid);
-        var user = Meteor.users.findOne({_id: userid});
-        console.log("user", user);
+        Meteor.users.update(userid, {$set: {"emails.0.verified" :true}});
+        console.log("...and verified");
 	}
 
 
