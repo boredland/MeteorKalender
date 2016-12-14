@@ -12,7 +12,7 @@ var getData = function(){
         if (availability.bookedByConfirmed) {
             title = " (booked)";
             status = false;
-        } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
+        } else if (moment(availability.bookedByDate) >= moment().add(-10,'m') && !availability.bookedByConfirmed && availability.bookedByDate){
             title = " (reserved)";
             status = false;
         } else {

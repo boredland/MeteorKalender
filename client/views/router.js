@@ -228,7 +228,7 @@ Router.map(function () {
                             if (availability !== undefined){
                                 var color,title;
                                 /**
-                                 * Confirmed or (unconfirmed and timestamp younger than moment-10m
+                                 * Confirmed or (unconfirmed and timestamp younger than moment-10m)
                                  */
                                 if (availability.bookedByConfirmed) {
                                     color = "#FF0000";
