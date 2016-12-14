@@ -1,15 +1,15 @@
 var pageSession = new ReactiveDict();
 
-Template.VerifyBooking.rendered = function() {
+Template.CancelBooking.rendered = function() {
 	pageSession.set("errorMessage", "");
-    var verifyBookingToken = Router.current().params.verifyBookingToken;
-  if (verifyBookingToken) {
+    var cancelBookingToken = Router.current().params.cancelBookingToken;
+  if (cancelBookingToken) {
       /*Availabilities.verifyBooking(verifyBookingToken, function (err) {
           if (err) {
             pageSession.set("errorMessage", err.message);
           }
       });*/
-      pageSession.set("errorMessage", verifyBookingToken);
+      pageSession.set("errorMessage", cancelBookingToken);
   }
   /*else {
     pageSession.set("errorMessage", err.message);
@@ -17,14 +17,14 @@ Template.VerifyBooking.rendered = function() {
 	
 };
 
-Template.VerifyBooking.events({
+Template.CancelBooking.events({
   "click .go-home": function(e, t) {
     Router.go("/");
   }
   
 });
 
-Template.VerifyBooking.helpers({
+Template.CancelBooking.helpers({
   "errorMessage": function() {
     return pageSession.get("errorMessage");
   }

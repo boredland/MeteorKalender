@@ -13,7 +13,7 @@ var publicRoutes = [
 	"home_public",
 	"login",
 	"register",
-	"verify_booking",
+	//"verify_booking",
     "verify_email",
     "forgot_password",
 	"reset_password"
@@ -189,17 +189,24 @@ Router.onBeforeAction(
 Router.onBeforeAction(Router.ensureGranted, {only: freeRoutes}); // yes, route from free zone can be restricted to specific set of user roles
 
 Router.map(function () {
+    // Default Routes
 	this.route("home_public", {path: "/", controller: "HomePublicController"});
 	this.route("login", {path: "/login", controller: "LoginController"});
 	this.route("register", {path: "/register", controller: "RegisterController"});
     this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
+    this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
+    this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
+
+    // Public Routes
     this.route("verify_booking", {path: "/verify_booking/:verifyBookingToken", controller: "VerifyBookingController"});
+    this.route("cancel_booking", {path: "/cancel_booking/:cancelBookingToken", controller: "CancelBookingController"});
+    // --> With data
     this.route("calendar_public", {
-    	path: "/calendar_public/:_calendarSlug",
-		controller: "CalendarPublicController",
+        path: "/calendar_public/:_calendarSlug",
+        controller: "CalendarPublicController",
         template: 'CalendarPublic', // <-- to be explicit
         /**
-		 *
+         *
          * @returns {Array}
          */
         data: function(){
@@ -208,9 +215,9 @@ Router.map(function () {
             calendarSubscription = Meteor.subscribe('singlePublicCalendarBySlug', currentCalendarSlug);
             // ready() is true if all items in the wait list are ready
             if (calendarSubscription.ready()) {
-            	currentCalendarFull = Calendars.findOne({});
-            	currentCalendarPublic = currentCalendarFull;
-            	if (currentCalendarFull !== undefined){
+                currentCalendarFull = Calendars.findOne({});
+                currentCalendarPublic = currentCalendarFull;
+                if (currentCalendarFull !== undefined){
                     availabilitySubscription = Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarId', currentCalendarFull._id);
                     if (availabilitySubscription.ready()){
                         currentCalendarPublic = Calendars.findOne({},{fields: {name: 1, location: 1, linkslug: 1}});
@@ -219,33 +226,33 @@ Router.map(function () {
                          */
                         currentAvailabilities = Availabilities.find().fetch().map( ( availability ) => {
                             if (availability !== undefined){
-                            	var color,title;
+                                var color,title;
                                 /**
-								 * Confirmed or (unconfirmed and timestamp younger than moment-10m
+                                 * Confirmed or (unconfirmed and timestamp younger than moment-10m
                                  */
-                            	if (availability.bookedByConfirmed) {
+                                if (availability.bookedByConfirmed) {
                                     color = "#FF0000";
                                     title = "booked";
                                 } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
-									color = "#FFFF00";
+                                    color = "#FFFF00";
                                     title = "reserved";
                                 } else if (!availability.bookedByConfirmed && ((moment(availability.bookedByDate) >= moment().add(-10,'m'))||!availability.bookedByDate)){
-                            		color = "#008000";
-                            		title = "free";
-								} else {
-									color = "#800080"
-								}
+                                    color = "#008000";
+                                    title = "free";
+                                } else {
+                                    color = "#800080"
+                                }
                                 availability = {start: availability.startDate,end: availability.endDate, id: availability._id, color: color, title: title};
                                 //console.log(availability);
-								return availability;
+                                return availability;
                             }
                         });
                     }
-				}
+                }
 
             }
             /**
-			 *
+             *
              */
             if ((currentCalendarPublic && availabilitySubscription.ready()) || !currentCalendarPublic){
                 this.render();
@@ -260,15 +267,15 @@ Router.map(function () {
                 } else if (!currentAvailabilities) {
                     resultarray.push(undefined);
                 }
-            	return resultarray;
+                return resultarray;
             } else {
-            	this.render('Loading');
-			}
+                this.render('Loading');
+            }
         }
     });
     this.route("calendar_public.book", {
-    	path: "/book_availability/:_availabilityId/:_calendarSlug",
-		controller: "BookingController",
+        path: "/book_availability/:_availabilityId/:_calendarSlug",
+        controller: "BookingController",
         template: 'Booking', // <-- to be explicit
         data: function(){
             var currentAvailabilityId = this.params._availabilityId;
@@ -290,9 +297,20 @@ Router.map(function () {
             }
         }
     });
-    this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
-	this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
+
+    // Private Routes
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
+    this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
+    this.route("user_settings.profile", {path: "/user_settings/profile", controller: "UserSettingsProfileController"});
+    this.route("user_settings.change_pass", {path: "/user_settings/change_pass", controller: "UserSettingsChangePassController"});
+    this.route("logout", {path: "/logout", controller: "LogoutController"});
+
+	// Availabilities
+    this.route("home_private.edit_availability", {path: "/home_private/edit_availability/:_eventId", controller: "EditAvailabilityController",});
+    this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
+    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController", template: 'Availabilities'});
+
+    // Appointments
     this.route("home_private.appointments", {
     	path: "/home_private/appointments",
 		controller: "AppointmentsController",
@@ -314,14 +332,9 @@ Router.map(function () {
             }
         }
     });
-    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController", template: 'Availabilities'});
-    this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
-    this.route("home_private.edit_availability", {path: "/home_private/edit_availability/:_eventId", controller: "EditAvailabilityController",});
+
+    // Calendars
     this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
     this.route("home_private.new_calendar", {path: "/home_private/new_calendar", controller: "NewCalendarController"});
     this.route("home_private.edit_calendar", {path: "/home_private/edit_calendar/:_calendarId", controller: "EditCalendarController"});
-    this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
-	this.route("user_settings.profile", {path: "/user_settings/profile", controller: "UserSettingsProfileController"});
-	this.route("user_settings.change_pass", {path: "/user_settings/change_pass", controller: "UserSettingsChangePassController"});
-	this.route("logout", {path: "/logout", controller: "LogoutController"});
-});
+    });
