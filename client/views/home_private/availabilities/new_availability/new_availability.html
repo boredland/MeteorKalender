@@ -6,13 +6,14 @@
                 </div>
             </div>
         </div>
+        {{#if errorMessage}}
+            <div class="alert alert-warning">
+                {{errorMessage}}
+            </div>
+        {{/if}}
         <h2>New Availabilitiy</h2>
-        {{> AvailabilityInsertForm}}
+        {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="availabilities.insert"}}
     </div>
-</template>
-
-<template name="AvailabilityInsertForm">
-    {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="availabilities.insert"}}
 </template>
 
 <template name="dpReplacement">

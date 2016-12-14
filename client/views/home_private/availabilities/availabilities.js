@@ -37,8 +37,7 @@ Template.Availabilities.onCreated(function bodyOnCreated() {
 });
 
 Template.Availabilities.rendered = function() {
-    pageSession.set("invoicesInsertInsertFormInfoMessage", "");
-    pageSession.set("invoicesInsertInsertFormErrorMessage", "");
+
 };
 
 Template.Availabilities.created = function() {
@@ -79,6 +78,10 @@ Template.Availabilities.events({
 
 Template.Availabilities.helpers({
     "errorMessage": function() {
+        var getError = Router.current().params.query.error;
+        if (getError) {
+            pageSession.set("errorMessage", getError);
+        }
         return pageSession.get("errorMessage");
     },
     availibilityCalendarOptions: {

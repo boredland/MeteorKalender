@@ -253,7 +253,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         optional: true,
         autoform: {
-            value: new Date(moment().add(7,'d')),
+            value: new Date(moment()),//.add(7,'d')),
             afFieldInput: {
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {

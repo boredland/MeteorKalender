@@ -14,12 +14,42 @@ Availabilities.attachSchema(availabilitiesSchema);
 Meteor.startup(function () {
     if (Meteor.isServer) {
         Availabilities._ensureIndex({"calendarID": 1})
-        console.log("created Index over calenderID in Availabilities Colleciton")
+        console.log("created Index over calenderID in Availabilities Collection");
     }
 });
 
 if (Meteor.isServer) {
-
+    /**
+     * This will check that there are no Availabilities for this user at the same time.
+     */
+    Availabilities.before.insert(function (userId, doc) {
+        console.log(doc);
+        var new_startdate = new Date(doc.startDate);
+        var new_enddate = new Date(doc.endDate);
+        Availabilities.find({},{userId: doc.userId, startDate: {$gt: new Date()}}).fetch().map( ( availability ) => {
+            if (availability !== undefined) {
+                var existing_startdate = new Date(availability.startDate);
+                var existing_enddate = new Date(availability.endDate);
+                console.log("Are " + new_startdate + " or "+new_enddate+" between " + existing_startdate + " or " + existing_enddate + "?");
+                if (
+                    (
+                        (existing_startdate <= new_startdate )&& (new_startdate <= existing_enddate)
+                    ) ||
+                    (
+                        (existing_startdate <= new_enddate) && (new_enddate <= existing_enddate)
+                    ) ||
+                    (
+                        (new_startdate <= existing_startdate) && (new_enddate >= existing_enddate)
+                    )
+                ) {
+                    console.log("yes");
+                    throw new Meteor.Error("overlap");
+                }
+                console.log("no");
+            }
+            return true;
+        });
+    });
 };
 
 // it is best practice to explicitly allow crud-actions
@@ -41,8 +71,8 @@ Meteor.methods({
      */
     'availabilities.insert'(doc) {
         //console.log(doc);
-        var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).set(0,'s');
-        var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).set(0,'s');
+        var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
+        var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
         var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
         var familyid = Random.id().substring(0, 4);
 
@@ -50,19 +80,28 @@ Meteor.methods({
 
         var startTimeModified = startTime;
         var endTimeModified = endTime;
+        var overlapErrorCount = 0;
         do {
             var chunkEndTime = startTimeModified;
             if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays == false)) || doc.dontSkipHolidays == true) {
                 do {
-                    chunkStartTime = chunkEndTime;
+                    var chunkStartTime = chunkEndTime;
                     chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
-                    insertAvailability(this.userId, chunkStartTime._d, chunkEndTime._d, doc.calendarId, familyid)
+                    try {
+                        insertAvailability(this.userId, new Date(chunkStartTime.seconds(1)), new Date(chunkEndTime.seconds(0)), doc.calendarId, familyid);
+                    } catch(err) {
+                        if (err.error === "overlap") {
+                            overlapErrorCount++;
+                        }
+                    }
                 } while (chunkEndTime < endTimeModified);
             }
-            startTimeModified.add(doc.repeatInterval, 'w')
-            endTimeModified.add(doc.repeatInterval, 'w')
-        } while (startTimeModified <= repeatUntil)
-
+            startTimeModified.add(doc.repeatInterval, 'w');
+            endTimeModified.add(doc.repeatInterval, 'w');
+        } while (startTimeModified <= repeatUntil);
+        if (overlapErrorCount > 0) {
+            throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
+        }
     },
     /**
      * Löscht eine Availability.
@@ -163,8 +202,7 @@ var checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
  */
 
 var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
-
-    Availabilities.insert({
+    return Availabilities.insert({
         userId: thisUserId,
         startDate: startDate,
         endDate: endDate,
