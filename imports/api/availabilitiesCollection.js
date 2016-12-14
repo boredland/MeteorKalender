@@ -197,6 +197,7 @@ Meteor.methods({
         var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verifyBookingToken});
         if (availability != undefined){
             return Availabilities.update(availability._id,{$set: {bookedByConfirmed: true}});
+            //-> Here the user should get a mail about his reservation beeing confirmed and the cancellation-link.
         } else {
             throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
         }
