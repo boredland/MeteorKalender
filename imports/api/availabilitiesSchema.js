@@ -298,12 +298,10 @@ export var bookingFormSchema = new SimpleSchema({
         }
     },
     bookedByName: {
-        optional: true,
         type: String,
         label: "Name"
     },
     bookedByEmail: {
-        optional: true,
         type: String,
         regEx: SimpleSchema.RegEx.Email
     }
