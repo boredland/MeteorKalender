@@ -20,7 +20,7 @@ Meteor.startup(function () {
 
 if (Meteor.isServer) {
     /**
-     * This will check that there are no Availabilities for this user at the same time.
+     * This will check that there are no Availabilities for this user at the same time or overlapping times.
      */
     Availabilities.before.insert(function (userId, doc) {
         console.log(doc);

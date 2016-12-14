@@ -13,8 +13,9 @@ var publicRoutes = [
 	"home_public",
 	"login",
 	"register",
-	"verify_email",
-	"forgot_password",
+	"verify_booking",
+    "verify_email",
+    "forgot_password",
 	"reset_password"
 ];
 
@@ -191,7 +192,8 @@ Router.map(function () {
 	this.route("home_public", {path: "/", controller: "HomePublicController"});
 	this.route("login", {path: "/login", controller: "LoginController"});
 	this.route("register", {path: "/register", controller: "RegisterController"});
-	this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
+    this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
+    this.route("verify_booking", {path: "/verify_booking/:verifyBookingToken", controller: "VerifyBookingController"});
     this.route("calendar_public", {
     	path: "/calendar_public/:_calendarSlug",
 		controller: "CalendarPublicController",
