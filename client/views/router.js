@@ -198,7 +198,7 @@ Router.map(function () {
     this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 
     // Public Routes
-    this.route("verify_booking", {path: "/verify_booking/:verifyBookingToken", controller: "VerifyBookingController"});
+    this.route("verify_booking", {path: "/verify_booking/:verifyBookingToken", controller: "VerifyBookingController", template: "VerifyBooking"});
     this.route("cancel_booking", {path: "/cancel_booking/:cancelBookingToken", controller: "CancelBookingController"});
     // --> With data
     this.route("calendar_public", {
@@ -233,7 +233,7 @@ Router.map(function () {
                                 if (availability.bookedByConfirmed) {
                                     color = "#FF0000";
                                     title = "booked";
-                                } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
+                                } else if (moment(availability.bookedByDate) >= moment().add(-10,'m') && !availability.bookedByConfirmed){
                                     color = "#FFFF00";
                                     title = "reserved";
                                 } else if (!availability.bookedByConfirmed && ((moment(availability.bookedByDate) >= moment().add(-10,'m'))||!availability.bookedByDate)){

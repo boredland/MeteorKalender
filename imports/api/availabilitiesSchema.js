@@ -131,6 +131,20 @@ export var availabilitiesSchema = new SimpleSchema({
         autoform: {
             type: "hidden",
         }
+    },
+    bookedByConfirmationToken: {
+        type: String,
+        optional: true,
+        autoform: {
+            type: "hidden",
+        }
+    },
+    bookedByCancellationToken: {
+        type: String,
+        optional: true,
+        autoform: {
+            type: "hidden",
+        }
     }
 });
 

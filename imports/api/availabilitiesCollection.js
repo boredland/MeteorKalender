@@ -82,6 +82,7 @@ Meteor.methods({
         do {
             var chunkEndTime = startTimeModified;
             if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays == false)) || doc.dontSkipHolidays == true) {
+                // this is for the chunks
                 do {
                     var chunkStartTime = chunkEndTime;
                     chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
@@ -96,7 +97,7 @@ Meteor.methods({
             }
             startTimeModified.add(doc.repeatInterval, 'w');
             endTimeModified.add(doc.repeatInterval, 'w');
-        } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
+        } while (startTimeModified <= repeatUntil && startTimeModified != startTime);
         if (overlapErrorCount > 0) {
             throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
         }
@@ -150,33 +151,36 @@ Meteor.methods({
      * @param doc
      */
     'booking.insert'(doc){
+        //generate our random verification token
+        var verificationToken = Random.id();
+        // generate our random cancellation-token
+        var cancellationToken = Random.id();
         // Send Mails if the insertion was successful.
         if (Availabilities.update(doc.availabilityId, {
             $set: {
                 bookedByEmail: doc.bookedByEmail,
                 bookedByName: doc.bookedByName,
-                bookedByConfirmed: true, //should be false later.
+                bookedByConfirmed: false,
                 bookedByDate: new Date(),
+                bookedByConfirmationToken: verificationToken,
+                bookedByCancellationToken: cancellationToken
             },
         })) {
             // Let other method calls from the same client start running,
             // without waiting for the email sending to complete.
             this.unblock();
-            Email.send({
+            return Email.send({
                 to: doc.bookedByEmail,
                 from: "no-reply@meteor.com",
-                subject: "testbetreff",
-                text: "blablabla"
+                subject: "Your reservation at MeteorKalender needs your confirmation.",
+                text: "Thank you for your reservation at MeteorKalender. We need you to click at the following link to activate your booking: " +
+                Meteor.absoluteUrl()+"verify_booking/"+verificationToken
             });
+        } else {
+            throw new Meteor.Error('booking-error',"There was an error either saving your booking information or sending you the confirmation-email.");
         }
     },
-    /**
-     * setzt eine Availability auf "booking confirmed".
-     * @param availabilityId ID der Availability
-     */
-    'booking.confirm'(availabilityId){
-        Availabilities.update(availabilityId,{$set: {bookedByConfirmed: true}})
-    },
+
 
     /**
      * Setzt die Buchung zurück
@@ -184,7 +188,19 @@ Meteor.methods({
      */
     'booking.cancel'(availabilityId){
         Availabilities.update(availabilityId,{$set: {bookedByConfirmed: false}})
-},
+    },
+    /**
+     * setzt eine Availability auf "booking confirmed".
+     * @param availabilityId ID der Availability
+     */
+    'booking.confirm'(verifyBookingToken){
+        var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verifyBookingToken});
+        if (availability != undefined){
+            return Availabilities.update(availability._id,{$set: {bookedByConfirmed: true}});
+        } else {
+            throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
+        }
+    }
 });
 
 var isThisBankHoliday = function (date) {
