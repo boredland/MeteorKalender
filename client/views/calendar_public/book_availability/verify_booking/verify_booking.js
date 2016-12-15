@@ -1,20 +1,27 @@
 var pageSession = new ReactiveDict();
+var finalized = 0;
 
-Template.VerifyBooking.rendered = function() {
-	pageSession.set("errorMessage", "");
-    pageSession.set("infoMessage", "");
+Template.VerifyBooking.onCreated(function bodyOnCreated() {
     var verifyBookingToken = Router.current().params.verifyBookingToken;
     if (verifyBookingToken) {
-      Meteor.call('booking.confirm', verifyBookingToken, function (error, project) {
-          if (error && error.error == "confirmation-error"){
-              pageSession.set("errorMessage", error.reason);
-              pageSession.set("infoMessage", "");
-          } else {
-              pageSession.set("errorMessage", "");
-              pageSession.set("infoMessage", "You successfully confirmed your booking.");
-          }
-      });
+        Meteor.call('booking.confirm', verifyBookingToken, function (error, project) {
+            if(!error && finalized == 0){
+                finalized = 1;
+                pageSession.set("errorMessage", "");
+                pageSession.set("infoMessage", "You successfully confirmed your booking.");
+                console.log("confirmsuccess");
+            } else if (error && error.error == "confirmation-error" && finalized == 0){
+                finalized = 1;
+                pageSession.set("errorMessage", error.reason);
+                pageSession.set("infoMessage", "");
+                console.log("confirmerror");
+            }
+        });
     }
+});
+
+Template.VerifyBooking.rendered = function() {
+
 };
 
 Template.VerifyBooking.events({

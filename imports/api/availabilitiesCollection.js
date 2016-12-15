@@ -49,6 +49,63 @@ if (Meteor.isServer) {
             return true;
         });
     });
+    // Hier sollten Methoden landen, die nur auf dem server laufen sollten.
+    Meteor.methods({
+        /**
+         * Erstellt eine Buchung.
+         * @param doc
+         */
+        'booking.insert'(doc){
+            //generate our random verification token
+            var verificationToken = Random.id();
+            // generate our random cancellation-token
+            var cancellationToken = Random.id();
+            // Send Mails if the insertion was successful.
+            Availabilities.update(doc.availabilityId, {
+                $set: {
+                    bookedByEmail: doc.bookedByEmail,
+                    bookedByName: doc.bookedByName,
+                    bookedByReserved: true,
+                    bookedByConfirmed: false,
+                    bookedByDate: new Date(),
+                    bookedByConfirmationToken: verificationToken,
+                    bookedByCancellationToken: cancellationToken
+                },
+            });
+            var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verificationToken});
+            // check if the availability is in the database.
+            if (availability != undefined){
+                // Let other method calls from the same client start running,
+                // without waiting for the email sending to complete.
+                console.log("is there.")
+                this.unblock();
+                Email.send({
+                    to: doc.bookedByEmail,
+                    from: "no-reply@meteor.com",
+                    subject: "Your reservation at MeteorKalender needs your confirmation.",
+                    text: "Thank you for your reservation at MeteorKalender. We need you to click at the following link to activate your booking: " +
+                    Meteor.absoluteUrl()+"verify_booking/"+verificationToken
+                });
+                return true;
+            } else {
+                throw new Meteor.Error('booking-error',"There was an error saving your booking information.");
+            }
+        },
+        /**
+         * setzt eine Availability auf "booking confirmed".
+         * @param availabilityId ID der Availability
+         */
+        'booking.confirm'(verifyBookingToken){
+            var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verifyBookingToken});
+            if (availability != undefined){
+                console.log("booking confirmed")
+                return Availabilities.update(availability._id,{$set: {bookedByConfirmed: true}});
+                //-> Here the user should get a mail about his reservation beeing confirmed and the cancellation-link.
+            } else {
+                throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
+            }
+        }
+    });
 };
 
 // it is best practice to explicitly allow crud-actions
@@ -147,48 +204,6 @@ Meteor.methods({
         return Availabilities.remove({userId: this.userId});
     },
     /**
-     * Erstellt eine Buchung.
-     * @param doc
-     */
-    'booking.insert'(doc){
-        //generate our random verification token
-        var verificationToken = Random.id();
-        // generate our random cancellation-token
-        var cancellationToken = Random.id();
-        // Send Mails if the insertion was successful.
-        Availabilities.update(doc.availabilityId, {
-            $set: {
-                bookedByEmail: doc.bookedByEmail,
-                bookedByName: doc.bookedByName,
-                bookedByReserved: true,
-                bookedByConfirmed: false,
-                bookedByDate: new Date(),
-                bookedByConfirmationToken: verificationToken,
-                bookedByCancellationToken: cancellationToken
-            },
-        });
-        var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verificationToken});
-        // check if the availability is in the database.
-        if (availability != undefined){
-            // Let other method calls from the same client start running,
-            // without waiting for the email sending to complete.
-            console.log("is there.")
-            this.unblock();
-            Email.send({
-                to: doc.bookedByEmail,
-                from: "no-reply@meteor.com",
-                subject: "Your reservation at MeteorKalender needs your confirmation.",
-                text: "Thank you for your reservation at MeteorKalender. We need you to click at the following link to activate your booking: " +
-                Meteor.absoluteUrl()+"verify_booking/"+verificationToken
-            });
-            return true;
-        } else {
-            throw new Meteor.Error('booking-error',"There was an error saving your booking information.");
-        }
-    },
-
-
-    /**
      * Setzt die Buchung zurück
      * @param availabilityID
      */
@@ -203,20 +218,6 @@ Meteor.methods({
             }
         })
     },
-    /**
-     * setzt eine Availability auf "booking confirmed".
-     * @param availabilityId ID der Availability
-     */
-    'booking.confirm'(verifyBookingToken){
-        var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verifyBookingToken});
-        if (availability != undefined){
-            console.log("booking confirmed")
-            return Availabilities.update(availability._id,{$set: {bookedByConfirmed: true}});
-            //-> Here the user should get a mail about his reservation beeing confirmed and the cancellation-link.
-        } else {
-            throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
-        }
-    }
 });
 
 var isThisBankHoliday = function (date) {

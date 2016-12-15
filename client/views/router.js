@@ -277,24 +277,11 @@ Router.map(function () {
         path: "/book_availability/:_availabilityId/:_calendarSlug",
         controller: "BookingController",
         template: 'Booking', // <-- to be explicit
-        data: function(){
-            var currentAvailabilityId = this.params._availabilityId;
-            var currentCalendarSlug = this.params._calendarSlug;
-            // add the subscription handle to our waitlist
-            this.wait(Meteor.subscribe('singlePublicCalendarBySlug', currentCalendarSlug));
-            this.wait(Meteor.subscribe('singlePublicAvailabilityById', currentAvailabilityId));
-            var currentCalendar = Calendars.findOne({});
-            var currentAvailability = Availabilities.findOne({});
-            // this.ready() is true if all items in the wait list are ready
-            if (this.ready() && currentCalendar != undefined) {
-                this.render();
-                return [
-                    currentCalendar,
-                    currentAvailability
-                ];
-            } else {
-                this.render('Loading');
-            }
+        waitOn: function () {
+          return [
+              Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug),
+              Meteor.subscribe('singlePublicAvailabilityById', this.params._availabilityId)
+          ]
         }
     });
 

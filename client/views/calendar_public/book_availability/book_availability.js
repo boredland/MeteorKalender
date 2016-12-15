@@ -4,15 +4,13 @@ import {bookingFormSchema} from '/imports/api/availabilitiesSchema';
 var calendar, availability;
 
 Template.Booking.onCreated(function bodyOnCreated() {
-    calendar = this.data[0];
-    availability = this.data[1];
+    calendar = Calendars.findOne({linkslug: Router.current().params._calendarSlug});
+    availability = Availabilities.findOne({_id: Router.current().params._availabilityId});
 });
 
 Template.Booking.rendered = function() {
 
 };
-
-
 
 Template.Booking.events({
 
@@ -21,7 +19,11 @@ Template.Booking.events({
 Template.Booking.helpers({
     itemsReady:function() {
         if (availability && calendar){
-            return true
+            if (availability._id === Router.current().params._availabilityId){
+                return true
+            } else {
+                document.location.reload(true);
+            }
         } else {
             return false
         }
