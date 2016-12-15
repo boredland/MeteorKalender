@@ -204,8 +204,10 @@ Meteor.methods({
      * Löscht alle Availabilities der family des gegenwärtigen Benutzers.
      * @param availabilities.removebyChunkID
      */
-    'availabilities.removebySiblingID'(){
-        return Availabilities.remove({userId: this.userId});
+    'availabilities.removebySiblingID'(availabilityId){
+        var familyId = Availabilities.findOne(availabilityId).familyId;
+        var siblingStartTime = Availabilities.findOne(availabilityId).startDate;
+        Availabilities.remove({familyId: familyId, startDate: siblingStartTime})
     },
     /**
      * Setzt die Buchung zurück
