@@ -153,7 +153,8 @@ Meteor.methods({
             }
             startTimeModified.add(doc.repeatInterval, 'w');
             endTimeModified.add(doc.repeatInterval, 'w');
-        } while (startTimeModified <= repeatUntil && startTimeModified != startTime);
+            console.log("repeatinterval: ",doc.repeatInterval);
+        } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
         if (overlapErrorCount > 0) {
             throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
         }
