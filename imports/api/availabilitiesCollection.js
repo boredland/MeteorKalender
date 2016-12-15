@@ -180,8 +180,24 @@ Meteor.methods({
      * @param availabilities.removeall
      */
     'availabilities.removeAll'(){
-        //check ob Availabilities gebucht?
-        return Availabilities.remove({userId: this.userId});
+
+        var storeReservedAvailabilities = [];
+        //Speichert alle reservierten Availabilities zwischen
+        Availabilities.find({userId: this.userId, bookedByReserved: true}).forEach(
+            function(element){
+                storeReservedAvailabilities.push(element)
+            }
+        )
+
+        //Loesche alles vom user
+        Availabilities.remove({userID: this.userID});
+
+        //Schreibe die zwischengespeicherten Availabilities wieder in die DB
+        storeReservedAvailabilities.forEach(
+            function(element){
+                Availabilities.insert(element)
+            }
+        )
     },
     /**
      * Löscht alle Availabilities der gleichen Family.
@@ -197,7 +213,24 @@ Meteor.methods({
 
         var familyId = Availabilities.findOne(availabilityId).familyId;
         console.log("deleting " + Availabilities.find({familyId: familyId}).count() + " availabilities")
+
+
+        var storeReservedAvailabilities = [];
+        //Speichert alle reservierten Availabilities zwischen
+        Availabilities.find({familyId: familyId, bookedByReserved: true}).forEach(
+            function(element){
+                storeReservedAvailabilities.push(element)
+            }
+        )
+
         Availabilities.remove({familyId: familyId})
+
+        //Schreibe die zwischengespeicherten Availabilities wieder in die DB
+        storeReservedAvailabilities.forEach(
+            function(element){
+                Availabilities.insert(element)
+            }
+        )
 
     },
     /**
@@ -207,7 +240,22 @@ Meteor.methods({
     'availabilities.removebySiblingID'(availabilityId){
         var familyId = Availabilities.findOne(availabilityId).familyId;
         var siblingStartTime = Availabilities.findOne(availabilityId).startDate;
+
+        var storeReservedAvailabilities = [];
+        //Speichert alle reservierten Availabilities zwischen
+        Availabilities.find({familyId: familyId, bookedByReserved: true, startDate: siblingStartTime}).forEach(
+            function(element){
+                storeReservedAvailabilities.push(element)
+            }
+        )
         Availabilities.remove({familyId: familyId, startDate: siblingStartTime})
+
+        //Schreibe die zwischengespeicherten Availabilities wieder in die DB
+        storeReservedAvailabilities.forEach(
+            function(element){
+                Availabilities.insert(element)
+            }
+        )
     },
     /**
      * Setzt die Buchung zurück
