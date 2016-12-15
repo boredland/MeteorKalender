@@ -117,6 +117,13 @@ export var availabilitiesSchema = new SimpleSchema({
             type: "hidden",
         }
     },
+    bookedByReserved: {
+        type: Boolean,
+        optional: true,
+        autoform: {
+            type: "hidden",
+        }
+    },
     bookedByName: {
         type: String,
         optional: true,

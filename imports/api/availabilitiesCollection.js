@@ -160,6 +160,7 @@ Meteor.methods({
             $set: {
                 bookedByEmail: doc.bookedByEmail,
                 bookedByName: doc.bookedByName,
+                bookedByReserved: true,
                 bookedByConfirmed: false,
                 bookedByDate: new Date(),
                 bookedByConfirmationToken: verificationToken,
@@ -187,7 +188,15 @@ Meteor.methods({
      * @param availabilityID
      */
     'booking.cancel'(availabilityId){
-        Availabilities.update(availabilityId,{$set: {bookedByConfirmed: false}})
+        Availabilities.update(availabilityId,{
+            $set: {
+                bookedByName: "",
+                bookedByDate: null,
+                bookedByEmail: "",
+                bookedByReserved: false,
+                bookedByConfirmed: false,
+            }
+        })
     },
     /**
      * setzt eine Availability auf "booking confirmed".
@@ -196,6 +205,7 @@ Meteor.methods({
     'booking.confirm'(verifyBookingToken){
         var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verifyBookingToken});
         if (availability != undefined){
+            console.log("booking confirmed")
             return Availabilities.update(availability._id,{$set: {bookedByConfirmed: true}});
             //-> Here the user should get a mail about his reservation beeing confirmed and the cancellation-link.
         } else {
