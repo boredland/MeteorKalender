@@ -62,6 +62,7 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
+                        //FamilyId wird anhand der Availability in 'availabilities.removebyFamilyID' rausgefunden
                         Meteor.call('availabilities.removebyFamilyID', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
@@ -76,10 +77,10 @@ Template.EditAvailability.events({
     }
 });
 Template.EditAvailability.events({
-    "click #dataview-delete-button-chunk": function(e) {
+    "click #dataview-delete-button-sibling": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Delete by ChunkID? Are you sure?",
+            message: "Delete by SiblingID? Are you sure?",
             title: "Delete",
             animate: false,
             buttons: {

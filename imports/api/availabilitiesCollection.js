@@ -126,7 +126,6 @@ Meteor.methods({
      * @param doc
      */
     'availabilities.insert'(doc) {
-        //console.log(doc);
         var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
         var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
         var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
@@ -164,6 +163,7 @@ Meteor.methods({
      * @param availabilityID
      */
     'availabilities.remove'(availabilityID){
+        //check ob availability gebucht?
         //check whether the ID which should be deleted is a String
         check(availabilityID, String);
 
@@ -180,21 +180,25 @@ Meteor.methods({
      * @param availabilities.removeall
      */
     'availabilities.removeAll'(){
+        //check ob Availabilities gebucht?
         return Availabilities.remove({userId: this.userId});
     },
     /**
-     * Löscht alle Availabilities der family des gegenwärtigen Benutzers.
-     * @param availabilities.removebyfamilyID
+     * Löscht alle Availabilities der gleichen Family.
+     * @param availabilityId. Anhand dieser AvailabilityId wird die Family der Availability gelöscht
      */
-    'availabilities.removebyFamilyID'(familyId){
-        check(familyId, String);
-        const deletethis = Availabilities.findOne(familyId);
+    'availabilities.removebyFamilyID'(availabilityId){
+        check(availabilityId, String);
+
+        var deletethis = Availabilities.findOne(availabilityId);
         if (this.userId !== deletethis.userId) {
             throw new Meteor.Error('not-authorized');
         }
-        console.log(familyId);
 
-        return Availabilities.remove(familyId);
+        var familyId = Availabilities.findOne(availabilityId).familyId;
+        console.log("deleting " + Availabilities.find({familyId: familyId}).count() + " availabilities")
+        Availabilities.remove({familyId: familyId})
+
     },
     /**
      * Löscht alle Availabilities der family des gegenwärtigen Benutzers.
