@@ -295,7 +295,17 @@ Router.map(function () {
 	// Availabilities
     this.route("home_private.edit_availability", {path: "/home_private/edit_availability/:_eventId", controller: "EditAvailabilityController",});
     this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
-    this.route("home_private.availabilities", {path: "/home_private/availabilities", controller: "AvailabilitiesController", template: 'Availabilities'});
+    this.route("home_private.availabilities", {
+    	path: "/home_private/availabilities",
+		controller: "AvailabilitiesController",
+		template: 'Availabilities',
+        waitOn: function () {
+            return [
+                Meteor.subscribe('allFutureAvailabilities',0),
+            	Meteor.subscribe('allCalendars')
+            ]
+        }
+    });
 
     // Appointments
     this.route("home_private.appointments", {

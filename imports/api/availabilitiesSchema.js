@@ -102,6 +102,27 @@ export var availabilitiesSchema = new SimpleSchema({
             label: false,
         }
     },
+    calendarId: {
+        type: Array
+    },
+    'calendarId.$': {
+        type: String,
+        autoform: {
+            afFieldInput: {
+                type: "select",
+                firstOption: false,
+                options: function () {
+                    var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
+                        return {
+                            label: calendars.name,
+                            value: calendars._id
+                        };
+                    });
+                    return opts;
+                }
+            }
+        }
+    },
     bookedByDate: {
         type: Date,
         optional: true,

@@ -5,9 +5,10 @@ import { Meteor } from 'meteor/meteor';
 var pageSession = new ReactiveDict();
 
 var getData = function(){
-    return Availabilities.find().fetch().map( ( availability ) => {
+    return Availabilities.find({}).fetch().map( ( availability ) => {
         //availability.editable = true; //availability.startDate
         var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
+        console.log(availability,calendar);
         var title, status;
         if (availability.bookedByConfirmed) {
             title = " (booked)";
@@ -31,8 +32,6 @@ Template.Availabilities.onRendered( () => {
 });
 
 Template.Availabilities.onCreated(function bodyOnCreated() {
-    Meteor.subscribe('allFutureAvailabilities',0);
-    Meteor.subscribe('allCalendars');
     pageSession.set("errorMessage", "");
 });
 
