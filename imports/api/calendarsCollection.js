@@ -16,8 +16,8 @@ if (Meteor.isServer) {
     /**
      * This collection hook will check that no Calendar can be deleted that still contains elements in the future.
      */
-    Calendars.before.remove((doc) => {
-        if (Availabilities.findOne({startDate: {$gt: new Date()}},{calendarId: {$elemMatch: doc}})){
+    Calendars.before.remove((userId,doc) => {
+        if (Availabilities.findOne({startDate: {$gt: new Date()},calendarId: doc._id})){
             throw new Meteor.Error('notEmpty', "Can't delete a calendar that contains future availabilities.");
         } else {
             return true;
