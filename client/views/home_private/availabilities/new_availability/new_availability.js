@@ -38,7 +38,9 @@ AutoForm.hooks({
             Router.go('home_private.availabilities');
         },
         onError: function (operation, error, template) {
-            Router.go('home_private.availabilities',{},{query: 'error='+error.reason});
+            if (error.error == "overlap") {
+                Router.go('home_private.availabilities',{},{query: 'error='+error.reason});
+            }
         }
     }
 });
