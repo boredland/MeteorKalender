@@ -101,7 +101,7 @@ if (Meteor.isServer) {
          * @param availabilityId ID der Availability
          */
         'booking.confirm'(verifyBookingToken){
-            var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verifyBookingToken});
+            var availability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verifyBookingToken},{});
             if (availability != undefined){
                 console.log("booking confirmed")
                 return Availabilities.update(availability._id,{$set: {bookedByConfirmed: true}});
