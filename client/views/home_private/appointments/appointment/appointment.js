@@ -51,7 +51,7 @@ Template.Appointment.events({
             buttons: {
                 yescancel: {
                     label: "Yes, and delete availability",
-                    className: "btn-success",
+                    className: "btn-primary",
                     callback: function() {
                         Meteor.call('availabilities.remove',getCurrentAvailabilityId());
                         Router.go('home_private.appointments');
@@ -59,11 +59,15 @@ Template.Appointment.events({
                 },
                 yeskeep: {
                     label: "Yes, and keep availability",
-                    className: "btn-default",
+                    className: "btn-primary",
                     callback: function () {
                         Meteor.call('booking.cancel',getCurrentAvailabilityId());
                         Router.go('home_private.appointments');
                     }
+                },
+                no: {
+                    label: "No",
+                    className: "btn-default"
                 }
             }
         });

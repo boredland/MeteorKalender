@@ -54,11 +54,11 @@ Template.Availabilities.events({
     "click #delete-all-button": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Delete all availabilities? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete all availabilities?",
+            title: "Delete all availabilities",
             animate: false,
             buttons: {
-                success: {
+                yes: {
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
@@ -66,7 +66,7 @@ Template.Availabilities.events({
                         Router.go('home_private.availabilities');
                     }
                 },
-                danger: {
+                no: {
                     label: "No",
                     className: "btn-default"
                 }

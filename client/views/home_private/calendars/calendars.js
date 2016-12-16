@@ -19,13 +19,13 @@ Template.Calendars.events({
         e.preventDefault();
         var me = this;
         bootbox.dialog({
-            message: "Delete? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete this calendar?",
+            title: "Delete calendar",
             animate: false,
             buttons: {
-                success: {
+                yes: {
                     label: "Yes",
-                    className: "btn-success",
+                    className: "btn-primary",
                     callback: function() {
                         Meteor.call('calendars.remove',me._id, function(err, data) {
                             if (err && err.error === "notEmpty") {
@@ -37,7 +37,7 @@ Template.Calendars.events({
                         });
                     }
                 },
-                danger: {
+                no: {
                     label: "No",
                     className: "btn-default"
                 }

@@ -28,13 +28,13 @@ Template.EditAvailability.events({
     "click #dataview-delete-button": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Delete? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete this event?",
+            title: "Delete event",
             animate: false,
             buttons: {
                 success: {
                     label: "Yes",
-                    className: "btn-success",
+                    className: "btn-primary",
                     callback: function() {
                         Meteor.call('availabilities.remove', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
@@ -54,20 +54,20 @@ Template.EditAvailability.events({
     "click #dataview-delete-button-family": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Delete by FamilyID? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete by familyID?",
+            title: "Delete by familyID",
             animate: false,
             buttons: {
-                success: {
+                yes: {
                     label: "Yes",
-                    className: "btn-success",
+                    className: "btn-primary",
                     callback: function() {
                         //FamilyId wird anhand der Availability in 'availabilities.removebyFamilyID' rausgefunden
                         Meteor.call('availabilities.removebyFamilyID', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },
-                danger: {
+                no: {
                     label: "No",
                     className: "btn-default"
                 }
@@ -80,19 +80,19 @@ Template.EditAvailability.events({
     "click #dataview-delete-button-sibling": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Delete by SiblingID? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete by siblingID?",
+            title: "Delete by siblingID",
             animate: false,
             buttons: {
-                success: {
+                yes: {
                     label: "Yes",
-                    className: "btn-success",
+                    className: "btn-primary",
                     callback: function() {
                         Meteor.call('availabilities.removebySiblingID', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },
-                danger: {
+                no: {
                     label: "No",
                     className: "btn-default"
                 }
