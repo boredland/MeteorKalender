@@ -74,8 +74,6 @@ Template.Calendars.events({
         document.execCommand("copy");
         // Remove the input from the body
         document.body.removeChild(aux);
-
-        console.log("Link copied");
     },
     }
 );
@@ -86,9 +84,8 @@ Template.Calendars.helpers({
     },
     getCalendars(){
         return Calendars.find();
-    }
+    },
 });
 
 Template.Calendars.onRendered(function() {
-    var clipboard = new Clipboard('.btn-copy-link');
 });
