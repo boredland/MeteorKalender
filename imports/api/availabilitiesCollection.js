@@ -41,15 +41,21 @@ if (Meteor.isServer) {
                         (new_startdate <= existing_startdate) && (new_enddate >= existing_enddate)
                     )
                 ) {
-                    //console.log("yes");
                     throw new Meteor.Error("overlap");
                 }
-                //console.log("no");
             }
             return true;
         });
     });
-    // Hier sollten Methoden landen, die nur auf dem server laufen sollten.
+    // checks vor dem loeschen
+    Availabilities.before.remove(function (userId, doc) {
+        /**
+         * Hier sollte geprüft werden, dass nichts mit buchungsmerkmalen gelöscht wird.
+         */
+    });
+    /**
+     *     Hier sollten Methoden landen, die nur auf dem server laufen sollten.
+     */
     Meteor.methods({
         /**
          * Erstellt eine Buchung.
@@ -77,7 +83,6 @@ if (Meteor.isServer) {
             if (availability != undefined){
                 // Let other method calls from the same client start running,
                 // without waiting for the email sending to complete.
-                console.log("is there.")
                 this.unblock();
                 Email.send({
                     to: doc.bookedByEmail,
@@ -153,7 +158,7 @@ Meteor.methods({
             }
             startTimeModified.add(doc.repeatInterval, 'w');
             endTimeModified.add(doc.repeatInterval, 'w');
-            console.log("repeatinterval: ",doc.repeatInterval);
+            //console.log("repeatinterval: ",doc.repeatInterval);
         } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
         if (overlapErrorCount > 0) {
             throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
@@ -177,28 +182,16 @@ Meteor.methods({
     },
 
     /**
-     * Löscht alle Availabilities des gegenwärtigen Benutzers.
+     * Löscht alle zukünftigen Availabilities des gegenwärtigen Benutzers, die weder reserviert, noch gebucht sind.
      * @param availabilities.removeall
      */
     'availabilities.removeAll'(){
-
-        var storeReservedAvailabilities = [];
-        //Speichert alle reservierten Availabilities zwischen
-        Availabilities.find({userId: this.userId, bookedByReserved: true}).forEach(
-            function(element){
-                storeReservedAvailabilities.push(element)
-            }
-        )
-
-        //Loesche alles vom user
-        Availabilities.remove({userID: this.userID});
-
-        //Schreibe die zwischengespeicherten Availabilities wieder in die DB
-        storeReservedAvailabilities.forEach(
-            function(element){
-                Availabilities.insert(element)
-            }
-        )
+        // loescht alle, die kein bookedByDate gesetzt haben.
+        Availabilities.remove({userId: this.userId, bookedByDate: undefined});
+        // loescht alle mit abgelaufenen reservierungen.
+        Availabilities.remove({userId: this.userId, bookedByDate: {$lt: new Date(moment().add(-10,'m'))}, bookedByConfirmed: false});
+        // Rückgabewert mit der Anzahl verbliebener Availibilities, könnte man bspw. in einem Info-Feld ausgeben. Die Anzal gelöschter könnte man auch ausgeben if you want.
+        return Availabilities.find({userID: this.userID},{bookedByDate: {$lt: new Date(moment().add(-10,'m'))}}).count();
     },
     /**
      * Löscht alle Availabilities der gleichen Family.
