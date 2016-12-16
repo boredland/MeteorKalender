@@ -9,9 +9,9 @@
 		</div>
         {{#if itemsReady}}
         <h2 id="component-title">
-            Book a consultation hour from Calendar {{ CurrentCalendarName }}
+            Book an appointment from {{ CurrentCalendarName }}
         </h2>
-        <p>from {{CurrentAvailabilityFrom}} <br>to {{CurrentAvailabilityTo}} <br></p>
+        <p>from: {{formatDateTime CurrentAvailabilityFrom}} <br>to: {{ formatDateTime CurrentAvailabilityTo}} <br></p>
         {{> BookingForm}}
         {{/if}}
     </div>

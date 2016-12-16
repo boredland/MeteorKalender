@@ -45,20 +45,20 @@ Template.Appointment.events({
         e.preventDefault();
         console.log("Pressed Cancel");
         bootbox.dialog({
-            message: "Want to Cancel?",
-            title: "Cancel",
+            message: "Do you want to cancel the appointment?",
+            title: "Cancel appointment",
             animate: false,
             buttons: {
-                success: {
-                    label: "Yes, with delete availability",
+                yescancel: {
+                    label: "Yes, and delete availability",
                     className: "btn-success",
                     callback: function() {
                         Meteor.call('availabilities.remove',getCurrentAvailabilityId());
                         Router.go('home_private.appointments');
                     }
                 },
-                danger: {
-                    label: "Yes, without delete availability",
+                yeskeep: {
+                    label: "Yes, and keep availability",
                     className: "btn-default",
                     callback: function () {
                         Meteor.call('booking.cancel',getCurrentAvailabilityId());
