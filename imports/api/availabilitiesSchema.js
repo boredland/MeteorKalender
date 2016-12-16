@@ -103,7 +103,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
             if (starttime >= endtime) {
                 return 'startTimeAfterEnd';
             }
-            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
+            if (starttime.get('h') == endtime.get('h') && starttime.get('m') == endtime.get('m')){
                 return 'sameTime';
             }
         }
@@ -131,7 +131,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
             if (starttime >= endtime) {
                 return 'endTimeBeforeStart';
             }
-            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
+            if (starttime.get('h') == endtime.get('h') && starttime.get('m') == endtime.get('m')){
                 return 'sameTime';
             }
         }
