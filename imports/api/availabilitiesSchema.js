@@ -14,144 +14,47 @@ SimpleSchema.messages({
 // This schema validates the insertion.
 export var availabilitiesSchema = new SimpleSchema({
     userId: {
-        type: String,
-        autoform: {
-            type: "hidden",
-            label: false
-        }
+        type: String
     },
     startDate: {
-        type: Date,
-        autoform: {
-            afFieldInput: {
-                class: "startdate",
-                type: "bootstrap-datetimepicker",
-                dateTimePickerOptions: {
-                    sideBySide: true,
-                    inline: true,
-                    locale: 'de',
-                    stepping: 5,
-                    enabledHours: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
-                    minDate: new Date(),
-                }
-            }
-        },
-        custom: function() {
-            var startdate = moment(new Date(this.field("startDate").value));
-            var enddate = moment(new Date(this.field("endDate").value));
-            if (startdate >= enddate) {
-                return 'startTimeAfterEnd';
-            }
-            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
-                return 'sameTime';
-            }
-        }
+        type: Date
     },
     endDate: {
-        type: Date,
-        autoform: {
-            afFieldInput: {
-                class: "enddate",
-                type: "bootstrap-datetimepicker",
-                dateTimePickerOptions: {
-                    sideBySide: true,
-                    inline: true,
-                    locale: 'de',
-                    stepping: 5,
-                    enabledHours: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
-                    minDate: new Date(),
-                }
-            }
-        },
-        custom: function() {
-            var startdate = moment(new Date(this.field("startDate").value));
-            var enddate = moment(new Date(this.field("endDate").value));
-            if (startdate >= enddate) {
-                return 'endTimeBeforeStart';
-            };
-            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
-                return 'sameTime';
-            }
-
-        }
+        type: Date
     },
     familyId: {
-        type: String,
-        autoform: {
-            type: "hidden",
-            label: false,
-        }
+        type: String
     },
     calendarId: {
         type: Array,
     },
-    'calendarId.$': {
-        type: String,
-        autoform: {
-            afFieldInput: {
-                type: "select",
-                firstOption: false,
-                options: function () {
-                    var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
-                        return {
-                            label: calendars.name,
-                            value: calendars._id
-                        };
-                    });
-                    return opts;
-                }
-            }
-        }
-    },
     bookedByDate: {
         type: Date,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
+        optional: true
     },
     bookedByConfirmed: {
         type: Boolean,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
+        optional: true
     },
     bookedByReserved: {
         type: Boolean,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
+        optional: true
     },
     bookedByName: {
         type: String,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
-
+        optional: true
     },
     bookedByEmail: {
         type: String,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
+        optional: true
     },
     bookedByConfirmationToken: {
         type: String,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
+        optional: true
     },
     bookedByCancellationToken: {
         type: String,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
+        optional: true
     }
 });
 
@@ -197,6 +100,9 @@ export var availabilitiesFormSchema = new SimpleSchema({
             if (starttime >= endtime) {
                 return 'startTimeAfterEnd';
             }
+            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
+                return 'sameTime';
+            }
         }
     },
     endTime: {
@@ -221,6 +127,9 @@ export var availabilitiesFormSchema = new SimpleSchema({
             var endtime = moment(new Date(this.field("endTime").value));
             if (starttime >= endtime) {
                 return 'endTimeBeforeStart';
+            }
+            if (startdate.get('h') == enddate.get('h') && startdate.get('m') == enddate.get('m')){
+                return 'sameTime';
             }
         }
     },
