@@ -26,7 +26,10 @@ export var availabilitiesSchema = new SimpleSchema({
         type: String
     },
     calendarId: {
-        type: Array,
+        type: Array
+    },
+    'calendarId.$': {
+        type: String
     },
     bookedByDate: {
         type: Date,
