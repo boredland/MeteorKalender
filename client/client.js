@@ -112,6 +112,10 @@ Helpers.formatDate = function(date, dateFormat) {
 	return moment(date).format(f);
 };
 
+Helpers.formatDateTime = function(date) {
+	return moment(date).format('dddd, DD.MM.YYYY - HH:mm');
+};
+
 Helpers.booleanToYesNo = function(b) {
 	return b ? "Yes" : "No";
 };
