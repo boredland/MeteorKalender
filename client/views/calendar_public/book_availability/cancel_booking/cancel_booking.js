@@ -8,7 +8,7 @@ Template.CancelBooking.onCreated(function bodyOnCreated() {
             if(!error && finalized == 0){
                 finalized = 1;
                 pageSession.set("errorMessage", "");
-                pageSession.set("infoMessage", "You successfully canceled your booking.");
+                pageSession.set("infoMessage", "You successfully cancelled your booking.");
                 console.log("cancelsuccess");
             } else if (error && error.error == "cancellation-error" && finalized == 0){
                 finalized = 1;

@@ -133,7 +133,7 @@ Meteor.startup(function() {
         console.log("...and verified");
 	}
 
-	//configure registration mail template
+	//configure account email templates
     Accounts.emailTemplates.siteName    = "FRA-UAS Kalender";
     Accounts.emailTemplates.from        = returnMailString;
 

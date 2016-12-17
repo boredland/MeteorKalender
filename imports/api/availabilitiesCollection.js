@@ -248,20 +248,21 @@ if (Meteor.isServer) {
                         to: currentAvailability.bookedByEmail,
                         subject: "You have a cancelled a date with your professor!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
-                        "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been canceled."
+                        "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been cancelled."
                     });
                     sendMail({
                         to: Meteor.user(currentAvailability.userId).emails[0].address,
                         subject: "Meeting at "+currentAvailability.startDate+" canceled",
                         text: "Hello "+Meteor.user(currentAvailability.userId).profile.name+",\n"+
-                        currentAvailability.bookedByName+" has canceled his booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+"."
+                        currentAvailability.bookedByName+" has cancelled his booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+"."
                     })
                 });
             }
         },
         /**
          * Methode um eine Buchung durch den Besitzer zu canceln.
-         * @param cancellationToken
+         * @param availabilityId
+         * @param reason
          */
         'booking.cancelByOwner'(availabilityId,reason){
             var currentAvailability = Availabilities.findOne({_id: availabilityId});
@@ -272,9 +273,9 @@ if (Meteor.isServer) {
                 };
                 sendMail({
                     to: currentAvailability.bookedByEmail,
-                    subject: "You canceled a date with your professor!",
+                    subject: "You cancelled a date with your professor!",
                     text: "Hello "+currentAvailability.bookedByName+",\n"+
-                    "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been canceled by the owner."+message
+                    "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been cancelled by the owner."+message
                 });
             });
         }
