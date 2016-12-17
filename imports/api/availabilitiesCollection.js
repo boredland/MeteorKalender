@@ -69,6 +69,45 @@ if (Meteor.isServer) {
      */
     Meteor.methods({
         /**
+         * Fügt Availabilities ein. Dabei werden die Availabilities entsprechend der Inputwerte geteilt und einzeln eingefügt.
+         * Alle Availabilities die in einem aufruf erstellt werden, bekommen die selbe familyId zugewiesen.
+         * @param doc
+         */
+        'availabilities.insert'(doc) {
+            var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
+            var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
+            var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
+            var familyid = Random.id().substring(0, 4);
+
+            checkInsertionConditions(startTime, endTime, doc, this.userId)
+            var startTimeModified = startTime;
+            var endTimeModified = endTime;
+            var overlapErrorCount = 0;
+            do {
+                var chunkEndTime = startTimeModified;
+                if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays == false)) || doc.dontSkipHolidays == true) {
+                    // this is for the chunks
+                    do {
+                        var chunkStartTime = chunkEndTime;
+                        chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
+                        try {
+                            insertAvailability(this.userId, new Date(chunkStartTime.seconds(1)), new Date(chunkEndTime.seconds(0)), doc.calendarId, familyid);
+                        } catch(err) {
+                            if (err.error === "overlap") {
+                                overlapErrorCount++;
+                            }
+                        }
+                    } while (chunkEndTime < endTimeModified);
+                }
+                startTimeModified.add(doc.repeatInterval, 'w');
+                endTimeModified.add(doc.repeatInterval, 'w');
+                //console.log("repeatinterval: ",doc.repeatInterval);
+            } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
+            if (overlapErrorCount > 0) {
+                throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
+            }
+        },
+        /**
          * Erstellt eine Buchung.
          * @param doc
          */
@@ -197,45 +236,6 @@ Availabilities.allow({
 
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    /**
-     * Fügt Availabilities ein. Dabei werden die Availabilities entsprechend der Inputwerte geteilt und einzeln eingefügt.
-     * Alle Availabilities die in einem aufruf erstellt werden, bekommen die selbe familyId zugewiesen.
-     * @param doc
-     */
-    'availabilities.insert'(doc) {
-        var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
-        var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
-        var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
-        var familyid = Random.id().substring(0, 4);
-
-        checkInsertionConditions(startTime, endTime, doc, this.userId)
-        var startTimeModified = startTime;
-        var endTimeModified = endTime;
-        var overlapErrorCount = 0;
-        do {
-            var chunkEndTime = startTimeModified;
-            if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays == false)) || doc.dontSkipHolidays == true) {
-                // this is for the chunks
-                do {
-                    var chunkStartTime = chunkEndTime;
-                    chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
-                    try {
-                        insertAvailability(this.userId, new Date(chunkStartTime.seconds(1)), new Date(chunkEndTime.seconds(0)), doc.calendarId, familyid);
-                    } catch(err) {
-                        if (err.error === "overlap") {
-                            overlapErrorCount++;
-                        }
-                    }
-                } while (chunkEndTime < endTimeModified);
-            }
-            startTimeModified.add(doc.repeatInterval, 'w');
-            endTimeModified.add(doc.repeatInterval, 'w');
-            //console.log("repeatinterval: ",doc.repeatInterval);
-        } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
-        if (overlapErrorCount > 0) {
-            throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
-        }
-    },
     /**
      * Löscht eine Availability.
      * @param availabilityID
