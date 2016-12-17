@@ -20,6 +20,7 @@ Meteor.startup(function () {
 });
 
 if (Meteor.isServer) {
+    var reservationThreshold = 10; // Minutes before a reservation invalidates
     var sendMail = function (options) {
         return Meteor.call('sendMail',options);
     };
@@ -107,7 +108,7 @@ if (Meteor.isServer) {
         if (availability.bookedByConfirmed){
             throw Meteor.Error("is-booked","This availibility is booked and therefor only can be cancelled.")
         }
-        if (!availability.bookedByConfirmed && availability.bookedByDate && (moment(availability.bookedByDate) > moment().add(-10,'m'))){
+        if (!availability.bookedByConfirmed && availability.bookedByDate && (moment(availability.bookedByDate) > moment().add(-reservationThreshold,'m'))){
             throw Meteor.Error("is-reserved","This availibility is reserved and therefor only can be cancelled.")
         }
     });
@@ -160,7 +161,7 @@ if (Meteor.isServer) {
          */
         'booking.insert'(doc){
             // check if this has an peding active reservation
-            if (Availabilities.findOne({_id: doc.availabilityId, bookedByDate: {$gt: new Date(moment().add(-10,'m'))}})){
+            if (Availabilities.findOne({_id: doc.availabilityId, bookedByDate: {$gt: new Date(moment().add(-reservationThreshold,'m'))}})){
                 throw new Meteor.Error("pending-reservation","This availability has a pending reservation and therefor can't be reserved at this point. How did you even get here?")
             };
             //generate our random verification token
@@ -301,9 +302,9 @@ Meteor.methods({
         // loescht alle, die kein bookedByDate gesetzt haben.
         Availabilities.remove({userId: this.userId, bookedByDate: undefined});
         // loescht alle mit abgelaufenen reservierungen.
-        Availabilities.remove({userId: this.userId, bookedByDate: {$lt: new Date(moment().add(-10,'m'))}, bookedByConfirmed: false});
+        Availabilities.remove({userId: this.userId, bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false});
         // Rückgabewert mit der Anzahl verbliebener Availibilities, könnte man bspw. in einem Info-Feld ausgeben. Die Anzal gelöschter könnte man auch ausgeben if you want.
-        return Availabilities.find({userID: this.userID},{bookedByDate: {$lt: new Date(moment().add(-10,'m'))}}).count();
+        return Availabilities.find({userID: this.userID},{bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}}).count();
     },
     /**
      * Löscht alle Availabilities der gleichen Family.
