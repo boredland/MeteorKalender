@@ -1,9 +1,11 @@
 //var pageSession = new ReactiveDict();
 import {bookingFormSchema} from '/imports/api/availabilitiesSchema';
-
+var pageSession = new ReactiveDict();
 var calendar, availability;
-
+var sucess = false
 Template.Booking.onCreated(function bodyOnCreated() {
+    pageSession.set("infoMessage", "");
+    pageSession.set("errorMessage", "");
     calendar = Calendars.findOne({linkslug: Router.current().params._calendarSlug});
     availability = Availabilities.findOne({_id: Router.current().params._availabilityId});
 });
@@ -13,10 +15,15 @@ Template.Booking.rendered = function() {
 };
 
 Template.Booking.events({
-
+    "click .go-home": function(e, t) {
+        Router.go("/");
+    }
 });
 
 Template.Booking.helpers({
+    formSchema: function() {
+        return bookingFormSchema;
+    },
     itemsReady:function() {
         if (availability && calendar){
             if (availability._id === Router.current().params._availabilityId){
@@ -36,21 +43,13 @@ Template.Booking.helpers({
     },
     CurrentCalendarName: function () {
         return calendar.name;
-    }
-});
-
-Template.BookingForm.onCreated(function bodyOnCreated() {
-
-});
-
-Template.BookingForm.rendered = function() {
-
-};
-
-Template.BookingForm.helpers({
-    formSchema: function() {
-        return bookingFormSchema;
     },
+    "errorMessage": function() {
+        return pageSession.get("errorMessage");
+    },
+    "infoMessage": function() {
+        return pageSession.get("infoMessage");
+    }
 });
 
 AutoForm.hooks({
@@ -62,7 +61,10 @@ AutoForm.hooks({
             }
         },
         onSuccess: function() {
-            Router.go("calendar_public",{_calendarSlug: calendar.linkslug });
+            pageSession.set("infoMessage", "Your reservation was successful and is valid for the next 10 Minutes. Please confirm the reservation using the link provided in the email we sent to you.");
+        },
+        onError: function (result,error) {
+            pageSession.set("errorMessage",error.reason);
         }
     }
 });

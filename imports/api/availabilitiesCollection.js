@@ -159,24 +159,28 @@ if (Meteor.isServer) {
          * @param doc
          */
         'booking.insert'(doc){
+            // check if this has an peding active reservation
+            if (Availabilities.findOne({_id: doc.availabilityId, bookedByDate: {$gt: new Date(moment().add(-10,'m'))}})){
+                throw new Meteor.Error("pending-reservation","This availability has a pending reservation and therefor can't be reserved at this point. How did you even get here?")
+            };
             //generate our random verification token
             var verificationToken = Random.id();
             // generate our random cancellation-token
             var cancellationToken = Random.id();
-            // Send Mails if the insertion was successful.
             Availabilities.update(doc.availabilityId, {
                 $set: {
                     bookedByEmail: doc.bookedByEmail,
                     bookedByName: doc.bookedByName,
-                    bookedByReserved: true,
+                    bookedByReserved: true, // das ist voll fürn arsch.
                     bookedByConfirmed: false,
                     bookedByDate: new Date(),
                     bookedByConfirmationToken: verificationToken,
                     bookedByCancellationToken: cancellationToken
                 },
             });
-            var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verificationToken});
+            // Send Mails if the insertion was successful.
             // check if the availability is in the database.
+            availability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verificationToken});
             if (availability != undefined){
                 this.unblock();
                 sendMail({
