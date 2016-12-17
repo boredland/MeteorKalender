@@ -218,9 +218,19 @@ Meteor.methods({
 		}
 	},
 
+	/**
+	 *	Sends modified emails
+	 *
+	 *  @param options Expects an options object with the fields from, to, subject, text
+	 *
+	 */
 	"sendMail": function(options) {
 		this.unblock();
 
+		options.from = "no-reply@fra-uas-kalender.de";
+		options.subject = "FRA-UAS Kalender: " + options.subject;
+
+		//we can add a footer here by modifying options.text
 		Email.send(options);
 	}
 });
