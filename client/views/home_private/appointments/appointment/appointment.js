@@ -1,5 +1,6 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
+
 var pageSession = new ReactiveDict();
 var appointment;
 
@@ -14,13 +15,6 @@ function getCurrentAvailabilityId(){
     var currentId = Router.current().params._eventId;
     if (currentId != undefined) {
         return currentId;
-    }
-}
-
-function getCurrentAvailability() {
-    var availability = Availabilities.findOne({_id: getCurrentAvailabilityId()});
-    if (availability != undefined){
-        return availability;
     }
 }
 
