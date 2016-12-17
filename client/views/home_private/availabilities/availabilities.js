@@ -8,7 +8,6 @@ var getData = function(){
     return Availabilities.find({}).fetch().map( ( availability ) => {
         //availability.editable = true; //availability.startDate
         var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
-        console.log(availability,calendar);
         var title, status;
         if (availability.bookedByConfirmed) {
             title = " (booked)";
