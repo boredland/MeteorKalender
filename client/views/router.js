@@ -293,7 +293,26 @@ Router.map(function () {
     this.route("logout", {path: "/logout", controller: "LogoutController"});
 
 	// Availabilities
-    this.route("home_private.edit_availability", {path: "/home_private/edit_availability/:_eventId", controller: "EditAvailabilityController",});
+    this.route("home_private.edit_availability", {
+    	path: "/home_private/edit_availability/:_eventId",
+		controller: "EditAvailabilityController",
+		template: 'EditAvailability',
+        waitOn: function () {
+            return [
+                Meteor.subscribe('singleAvailabilityById', this.params._eventId),
+            	Meteor.subscribe('allCalendars')
+            ]
+        },
+        data: function () {
+            if (this.ready()){
+            	var availability = Availabilities.findOne({_id: this.params._eventId});
+                return availability;
+                this.render();
+            } else {
+                this.render('Loading');
+            }
+        }
+	});
     this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
     this.route("home_private.availabilities", {
     	path: "/home_private/availabilities",

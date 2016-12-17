@@ -1,5 +1,6 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
+var availability;
 
 window.Availabilities = Availabilities;
 function getCurrentAvailabilityId(){
@@ -8,13 +9,19 @@ function getCurrentAvailabilityId(){
         return currentId;
     }
 }
-
-function getCurrentAvailability() {
-    var availability = Availabilities.findOne({_id: getCurrentAvailabilityId()});
-    if (availability != undefined){
-        return availability;
+function dataReady() {
+    if (availability){
+        return true
+    } else {
+        return false
     }
 }
+
+
+Template.EditAvailability.onCreated(function bodyOnCreated() {
+    availability = this.data;
+    console.log("oncr",availability);
+});
 
 Template.EditAvailability.rendered = function() {
 
@@ -23,32 +30,6 @@ Template.EditAvailability.rendered = function() {
 Template.EditAvailability.created = function() {
 
 };
-
-Template.EditAvailability.events({
-    "click #dataview-delete-button": function(e) {
-        e.preventDefault();
-        bootbox.dialog({
-            message: "Do you want to delete this event?",
-            title: "Delete event",
-            animate: false,
-            buttons: {
-                success: {
-                    label: "Yes",
-                    className: "btn-primary",
-                    callback: function() {
-                        Meteor.call('availabilities.remove', getCurrentAvailabilityId());
-                        Router.go('home_private.availabilities');
-                    }
-                },
-                danger: {
-                    label: "No",
-                    className: "btn-default"
-                }
-            }
-        });
-        return false;
-    }
-});
 
 Template.EditAvailability.events({
     "click #dataview-delete-button-family": function(e) {
@@ -74,9 +55,7 @@ Template.EditAvailability.events({
             }
         });
         return false;
-    }
-});
-Template.EditAvailability.events({
+    },
     "click #dataview-delete-button-sibling": function(e) {
         e.preventDefault();
         bootbox.dialog({
@@ -99,26 +78,41 @@ Template.EditAvailability.events({
             }
         });
         return false;
+    },
+    "click #dataview-delete-button": function(e) {
+        e.preventDefault();
+        bootbox.dialog({
+            message: "Do you want to delete this event?",
+            title: "Delete event",
+            animate: false,
+            buttons: {
+                success: {
+                    label: "Yes",
+                    className: "btn-primary",
+                    callback: function() {
+                        Meteor.call('availabilities.remove', getCurrentAvailabilityId());
+                        Router.go('home_private.availabilities');
+                    }
+                },
+                danger: {
+                    label: "No",
+                    className: "btn-default"
+                }
+            }
+        });
+        return false;
     }
 });
-
 
 
 Template.EditAvailability.helpers({
-
-});
-
-Template.AvailabilityUpdateForm.onCreated(
-    function bodyOnCreated() {
-        Meteor.subscribe('singleAvailability', getCurrentAvailabilityId());
-        Meteor.subscribe('allCalendars');
-    }
-);
-
-Template.AvailabilityUpdateForm.helpers({
     updateDoc: function () {
-        return getCurrentAvailability();
-    }
+        //console.log(getCurrentAvailability())
+        return availability;
+    },
+    itemsReady:function() {
+        return dataReady();
+    },
 });
 
 AutoForm.hooks({
