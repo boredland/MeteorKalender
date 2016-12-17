@@ -1,32 +1,42 @@
 var pageSession = new ReactiveDict();
+var finalized = 0;
+
+Template.CancelBooking.onCreated(function bodyOnCreated() {
+    var cancelBookingToken = Router.current().params.cancelBookingToken;
+    if (cancelBookingToken) {
+        Meteor.call('booking.cancelByToken', cancelBookingToken, function (error, project) {
+            if(!error && finalized == 0){
+                finalized = 1;
+                pageSession.set("errorMessage", "");
+                pageSession.set("infoMessage", "You successfully canceled your booking.");
+                console.log("cancelsuccess");
+            } else if (error && error.error == "cancellation-error" && finalized == 0){
+                finalized = 1;
+                pageSession.set("errorMessage", error.reason);
+                pageSession.set("infoMessage", "");
+                console.log("cancelerror");
+            }
+        });
+    }
+});
 
 Template.CancelBooking.rendered = function() {
-	pageSession.set("errorMessage", "");
-    var cancelBookingToken = Router.current().params.cancelBookingToken;
-  if (cancelBookingToken) {
-      /*Availabilities.verifyBooking(verifyBookingToken, function (err) {
-          if (err) {
-            pageSession.set("errorMessage", err.message);
-          }
-      });*/
-      pageSession.set("errorMessage", cancelBookingToken);
-  }
-  /*else {
-    pageSession.set("errorMessage", err.message);
-  }*/
-	
+
 };
 
 Template.CancelBooking.events({
-  "click .go-home": function(e, t) {
-    Router.go("/");
-  }
-  
+    "click .go-home": function(e, t) {
+        Router.go("/");
+    }
+
 });
 
 Template.CancelBooking.helpers({
-  "errorMessage": function() {
-    return pageSession.get("errorMessage");
-  }
-  
+    "errorMessage": function() {
+        return pageSession.get("errorMessage");
+    },
+    "infoMessage": function() {
+        return pageSession.get("infoMessage");
+    }
+
 });

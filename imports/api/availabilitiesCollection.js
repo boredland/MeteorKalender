@@ -230,6 +230,7 @@ if (Meteor.isServer) {
                     bookedByDate: null,
                     bookedByEmail: null,
                     bookedByConfirmed: false,
+                    bookedByCancellationToken: null,
                 }
             });
         },
@@ -239,9 +240,24 @@ if (Meteor.isServer) {
          */
         'booking.cancelByToken'(cancellationToken){
             var currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken});
-            return Meteor.call('booking.cancel',currentAvailability._id,function () {
-
-            });
+            if (currentAvailability != undefined){
+                console.log(currentAvailability.userId); // mit der könnte man wohl noch die mailadresse des profs raussuchen
+                console.log(Meteor.user(currentAvailability.userId).emails[0].address)
+                return Meteor.call('booking.cancel',currentAvailability._id,function () {
+                    sendMail({
+                        to: currentAvailability.bookedByEmail,
+                        subject: "You have a cancelled a date with your professor!",
+                        text: "Hello "+currentAvailability.bookedByName+",\n"+
+                        "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been canceled."
+                    });
+                    sendMail({
+                        to: Meteor.user(currentAvailability.userId).emails[0].address,
+                        subject: "Meeting at "+currentAvailability.startDate+" canceled",
+                        text: "Hello "+Meteor.user(currentAvailability.userId).profile.name+",\n"+
+                        currentAvailability.bookedByName+" has canceled his booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+"."
+                    })
+                });
+            }
         },
         /**
          * Methode um eine Buchung durch den Besitzer zu canceln.
@@ -256,7 +272,7 @@ if (Meteor.isServer) {
                 };
                 sendMail({
                     to: currentAvailability.bookedByEmail,
-                    subject: "You have a date with your professor!",
+                    subject: "You canceled a date with your professor!",
                     text: "Hello "+currentAvailability.bookedByName+",\n"+
                     "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been canceled by the owner."+message
                 });
