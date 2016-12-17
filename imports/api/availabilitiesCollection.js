@@ -7,6 +7,7 @@ import {check} from "meteor/check";
 import {availabilitiesSchema} from "./availabilitiesSchema";
 import feiertagejs from "feiertagejs";
 import {} from "/imports/api/collectionPublications";
+import {Calendars} from '/imports/api/calendarsCollection';
 
 export const Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
@@ -54,10 +55,10 @@ if (Meteor.isServer) {
     Availabilities.before.remove(function (userId, doc) {
         var availability = Availabilities.findOne({_id: doc._id});
         if (availability.bookedByConfirmed){
-            throw Meteor.Error("booked","This availibility is booked and therefor only can be cancelled.")
+            throw Meteor.Error("is-booked","This availibility is booked and therefor only can be cancelled.")
         }
         if (!availability.bookedByConfirmed && availability.bookedByDate && (moment(availability.bookedByDate) > moment().add(-10,'m'))){
-            throw Meteor.Error("reserved","This availibility is reserved and therefor only can be cancelled.")
+            throw Meteor.Error("is-reserved","This availibility is reserved and therefor only can be cancelled.")
         }
     });
     /**
@@ -108,10 +109,15 @@ if (Meteor.isServer) {
          * @param availabilityId ID der Availability
          */
         'booking.confirm'(verifyBookingToken){
-            var availability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verifyBookingToken},{});
-            if (availability != undefined){
+            var currentAvailability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verifyBookingToken},{});
+            if (currentAvailability != undefined){
                 console.log("booking confirmed")
-                return Availabilities.update(availability._id,{$set: {bookedByConfirmed: true}});
+                return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true}},function () {
+                    console.log("Send confirmation mail to "+currentAvailability.bookedByName+" with mail "+currentAvailability.bookedByEmail+" for his booking for "+currentAvailability.startDate+" to "+currentAvailability.endDate+"." +
+                        "Additionally he'll get an cancellation-link:" +
+                        Meteor.absoluteUrl()+"cancel_booking/"+currentAvailability.bookedByCancellationToken
+                    );
+                });
                 //-> Here the user should get a mail about his reservation beeing confirmed and the cancellation-link.
             } else {
                 throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
@@ -263,7 +269,8 @@ Meteor.methods({
      * @param availabilityID
      */
     'booking.cancel'(availabilityId){
-        return Availabilities.update({_id: availabilityId},{
+        var currentAvailability = Availabilities.findOne({_id: availabilityId});
+        Availabilities.update({_id: availabilityId},{
             $set: {
                 bookedByName: null,
                 bookedByDate: null,
@@ -271,7 +278,13 @@ Meteor.methods({
                 bookedByConfirmed: false,
             }
         });
+        console.log(currentAvailability);
+        var calendar = Calendars.findOne({_id: currentAvailability.calendarId})
+        console.log("Send cancellation mail to "+currentAvailability.bookedByName+" with mail "+currentAvailability.bookedByEmail+" for his booking for "+currentAvailability.startDate+" to "+currentAvailability.endDate+".");
     },
+    'booking.cancelByToken'(cancellationToken){
+        console.log(cancellationToken);
+    }
 });
 
 var isThisBankHoliday = function (date) {
