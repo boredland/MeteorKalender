@@ -17,10 +17,8 @@ function dataReady() {
     }
 }
 
-
 Template.EditAvailability.onCreated(function bodyOnCreated() {
     availability = this.data;
-    console.log("oncr",availability);
 });
 
 Template.EditAvailability.rendered = function() {
@@ -104,10 +102,8 @@ Template.EditAvailability.events({
     }
 });
 
-
 Template.EditAvailability.helpers({
     updateDoc: function () {
-        //console.log(getCurrentAvailability())
         return availability;
     },
     itemsReady:function() {
