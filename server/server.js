@@ -2,7 +2,7 @@ import '/imports/api/availabilitiesCollection'
 import '/imports/logger'
 //Import creates the collection on the server.
 var verifyEmail = true;
-
+var returnMailString = "FRA-UAS Kalender <noreply@wp12310502.server-he.de>";
 
 
 Accounts.config({ sendVerificationEmail: verifyEmail });
@@ -133,6 +133,31 @@ Meteor.startup(function() {
         console.log("...and verified");
 	}
 
+	//configure registration mail template
+    Accounts.emailTemplates.siteName    = "FRA-UAS Kalender";
+    Accounts.emailTemplates.from        = returnMailString;
+
+    //configure subject fields
+    Accounts.emailTemplates.verifyEmail.subject = function (user) {
+        return "FRA-UAS Calendar: Please verify your email, " + user.profile.name;
+    };
+    Accounts.emailTemplates.resetPassword.subject = function (user) {
+        return "FRA-UAS Calendar: Password reset request from " + user.profile.name;
+    };
+
+    //configure text fields
+    Accounts.emailTemplates.verifyEmail.text = function (user, url) {
+        return "Thank you for choosing FRA-UAS Calendar, " + user.profile.name + "!\n"
+            + " To activate your account, simply click the link below:\n\n"
+            + url
+            + "\n\n Thanks - Your FRA-UAS Calendar team";
+    };
+    Accounts.emailTemplates.resetPassword.text = function (user, url) {
+        return "A password reset has been requested by " + user.profile.name
+            + "\n To reset your password, simply click the link below:\n\n"
+            + url
+            + "\n\n Thanks - Your FRA-UAS Calendar team";
+    };
 
 
 });
@@ -227,10 +252,10 @@ Meteor.methods({
 	"sendMail": function(options) {
 		this.unblock();
 
-		options.from = "FRA-UAS Kalender <noreply@wp12310502.server-he.de>";
+		options.from = returnMailString;
 		options.subject = "FRA-UAS Kalender: " + options.subject;
+        options.text = options.text + "\n\n - Your FRA-UAS Kalender Team";
 
-		options.text = options.text + "\n\n - Your FRA-UAS Kalender Team";
 		Email.send(options);
 	}
 });
