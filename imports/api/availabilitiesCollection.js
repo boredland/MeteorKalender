@@ -22,7 +22,54 @@ Meteor.startup(function () {
 if (Meteor.isServer) {
     var sendMail = function (options) {
         return Meteor.call('sendMail',options);
+    };
+
+    /**
+     * Überprüft, ob es sich um einen Feiertag handelt.
+     * @param date
+     * @returns {*|boolean}
+     */
+    var isThisBankHoliday = function (date) {
+        return feiertagejs.isHoliday(new Date(date), 'HE');
+    };
+
+    /**
+     * Funktion checkt ob die Daten für den Insert ok sind
+     * @param startTime
+     * @param endTime
+     * @param doc
+     * @param thisUserId
+     */
+    var checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
+        var duration = Math.round((moment(doc.endTime) - moment(doc.startTime)) / (1000 * 60));
+        if (startTime > endTime) {
+            throw new EvalError("Startdate: " + startTime + " is bigger than Enddate " + endTime);
+        }
+        if (duration < doc.chunkDuration) {
+            throw new EvalError("Duration " + duration + " is shorter than Chunkperiod " + doc.chunkDuration);
+        }
+        if (!thisUserId) {
+            throw new Meteor.Error('not-authorized');
+        }
     }
+
+    /**
+     * Funktion fügt Daten in die MongoDB Collection ein.
+     * @param thisUserId
+     * @param startDate
+     * @param endDate
+     * @param calendarID
+     * @param familyId
+     */
+    var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
+        return Availabilities.insert({
+            userId: thisUserId,
+            startDate: startDate,
+            endDate: endDate,
+            calendarId: calendarID,
+            familyId: familyId,
+        });
+    };
     /**
      * This will check that there are no Availabilities for this user at the same time or overlapping times.
      */
@@ -313,45 +360,3 @@ Meteor.methods({
         )
     },
 });
-
-var isThisBankHoliday = function (date) {
-    return feiertagejs.isHoliday(new Date(date), 'HE');
-}
-/**
- * Funktion checkt ob die Daten für den Insert ok sind
- * @param startTime
- * @param endTime
- * @param doc
- * @param thisUserId
- */
-var checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
-    var duration = Math.round((moment(doc.endTime) - moment(doc.startTime)) / (1000 * 60));
-    if (startTime > endTime) {
-        throw new EvalError("Startdate: " + startTime + " is bigger than Enddate " + endTime);
-    }
-    if (duration < doc.chunkDuration) {
-        throw new EvalError("Duration " + duration + " is shorter than Chunkperiod " + doc.chunkDuration);
-    }
-    if (!thisUserId) {
-        throw new Meteor.Error('not-authorized');
-    }
-}
-
-/**
- * Funktion fügt Daten in die MongoDB Collection ein.
- * @param thisUserId
- * @param startDate
- * @param endDate
- * @param calendarID
- * @param familyId
- */
-
-var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
-    return Availabilities.insert({
-        userId: thisUserId,
-        startDate: startDate,
-        endDate: endDate,
-        calendarId: calendarID,
-        familyId: familyId,
-    });
-}
