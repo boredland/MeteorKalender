@@ -227,10 +227,10 @@ Meteor.methods({
 	"sendMail": function(options) {
 		this.unblock();
 
-		options.from = "no-reply@fra-uas-kalender.de";
+		options.from = "FRA-UAS Kalender <noreply@wp12310502.server-he.de>";
 		options.subject = "FRA-UAS Kalender: " + options.subject;
 
-		//we can add a footer here by modifying options.text
+		options.text = options.text + "\n\n - Your FRA-UAS Kalender Team";
 		Email.send(options);
 	}
 });
