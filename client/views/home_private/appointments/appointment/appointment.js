@@ -37,7 +37,6 @@ Template.Appointment.created = function() {
 Template.Appointment.events({
     "click #dataview-cancel-button": function(e) {
         e.preventDefault();
-        console.log("Pressed Cancel");
         bootbox.dialog({
             message: "Do you want to cancel the appointment?",
             title: "Cancel appointment",
