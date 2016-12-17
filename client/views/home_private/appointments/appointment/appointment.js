@@ -33,6 +33,8 @@ Template.Appointment.created = function() {
 
 Template.Appointment.events({
     "click #dataview-cancel-button": function(e) {
+        // Das hier sollte halt dann ein Inhalt aus einem Freitextfeld im Modaldialog sein.
+        var reason = "so reasonable";
         e.preventDefault();
         bootbox.dialog({
             message: "Do you want to cancel the appointment?",
@@ -43,7 +45,7 @@ Template.Appointment.events({
                     label: "Yes, and delete availability",
                     className: "btn-primary",
                     callback: function() {
-                        Meteor.call('booking.cancel',getCurrentAvailabilityId(), function(error, result){
+                        Meteor.call('booking.cancelByOwner',getCurrentAvailabilityId(),reason, function(error, result){
                             if (!error){
                                 Meteor.call('availabilities.remove',getCurrentAvailabilityId());
                                 Router.go('home_private.appointments');
@@ -55,8 +57,11 @@ Template.Appointment.events({
                     label: "Yes, and keep availability",
                     className: "btn-primary",
                     callback: function () {
-                        Meteor.call('booking.cancel',getCurrentAvailabilityId());
-                        Router.go('home_private.appointments');
+                        Meteor.call('booking.cancelByOwner',getCurrentAvailabilityId(),reason,function (error,result) {
+                            if (!error){
+                                Router.go('home_private.appointments');
+                            }
+                        });
                     }
                 },
                 no: {

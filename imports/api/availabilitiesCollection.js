@@ -20,6 +20,9 @@ Meteor.startup(function () {
 });
 
 if (Meteor.isServer) {
+    var sendMail = function (options) {
+        return Meteor.call('sendMail',options);
+    }
     /**
      * This will check that there are no Availabilities for this user at the same time or overlapping times.
      */
@@ -92,13 +95,23 @@ if (Meteor.isServer) {
                 // Let other method calls from the same client start running,
                 // without waiting for the email sending to complete.
                 this.unblock();
-                Email.send({
+                sendMail({
+                    to: doc.bookedByEmail,
+                    subject: "Your reservation needs confirmation",
+                    text: "Hello "+doc.bookedByName+",\n"+
+                    "Thank you for your reservation at MeteorKalender. \n" +
+                    "We need you to click at the following link to activate your booking: \n" +
+                    Meteor.absoluteUrl()+"verify_booking/"+verificationToken +"\n"
+                });
+                /*Email.send({
+
+
                     to: doc.bookedByEmail,
                     from: "no-reply@meteor.com",
                     subject: "Your reservation at MeteorKalender needs your confirmation.",
                     text: "Thank you for your reservation at MeteorKalender. We need you to click at the following link to activate your booking: " +
                     Meteor.absoluteUrl()+"verify_booking/"+verificationToken
-                });
+                });*/
                 return true;
             } else {
                 throw new Meteor.Error('booking-error',"There was an error saving your booking information.");
@@ -112,16 +125,62 @@ if (Meteor.isServer) {
             var currentAvailability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verifyBookingToken},{});
             if (currentAvailability != undefined){
                 console.log("booking confirmed")
-                return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true}},function () {
-                    console.log("Send confirmation mail to "+currentAvailability.bookedByName+" with mail "+currentAvailability.bookedByEmail+" for his booking for "+currentAvailability.startDate+" to "+currentAvailability.endDate+"." +
-                        "Additionally he'll get an cancellation-link:" +
+                return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
+                    sendMail({
+                        to: currentAvailability.bookedByEmail,
+                        subject: "You have a date with your professor!",
+                        text: "Hello "+currentAvailability.bookedByName+",\n"+
+                        "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been confirmed. \n" +
+                        "If you'd like to cancel the meeting, you'll have to click at the following link: "+
                         Meteor.absoluteUrl()+"cancel_booking/"+currentAvailability.bookedByCancellationToken
-                    );
+                    });
                 });
-                //-> Here the user should get a mail about his reservation beeing confirmed and the cancellation-link.
             } else {
                 throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
             }
+        },
+        /**
+         * Setzt die Buchung zurück
+         * @param availabilityID
+         */
+        'booking.cancel'(availabilityId){
+            return Availabilities.update({_id: availabilityId},{
+                $set: {
+                    bookedByName: null,
+                    bookedByDate: null,
+                    bookedByEmail: null,
+                    bookedByConfirmed: false,
+                }
+            });
+        },
+        /**
+         * Methode um eine Buchung anhand des Stornierungstoken zu canceln.
+         * @param cancellationToken
+         */
+        'booking.cancelByToken'(cancellationToken){
+            var currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken});
+            return Meteor.call('booking.cancel',currentAvailability._id,function () {
+
+            });
+        },
+        /**
+         * Methode um eine Buchung durch den Besitzer zu canceln.
+         * @param cancellationToken
+         */
+        'booking.cancelByOwner'(availabilityId,reason){
+            var currentAvailability = Availabilities.findOne({_id: availabilityId});
+            return Meteor.call('booking.cancel',currentAvailability._id,function () {
+                var message;
+                if (reason != undefined){
+                    message = "\nHe added the following message for you: \n"+reason;
+                };
+                sendMail({
+                    to: currentAvailability.bookedByEmail,
+                    subject: "You have a date with your professor!",
+                    text: "Hello "+currentAvailability.bookedByName+",\n"+
+                    "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been canceled by the owner."+message
+                });
+            });
         }
     });
 };
@@ -264,27 +323,6 @@ Meteor.methods({
             }
         )
     },
-    /**
-     * Setzt die Buchung zurück
-     * @param availabilityID
-     */
-    'booking.cancel'(availabilityId){
-        var currentAvailability = Availabilities.findOne({_id: availabilityId});
-        Availabilities.update({_id: availabilityId},{
-            $set: {
-                bookedByName: null,
-                bookedByDate: null,
-                bookedByEmail: null,
-                bookedByConfirmed: false,
-            }
-        });
-        console.log(currentAvailability);
-        var calendar = Calendars.findOne({_id: currentAvailability.calendarId})
-        console.log("Send cancellation mail to "+currentAvailability.bookedByName+" with mail "+currentAvailability.bookedByEmail+" for his booking for "+currentAvailability.startDate+" to "+currentAvailability.endDate+".");
-    },
-    'booking.cancelByToken'(cancellationToken){
-        console.log(cancellationToken);
-    }
 });
 
 var isThisBankHoliday = function (date) {
