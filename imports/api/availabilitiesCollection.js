@@ -47,11 +47,13 @@ if (Meteor.isServer) {
             return true;
         });
     });
-    // checks vor dem loeschen
+    /**
+     * Checks vor dem Löschvorgang
+     * Hier sollte geprüft werden, dass nichts mit buchungsmerkmalen gelöscht wird.
+     */
     Availabilities.before.remove(function (userId, doc) {
-        /**
-         * Hier sollte geprüft werden, dass nichts mit buchungsmerkmalen gelöscht wird.
-         */
+        var availability = Availabilities.findOne({_id: doc._id});
+        console.log(availability);
     });
     /**
      *     Hier sollten Methoden landen, die nur auf dem server laufen sollten.

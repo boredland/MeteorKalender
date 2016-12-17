@@ -198,7 +198,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
     startTime: {
         type: Date,
         autoform: {
-            value: new Date(moment().set(0,'ms').set(0,'s')),
+            value: new Date(moment().set(0,'ms').set(0,'s').add(10,'m')),
             afFieldInput: {
                 class: "starttime",
                 type:  "bootstrap-datetimepicker",
@@ -219,7 +219,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
     endTime: {
         type: Date,
         autoform: {
-            value: new Date(moment().set(0,'ms').set(0,'s').add(10,'m')),
+            value: new Date(moment().set(0,'ms').set(0,'s').add(20,'m')),
             afFieldInput: {
                 class: "endtime",
                 type:  "bootstrap-datetimepicker",
