@@ -131,8 +131,6 @@ if (Meteor.isServer) {
             var availability = Availabilities.findOne({bookedByConfirmed: false},{bookedByConfirmationToken: verificationToken});
             // check if the availability is in the database.
             if (availability != undefined){
-                // Let other method calls from the same client start running,
-                // without waiting for the email sending to complete.
                 this.unblock();
                 sendMail({
                     to: doc.bookedByEmail,
@@ -142,15 +140,6 @@ if (Meteor.isServer) {
                     "We need you to click at the following link to activate your booking: \n" +
                     Meteor.absoluteUrl()+"verify_booking/"+verificationToken +"\n"
                 });
-                /*Email.send({
-
-
-                    to: doc.bookedByEmail,
-                    from: "no-reply@meteor.com",
-                    subject: "Your reservation at MeteorKalender needs your confirmation.",
-                    text: "Thank you for your reservation at MeteorKalender. We need you to click at the following link to activate your booking: " +
-                    Meteor.absoluteUrl()+"verify_booking/"+verificationToken
-                });*/
                 return true;
             } else {
                 throw new Meteor.Error('booking-error',"There was an error saving your booking information.");
