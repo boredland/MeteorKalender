@@ -53,8 +53,12 @@ Template.Appointment.events({
                     label: "Yes, and delete availability",
                     className: "btn-primary",
                     callback: function() {
-                        Meteor.call('availabilities.remove',getCurrentAvailabilityId());
-                        Router.go('home_private.appointments');
+                        Meteor.call('booking.cancel',getCurrentAvailabilityId(), function(error, result){
+                            if (!error){
+                                Meteor.call('availabilities.remove',getCurrentAvailabilityId());
+                                Router.go('home_private.appointments');
+                            }
+                        });
                     }
                 },
                 yeskeep: {

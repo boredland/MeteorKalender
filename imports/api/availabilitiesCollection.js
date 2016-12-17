@@ -53,7 +53,12 @@ if (Meteor.isServer) {
      */
     Availabilities.before.remove(function (userId, doc) {
         var availability = Availabilities.findOne({_id: doc._id});
-        console.log(availability);
+        if (availability.bookedByConfirmed){
+            throw Meteor.Error("booked","This availibility is booked and therefor only can be cancelled.")
+        }
+        if (!availability.bookedByConfirmed && availability.bookedByDate && (moment(availability.bookedByDate) > moment().add(-10,'m'))){
+            throw Meteor.Error("reserved","This availibility is reserved and therefor only can be cancelled.")
+        }
     });
     /**
      *     Hier sollten Methoden landen, die nur auf dem server laufen sollten.
@@ -258,15 +263,14 @@ Meteor.methods({
      * @param availabilityID
      */
     'booking.cancel'(availabilityId){
-        Availabilities.update(availabilityId,{
+        return Availabilities.update({_id: availabilityId},{
             $set: {
-                bookedByName: "",
+                bookedByName: null,
                 bookedByDate: null,
-                bookedByEmail: "",
-                bookedByReserved: false,
+                bookedByEmail: null,
                 bookedByConfirmed: false,
             }
-        })
+        });
     },
 });
 
