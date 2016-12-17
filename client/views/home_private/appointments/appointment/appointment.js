@@ -1,6 +1,3 @@
-import {Availabilities} from '/imports/api/availabilitiesCollection';
-import {Calendars} from '/imports/api/calendarsCollection';
-
 var pageSession = new ReactiveDict();
 var appointment;
 
