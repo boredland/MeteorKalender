@@ -5,7 +5,6 @@ import {Meteor} from "meteor/meteor";
 import {Mongo} from "meteor/mongo";
 import {check} from "meteor/check";
 import {availabilitiesSchema} from "./availabilitiesSchema";
-import feiertagejs from "feiertagejs";
 import {} from "/imports/api/collectionPublications";
 import {Calendars} from '/imports/api/calendarsCollection';
 
@@ -33,14 +32,6 @@ Availabilities.allow({
 if (Meteor.isServer) {
     var sendMail = function (options) {
         return Meteor.call('sendMail',options);
-    };
-    /**
-     * Überprüft, ob es sich um einen Feiertag handelt.
-     * @param date
-     * @returns {*|boolean}
-     */
-    var isThisBankHoliday = function (date) {
-        return feiertagejs.isHoliday(new Date(date), 'HE');
     };
 
     /**
@@ -142,6 +133,7 @@ if (Meteor.isServer) {
             var startTimeModified = startTime;
             var endTimeModified = endTime;
             var overlapErrorCount = 0;
+            var bankHolidayCount = 0;
             do {
                 var chunkEndTime = startTimeModified;
                 if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays == false)) || doc.dontSkipHolidays == true) {
@@ -158,13 +150,15 @@ if (Meteor.isServer) {
                             }
                         }
                     } while (chunkEndTime < endTimeModified);
+                } else {
+                    bankHolidayCount++
                 }
                 startTimeModified.add(doc.repeatInterval, 'w');
                 endTimeModified.add(doc.repeatInterval, 'w');
                 //console.log("repeatinterval: ",doc.repeatInterval);
             } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
-            if (overlapErrorCount > 0) {
-                throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities skipped.");
+            if (overlapErrorCount > 0 || bankHolidayCount > 0) {
+                throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities and "+bankHolidayCount+" bank holidays skipped.");
             }
         },
         /**
