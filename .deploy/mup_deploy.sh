@@ -10,7 +10,8 @@ then
   RESULT_MESSAGE="Sucessfully deployed <"$DESTINATION_URL"|#"$TRAVIS_BUILD_NUMBER"> for <https://github.com/boredland/MeteorKalender/commit/$TRAVIS_COMMIT|"$TRAVIS_COMMIT">."
 else
   echo "Deployment failed."
-  RESULT_MESSAGE="Deployment for #'"$TRAVIS_BUILD_NUMBER"' failed. Reverted back to previous version on '"$DESTINATION_URL"'"
+  RESULT_MESSAGE="Deployment for #"$TRAVIS_BUILD_NUMBER" failed. Reverted back to previous version on "$DESTINATION_URL""
+  exit 1
 fi
 }
 

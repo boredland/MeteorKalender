@@ -4,6 +4,8 @@ import '/imports/logger'
 var verifyEmail = true;
 var returnMailString = "FRA-UAS Kalender <noreply@wp12310502.server-he.de>";
 
+sdjfdhfj
+;;;;
 
 Accounts.config({ sendVerificationEmail: verifyEmail });
 
