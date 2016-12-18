@@ -1,6 +1,6 @@
 {
   "less": {
-    "customVariables": true,
+    "customVariables": false,
 
     "exposeMixins": false,
 
