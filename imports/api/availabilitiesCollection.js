@@ -376,40 +376,7 @@ if (Meteor.isServer) {
     });
 };
 
-//methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
+// Methods we want to be run on the client.
 Meteor.methods({
-    /**
-     * Löscht alle Availabilities der gleichen Family.
-     * @param availabilityId. Anhand dieser AvailabilityId wird die Family der Availability gelöscht
-     */
-    'availabilities.removebyFamilyID'(availabilityId){
-        check(availabilityId, String);
 
-        var deletethis = Availabilities.findOne(availabilityId);
-        if (this.userId !== deletethis.userId) {
-            throw new Meteor.Error('not-authorized');
-        }
-
-        var familyId = Availabilities.findOne(availabilityId).familyId;
-        console.log("deleting " + Availabilities.find({familyId: familyId}).count() + " availabilities")
-
-
-        var storeReservedAvailabilities = [];
-        //Speichert alle reservierten Availabilities zwischen
-        Availabilities.find({familyId: familyId, bookedByReserved: true}).forEach(
-            function(element){
-                storeReservedAvailabilities.push(element)
-            }
-        )
-
-        Availabilities.remove({familyId: familyId})
-
-        //Schreibe die zwischengespeicherten Availabilities wieder in die DB
-        storeReservedAvailabilities.forEach(
-            function(element){
-                Availabilities.insert(element)
-            }
-        )
-
-    },
 });
