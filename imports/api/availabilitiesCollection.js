@@ -31,15 +31,9 @@ Availabilities.allow({
 });
 
 if (Meteor.isServer) {
-    var reservationThreshold = 10; // Minutes before a reservation invalidates
     var sendMail = function (options) {
         return Meteor.call('sendMail',options);
     };
-    var formatDateTime = function (date) {
-        return moment(date).format('dddd, DD.MM.YYYY - HH:mm');
-    };
-
-
     /**
      * Überprüft, ob es sich um einen Feiertag handelt.
      * @param date
