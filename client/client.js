@@ -113,7 +113,7 @@ Helpers.formatDate = function(date, dateFormat) {
 };
 
 Helpers.formatDateTime = function(date) {
-	return moment(date).format('dddd, DD.MM.YYYY - HH:mm');
+	return formatDateTime(date);
 };
 
 Helpers.booleanToYesNo = function(b) {

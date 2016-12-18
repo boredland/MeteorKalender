@@ -74,7 +74,7 @@ Template.Appointments.helpers({
         eventClick: function(calEvent, jsEvent, view) {
             Router.go("home_private.appointment",{_eventId: calEvent.id});
         },
-        timeFormat: 'H(:mm)',
+        timeFormat: 'H:mm',
         // Optional: id of the calendar
         //id: "appointmentscalendar",
         // Optional: Additional classes to apply to the calendar

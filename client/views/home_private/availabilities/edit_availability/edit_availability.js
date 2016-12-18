@@ -33,16 +33,15 @@ Template.EditAvailability.events({
     "click #dataview-delete-button-family": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Do you want to delete by familyID?",
-            title: "Delete by familyID",
+            message: "Do you want to delete this availability, all of its future unbooked repetitions and all future unbooked chunks created with it?",
+            title: "Delete whole family of availabilities",
             animate: false,
             buttons: {
                 yes: {
                     label: "Yes",
                     className: "btn-primary",
                     callback: function() {
-                        //FamilyId wird anhand der Availability in 'availabilities.removebyFamilyID' rausgefunden
-                        Meteor.call('availabilities.removebyFamilyID', getCurrentAvailabilityId());
+                        Meteor.call('availabilities.removeFamily', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },
@@ -54,18 +53,18 @@ Template.EditAvailability.events({
         });
         return false;
     },
-    "click #dataview-delete-button-sibling": function(e) {
+    "click #dataview-delete-button-repetitions": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Do you want to delete by siblingID?",
-            title: "Delete by siblingID",
+            message: "Do you want to delete this availability and all of its future unbooked repetitions?",
+            title: "Delete repetitions",
             animate: false,
             buttons: {
                 yes: {
                     label: "Yes",
                     className: "btn-primary",
                     callback: function() {
-                        Meteor.call('availabilities.removebySiblingID', getCurrentAvailabilityId());
+                        Meteor.call('availabilities.removeChunkRepetitions', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },
@@ -80,7 +79,7 @@ Template.EditAvailability.events({
     "click #dataview-delete-button": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Do you want to delete this event?",
+            message: "Do you want to delete this availability?",
             title: "Delete event",
             animate: false,
             buttons: {
