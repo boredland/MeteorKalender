@@ -134,7 +134,7 @@ Meteor.startup(function() {
 	}
 
 	//configure account email templates
-    Accounts.emailTemplates.siteName    = "FRA-UAS Kalender";
+    Accounts.emailTemplates.siteName    = "FRA-UAS Calendar";
     Accounts.emailTemplates.from        = returnMailString;
 
     //configure subject fields
@@ -253,8 +253,8 @@ Meteor.methods({
 		this.unblock();
 
 		options.from = returnMailString;
-		options.subject = "FRA-UAS Kalender: " + options.subject;
-        options.text = options.text + "\n\n - Your FRA-UAS Kalender Team";
+		options.subject = "FRA-UAS Calendar: " + options.subject;
+        options.text = options.text + "\n\n - Your FRA-UAS Calendar Team";
 
 		Email.send(options);
 	}
