@@ -182,7 +182,7 @@ if (Meteor.isServer) {
             var verificationToken = Random.id();
             // generate our random cancellation-token
             var cancellationToken = Random.id();
-            Availabilities.updateOne(doc.availabilityId, {
+            Availabilities.update(doc.availabilityId, {
                 $set: {
                     bookedByEmail: doc.bookedByEmail,
                     bookedByName: doc.bookedByName,
@@ -219,7 +219,7 @@ if (Meteor.isServer) {
             var currentAvailability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verifyBookingToken},{});
             if (currentAvailability != undefined){
                 console.log("booking confirmed")
-                return Availabilities.updateOne(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
+                return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
                         subject: "You have a date with your professor!",
@@ -238,7 +238,7 @@ if (Meteor.isServer) {
          * @param availabilityID
          */
         'booking.cancel'(availabilityId){
-            return Availabilities.updateOne({_id: availabilityId},{
+            return Availabilities.update({_id: availabilityId},{
                 $set: {
                     bookedByName: null,
                     bookedByDate: null,
