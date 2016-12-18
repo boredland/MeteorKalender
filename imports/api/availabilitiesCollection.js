@@ -19,6 +19,17 @@ Meteor.startup(function () {
     }
 });
 
+
+// it is best practice to explicitly allow crud-actions
+Availabilities.allow({
+    insert: function (endTime, repeatInterval, repeatUntil, startDate, startTime) {
+        return true; // is there some meaningful check we could use?
+    },
+    update: function (startDate, endDate, calendarId, userId) {
+        return true;
+    }
+});
+
 if (Meteor.isServer) {
     var reservationThreshold = 10; // Minutes before a reservation invalidates
     var sendMail = function (options) {
@@ -278,51 +289,95 @@ if (Meteor.isServer) {
                     "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been cancelled by the owner."+message
                 });
             });
-        }
+        },
+        /**
+         * Löscht eine Availability.
+         * @param availabilityID
+         */
+        'availabilities.remove'(availabilityID){
+            //check whether the ID which should be deleted is a String
+            check(availabilityID, String);
+
+            //check whether the user is authorized to delete the task.
+            const toBeDeleted = Availabilities.findOne(availabilityID);
+            if (this.userId !== toBeDeleted.userId) {
+                throw new Meteor.Error('not-authorized');
+            }
+            return Availabilities.remove(availabilityID);
+        },
+
+        /**
+         * Löscht alle zukünftigen Availabilities des gegenwärtigen Benutzers, die weder reserviert, noch gebucht sind.
+         * @param availabilities.removeAll
+         */
+        'availabilities.removeAll'(){
+            // loescht alle mit abgelaufenen reservierungen oder die kein bookedByDate gesetzt haben.
+            return Availabilities.find({
+                userId: this.userId,
+                $or: [
+                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
+                    { bookedByDate: undefined }
+                ],
+            }).forEach(
+                function(availability){
+                    return Meteor.call('availabilities.remove',availability._id);
+                }
+            )
+        },
+        /**
+         * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
+         * @param availabilities.removeChunkRepetitions
+         */
+        'availabilities.removeRepetitions'(availabilityId){
+            var currentAvailability = Availabilities.findOne(availabilityId);
+            var startDate = moment(currentAvailability.startDate);
+            return Availabilities.find({
+                userId: this.userId,
+                $or: [
+                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
+                    { bookedByDate: undefined }
+                ],
+                familyId: currentAvailability.familyId,
+            }).forEach(
+                function(availability){
+                    if (
+                        (startDate.get('h')==moment(availability.startDate).get('h'))&&
+                        (startDate.get('m')==moment(availability.startDate).get('m'))&&
+                        (moment(availability.startDate) >= startDate) // nur dieses und zukünftige
+                    ) {
+                        return Meteor.call('availabilities.remove',availability._id);
+                    }
+                }
+            )
+        },
+        /**
+         * Delete this and all future events of the family. Still not so sure if that is good in means of usability.
+         * @param availabilityId
+         * @returns {null}
+         */
+        'availabilities.removeFamily'(availabilityId){
+            var currentAvailability = Availabilities.findOne(availabilityId);
+            var startDate = moment(currentAvailability.startDate);
+            return Availabilities.find({
+                userId: this.userId,
+                $or: [
+                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
+                    { bookedByDate: undefined }
+                ],
+                familyId: currentAvailability.familyId,
+            }).forEach(
+                function(availability){
+                    if (moment(availability.startDate) >= startDate) {
+                        return Meteor.call('availabilities.remove',availability._id);
+                    }
+                }
+            )
+        },
     });
 };
 
-// it is best practice to explicitly allow crud-actions
-Availabilities.allow({
-    insert: function (endTime, repeatInterval, repeatUntil, startDate, startTime) {
-        return true; // is there some meaningful check we could use?
-    },
-    update: function (startDate, endDate, calendarId, userId) {
-        return true;
-    }
-});
-
 //methods can be called in every .js file which has "import { Meteor } from 'meteor/meteor';" .
 Meteor.methods({
-    /**
-     * Löscht eine Availability.
-     * @param availabilityID
-     */
-    'availabilities.remove'(availabilityID){
-        //check ob availability gebucht?
-        //check whether the ID which should be deleted is a String
-        check(availabilityID, String);
-
-        //check whether the user is authorized to delete the task.
-        const toBeDeleted = Availabilities.findOne(availabilityID);
-        if (this.userId !== toBeDeleted.userId) {
-            throw new Meteor.Error('not-authorized');
-        }
-        return Availabilities.remove(availabilityID);
-    },
-
-    /**
-     * Löscht alle zukünftigen Availabilities des gegenwärtigen Benutzers, die weder reserviert, noch gebucht sind.
-     * @param availabilities.removeall
-     */
-    'availabilities.removeAll'(){
-        // loescht alle, die kein bookedByDate gesetzt haben.
-        Availabilities.remove({userId: this.userId, bookedByDate: undefined});
-        // loescht alle mit abgelaufenen reservierungen.
-        Availabilities.remove({userId: this.userId, bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false});
-        // Rückgabewert mit der Anzahl verbliebener Availibilities, könnte man bspw. in einem Info-Feld ausgeben. Die Anzal gelöschter könnte man auch ausgeben if you want.
-        return Availabilities.find({userID: this.userID},{bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}}).count();
-    },
     /**
      * Löscht alle Availabilities der gleichen Family.
      * @param availabilityId. Anhand dieser AvailabilityId wird die Family der Availability gelöscht
@@ -356,29 +411,5 @@ Meteor.methods({
             }
         )
 
-    },
-    /**
-     * Löscht alle Availabilities der family des gegenwärtigen Benutzers.
-     * @param availabilities.removebyChunkID
-     */
-    'availabilities.removebySiblingID'(availabilityId){
-        var familyId = Availabilities.findOne(availabilityId).familyId;
-        var siblingStartTime = Availabilities.findOne(availabilityId).startDate;
-
-        var storeReservedAvailabilities = [];
-        //Speichert alle reservierten Availabilities zwischen
-        Availabilities.find({familyId: familyId, bookedByReserved: true, startDate: siblingStartTime}).forEach(
-            function(element){
-                storeReservedAvailabilities.push(element)
-            }
-        )
-        Availabilities.remove({familyId: familyId, startDate: siblingStartTime})
-
-        //Schreibe die zwischengespeicherten Availabilities wieder in die DB
-        storeReservedAvailabilities.forEach(
-            function(element){
-                Availabilities.insert(element)
-            }
-        )
     },
 });
