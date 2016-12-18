@@ -3,7 +3,7 @@ import '/imports/logger'
 //Import creates the collection on the server.
 var verifyEmail = true;
 var returnMailString = "FRA-UAS Kalender <noreply@wp12310502.server-he.de>";
-??"!";;
+
 Accounts.config({ sendVerificationEmail: verifyEmail });
 
 Meteor.startup(function() {
