@@ -276,7 +276,7 @@ if (Meteor.isServer) {
          * @param reason
          */
         'booking.cancelByOwner'(availabilityId,reason){
-            var currentAvailability = Availabilities.findOne({_id: availabilityId});
+            var currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
             return Meteor.call('booking.cancel',currentAvailability._id,function () {
                 var message;
                 if (reason != undefined){
@@ -350,7 +350,7 @@ if (Meteor.isServer) {
          * @returns {null}
          */
         'availabilities.removeFamily'(availabilityId){
-            var currentAvailability = Availabilities.findOne(availabilityId);
+            var currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
             var startDate = moment(currentAvailability.startDate);
             return Availabilities.find({
                 userId: this.userId,
