@@ -40,5 +40,5 @@ cd .deploy/test
 channel="#info_002_cd_mup_test"
 DESTINATION_URL="https://test.meteorkalender.freeddns.org"
 webhook_key=$Webhook_Test
-exit deploy
+exit $(deploy)
 fi
