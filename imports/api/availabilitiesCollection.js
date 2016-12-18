@@ -294,10 +294,10 @@ if (Meteor.isServer) {
          * Löscht eine Availability.
          * @param availabilityID
          */
-        'availabilities.remove'(availabilityID){
+        'availabilities.remove'(availabilityId){
             //check whether the ID which should be deleted is a String
-            check(availabilityID, String);
-            return Availabilities.remove({_id: availabilityID, userId: this.userId});
+            check(availabilityId, String);
+            return Availabilities.remove({_id: availabilityId, userId: this.userId});
         },
 
         /**
@@ -323,7 +323,7 @@ if (Meteor.isServer) {
          * @param availabilities.removeChunkRepetitions
          */
         'availabilities.removeRepetitions'(availabilityId){
-            var currentAvailability = Availabilities.findOne(availabilityId);
+            var currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
             var startDate = moment(currentAvailability.startDate);
             return Availabilities.find({
                 userId: this.userId,
