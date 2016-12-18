@@ -297,13 +297,7 @@ if (Meteor.isServer) {
         'availabilities.remove'(availabilityID){
             //check whether the ID which should be deleted is a String
             check(availabilityID, String);
-
-            //check whether the user is authorized to delete the task.
-            const toBeDeleted = Availabilities.findOne(availabilityID);
-            if (this.userId !== toBeDeleted.userId) {
-                throw new Meteor.Error('not-authorized');
-            }
-            return Availabilities.remove(availabilityID);
+            return Availabilities.remove({_id: availabilityID, userId: this.userId});
         },
 
         /**
