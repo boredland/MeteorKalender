@@ -63,7 +63,6 @@ if (Meteor.isServer) {
      * @param familyId
      */
     var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
-        console.log("insertfunction")
         return Availabilities.insert({
             userId: thisUserId,
             startDate: startDate,
@@ -123,7 +122,6 @@ if (Meteor.isServer) {
          * @param doc
          */
         'availabilities.insert'(doc) {
-            console.log("insertion")
             var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
             var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
             var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
@@ -142,7 +140,6 @@ if (Meteor.isServer) {
                         var chunkStartTime = chunkEndTime;
                         chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
                         try {
-                            console.log("Singleinsert")
                             insertAvailability(this.userId, new Date(chunkStartTime.seconds(1)), new Date(chunkEndTime.seconds(0)), doc.calendarId, familyid);
                         } catch(err) {
                             if (err.error === "overlap") {
@@ -155,7 +152,6 @@ if (Meteor.isServer) {
                 }
                 startTimeModified.add(doc.repeatInterval, 'w');
                 endTimeModified.add(doc.repeatInterval, 'w');
-                //console.log("repeatinterval: ",doc.repeatInterval);
             } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
             if (overlapErrorCount > 0 || bankHolidayCount > 0) {
                 throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities and "+bankHolidayCount+" bank holidays skipped.");
