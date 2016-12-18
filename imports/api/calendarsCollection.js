@@ -41,6 +41,7 @@ if (Meteor.isServer) {
                 linkslug: doc.linkslug
             });
         },
+        ;;;;;;;;
         'calendars.remove'(calendarId){
             //check whether the ID which should be deleted is a String
             check(calendarId, String);
