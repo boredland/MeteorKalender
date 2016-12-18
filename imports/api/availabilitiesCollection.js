@@ -74,7 +74,7 @@ if (Meteor.isServer) {
      * @param familyId
      */
     var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
-        return Availabilities.insert({
+        return Availabilities.insertOne({
             userId: thisUserId,
             startDate: startDate,
             endDate: endDate,
@@ -179,7 +179,7 @@ if (Meteor.isServer) {
             var verificationToken = Random.id();
             // generate our random cancellation-token
             var cancellationToken = Random.id();
-            Availabilities.update(doc.availabilityId, {
+            Availabilities.updateOne(doc.availabilityId, {
                 $set: {
                     bookedByEmail: doc.bookedByEmail,
                     bookedByName: doc.bookedByName,
@@ -216,7 +216,7 @@ if (Meteor.isServer) {
             var currentAvailability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verifyBookingToken},{});
             if (currentAvailability != undefined){
                 console.log("booking confirmed")
-                return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
+                return Availabilities.updateOne(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
                         subject: "You have a date with your professor!",
@@ -235,7 +235,7 @@ if (Meteor.isServer) {
          * @param availabilityID
          */
         'booking.cancel'(availabilityId){
-            return Availabilities.update({_id: availabilityId},{
+            return Availabilities.updateOne({_id: availabilityId},{
                 $set: {
                     bookedByName: null,
                     bookedByDate: null,
@@ -297,7 +297,7 @@ if (Meteor.isServer) {
         'availabilities.remove'(availabilityId){
             //check whether the ID which should be deleted is a String
             check(availabilityId, String);
-            return Availabilities.remove({_id: availabilityId, userId: this.userId});
+            return Availabilities.removeOne({_id: availabilityId, userId: this.userId});
         },
 
         /**
