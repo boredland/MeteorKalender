@@ -74,7 +74,8 @@ if (Meteor.isServer) {
      * @param familyId
      */
     var insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
-        return Availabilities.insertOne({
+        console.log("insertfunction")
+        return Availabilities.insert({
             userId: thisUserId,
             startDate: startDate,
             endDate: endDate,
@@ -88,7 +89,7 @@ if (Meteor.isServer) {
     Availabilities.before.insert(function (userId, doc) {
         var new_startdate = new Date(doc.startDate);
         var new_enddate = new Date(doc.endDate);
-        Availabilities.find({},{userId: doc.userId, startDate: {$gt: new Date()}}).fetch().map( ( availability ) => {
+        Availabilities.find({userId: doc.userId, startDate: {$gt: new Date()}}).fetch().map( ( availability ) => {
             if (availability !== undefined) {
                 var existing_startdate = new Date(availability.startDate);
                 var existing_enddate = new Date(availability.endDate);
@@ -133,6 +134,7 @@ if (Meteor.isServer) {
          * @param doc
          */
         'availabilities.insert'(doc) {
+            console.log("insertion")
             var startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
             var endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
             var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
@@ -150,6 +152,7 @@ if (Meteor.isServer) {
                         var chunkStartTime = chunkEndTime;
                         chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
                         try {
+                            console.log("Singleinsert")
                             insertAvailability(this.userId, new Date(chunkStartTime.seconds(1)), new Date(chunkEndTime.seconds(0)), doc.calendarId, familyid);
                         } catch(err) {
                             if (err.error === "overlap") {
@@ -297,7 +300,7 @@ if (Meteor.isServer) {
         'availabilities.remove'(availabilityId){
             //check whether the ID which should be deleted is a String
             check(availabilityId, String);
-            return Availabilities.removeOne({_id: availabilityId, userId: this.userId});
+            return Availabilities.remove({_id: availabilityId, userId: this.userId});
         },
 
         /**
