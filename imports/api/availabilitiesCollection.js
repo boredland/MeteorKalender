@@ -35,6 +35,10 @@ if (Meteor.isServer) {
     var sendMail = function (options) {
         return Meteor.call('sendMail',options);
     };
+    var formatDateTime = function (date) {
+        return moment(date).format('dddd, DD.MM.YYYY - HH:mm');
+    };
+
 
     /**
      * Überprüft, ob es sich um einen Feiertag handelt.
@@ -224,7 +228,7 @@ if (Meteor.isServer) {
                         to: currentAvailability.bookedByEmail,
                         subject: "You have a date with your professor!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
-                        "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been confirmed. \n" +
+                        "your booking for CALENDARNAME from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been confirmed. \n" +
                         "If you'd like to cancel the meeting, you'll have to click at the following link: "+
                         Meteor.absoluteUrl()+"cancel_booking/"+currentAvailability.bookedByCancellationToken
                     });
@@ -262,13 +266,13 @@ if (Meteor.isServer) {
                         to: currentAvailability.bookedByEmail,
                         subject: "You have a cancelled a date with your professor!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
-                        "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been cancelled."
+                        "your booking for CALENDARNAME from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled."
                     });
                     sendMail({
                         to: Meteor.user(currentAvailability.userId).emails[0].address,
-                        subject: "Meeting at "+currentAvailability.startDate+" canceled",
+                        subject: "Meeting at "+formatDateTime(currentAvailability.startDate)+" canceled",
                         text: "Hello "+Meteor.user(currentAvailability.userId).profile.name+",\n"+
-                        currentAvailability.bookedByName+" has cancelled his booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+"."
+                        currentAvailability.bookedByName+" has cancelled his booking for CALENDARNAME from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+"."
                     })
                 });
             }
@@ -289,7 +293,7 @@ if (Meteor.isServer) {
                     to: currentAvailability.bookedByEmail,
                     subject: "You cancelled a date with your professor!",
                     text: "Hello "+currentAvailability.bookedByName+",\n"+
-                    "your booking for CALENDARNAME from "+currentAvailability.startDate+" to "+currentAvailability.endDate+" has been cancelled by the owner."+message
+                    "your booking for CALENDARNAME from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled by the owner."+message
                 });
             });
         },
