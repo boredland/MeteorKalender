@@ -1,5 +1,6 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
+var availability;
 
 window.Availabilities = Availabilities;
 function getCurrentAvailabilityId(){
@@ -8,13 +9,17 @@ function getCurrentAvailabilityId(){
         return currentId;
     }
 }
-
-function getCurrentAvailability() {
-    var availability = Availabilities.findOne({_id: getCurrentAvailabilityId()});
-    if (availability != undefined){
-        return availability;
+function dataReady() {
+    if (availability){
+        return true
+    } else {
+        return false
     }
 }
+
+Template.EditAvailability.onCreated(function bodyOnCreated() {
+    availability = this.data;
+});
 
 Template.EditAvailability.rendered = function() {
 
@@ -25,16 +30,62 @@ Template.EditAvailability.created = function() {
 };
 
 Template.EditAvailability.events({
+    "click #dataview-delete-button-family": function(e) {
+        e.preventDefault();
+        bootbox.dialog({
+            message: "Do you want to delete this availability, all of its future unbooked repetitions and all future unbooked chunks created with it?",
+            title: "Delete whole family of availabilities",
+            animate: false,
+            buttons: {
+                yes: {
+                    label: "Yes",
+                    className: "btn-primary",
+                    callback: function() {
+                        Meteor.call('availabilities.removeFamily', getCurrentAvailabilityId());
+                        Router.go('home_private.availabilities');
+                    }
+                },
+                no: {
+                    label: "No",
+                    className: "btn-default"
+                }
+            }
+        });
+        return false;
+    },
+    "click #dataview-delete-button-repetitions": function(e) {
+        e.preventDefault();
+        bootbox.dialog({
+            message: "Do you want to delete this availability and all of its future unbooked repetitions?",
+            title: "Delete repetitions",
+            animate: false,
+            buttons: {
+                yes: {
+                    label: "Yes",
+                    className: "btn-primary",
+                    callback: function() {
+                        Meteor.call('availabilities.removeChunkRepetitions', getCurrentAvailabilityId());
+                        Router.go('home_private.availabilities');
+                    }
+                },
+                no: {
+                    label: "No",
+                    className: "btn-default"
+                }
+            }
+        });
+        return false;
+    },
     "click #dataview-delete-button": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Delete? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete this availability?",
+            title: "Delete event",
             animate: false,
             buttons: {
                 success: {
                     label: "Yes",
-                    className: "btn-success",
+                    className: "btn-primary",
                     callback: function() {
                         Meteor.call('availabilities.remove', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
@@ -50,74 +101,13 @@ Template.EditAvailability.events({
     }
 });
 
-Template.EditAvailability.events({
-    "click #dataview-delete-button-family": function(e) {
-        e.preventDefault();
-        bootbox.dialog({
-            message: "Delete by FamilyID? Are you sure?",
-            title: "Delete",
-            animate: false,
-            buttons: {
-                success: {
-                    label: "Yes",
-                    className: "btn-success",
-                    callback: function() {
-                      //  Meteor.call(()); muss noch implementiert werden
-                        Router.go('home_private.availabilities');
-                    }
-                },
-                danger: {
-                    label: "No",
-                    className: "btn-default"
-                }
-            }
-        });
-        return false;
-    }
-});
-Template.EditAvailability.events({
-    "click #dataview-delete-button-chunk": function(e) {
-        e.preventDefault();
-        bootbox.dialog({
-            message: "Delete by ChunkID? Are you sure?",
-            title: "Delete",
-            animate: false,
-            buttons: {
-                success: {
-                    label: "Yes",
-                    className: "btn-success",
-                    callback: function() {
-                       // Meteor.call(()); muss noch implementiert werden
-                        Router.go('home_private.availabilities');
-                    }
-                },
-                danger: {
-                    label: "No",
-                    className: "btn-default"
-                }
-            }
-        });
-        return false;
-    }
-});
-
-
-
 Template.EditAvailability.helpers({
-
-});
-
-Template.AvailabilityUpdateForm.onCreated(
-    function bodyOnCreated() {
-        Meteor.subscribe('singleAvailability', getCurrentAvailabilityId());
-        Meteor.subscribe('allCalendars');
-    }
-);
-
-Template.AvailabilityUpdateForm.helpers({
     updateDoc: function () {
-        return getCurrentAvailability();
-    }
+        return availability;
+    },
+    itemsReady:function() {
+        return dataReady();
+    },
 });
 
 AutoForm.hooks({

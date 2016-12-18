@@ -16,12 +16,36 @@ if (Meteor.isServer) {
     /**
      * This collection hook will check that no Calendar can be deleted that still contains elements in the future.
      */
-    Calendars.before.remove((doc) => {
-        if (Availabilities.findOne({startDate: {$gt: new Date()}},{calendarId: {$elemMatch: doc}})){
+    Calendars.before.remove((userId,doc) => {
+        if (Availabilities.findOne({startDate: {$gt: new Date()},calendarId: doc._id})){
             throw new Meteor.Error('notEmpty', "Can't delete a calendar that contains future availabilities.");
         } else {
             return true;
         }
+    });
+    // Server-side methods
+    Meteor.methods({
+        'calendars.insert'(doc) {
+            console.log("insertCalendar run");
+            //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
+            if (! this.userId) {
+                throw new Meteor.Error('not-authorized');
+            }
+            //finally, data are inserted into the collection
+            Calendars.insert({
+                userId: this.userId,
+                name: doc.name,
+                location: doc.location,
+                color: doc.color,
+                published: doc.published,
+                linkslug: doc.linkslug
+            });
+        },
+        'calendars.remove'(calendarId){
+            //check whether the ID which should be deleted is a String
+            check(calendarId, String);
+            Calendars.remove({_id: calendarId, userId: this.userId});
+        },
     });
 };
 
@@ -33,35 +57,4 @@ Calendars.allow({
     update: function(name, location,color,published) {
         return true;
     }
-});
-
-Meteor.methods({
-     'calendars.insert'(doc) {
-        console.log("insertCalendar run");
-        //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
-        if (! this.userId) {
-            throw new Meteor.Error('not-authorized');
-        }
-        //finally, data are inserted into the collection
-        Calendars.insert({
-            userId: this.userId,
-            name: doc.name,
-            location: doc.location,
-            color: doc.color,
-            published: doc.published,
-            linkslug: doc.linkslug
-        });
-    },
-
-    'calendars.remove'(calendarId){
-        //check whether the ID which should be deleted is a String
-        check(calendarId, String);
-        //check whether the user is authorized to delete the calendar.
-        const toBeDeleted = Calendars.findOne(calendarId);
-        if (this.userId !== toBeDeleted.userId){
-            throw new Meteor.Error('not-authorized');
-        }
-        //throw new Meteor.Error('bingoerror',"this is the reason for this error");
-        Calendars.remove(calendarId);
-    },
 });

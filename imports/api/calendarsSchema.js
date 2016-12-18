@@ -28,6 +28,7 @@ export var calendarsSchema = new SimpleSchema({
     color: {
         type: String,
         autoform: {
+            value: Random.hexString(6),
             defaultValue: Random.hexString(6),
             type: "bootstrap-colorpicker",
 

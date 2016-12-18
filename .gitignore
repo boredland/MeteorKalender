@@ -14,3 +14,4 @@ npm-debug.log
 /client/styles/framework/bootstrap3/custom.bootstrap.mixins.import.less
 Würde .docs/client/data/ löschen
 /meteor.log
+/meteor-debug.log

@@ -4,19 +4,38 @@ import { Meteor } from 'meteor/meteor';
 
 var pageSession = new ReactiveDict();
 
+var getData = function(){
+    return Availabilities.find({}).fetch().map( ( availability ) => {
+        //availability.editable = true; //availability.startDate
+        var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
+        var title, status;
+        if (availability.bookedByConfirmed) {
+            title = " (booked)";
+            status = false;
+        } else if (moment(availability.bookedByDate) >= moment().add(-10,'m') && !availability.bookedByConfirmed && availability.bookedByDate){
+            title = " (reserved)";
+            status = false;
+        } else {
+            title = " (free)";
+            status = true;
+        }
+        if (availability !== undefined){
+            availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name+title, id: availability._id, status: status};
+            return availability;
+        }
+    });
+};
+
 Template.Availabilities.onRendered( () => {
 
 });
 
 Template.Availabilities.onCreated(function bodyOnCreated() {
-    Meteor.subscribe('allFutureAvailabilities',0);
-    Meteor.subscribe('allCalendars');
     pageSession.set("errorMessage", "");
 });
 
 Template.Availabilities.rendered = function() {
-    pageSession.set("invoicesInsertInsertFormInfoMessage", "");
-    pageSession.set("invoicesInsertInsertFormErrorMessage", "");
+
 };
 
 Template.Availabilities.created = function() {
@@ -33,19 +52,19 @@ Template.Availabilities.events({
     "click #delete-all-button": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Delete all availabilities? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete all availabilities?",
+            title: "Delete all availabilities",
             animate: false,
             buttons: {
-                success: {
+                yes: {
                     label: "Yes",
                     className: "btn-success",
                     callback: function() {
-                        Meteor.call('availabilities.removeall');//noch nicht implementiert
+                        Meteor.call('availabilities.removeAll');
                         Router.go('home_private.availabilities');
                     }
                 },
-                danger: {
+                no: {
                     label: "No",
                     className: "btn-default"
                 }
@@ -57,6 +76,10 @@ Template.Availabilities.events({
 
 Template.Availabilities.helpers({
     "errorMessage": function() {
+        var getError = Router.current().params.query.error;
+        if (getError) {
+            pageSession.set("errorMessage", getError);
+        }
         return pageSession.get("errorMessage");
     },
     availibilityCalendarOptions: {
@@ -70,25 +93,7 @@ Template.Availabilities.helpers({
         lang: 'de',
         // Function providing events reactive computation for fullcalendar plugin
         events( start, end, timezone, callback ) {
-            let data = Availabilities.find().fetch().map( ( availability ) => {
-                //availability.editable = true; //availability.startDate
-                var calendar = Calendars.findOne({_id: availability.calendarId.toString()});
-                var title, status;
-                if (availability.bookedByConfirmed) {
-                    title = " (booked)";
-                    status = false;
-                } else if (moment(availability.bookedByDate) < moment().add(-10,'m') && !availability.bookedByConfirmed){
-                    title = " (reserved)";
-                    status = false;
-                } else {
-                    title = "";
-                    status = true;
-                }
-                if (availability !== undefined){
-                    availability = {start: availability.startDate,end: availability.endDate,color: calendar.color, title: calendar.name+title, id: availability._id, status: status};
-                    return availability;
-                }
-            });
+            let data = getData();
             if ( data ) {
                 callback( data );
             }
@@ -106,6 +111,7 @@ Template.Availabilities.helpers({
         },
         // Optional: id of the calendar
         id: "availabilitiesCalendar",
+        timeFormat: 'H:mm',
         // Optional: Additional classes to apply to the calendar
         //addedClasses: "col-md-8",
         // Optional: Additional functions to apply after each reactive events computation

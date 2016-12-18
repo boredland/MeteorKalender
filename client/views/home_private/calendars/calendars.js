@@ -19,13 +19,13 @@ Template.Calendars.events({
         e.preventDefault();
         var me = this;
         bootbox.dialog({
-            message: "Delete? Are you sure?",
-            title: "Delete",
+            message: "Do you want to delete this calendar?",
+            title: "Delete calendar",
             animate: false,
             buttons: {
-                success: {
+                yes: {
                     label: "Yes",
-                    className: "btn-success",
+                    className: "btn-primary",
                     callback: function() {
                         Meteor.call('calendars.remove',me._id, function(err, data) {
                             if (err && err.error === "notEmpty") {
@@ -37,7 +37,7 @@ Template.Calendars.events({
                         });
                     }
                 },
-                danger: {
+                no: {
                     label: "No",
                     className: "btn-default"
                 }
@@ -53,8 +53,30 @@ Template.Calendars.events({
         e.preventDefault();
         var me = this;
         Router.go("home_private.edit_calendar",{_calendarId: me._id});
+    },
+    "click #copy-button": function(e) {
+        e.preventDefault();
+        var me = this;
+        var calendar = Calendars.findOne({_id: me._id});
+        var origin = window.location.origin;
+        var linkslug = calendar.linkslug;
+        var link = origin + "/calendar_public/" + linkslug;
+        //console.log(link);
+        // Create an auxiliary hidden input
+        var aux = document.createElement("input");
+        // Get the text from the element passed into the input
+        aux.setAttribute("value", link);
+        // Append the aux input to the body
+        document.body.appendChild(aux);
+        // Highlight the content
+        aux.select();
+        // Execute the copy command
+        document.execCommand("copy");
+        // Remove the input from the body
+        document.body.removeChild(aux);
+    },
     }
-});
+);
 
 Template.Calendars.helpers({
     "errorMessage": function() {
@@ -62,5 +84,8 @@ Template.Calendars.helpers({
     },
     getCalendars(){
         return Calendars.find();
-    }
+    },
+});
+
+Template.Calendars.onRendered(function() {
 });

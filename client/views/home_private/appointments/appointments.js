@@ -26,7 +26,7 @@ function dataReady() {
 
 Template.Appointments.onCreated(
     function bodyOnCreated() {
-        availabilitiesSubscription = Meteor.subscribe('allFutureAvailabilities',0); // If we want to display some events (like 30m) from the past, we'd have to shift to iron-router as fast as we can!!!
+        availabilitiesSubscription = Meteor.subscribe('allFutureAvailabilities',30);
         calendarsSubscription = Meteor.subscribe('allCalendars');
         if (availabilitiesSubscription.ready() && calendarsSubscription.ready()) {
             console.log("Both subscriptions are ready.")
@@ -74,6 +74,7 @@ Template.Appointments.helpers({
         eventClick: function(calEvent, jsEvent, view) {
             Router.go("home_private.appointment",{_eventId: calEvent.id});
         },
+        timeFormat: 'H:mm',
         // Optional: id of the calendar
         //id: "appointmentscalendar",
         // Optional: Additional classes to apply to the calendar
