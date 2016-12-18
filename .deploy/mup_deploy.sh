@@ -8,9 +8,12 @@ if [[ $MUP_RESULT == *"Verifying Deployment: SUCCESS"* ]]
 then
   echo "Deployment successful."
   RESULT_MESSAGE="Sucessfully deployed <"$DESTINATION_URL"|#"$TRAVIS_BUILD_NUMBER"> for <https://github.com/boredland/MeteorKalender/commit/$TRAVIS_COMMIT|"$TRAVIS_COMMIT">."
+  slack_it
+  exit 0
 else
   echo "Deployment failed."
   RESULT_MESSAGE="Deployment for #"$TRAVIS_BUILD_NUMBER" failed. Reverted back to previous version on "$DESTINATION_URL""
+  slack_it
   exit 1
 fi
 }
@@ -20,7 +23,6 @@ MUP_RESULT=$(mup deploy)
 echo $MUP_RESULT
 MUP_RESULT=$(echo $MUP_RESULT | tail -n1)
 check_sucess
-slack_it
 }
 
 if [ $1 == master ]
