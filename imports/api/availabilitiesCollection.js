@@ -210,7 +210,7 @@ if (Meteor.isServer) {
                 return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
-                        subject: "You have a date with your professor!",
+                        subject: "You have an appointment with your professor!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
                         "your booking for CALENDARNAME from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been confirmed. \n" +
                         "If you'd like to cancel the meeting, you'll have to click at the following link: "+
