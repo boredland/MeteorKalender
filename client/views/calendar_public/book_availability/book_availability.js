@@ -57,6 +57,7 @@ AutoForm.hooks({
         before: {
             method: function(doc){
                 doc.availabilityId = availability._id;
+                doc.bookedByCalendarId = calendar._id;
                 return doc;
             }
         },

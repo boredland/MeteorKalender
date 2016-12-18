@@ -137,14 +137,6 @@ export var availabilitiesSchema = new SimpleSchema({
             type: "hidden",
         }
     },
-    // das ist Käse.
-    bookedByReserved: {
-        type: Boolean,
-        optional: true,
-        autoform: {
-            type: "hidden",
-        }
-    },
     bookedByName: {
         type: String,
         optional: true,
@@ -172,6 +164,13 @@ export var availabilitiesSchema = new SimpleSchema({
         optional: true,
         autoform: {
             type: "hidden",
+        }
+    },
+    bookedByCalendarId: {
+        type: String,
+        optional: true,
+        autoform: {
+            type:  "hidden"
         }
     }
 });
@@ -324,5 +323,11 @@ export var bookingFormSchema = new SimpleSchema({
     bookedByEmail: {
         type: String,
         regEx: SimpleSchema.RegEx.Email
+    },
+    bookedByCalendarId: {
+        type: String,
+        autoform: {
+            type: "hidden",
+        }
     }
 });
