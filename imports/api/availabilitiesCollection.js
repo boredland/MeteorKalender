@@ -259,7 +259,7 @@ if (Meteor.isServer) {
                 return Meteor.call('booking.cancel',currentAvailability._id,function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
-                        subject: "You have a cancelled an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
+                        subject: "You have cancelled your appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
                         "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled."
                     });

@@ -133,29 +133,29 @@ Meteor.startup(function() {
 	}
 
 	//configure account email templates
-    Accounts.emailTemplates.siteName    = "FRA-UAS Calendar";
+    Accounts.emailTemplates.siteName    = "Date your prof";
     Accounts.emailTemplates.from        = returnMailString;
 
     //configure subject fields
     Accounts.emailTemplates.verifyEmail.subject = function (user) {
-        return "FRA-UAS Calendar: Please verify your email, " + user.profile.name;
+        return "Please verify your email, " + user.profile.name;
     };
     Accounts.emailTemplates.resetPassword.subject = function (user) {
-        return "FRA-UAS Calendar: Password reset request from " + user.profile.name;
+        return "Password reset request from " + user.profile.name;
     };
 
     //configure text fields
     Accounts.emailTemplates.verifyEmail.text = function (user, url) {
-        return "Thank you for choosing FRA-UAS Calendar, " + user.profile.name + "!\n"
+        return "Thank you for choosing Date your prof, " + user.profile.name + "!\n"
             + " To activate your account, simply click the link below:\n\n"
             + url
-            + "\n\n Thanks - Your FRA-UAS Calendar team";
+            + "\n\n Thanks - Your Date your prof team";
     };
     Accounts.emailTemplates.resetPassword.text = function (user, url) {
         return "A password reset has been requested by " + user.profile.name
             + "\n To reset your password, simply click the link below:\n\n"
             + url
-            + "\n\n Thanks - Your FRA-UAS Calendar team";
+            + "\n\n Thanks - Your Date your prof team";
     };
 
 
@@ -253,7 +253,7 @@ Meteor.methods({
 
 		options.from = returnMailString;
 		options.subject = options.subject;
-        options.text = options.text + "\n\n - Date your prof Team";
+        options.text = options.text + "\n\n Thanks - Your Date your prof Team";
 
 		Email.send(options);
 	}
