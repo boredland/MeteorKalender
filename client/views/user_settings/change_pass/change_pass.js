@@ -26,19 +26,19 @@ Template.UserSettingsChangePass.events({
 		var new_password = t.find('#new_password').value;
 		var confirm_pass = t.find('#confirm_pass').value;
 
-		if(old_password == "")
+		if(old_password === "")
 		{
 			pageSession.set("errorMessage", "Please enter your old password.");
 			t.find('#old_password').focus();
 			return false;
 		}
-		if(new_password == "")
+		if(new_password === "")
 		{
 			pageSession.set("errorMessage", "Please enter your new password.");
 			t.find('#new_password').focus();
 			return false;
 		}
-		if(confirm_pass == "")
+		if(confirm_pass === "")
 		{
 			pageSession.set("errorMessage", "Please confirm your new password.");
 			t.find('#confirm_pass').focus();
@@ -46,7 +46,7 @@ Template.UserSettingsChangePass.events({
 		}
 
 		// check new password
-		if(new_password != confirm_pass)
+		if(new_password !== confirm_pass)
 		{
 			pageSession.set("errorMessage", "Your new password and confirm password doesn't match.");
 			t.find('#new_password').focus();

@@ -4,13 +4,13 @@ window.Calendars = Calendars;
 
 function getCurrentCalendarId(){
     var currentId = Router.current().params._calendarId;
-    if (currentId != undefined) {
+    if (currentId !== undefined) {
         return currentId;
     }
 }
 function getCurrentCalendar() {
     var calendar = Calendars.findOne({_id: getCurrentCalendarId()});
-    if (calendar != undefined){
+    if (calendar !== undefined){
         return calendar;
     }
 }

@@ -29,7 +29,7 @@ Template.NewAvailability.helpers({
     },
     "errorMessage": function() {
         return pageSession.get("errorMessage");
-    },
+    }
 });
 
 AutoForm.hooks({
@@ -38,7 +38,7 @@ AutoForm.hooks({
             Router.go('home_private.availabilities');
         },
         onError: function (operation, error, template) {
-            if (error.error == "overlap") {
+            if (error.error === "overlap") {
                 Router.go('home_private.availabilities',{},{query: 'error='+error.reason});
             }
         }

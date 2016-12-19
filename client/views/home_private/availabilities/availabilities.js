@@ -46,7 +46,7 @@ Template.Availabilities.events({
     "click #dataview-insert-button": function(e, t) {
         e.preventDefault();
         Router.go("home_private.new_availability", {});
-    },
+    }
 });
 Template.Availabilities.events({
     "click #delete-all-button": function(e) {
@@ -111,7 +111,7 @@ Template.Availabilities.helpers({
         },
         // Optional: id of the calendar
         id: "availabilitiesCalendar",
-        timeFormat: 'H:mm',
+        timeFormat: 'H:mm'
         // Optional: Additional classes to apply to the calendar
         //addedClasses: "col-md-8",
         // Optional: Additional functions to apply after each reactive events computation

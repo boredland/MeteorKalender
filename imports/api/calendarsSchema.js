@@ -1,16 +1,12 @@
-/**
- * Created by tobi on 23.11.16.
- */
-
 export var calendarsSchema = new SimpleSchema({
     userId: {
         type: String,
         max: 200,
         autoform: {
             type: "hidden",
-            label: false,
+            label: false
         },
-        autoValue: function () { return Meteor.userId() },
+        autoValue: function () { return Meteor.userId() }
     },
     name: {
         type: String,
@@ -30,15 +26,11 @@ export var calendarsSchema = new SimpleSchema({
         autoform: {
             value: Random.hexString(6),
             defaultValue: Random.hexString(6),
-            type: "bootstrap-colorpicker",
-
+            type: "bootstrap-colorpicker"
         }
     },
     published: {
-        type: Boolean,
-        autoform: {
-
-        }
+        type: Boolean
     },
     availabilities:{
         type: Array,
@@ -55,7 +47,7 @@ export var calendarsSchema = new SimpleSchema({
         max: 5,
         autoform: {
             type: "hidden",
-            label: false,
+            label: false
         },
         autoValue: function() {
             if (this.isInsert) {

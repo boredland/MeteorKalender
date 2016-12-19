@@ -10,7 +10,7 @@ function dataReady() {
 }
 function getCurrentAvailabilityId(){
     var currentId = Router.current().params._eventId;
-    if (currentId != undefined) {
+    if (currentId !== undefined) {
         return currentId;
     }
 }

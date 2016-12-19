@@ -5,7 +5,7 @@ var availability;
 window.Availabilities = Availabilities;
 function getCurrentAvailabilityId(){
     var currentId = Router.current().params._eventId;
-    if (currentId != undefined) {
+    if (currentId !== undefined) {
         return currentId;
     }
 }
@@ -107,7 +107,7 @@ Template.EditAvailability.helpers({
     },
     itemsReady:function() {
         return dataReady();
-    },
+    }
 });
 
 AutoForm.hooks({
