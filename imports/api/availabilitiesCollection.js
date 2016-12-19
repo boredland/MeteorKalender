@@ -166,7 +166,7 @@ if (Meteor.isServer) {
 
             // check if this has an peding active reservation
             if (Availabilities.findOne({_id: doc.availabilityId, bookedByDate: {$gt: new Date(moment().add(-reservationThreshold,'m'))}})){
-                throw new Meteor.Error("pending-reservation","This availability has a pending reservation and therefore can't be reserved at this point. How did you even get here?")
+                throw new Meteor.Error("pending-reservation","This availability has a pending reservation and therefore can't be reserved at this point.")
             }
             //generate our random verification token
             var verificationToken = Random.id();
