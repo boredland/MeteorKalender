@@ -19,22 +19,19 @@
                 Add new
             </button>
         </div>
-        <table id="dataview-table" class="table table-striped table-hover">
+        <table id="dataview-table" class="table table-striped">
             <thead id="dataview-table-header">
             <tr id="dataview-table-header-row">
-                <th class="th-sortable" data-sort="name">
+                <th>
                     Name
                 </th>
-                <th class="th-sortable" data-sort="location">
+                <th>
                     Location
                 </th>
-                <th class="th-sortable" data-sort="color">
+                <th>
                     Color
                 </th>
-                <th class="th-sortable" data-sort="linkslug">
-                    Link
-                </th>
-                <th class="th-sortable" data-sort="published">
+                <th>
                     Published
                 </th>
                 <th>
@@ -57,18 +54,13 @@
     <tbody id="dataview-table-items">
     <tr id="dataview-table-items-row">
         <td>
-            {{name}}
+            {{name}} <a target="_blank" href="/calendar_public/{{linkslug}}" title="Open in a new tab"><span id="calendar_link" class="fa fa-link" title="Open in a new tab"></span></a>
         </td>
         <td>
             {{location}}
         </td>
         <td>
             {{color}}
-        </td>
-        <td>
-            <a target="_blank" href="/calendar_public/{{linkslug}}">
-                <span id="calendar_link" class="fa fa-link" title="Link"></span>
-            </a>
         </td>
         <td>
             {{published}}
