@@ -64,7 +64,7 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-primary",
                     callback: function() {
-                        Meteor.call('availabilities.removeChunkRepetitions', getCurrentAvailabilityId());
+                        Meteor.call('availabilities.removeRepetitions', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },
