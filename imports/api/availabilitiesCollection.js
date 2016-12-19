@@ -253,7 +253,7 @@ if (Meteor.isServer) {
                 return Meteor.call('booking.cancel',currentAvailability._id,function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
-                        subject: "You have a cancelled a date with your professor!",
+                        subject: "You have a cancelled a appointment with your professor!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
                         "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled."
                     });
@@ -281,7 +281,7 @@ if (Meteor.isServer) {
                 }
                 sendMail({
                     to: currentAvailability.bookedByEmail,
-                    subject: "You cancelled a date with your professor!",
+                    subject: "Your professor cancelled your appointment",
                     text: "Hello "+currentAvailability.bookedByName+",\n"+
                     "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled by the owner."+message
                 });
