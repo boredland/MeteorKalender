@@ -1,12 +1,6 @@
 import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
-var pageSession = new ReactiveDict();
-
-Template.Calendars.rendered = function() {
-};
-
-Template.Calendars.created = function() {
-};
+var pageSession = getDefaultPageSession();
 
 Template.Calendars.onCreated(function bodyOnCreated() {
         Meteor.subscribe('allCalendars');

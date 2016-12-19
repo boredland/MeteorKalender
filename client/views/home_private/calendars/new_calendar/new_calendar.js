@@ -1,26 +1,11 @@
 import {Calendars} from '/imports/api/calendarsCollection';
-
-Template.NewCalendar.onRendered( () => {
-
-});
-
-Template.NewCalendar.rendered = function() {
-
-};
-
-Template.NewCalendar.created = function() {
-
-};
+var pageSession = getDefaultPageSession();
 
 Template.NewCalendar.events({
     "click #Back-button": function(e, t) {
         e.preventDefault();
         Router.go("home_private.calendars", {});
-
     }
-
-
-
 });
 
 Template.NewCalendar.helpers({

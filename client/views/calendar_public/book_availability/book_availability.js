@@ -1,18 +1,12 @@
 //var pageSession = new ReactiveDict();
 import {bookingFormSchema} from '/imports/api/availabilitiesSchema';
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 var calendar, availability;
-var sucess = false
+
 Template.Booking.onCreated(function bodyOnCreated() {
-    pageSession.set("infoMessage", "");
-    pageSession.set("errorMessage", "");
     calendar = Calendars.findOne({linkslug: Router.current().params._calendarSlug});
     availability = Availabilities.findOne({_id: Router.current().params._availabilityId});
 });
-
-Template.Booking.rendered = function() {
-
-};
 
 Template.Booking.events({
     "click .go-home": function(e, t) {

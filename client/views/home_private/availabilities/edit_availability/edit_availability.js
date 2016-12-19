@@ -1,6 +1,7 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
 var availability;
+var pageSession = getDefaultPageSession();
 
 window.Availabilities = Availabilities;
 function getCurrentAvailabilityId(){

@@ -1,14 +1,9 @@
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 
-pageSession.set("errorMessage", "");
 
 Template.Login.rendered = function() {
 	
 	$("input[autofocus]").focus();
-};
-
-Template.Login.created = function() {
-	pageSession.set("errorMessage", "");	
 };
 
 Template.Login.events({

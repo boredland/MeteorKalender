@@ -1,24 +1,6 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
-var pageSession = new ReactiveDict();
-
-Template.Appointments.onCreated(function bodyOnCreated() {
-    pageSession.set("errorMessage", "");
-});
-
-Template.Appointments.onRendered( () => {
-
-});
-
-Template.Appointments.rendered = function() {
-};
-
-Template.Appointments.created = function() {
-};
-
-Template.Appointments.events({
-
-});
+var pageSession = getDefaultPageSession();
 
 Template.Appointments.helpers({
     "errorMessage": function() {

@@ -1,7 +1,6 @@
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 
 Template.ResetPassword.rendered = function() {
-	pageSession.set("errorMessage", "");
 };
 
 Template.ResetPassword.events({

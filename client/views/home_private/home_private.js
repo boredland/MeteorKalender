@@ -1,3 +1,5 @@
+var pageSession = getDefaultPageSession();
+
 Template.HomePrivate.rendered = function() {};
 
 Template.HomePrivate.events({});

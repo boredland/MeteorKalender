@@ -1,4 +1,4 @@
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 var appointment;
 
 function dataReady() {

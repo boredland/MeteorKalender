@@ -2,23 +2,7 @@ import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
 
-var pageSession = new ReactiveDict();
-
-Template.Availabilities.onRendered( () => {
-
-});
-
-Template.Availabilities.onCreated(function bodyOnCreated() {
-    pageSession.set("errorMessage", "");
-});
-
-Template.Availabilities.rendered = function() {
-
-};
-
-Template.Availabilities.created = function() {
-
-};
+var pageSession = getDefaultPageSession();
 
 Template.Availabilities.events({
     "click #dataview-insert-button": function(e, t) {
@@ -51,9 +35,6 @@ Template.Availabilities.events({
         });
         return false;
     }
-});
-Template.Availabilities.events({
-
 });
 
 Template.Availabilities.helpers({

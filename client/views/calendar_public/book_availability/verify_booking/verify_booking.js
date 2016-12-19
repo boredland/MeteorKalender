@@ -1,4 +1,4 @@
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 var finalized = 0;
 
 Template.VerifyBooking.onCreated(function bodyOnCreated() {
@@ -20,10 +20,6 @@ Template.VerifyBooking.onCreated(function bodyOnCreated() {
     }
 });
 
-Template.VerifyBooking.rendered = function() {
-
-};
-
 Template.VerifyBooking.events({
   "click .go-home": function(e, t) {
     Router.go("/");
@@ -38,5 +34,4 @@ Template.VerifyBooking.helpers({
   "infoMessage": function() {
     return pageSession.get("infoMessage");
   }
-  
 });

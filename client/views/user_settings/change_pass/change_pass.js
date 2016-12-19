@@ -1,16 +1,7 @@
-var pageSession = new ReactiveDict();
-
-pageSession.set("errorMessage", "");
-pageSession.set("infoMessage", "");
+var pageSession = getDefaultPageSession();
 
 Template.UserSettingsChangePass.rendered = function() {
-	
 	$("input[autofocus]").focus();
-};
-
-Template.UserSettingsChangePass.created = function() {
-	pageSession.set("errorMessage", "");	
-	pageSession.set("infoMessage", "");	
 };
 
 Template.UserSettingsChangePass.events({

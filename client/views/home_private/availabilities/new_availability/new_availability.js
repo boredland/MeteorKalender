@@ -1,22 +1,9 @@
 import {availabilitiesFormSchema} from "../../../../../imports/api/availabilitiesSchema";
 import {Calendars} from '/imports/api/calendarsCollection';
-var pageSession = new ReactiveDict();
-
-Template.NewAvailability.onRendered( () => {
-
-});
-
-Template.NewAvailability.rendered = function() {
-
-};
-
-Template.NewAvailability.created = function() {
-
-};
+var pageSession = getDefaultPageSession();
 
 Template.NewAvailability.onCreated(function bodyOnCreated() {
     Meteor.subscribe('allCalendars');
-    pageSession.set("errorMessage", "");
 });
 
 Template.NewAvailability.events({

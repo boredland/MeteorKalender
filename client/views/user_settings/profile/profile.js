@@ -1,4 +1,4 @@
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 
 Template.UserSettingsProfile.rendered = function() {
 	

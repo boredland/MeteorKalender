@@ -1,4 +1,4 @@
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 var finalized = 0;
 
 Template.CancelBooking.onCreated(function bodyOnCreated() {
