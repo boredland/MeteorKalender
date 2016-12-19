@@ -67,7 +67,7 @@ export var availabilitiesSchema = new SimpleSchema({
                     locale: 'de',
                     stepping: 5,
                     enabledHours: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
-                    minDate: new Date(),
+                    minDate: new Date()
                 }
             }
         },
@@ -87,7 +87,7 @@ export var availabilitiesSchema = new SimpleSchema({
                     locale: 'de',
                     stepping: 5,
                     enabledHours: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23],
-                    minDate: new Date(),
+                    minDate: new Date()
                 }
             }
         },
@@ -99,7 +99,7 @@ export var availabilitiesSchema = new SimpleSchema({
         type: String,
         autoform: {
             type: "hidden",
-            label: false,
+            label: false
         }
     },
     calendarId: {
@@ -127,21 +127,21 @@ export var availabilitiesSchema = new SimpleSchema({
         type: Date,
         optional: true,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
     },
     bookedByConfirmed: {
         type: Boolean,
         optional: true,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
     },
     bookedByName: {
         type: String,
         optional: true,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
 
     },
@@ -149,21 +149,21 @@ export var availabilitiesSchema = new SimpleSchema({
         type: String,
         optional: true,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
     },
     bookedByConfirmationToken: {
         type: String,
         optional: true,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
     },
     bookedByCancellationToken: {
         type: String,
         optional: true,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
     },
     bookedByCalendarId: {
@@ -241,7 +241,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Number,
         autoform: {
             step: 5,
-            defaultValue: 10,
+            defaultValue: 10
         },
         custom: function() {
             return checkDuration(this.field("startTime").value,this.field("endTime").value,this.field("chunkDuration").value);
@@ -251,7 +251,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Boolean,
         optional: true,
         defaultValue: false,
-        label: "Don't skip holidays",
+        label: "Don't skip holidays"
     },
     repeatInterval:{
         label: "Repeat Every",
@@ -280,13 +280,13 @@ export var availabilitiesFormSchema = new SimpleSchema({
                     sideBySide: true,
                     inline: true,
                     locale: 'de',
-                    format: 'LL',
+                    format: 'LL'
                 }
             }
         }
     },
     calendarId: {
-        type: Array,
+        type: Array
     },
     'calendarId.$': {
         type: String,
@@ -313,7 +313,7 @@ export var bookingFormSchema = new SimpleSchema({
     availabilityId: {
         type: String,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
     },
     bookedByName: {
@@ -327,7 +327,7 @@ export var bookingFormSchema = new SimpleSchema({
     bookedByCalendarId: {
         type: String,
         autoform: {
-            type: "hidden",
+            type: "hidden"
         }
     }
 });
