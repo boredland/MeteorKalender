@@ -1,24 +1,16 @@
 <template name="CalendarPublic">
 	<div class="container">
 		<div class="account-form">
-			{{#if errorMessage}}
-			<div class="alert alert-warning">
-				{{errorMessage}}
-			</div>
-			{{/if}}
+
 		</div>
-
-
-        {{#if hasItems }}
         <div>
-                <h2>{{ CurrentCalendarName }}</h2>
-                {{#if itemsReady}}
-                    {{> ReactiveFullcalendar options=publicCalendarOptions}}
-                {{/if}}
+            <h2>{{ CurrentCalendarName }}</h2>
+            {{#if errorMessage}}
+                <div class="alert alert-warning">
+                    {{errorMessage}}
+                </div>
+            {{/if}}
+            {{> ReactiveFullcalendar options=publicCalendarOptions}}
         </div>
-        {{/if}}
-
-
-
-	</div>
+    </div>
 </template>

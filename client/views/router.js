@@ -205,69 +205,11 @@ Router.map(function () {
         path: "/calendar_public/:_calendarSlug",
         controller: "CalendarPublicController",
         template: 'CalendarPublic', // <-- to be explicit
-        /**
-         *
-         * @returns {Array}
-         */
-        data: function(){
-            var currentCalendarSlug = this.params._calendarSlug;
-            var currentCalendarFull, currentCalendarPublic, currentAvailabilities,availabilitySubscription,calendarSubscription;
-            calendarSubscription = Meteor.subscribe('singlePublicCalendarBySlug', currentCalendarSlug);
-            // ready() is true if all items in the wait list are ready
-            if (calendarSubscription.ready()) {
-                currentCalendarFull = Calendars.findOne({});
-                currentCalendarPublic = currentCalendarFull;
-                if (currentCalendarFull !== undefined){
-                    availabilitySubscription = Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarId', currentCalendarFull._id);
-                    if (availabilitySubscription.ready()){
-                        currentCalendarPublic = Calendars.findOne({},{fields: {name: 1, location: 1, linkslug: 1}});
-                        currentAvailabilities = Availabilities.find().fetch().map( ( availability ) => {
-                            if (availability !== undefined){
-                                var color,title;
-                                /**
-                                 * Confirmed or (unconfirmed and timestamp younger than moment-10m)
-                                 */
-                                if (availability.bookedByConfirmed) {
-                                    color = "#FF0000";
-                                    title = "booked";
-                                } else if (moment(availability.bookedByDate) >= moment().add(-10,'m') && !availability.bookedByConfirmed && availability.bookedByDate){
-                                    color = "#FFFF00";
-                                    title = "reserved";
-                                } else if (!availability.bookedByConfirmed && ((moment(availability.bookedByDate) < moment().add(-10,'m'))||!availability.bookedByDate)){
-                                    color = "#008000";
-                                    title = "free";
-                                } else {
-                                    color = "#800080"
-                                }
-                                availability = {start: availability.startDate,end: availability.endDate, id: availability._id, color: color, title: title};
-                                //console.log(availability);
-                                return availability;
-                            }
-                        });
-                    }
-                }
-
-            }
-            /**
-             *
-             */
-            if ((currentCalendarPublic && availabilitySubscription.ready()) || !currentCalendarPublic){
-                this.render();
-                var resultarray = [];
-                if (currentCalendarPublic) {
-                    resultarray.push(currentCalendarPublic);
-                } else if (!currentCalendarPublic) {
-                    resultarray.push(undefined);
-                }
-                if (currentAvailabilities && currentCalendarPublic) {
-                    resultarray.push(currentAvailabilities);
-                } else if (!currentAvailabilities) {
-                    resultarray.push(undefined);
-                }
-                return resultarray;
-            } else {
-                this.render('Loading');
-            }
+        waitOn: function () {
+            return [
+                Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug),
+                Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarSlug',this.params._calendarSlug)
+            ]
         }
     });
     this.route("calendar_public.book", {
@@ -327,7 +269,13 @@ Router.map(function () {
     this.route("home_private.appointments", {
     	path: "/home_private/appointments",
 		controller: "AppointmentsController",
-        template: "Appointments"
+        template: "Appointments",
+		waitOn: function () {
+            return [
+            	Meteor.subscribe('allFutureAppointments',30),
+				Meteor.subscribe('allCalendars')
+				]
+        }
     });
     this.route("home_private.appointment", {
     	path: "/home_private/appointment/:_eventId",

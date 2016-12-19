@@ -7,9 +7,11 @@
             </div>
         </div>
         <h2>Appointments</h2>
-        {{#if itemsReady}}
-        {{> ReactiveFullcalendar options=appointmentsCalendarOptions }}
+        {{#if errorMessage}}
+            <div class="alert alert-warning">
+                {{errorMessage}}
+            </div>
         {{/if}}
-
+        {{> ReactiveFullcalendar options=appointmentsCalendarOptions }}
     </div>
 </template>

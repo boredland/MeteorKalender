@@ -8,7 +8,7 @@ import {availabilitiesSchema} from "./availabilitiesSchema";
 import {} from "/imports/api/collectionPublications";
 import {Calendars} from '/imports/api/calendarsCollection';
 
-export const Availabilities = new Mongo.Collection("availabilities");
+export let Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
 
 Meteor.startup(function () {
@@ -30,7 +30,7 @@ Availabilities.allow({
 });
 
 if (Meteor.isServer) {
-    const sendMail = function (options) {
+    let sendMail = function (options) {
         return Meteor.call('sendMail', options);
     };
 
@@ -41,8 +41,8 @@ if (Meteor.isServer) {
      * @param doc
      * @param thisUserId
      */
-    const checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
-        const duration = Math.round((moment(doc.endTime) - moment(doc.startTime)) / (1000 * 60));
+    let checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
+        let duration = Math.round((moment(doc.endTime) - moment(doc.startTime)) / (1000 * 60));
         if (startTime > endTime) {
             throw new EvalError("Startdate: " + startTime + " is bigger than Enddate " + endTime);
         }
@@ -62,7 +62,7 @@ if (Meteor.isServer) {
      * @param calendarID
      * @param familyId
      */
-    const insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
+    let insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
         return Availabilities.insert({
             userId: thisUserId,
             startDate: startDate,
@@ -75,12 +75,12 @@ if (Meteor.isServer) {
      * This will check that there are no Availabilities for this user at the same time or overlapping times.
      */
     Availabilities.before.insert(function (userId, doc) {
-        const new_startdate = new Date(doc.startDate);
-        const new_enddate = new Date(doc.endDate);
+        let new_startdate = new Date(doc.startDate);
+        let new_enddate = new Date(doc.endDate);
         Availabilities.find({userId: doc.userId, startDate: {$gt: new Date()}}).fetch().map( ( availability ) => {
             if (availability !== undefined) {
-                const existing_startdate = new Date(availability.startDate);
-                const existing_enddate = new Date(availability.endDate);
+                let existing_startdate = new Date(availability.startDate);
+                let existing_enddate = new Date(availability.endDate);
                 //console.log("Are " + new_startdate + " or "+new_enddate+" between " + existing_startdate + " or " + existing_enddate + "?");
                 if (
                     (
@@ -122,13 +122,13 @@ if (Meteor.isServer) {
          * @param doc
          */
         'availabilities.insert'(doc) {
-            const startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
-            const endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
-            const repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
-            const familyid = Random.id().substring(0, 4);
+            let startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
+            let endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
+            let repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
+            let familyid = Random.id().substring(0, 4);
 
             checkInsertionConditions(startTime, endTime, doc, this.userId);
-            const startTimeModified = startTime;
+            let startTimeModified = startTime;
             let endTimeModified = endTime;
             let overlapErrorCount = 0;
             let bankHolidayCount = 0;
@@ -137,7 +137,7 @@ if (Meteor.isServer) {
                 if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays === false)) || doc.dontSkipHolidays === true) {
                     // this is for the chunks
                     do {
-                        const chunkStartTime = chunkEndTime;
+                        let chunkStartTime = chunkEndTime;
                         chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
                         try {
                             insertAvailability(this.userId, new Date(chunkStartTime.seconds(1)), new Date(chunkEndTime.seconds(0)), doc.calendarId, familyid);
@@ -169,9 +169,9 @@ if (Meteor.isServer) {
                 throw new Meteor.Error("pending-reservation","This availability has a pending reservation and therefore can't be reserved at this point.")
             }
             //generate our random verification token
-            const verificationToken = Random.id();
+            let verificationToken = Random.id();
             // generate our random cancellation-token
-            const cancellationToken = Random.id();
+            let cancellationToken = Random.id();
             Availabilities.update(doc.availabilityId, {
                 $set: {
                     bookedByEmail: doc.bookedByEmail,
@@ -186,11 +186,11 @@ if (Meteor.isServer) {
             });
             // Send Mails if the insertion was successful.
             // check if the availability is in the database.
-            const currentAvailability = Availabilities.findOne({
+            let currentAvailability = Availabilities.findOne({
                 bookedByConfirmed: false,
                 bookedByConfirmationToken: verificationToken
             });
-            const currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
             if (currentAvailability !== undefined){
                 this.unblock();
                 sendMail({
@@ -211,11 +211,11 @@ if (Meteor.isServer) {
          * @param availabilityId ID der Availability
          */
         'booking.confirm'(verifyBookingToken){
-            const currentAvailability = Availabilities.findOne({
+            let currentAvailability = Availabilities.findOne({
                 bookedByConfirmed: false,
                 bookedByConfirmationToken: verifyBookingToken
             }, {});
-            const currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
             if (currentAvailability !== undefined){
                 return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
                     sendMail({
@@ -251,8 +251,8 @@ if (Meteor.isServer) {
          * @param cancellationToken
          */
         'booking.cancelByToken'(cancellationToken){
-            const currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken});
-            const currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+            let currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken});
+            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
             if (currentAvailability !== undefined){
                 console.log(currentAvailability.userId); // mit der könnte man wohl noch die mailadresse des profs raussuchen
                 console.log(Meteor.user(currentAvailability.userId).emails[0].address)
@@ -278,8 +278,8 @@ if (Meteor.isServer) {
          * @param reason
          */
         'booking.cancelByOwner'(availabilityId,reason){
-            const currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
-            const currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
+            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
             return Meteor.call('booking.cancel',currentAvailability._id,function () {
                 let message;
                 if (reason !== undefined){
@@ -323,11 +323,17 @@ if (Meteor.isServer) {
         },
         /**
          * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
-         * @param availabilities.removeChunkRepetitions
+         * ggf. könnte man noch ne Methode "removeAllRepetitions" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
+         * @param availabilities.removeRepetitions
          */
-        'availabilities.removeRepetitions'(availabilityId){
-            const currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
-            const startDate = moment(currentAvailability.startDate);
+        'availabilities.removeFutureRepetitions'(availabilityId,fromDate_in){
+            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
+            let fromDate;
+            if (!fromDate_in){
+                fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
+            } else {
+                fromDate = moment(fromDate_in);
+            }
             return Availabilities.find({
                 userId: this.userId,
                 $or: [
@@ -340,7 +346,7 @@ if (Meteor.isServer) {
                     if (
                         (startDate.get('h') === moment(availability.startDate).get('h'))&&
                         (startDate.get('m') === moment(availability.startDate).get('m'))&&
-                        (moment(availability.startDate) >= startDate) // nur dieses und zukünftige
+                        (moment(availability.startDate) >= fromDate)
                     ) {
                         return Meteor.call('availabilities.remove',availability._id);
                     }
@@ -349,12 +355,18 @@ if (Meteor.isServer) {
         },
         /**
          * Delete this and all future events of the family. Still not so sure if that is good in means of usability.
+         * ggf. könnte man noch ne Methode "removeAllFamily" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
          * @param availabilityId
          * @returns {null}
          */
-        'availabilities.removeFamily'(availabilityId){
-            const currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
-            const startDate = moment(currentAvailability.startDate);
+        'availabilities.removeFutureFamily'(availabilityId,fromDate_in){
+            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
+            let fromDate;
+            if (!fromDate_in){
+                fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
+            } else {
+                fromDate = moment(fromDate_in);
+            }
             return Availabilities.find({
                 userId: this.userId,
                 $or: [
@@ -364,7 +376,7 @@ if (Meteor.isServer) {
                 familyId: currentAvailability.familyId
             }).forEach(
                 function(availability){
-                    if (moment(availability.startDate) >= startDate) {
+                    if (moment(availability.startDate) >= fromDate) {
                         return Meteor.call('availabilities.remove',availability._id);
                     }
                 }
