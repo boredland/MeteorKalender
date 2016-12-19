@@ -93,7 +93,7 @@ this.routeGranted = function(routeName) {
 		return true;
 	}
 
-	var roleMapItem = _.find(roleMap, function(roleItem) { return roleItem.route == routeName; });
+	var roleMapItem = _.find(roleMap, function(roleItem) { return roleItem.route === routeName; });
 	if(!roleMapItem) {
 		// page is not restricted
 		return true;
@@ -119,16 +119,16 @@ Router.ensureLogged = function() {
 		this.render('loading');
 		return;
 	}
-
+	var redirectRoute;
 	if(!Meteor.userId()) {
 		// user is not logged in - redirect to public home
-		var redirectRoute = firstGrantedRoute("home_public");
+		redirectRoute = firstGrantedRoute("home_public");
 		this.redirect(redirectRoute);
 	} else {
 		// user is logged in - check role
 		if(!routeGranted(this.route.getName())) {
 			// user is not in allowedRoles - redirect to first granted route
-			var redirectRoute = firstGrantedRoute("home_private");
+			redirectRoute = firstGrantedRoute("home_private");
 			this.redirect(redirectRoute);
 		} else {
 			this.next();
@@ -304,7 +304,7 @@ Router.map(function () {
             if (this.ready()){
             	var availability = Availabilities.findOne({_id: this.params._eventId});
                 return availability;
-                this.render();
+                //this.render();
             } else {
                 this.render('Loading');
             }
@@ -339,7 +339,7 @@ Router.map(function () {
             var currentAvailability = Availabilities.findOne({_id: currentAvailabilityId});
             if (this.ready()){
                 return currentAvailability;
-                this.render();
+                //this.render();
             } else {
                 this.render('Loading');
             }

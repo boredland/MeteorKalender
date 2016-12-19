@@ -30,7 +30,7 @@ Template.Login.events({
 		}
 
 		// check password
-		if(login_password == "")
+		if(login_password === "")
 		{
 			pageSession.set("errorMessage", "Please enter your password.");
 			t.find('#login_email').focus();
