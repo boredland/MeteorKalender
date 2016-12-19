@@ -3,39 +3,39 @@
  */
 import {Calendars} from '/imports/api/calendarsCollection';
 
-var checkDate = function (start,end) {
-    var start = moment(start);
-    var end = moment(end);
+var checkDate = function (startDate,endDate) {
+    var start = moment(startDate);
+    var end = moment(endDate);
     if (start >= end) {
         return 'startTimeAfterEnd';
-    };
+    }
     if (start.get('h') === end.get('h') && start.get('m') === end.get('m')){
         return 'sameTime';
-    };
+    }
     if (start < moment()){
         return 'inThePast'
-    };
+    }
 };
 
-var checkDateAndTime = function(startTime,endTime,date){
-    var startTime = moment(startTime);
-    var endTime = moment(endTime);
-    var startDate = moment(new Date(date)).hour(startTime.get('h')).minute(startTime.get('m'));
-    var endDate = moment(new Date(date)).hour(endTime.get('h')).minute(endTime.get('m'));
+var checkDateAndTime = function(startTime_in,endTime_in,date_in){
+    var startTime = moment(startTime_in);
+    var endTime = moment(endTime_in);
+    var startDate = moment(new Date(date_in)).hour(startTime.get('h')).minute(startTime.get('m'));
+    var endDate = moment(new Date(date_in)).hour(endTime.get('h')).minute(endTime.get('m'));
     return checkDate(startDate,endDate);
 };
 
 var checkDuration = function (start_in,end_in,chunkDuration_in) {
-    var starttime = moment(new Date(start_in));
-    var endtime = moment(new Date(end_in));
-    var duration = Math.round((moment(endtime)-moment(starttime))/(1000*60));//|0; //<-- das ist die duration in minuten
+    var startTime = moment(new Date(start_in));
+    var endTime = moment(new Date(end_in));
+    var duration = Math.round((moment(endTime)-moment(startTime))/(1000*60));//|0; //<-- das ist die duration in minuten
     var chunkDuration = chunkDuration_in;
     if ((duration > 0) && (duration < chunkDuration)){
         return 'durationSmaller';
-    };
+    }
     if ((duration%chunkDuration) !== 0) {
         return 'durationNotMultiple';
-    };
+    }
 };
 
 SimpleSchema.messages({
@@ -43,7 +43,7 @@ SimpleSchema.messages({
     'inThePast': "The start-time is in the past",
     'durationSmaller': 'The duration of your consultation hour is smaller than the chunk-period you selected',
     'durationNotMultiple': 'The duration of your consultation hour is not a multiple of the chunk-period you selected',
-    'sameTime': 'Start- and Endtime are the same',
+    'sameTime': 'Start- and Endtime are the same'
 });
 
 // This schema validates the insertions and the edit-page-form
