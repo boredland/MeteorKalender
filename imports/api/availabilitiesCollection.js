@@ -68,7 +68,7 @@ if (Meteor.isServer) {
             startDate: startDate,
             endDate: endDate,
             calendarId: calendarID,
-            familyId: familyId,
+            familyId: familyId
         });
     };
     /**
@@ -167,7 +167,7 @@ if (Meteor.isServer) {
             // check if this has an peding active reservation
             if (Availabilities.findOne({_id: doc.availabilityId, bookedByDate: {$gt: new Date(moment().add(-reservationThreshold,'m'))}})){
                 throw new Meteor.Error("pending-reservation","This availability has a pending reservation and therefor can't be reserved at this point. How did you even get here?")
-            };
+            }
             //generate our random verification token
             var verificationToken = Random.id();
             // generate our random cancellation-token
@@ -181,8 +181,8 @@ if (Meteor.isServer) {
                     bookedByDate: new Date(),
                     bookedByCalendarId: doc.bookedByCalendarId,
                     bookedByConfirmationToken: verificationToken,
-                    bookedByCancellationToken: cancellationToken,
-                },
+                    bookedByCancellationToken: cancellationToken
+                }
             });
             // Send Mails if the insertion was successful.
             // check if the availability is in the database.
@@ -236,7 +236,7 @@ if (Meteor.isServer) {
                     bookedByDate: null,
                     bookedByEmail: null,
                     bookedByConfirmed: false,
-                    bookedByCancellationToken: null,
+                    bookedByCancellationToken: null
                 }
             });
         },
@@ -278,7 +278,7 @@ if (Meteor.isServer) {
                 var message;
                 if (reason !== undefined){
                     message = "\nHe added the following message for you: \n"+reason;
-                };
+                }
                 sendMail({
                     to: currentAvailability.bookedByEmail,
                     subject: "You cancelled a date with your professor!",
@@ -308,7 +308,7 @@ if (Meteor.isServer) {
                 $or: [
                     { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
                     { bookedByDate: undefined }
-                ],
+                ]
             }).forEach(
                 function(availability){
                     return Meteor.call('availabilities.remove',availability._id);
@@ -328,7 +328,7 @@ if (Meteor.isServer) {
                     { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
                     { bookedByDate: undefined }
                 ],
-                familyId: currentAvailability.familyId,
+                familyId: currentAvailability.familyId
             }).forEach(
                 function(availability){
                     if (
@@ -355,7 +355,7 @@ if (Meteor.isServer) {
                     { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
                     { bookedByDate: undefined }
                 ],
-                familyId: currentAvailability.familyId,
+                familyId: currentAvailability.familyId
             }).forEach(
                 function(availability){
                     if (moment(availability.startDate) >= startDate) {
@@ -363,9 +363,9 @@ if (Meteor.isServer) {
                     }
                 }
             )
-        },
+        }
     });
-};
+}
 
 // Methods we want to be run on the client.
 Meteor.methods({
