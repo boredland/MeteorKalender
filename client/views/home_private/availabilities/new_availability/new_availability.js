@@ -23,8 +23,7 @@ Template.NewAvailability.events({
     "click #Back-button": function(e, t) {
         e.preventDefault();
         Router.go("home_private.availabilities", {});
-    },
-
+    }
 });
 
 Template.NewAvailability.helpers({
