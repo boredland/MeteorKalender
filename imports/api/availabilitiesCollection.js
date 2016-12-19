@@ -13,7 +13,7 @@ Availabilities.attachSchema(availabilitiesSchema);
 
 Meteor.startup(function () {
     if (Meteor.isServer) {
-        Availabilities._ensureIndex({"calendarID": 1})
+        Availabilities._ensureIndex({"calendarID": 1});
         console.log("created Index over calenderID in Availabilities Collection");
     }
 });
@@ -127,14 +127,14 @@ if (Meteor.isServer) {
             var repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
             var familyid = Random.id().substring(0, 4);
 
-            checkInsertionConditions(startTime, endTime, doc, this.userId)
+            checkInsertionConditions(startTime, endTime, doc, this.userId);
             var startTimeModified = startTime;
             var endTimeModified = endTime;
             var overlapErrorCount = 0;
             var bankHolidayCount = 0;
             do {
                 var chunkEndTime = startTimeModified;
-                if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays == false)) || doc.dontSkipHolidays == true) {
+                if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays === false)) || doc.dontSkipHolidays === true) {
                     // this is for the chunks
                     do {
                         var chunkStartTime = chunkEndTime;
@@ -152,7 +152,7 @@ if (Meteor.isServer) {
                 }
                 startTimeModified.add(doc.repeatInterval, 'w');
                 endTimeModified.add(doc.repeatInterval, 'w');
-            } while (startTimeModified <= repeatUntil && doc.repeatInterval != undefined);
+            } while (startTimeModified <= repeatUntil && doc.repeatInterval !== undefined);
             if (overlapErrorCount > 0 || bankHolidayCount > 0) {
                 throw new Meteor.Error('overlap',overlapErrorCount+" overlapping availabilities and "+bankHolidayCount+" bank holidays skipped.");
             }
@@ -188,7 +188,7 @@ if (Meteor.isServer) {
             // check if the availability is in the database.
             var currentAvailability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verificationToken});
             var currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            if (currentAvailability != undefined){
+            if (currentAvailability !== undefined){
                 this.unblock();
                 sendMail({
                     to: doc.bookedByEmail,
@@ -210,8 +210,7 @@ if (Meteor.isServer) {
         'booking.confirm'(verifyBookingToken){
             var currentAvailability = Availabilities.findOne({bookedByConfirmed: false, bookedByConfirmationToken: verifyBookingToken},{});
             var currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            if (currentAvailability != undefined){
-                console.log("booking confirmed")
+            if (currentAvailability !== undefined){
                 return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
@@ -248,7 +247,7 @@ if (Meteor.isServer) {
         'booking.cancelByToken'(cancellationToken){
             var currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken});
             var currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            if (currentAvailability != undefined){
+            if (currentAvailability !== undefined){
                 console.log(currentAvailability.userId); // mit der könnte man wohl noch die mailadresse des profs raussuchen
                 console.log(Meteor.user(currentAvailability.userId).emails[0].address)
                 return Meteor.call('booking.cancel',currentAvailability._id,function () {
@@ -277,7 +276,7 @@ if (Meteor.isServer) {
             var currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
             return Meteor.call('booking.cancel',currentAvailability._id,function () {
                 var message;
-                if (reason != undefined){
+                if (reason !== undefined){
                     message = "\nHe added the following message for you: \n"+reason;
                 };
                 sendMail({
@@ -333,8 +332,8 @@ if (Meteor.isServer) {
             }).forEach(
                 function(availability){
                     if (
-                        (startDate.get('h')==moment(availability.startDate).get('h'))&&
-                        (startDate.get('m')==moment(availability.startDate).get('m'))&&
+                        (startDate.get('h') === moment(availability.startDate).get('h'))&&
+                        (startDate.get('m') === moment(availability.startDate).get('m'))&&
                         (moment(availability.startDate) >= startDate) // nur dieses und zukünftige
                     ) {
                         return Meteor.call('availabilities.remove',availability._id);

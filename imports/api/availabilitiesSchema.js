@@ -9,7 +9,7 @@ var checkDate = function (start,end) {
     if (start >= end) {
         return 'startTimeAfterEnd';
     };
-    if (start.get('h') == end.get('h') && start.get('m') == end.get('m')){
+    if (start.get('h') === end.get('h') && start.get('m') === end.get('m')){
         return 'sameTime';
     };
     if (start < moment()){
@@ -33,7 +33,7 @@ var checkDuration = function (start_in,end_in,chunkDuration_in) {
     if ((duration > 0) && (duration < chunkDuration)){
         return 'durationSmaller';
     };
-    if ((duration%chunkDuration) != 0) {
+    if ((duration%chunkDuration) !== 0) {
         return 'durationNotMultiple';
     };
 };
