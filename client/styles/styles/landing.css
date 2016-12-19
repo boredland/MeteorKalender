@@ -103,8 +103,6 @@
     text-transform: uppercase;
     color: #fff; }
 .page-header .navbar-nav li.active > a,
-.page-header .navbar-nav li > a:hover {
-    border: 1px solid rgba(255, 255, 255, 0.1); }
 .page-header .navbar-nav li > a:focus,
 .page-header .navbar-nav li > a:hover {
     background: inherit; }

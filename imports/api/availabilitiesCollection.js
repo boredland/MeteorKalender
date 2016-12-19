@@ -220,7 +220,7 @@ if (Meteor.isServer) {
                 return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
-                        subject: "You have an appointment with your professor!",
+                        subject: "You have an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
                         "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been confirmed. \n" +
                         "\nIf you'd like to cancel the meeting, you'll have to click at the following link: "+
@@ -259,7 +259,7 @@ if (Meteor.isServer) {
                 return Meteor.call('booking.cancel',currentAvailability._id,function () {
                     sendMail({
                         to: currentAvailability.bookedByEmail,
-                        subject: "You have a cancelled a appointment with your professor!",
+                        subject: "You have a cancelled an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
                         text: "Hello "+currentAvailability.bookedByName+",\n"+
                         "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled."
                     });
@@ -287,9 +287,9 @@ if (Meteor.isServer) {
                 }
                 sendMail({
                     to: currentAvailability.bookedByEmail,
-                    subject: "Your professor cancelled your appointment",
+                    subject: Meteor.user(currentAvailability.userId).profile.name + " has cancelled your appointment",
                     text: "Hello "+currentAvailability.bookedByName+",\n"+
-                    "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled by the owner."+message
+                    "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled by " + Meteor.user(currentAvailability.userId).profile.name +  "."+message
                 });
             });
         },

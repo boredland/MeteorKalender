@@ -2,7 +2,7 @@ import '/imports/api/availabilitiesCollection'
 import '/imports/logger'
 //Import creates the collection on the server.
 var verifyEmail = true;
-var returnMailString = "FRA-UAS Kalender <noreply@wp12310502.server-he.de>";
+var returnMailString = "Date your prof <noreply@wp12310502.server-he.de>";
 
 Accounts.config({ sendVerificationEmail: verifyEmail });
 
@@ -252,8 +252,8 @@ Meteor.methods({
 		this.unblock();
 
 		options.from = returnMailString;
-		options.subject = "FRA-UAS Calendar: " + options.subject;
-        options.text = options.text + "\n\n - Your FRA-UAS Calendar Team";
+		options.subject = options.subject;
+        options.text = options.text + "\n\n - Date your prof Team";
 
 		Email.send(options);
 	}
