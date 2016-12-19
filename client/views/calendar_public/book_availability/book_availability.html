@@ -13,6 +13,7 @@
                 <button class="btn btn-lg btn-primary btn-block go-home" type="button" data-loading-text="Please wait...">
                     OK
                 </button>
+
             {{/if}}
 		</div>
         {{#if itemsReady}}
@@ -24,5 +25,8 @@
             {{> quickForm id="bookAvailabilityForm" schema=formSchema type="method" meteormethod="booking.insert"}}
             {{/unless}}
         {{/if}}
+        <button type="submit" id="Back-button" class="btn btn-default">
+            Back
+        </button>
     </div>
 </template>

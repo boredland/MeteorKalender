@@ -75,10 +75,6 @@ Template.Availabilities.events({
     }
 });
 Template.Availabilities.events({
-    "click #Back-button": function(e, t) {
-        e.preventDefault();
-        Router.go("home_private.appointments", {});
-    }
 
 });
 

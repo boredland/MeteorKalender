@@ -69,6 +69,10 @@ Template.EditCalendar.events({
         });
         return false;
     }*/
+    "click #Back-button": function(e, t) {
+        e.preventDefault();
+        Router.go("home_private.calendars", {});
+    }
 });
 
 

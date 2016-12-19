@@ -17,6 +17,10 @@ Template.Booking.rendered = function() {
 Template.Booking.events({
     "click .go-home": function(e, t) {
         Router.go("/");
+    },
+    "click #Back-button": function(e, t) {
+        e.preventDefault();
+        Router.go("home_private.appointments", {});
     }
 });
 
