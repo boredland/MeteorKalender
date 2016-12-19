@@ -332,7 +332,7 @@ if (Meteor.isServer) {
         /**
          * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
          * ggf. könnte man noch ne Methode "removeAllRepetitions" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
-         * @param availabilities.removeRepetitions
+         * @param availabilities.removeFutureRepetitions
          */
         'availabilities.removeFutureRepetitions'(availabilityId,fromDate_in){
             let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
