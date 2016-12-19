@@ -92,8 +92,8 @@ Template.Appointment.events({
 });
 
 Template.Appointment.helpers({
-    "errorMessage": function() {
-        return pageSession.get("errorMessage");
+    getPageSession: function () {
+        return pageSession
     },
     itemsReady:function() {
         return dataReady();

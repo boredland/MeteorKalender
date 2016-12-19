@@ -38,12 +38,8 @@ Template.Availabilities.events({
 });
 
 Template.Availabilities.helpers({
-    "errorMessage": function() {
-        var getError = Router.current().params.query.error;
-        if (getError) {
-            pageSession.set("errorMessage", getError);
-        }
-        return pageSession.get("errorMessage");
+    getPageSession: function () {
+        return pageSession;
     },
     availibilityCalendarOptions: function(){
         return getCalendarOptions(getCalendarEvents(Availabilities.find({}),Calendars,true),pageSession);

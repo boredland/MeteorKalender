@@ -1,7 +1,6 @@
-var pageSession = new ReactiveDict();
+var pageSession = getDefaultPageSession();
 
 Template.Register.rendered = function() {
-	pageSession.set("errorMessage", "");
 	pageSession.set("verificationEmailSent", false);
 	Meteor.defer(function() {
 		$("input[autofocus]").focus();

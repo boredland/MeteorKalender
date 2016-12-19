@@ -4,7 +4,6 @@ var pageSession = getDefaultPageSession();
 
 Template.Calendars.onCreated(function bodyOnCreated() {
         Meteor.subscribe('allCalendars');
-        pageSession.set("errorMessage", "");
     }
 );
 
@@ -39,9 +38,6 @@ Template.Calendars.events({
         });
         return false;
     },
-
-
-
     "click #dataview-insert-button": function(e) {
         e.preventDefault();
         Router.go("home_private.new_calendar", {});
@@ -72,19 +68,13 @@ Template.Calendars.events({
         // Remove the input from the body
         document.body.removeChild(aux);
     }
-
-
-    }
-);
-
-Template.Calendars.helpers({
-    "errorMessage": function() {
-        return pageSession.get("errorMessage");
-    },
-    getCalendars(){
-        return Calendars.find();
-    }
 });
 
-Template.Calendars.onRendered(function() {
+Template.Calendars.helpers({
+    getCalendars(){
+        return Calendars.find();
+    },
+    getPageSession: function () {
+        return pageSession;
+    }
 });

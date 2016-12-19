@@ -162,8 +162,6 @@ if (Meteor.isServer) {
          * @param doc
          */
         'booking.insert'(doc){
-            console.log("bla",doc);
-
             // check if this has an peding active reservation
             if (Availabilities.findOne({_id: doc.availabilityId, bookedByDate: {$gt: new Date(moment().add(-reservationThreshold,'m'))}})){
                 throw new Meteor.Error("pending-reservation","This availability has a pending reservation and therefore can't be reserved at this point.")
@@ -176,35 +174,40 @@ if (Meteor.isServer) {
                 $set: {
                     bookedByEmail: doc.bookedByEmail,
                     bookedByName: doc.bookedByName,
-                    bookedByReserved: true, // das ist voll fürn arsch.
                     bookedByConfirmed: false,
                     bookedByDate: new Date(),
                     bookedByCalendarId: doc.bookedByCalendarId,
                     bookedByConfirmationToken: verificationToken,
                     bookedByCancellationToken: cancellationToken
                 }
-            });
-            // Send Mails if the insertion was successful.
-            // check if the availability is in the database.
-            let currentAvailability = Availabilities.findOne({
-                bookedByConfirmed: false,
-                bookedByConfirmationToken: verificationToken
-            });
-            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            if (currentAvailability !== undefined){
-                this.unblock();
-                sendMail({
-                    to: doc.bookedByEmail,
-                    subject: "Your reservation needs confirmation",
-                    text: "Hello "+doc.bookedByName+",\n"+
-                    "Thank you for your reservation for an availability at "+currentCalendar.name+". \n" +
-                    "We need you to click at the following link to activate your booking: \n" +
-                    Meteor.absoluteUrl()+"verify_booking/"+verificationToken +"\n"
+            },function () {
+                // Send Mails if the update was successful.
+                // check if the availability is in the database.
+                let currentAvailability = Availabilities.findOne({
+                    bbookedByEmail: doc.bookedByEmail,
+                    bookedByName: doc.bookedByName,
+                    bookedByConfirmed: false,
+                    bookedByDate: new Date(),
+                    bookedByCalendarId: doc.bookedByCalendarId,
+                    bookedByConfirmationToken: verificationToken,
+                    bookedByCancellationToken: cancellationToken
                 });
-                return true;
-            } else {
-                throw new Meteor.Error('booking-error',"There was an error saving your booking information.");
-            }
+                let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+                if (currentAvailability !== undefined){
+                    this.unblock();
+                    sendMail({
+                        to: doc.bookedByEmail,
+                        subject: "Your reservation needs confirmation",
+                        text: "Hello "+doc.bookedByName+",\n"+
+                        "Thank you for your reservation for an availability at "+currentCalendar.name+". \n" +
+                        "We need you to click at the following link to activate your booking: \n" +
+                        Meteor.absoluteUrl()+"verify_booking/"+currentAvailability.bookedByConfirmationToken +"\n"
+                    });
+                    return true;
+                } else {
+                    throw new Meteor.Error('booking-error',"There was an error saving your booking information.");
+                }
+            });
         },
         /**
          * setzt eine Availability auf "booking confirmed".
@@ -215,18 +218,22 @@ if (Meteor.isServer) {
                 bookedByConfirmed: false,
                 bookedByConfirmationToken: verifyBookingToken
             }, {});
-            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
             if (currentAvailability !== undefined){
-                return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
-                    sendMail({
-                        to: currentAvailability.bookedByEmail,
-                        subject: "You have an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
-                        text: "Hello "+currentAvailability.bookedByName+",\n"+
-                        "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been confirmed. \n" +
-                        "\nIf you'd like to cancel the meeting, you'll have to click at the following link: "+
-                        Meteor.absoluteUrl()+"cancel_booking/"+currentAvailability.bookedByCancellationToken
+                let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+                if (currentCalendar !== undefined){
+                    return Availabilities.update(currentAvailability._id,{$set: {bookedByConfirmed: true, bookedByConfirmationToken: null}},function () {
+                        sendMail({
+                            to: currentAvailability.bookedByEmail,
+                            subject: "You have an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
+                            text: "Hello "+currentAvailability.bookedByName+",\n"+
+                            "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been confirmed. \n" +
+                            "\nIf you'd like to cancel the meeting, you'll have to click at the following link: "+
+                            Meteor.absoluteUrl()+"cancel_booking/"+currentAvailability.bookedByCancellationToken
+                        });
                     });
-                });
+                } else {
+                    throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
+                }
             } else {
                 throw new Meteor.Error('confirmation-error',"There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
             }
@@ -242,7 +249,8 @@ if (Meteor.isServer) {
                     bookedByDate: null,
                     bookedByEmail: null,
                     bookedByConfirmed: false,
-                    bookedByCancellationToken: null
+                    bookedByCancellationToken: null,
+                    bookedByCalendarId: null,
                 }
             });
         },

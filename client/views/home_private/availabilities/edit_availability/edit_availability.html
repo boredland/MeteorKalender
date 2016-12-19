@@ -9,6 +9,16 @@
         <h2 id="component-title">
             Edit availability
         </h2>
+        {{#if errorMessage getPageSession}}
+            <div class="alert alert-warning">
+                {{errorMessage getPageSession}}
+            </div>
+        {{/if}}
+        {{#if infoMessage getPageSession}}
+            <div class="alert alert-success">
+                {{infoMessage getPageSession}}
+            </div>
+        {{/if}}
         {{#if itemsReady}}
             {{> quickForm collection="Availabilities" doc=updateDoc id="availabilityUpdateForm" type="update"}}
         {{/if}}

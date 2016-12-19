@@ -9,9 +9,14 @@
         <h2 id="component-title">
             Availabilities
         </h2>
-        {{#if errorMessage}}
+        {{#if errorMessage getPageSession}}
             <div class="alert alert-warning">
-                {{errorMessage}}
+                {{errorMessage getPageSession}}
+            </div>
+        {{/if}}
+        {{#if infoMessage getPageSession}}
+            <div class="alert alert-success">
+                {{infoMessage getPageSession}}
             </div>
         {{/if}}
         <button type="submit" id="dataview-insert-button" class="btn btn-primary">

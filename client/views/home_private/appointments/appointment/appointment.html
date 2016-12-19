@@ -6,9 +6,14 @@
                 </div>
             </div>
         </div>
-        {{#if errorMessage}}
+        {{#if errorMessage getPageSession}}
             <div class="alert alert-warning">
-                {{errorMessage}}
+                {{errorMessage getPageSession}}
+            </div>
+        {{/if}}
+        {{#if infoMessage getPageSession}}
+            <div class="alert alert-success">
+                {{infoMessage getPageSession}}
             </div>
         {{/if}}
         {{#if itemsReady}}

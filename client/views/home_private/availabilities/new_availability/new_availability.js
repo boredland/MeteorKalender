@@ -17,8 +17,8 @@ Template.NewAvailability.helpers({
     formSchema: function() {
         return availabilitiesFormSchema;
     },
-    "errorMessage": function() {
-        return pageSession.get("errorMessage");
+    getPageSession: function () {
+        return pageSession;
     }
 });
 

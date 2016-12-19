@@ -11,6 +11,9 @@ Template.NewCalendar.events({
 Template.NewCalendar.helpers({
     formCollection() {
         return Calendars;
+    },
+    getPageSession: function () {
+        return pageSession;
     }
 });
 

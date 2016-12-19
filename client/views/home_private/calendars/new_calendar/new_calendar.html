@@ -6,6 +6,16 @@
                 </div>
             </div>
             <h2>New Calendar</h2>
+            {{#if errorMessage getPageSession}}
+                <div class="alert alert-warning">
+                    {{errorMessage getPageSession}}
+                </div>
+            {{/if}}
+            {{#if infoMessage getPageSession}}
+                <div class="alert alert-success">
+                    {{infoMessage getPageSession}}
+                </div>
+            {{/if}}
             {{> quickForm id="calendarInsertForm" collection=formCollection type="method" meteormethod="calendars.insert"}}
             <button type="submit" id="Back-button" class="btn btn-default">
                 Back

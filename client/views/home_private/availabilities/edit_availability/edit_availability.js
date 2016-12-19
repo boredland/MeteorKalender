@@ -112,6 +112,9 @@ Template.EditAvailability.helpers({
     },
     itemsReady:function() {
         return dataReady();
+    },
+    getPageSession: function () {
+        return pageSession
     }
 });
 

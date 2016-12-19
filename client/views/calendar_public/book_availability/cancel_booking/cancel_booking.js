@@ -20,23 +20,14 @@ Template.CancelBooking.onCreated(function bodyOnCreated() {
     }
 });
 
-Template.CancelBooking.rendered = function() {
-
-};
-
 Template.CancelBooking.events({
     "click .go-home": function(e, t) {
         Router.go("/");
     }
-
 });
 
 Template.CancelBooking.helpers({
-    "errorMessage": function() {
-        return pageSession.get("errorMessage");
-    },
-    "infoMessage": function() {
-        return pageSession.get("infoMessage");
+    getPageSession: function () {
+        return pageSession
     }
-
 });

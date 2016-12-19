@@ -20,8 +20,8 @@ Template.EditCalendar.onRendered( () => {
 });
 
 Template.EditCalendar.helpers({
-    "errorMessage": function () {
-        return pageSession.get("errorMessage");
+    getPageSession: function () {
+        return pageSession;
     }
 });
 
