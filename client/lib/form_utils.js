@@ -59,7 +59,7 @@ this.secondsToTime = function(seconds, timeFormat) {
 	var s = seconds || 0;
 	var tf = timeFormat || "h:mm a";
 
-	if(String(s).toUpperCase() == "NOW") {
+	if(String(s).toUpperCase() === "NOW") {
 		return moment(new Date()).format(tf);
 	}
 
@@ -82,11 +82,11 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 
 		if(!fieldName) skipValue = true;
 
-		if(inputObject.attr("type") == "checkbox") {
+		if(inputObject.attr("type") === "checkbox") {
 			// auto set data type for checkbox
 			if(!inputObject.attr("data-type")) {
 				// single checkbox with that name means dataType="BOOL" else it is "ARRAY"
-				if(formObject.find("input[name='" + fieldName + "']").length == 1) {
+				if(formObject.find("input[name='" + fieldName + "']").length === 1) {
 					dataType = "BOOL";
 				}
 				else {
@@ -94,12 +94,12 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 				}
 			}
 
-			if(dataType == "BOOL") fieldValue = inputObject.is(":checked");
-			if(dataType == "ARRAY") fieldValue = inputObject.is(":checked") ? fieldValue : "";
+			if(dataType === "BOOL") fieldValue = inputObject.is(":checked");
+			if(dataType === "ARRAY") fieldValue = inputObject.is(":checked") ? fieldValue : "";
 		}
 
 		// radio has value only if checked
-		if(inputObject.attr("type") == "radio") {
+		if(inputObject.attr("type") === "radio") {
 			fieldValue = inputObject.is(":checked") ? fieldValue : "";
 			if(dataType !== "ARRAY" && !fieldValue) {
 				skipValue = true;

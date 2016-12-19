@@ -5,7 +5,7 @@ Template.layout.rendered = function() {
 		if(!href) {
 			return;
 		}
-		if(href.length > 1 && href.charAt(0) == "#") {
+		if(href.length > 1 && href.charAt(0) === "#") {
 			var hash = href.substring(1);
 			if(hash) {
 				e.preventDefault();
@@ -17,7 +17,7 @@ Template.layout.rendered = function() {
 				}
 			}
 		} else {
-			if(href.indexOf("http://") != 0 && href.indexOf("https://") != 0 && href.indexOf("#") != 0) {
+			if(href.indexOf("http://") !== 0 && href.indexOf("https://") !== 0 && href.indexOf("#") !== 0) {
 				$('html,body').scrollTop(0);
 			}
 		}

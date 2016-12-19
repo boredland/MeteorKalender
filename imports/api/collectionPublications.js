@@ -47,4 +47,4 @@ if (Meteor.isServer) {
         var calendar = Calendars.find({linkslug: input_calendarSlug, published: true},calendarOptions);
         return calendar;
     });
-};
+}
