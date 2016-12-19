@@ -20,7 +20,7 @@ Template.Booking.events({
     },
     "click #Back-button": function(e, t) {
         e.preventDefault();
-        Router.go("home_private.appointments", {});
+        Router.go("home_public", {});
     }
 });
 
