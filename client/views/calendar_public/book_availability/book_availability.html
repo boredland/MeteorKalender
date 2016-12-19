@@ -18,15 +18,22 @@
 		</div>
         {{#if itemsReady}}
             {{#unless infoMessage}}
-                <h2 id="component-title">
-            Book an appointment from {{ CurrentCalendarName }}
-        </h2>
-        <p>from: {{formatDateTime CurrentAvailabilityFrom}} <br>to: {{ formatDateTime CurrentAvailabilityTo}} <br></p>
-            {{> quickForm id="bookAvailabilityForm" schema=formSchema type="method" meteormethod="booking.insert"}}
+
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Book an appointment from {{ CurrentCalendarName }}</h3>
+                </div>
+                <div class="panel-body">
+                <p>from: {{formatDateTime CurrentAvailabilityFrom}} <br>to: {{ formatDateTime CurrentAvailabilityTo}} <br></p>
+                {{> quickForm id="bookAvailabilityForm" schema=formSchema type="method" meteormethod="booking.insert"}}
+                <button type="submit" id="Back-button" class="btn btn-default">
+                    Back
+                </button>
+                </div>
+            </div>
             {{/unless}}
         {{/if}}
-        <button type="submit" id="Back-button" class="btn btn-default">
-            Back
-        </button>
+
+
     </div>
 </template>
