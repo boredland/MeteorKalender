@@ -62,7 +62,7 @@ AutoForm.hooks({
             }
         },
         onSuccess: function() {
-            pageSession.set("infoMessage", "Your reservation was successful and is valid for the next 10 Minutes. Please confirm the reservation using the link provided in the email we sent to you.");
+            pageSession.set("infoMessage", "Your reservation was successful and is valid for the next 10 minutes. Please confirm the reservation using the link provided in the email we sent to you.");
         },
         onError: function (result,error) {
             pageSession.set("errorMessage",error.reason);
