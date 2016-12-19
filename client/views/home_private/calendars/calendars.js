@@ -45,6 +45,14 @@ Template.Calendars.events({
         });
         return false;
     },
+
+    "click #Back-button": function(e, t) {
+        e.preventDefault();
+        Router.go("home_private.appointments", {});
+
+    },
+
+
     "click #dataview-insert-button": function(e) {
         e.preventDefault();
         Router.go("home_private.new_calendar", {});
@@ -75,6 +83,8 @@ Template.Calendars.events({
         // Remove the input from the body
         document.body.removeChild(aux);
     }
+
+
     }
 );
 

@@ -47,6 +47,7 @@ Template.Availabilities.events({
         e.preventDefault();
         Router.go("home_private.new_availability", {});
     }
+
 });
 Template.Availabilities.events({
     "click #delete-all-button": function(e) {
@@ -72,6 +73,13 @@ Template.Availabilities.events({
         });
         return false;
     }
+});
+Template.Availabilities.events({
+    "click #Back-button": function(e, t) {
+        e.preventDefault();
+        Router.go("home_private.appointments", {});
+    }
+
 });
 
 Template.Availabilities.helpers({

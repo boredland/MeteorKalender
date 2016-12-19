@@ -30,6 +30,10 @@ Template.EditAvailability.created = function() {
 };
 
 Template.EditAvailability.events({
+    "click #Back-button": function(e, t) {
+        e.preventDefault();
+        Router.go("home_private.availabilities", {});
+    },
     "click #dataview-delete-button-family": function(e) {
         e.preventDefault();
         bootbox.dialog({

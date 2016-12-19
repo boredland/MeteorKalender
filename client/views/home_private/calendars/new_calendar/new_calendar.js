@@ -13,6 +13,13 @@ Template.NewCalendar.created = function() {
 };
 
 Template.NewCalendar.events({
+    "click #Back-button": function(e, t) {
+        e.preventDefault();
+        Router.go("home_private.calendars", {});
+
+    }
+
+
 
 });
 
