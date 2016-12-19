@@ -29,11 +29,11 @@ this.menuItemClass = function(routeName, params) {
 		return "";
 	}
 
-	if(Router.current().route.getName() == routeName) {
+	if(Router.current().route.getName() === routeName) {
 		if(params && params.hash && Router.current().data().params) {
 			var eq = true;
 			for(var key in params.hash) {
-				if(Router.current().data().params[key] != params.hash[key]) {
+				if(Router.current().data().params[key] !== params.hash[key]) {
 					eq = false;
 				}
 			}
@@ -46,7 +46,7 @@ this.menuItemClass = function(routeName, params) {
 	var routePath = Router.routes[routeName].handler.path;
 
 	if(routePath === "/") {
-		return (currentPath == routePath || Router.current().route.getName().indexOf(routeName + ".") == 0) ? "active" : "";
+		return (currentPath === routePath || Router.current().route.getName().indexOf(routeName + ".") === 0) ? "active" : "";
 	}
 
 	return currentPath.indexOf(routePath) === 0 ? "active" : "";
@@ -100,10 +100,10 @@ Helpers.formatDate = function(date, dateFormat) {
 	var f = dateFormat || "MM/DD/YYYY";
 
 	if(_.isString(date)) {
-		if(date.toUpperCase() == "NOW") {
+		if(date.toUpperCase() === "NOW") {
 			date = new Date();
 		}
-		if(date.toUpperCase() == "TODAY") {
+		if(date.toUpperCase() === "TODAY") {
 			var d = new Date();
 			date = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0, 0, 0, 0);
 		}
@@ -134,20 +134,18 @@ Helpers.integerToTrueFalse = function(i) {
 //   for other types, array with one element (argument) is returned
 //   TODO: implement other types to array conversion
 Helpers.getArray = function(a) {
-	a = a || [];
+    var array = [];
+    a = a || [];
 	if(_.isArray(a)) return a;
 	if(_.isString(a)) {
-		var array = a.split(",") || [];
+		array = a.split(",") || [];
 		_.each(array, function(item, i) { array[i] = item.trim(); });
 		return array;
 	}
-
 	/* object... what to return? keys or values?
 	if(_.isObject(a)) {
 	}
 	*/
-
-	var array = [];
 	array.push(a);
 	return array;
 };

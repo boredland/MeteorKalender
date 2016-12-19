@@ -32,11 +32,10 @@ module.exports = {
     },
     env: {
       PORT: 3001,
-      ROOT_URL: 'https://test.meteorkalender.freeddns.org:443',
+      ROOT_URL: 'https://test.meteorkalender.freeddns.org',
       //MONGO_URL: 'mongodb://localhost/meteor'
       MAIL_URL: "MAILURL",
-      RE_CAPTCHA: "RECAPTCHA",
-      DDP_DEFAULT_CONNECTION_URL: "https://test.meteorkalender.freeddns.org:443"
+      RE_CAPTCHA: "RECAPTCHA"
     },
     dockerImage: 'cwaring/meteord:base',
     deployCheckWaitTime: 60

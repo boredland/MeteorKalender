@@ -101,7 +101,7 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 		// radio has value only if checked
 		if(inputObject.attr("type") == "radio") {
 			fieldValue = inputObject.is(":checked") ? fieldValue : "";
-			if(dataType != "ARRAY" && !fieldValue) {
+			if(dataType !== "ARRAY" && !fieldValue) {
 				skipValue = true;
 			}
 		}
@@ -140,7 +140,7 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 			}
 
 			// checkbox doesn't have required property, so I set parent container's data-required to true
-			if(inputObject.attr("type") == "checkbox") {
+			if(inputObject.attr("type") === "checkbox") {
 				var checkboxContainer = inputObject.closest(".input-div");
 				var req = checkboxContainer.attr("data-required");
 				if(req) {
@@ -156,11 +156,11 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 			}
 
 			// Convert to bool
-			if(dataType == "BOOL") {
-			    if(fieldValue == "true") {
+			if(dataType === "BOOL") {
+			    if(fieldValue === "true") {
 			      fieldValue = true;
 			    } else {
-			      if(fieldValue == "false") {
+			      if(fieldValue === "false") {
 			        fieldValue = false;
 			      } else {
 			        fieldValue = fieldValue ? true : false;
@@ -169,8 +169,8 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 			}
 
 			// Check Integer, also min and max value
-			if(dataType == "INTEGER") {
-				if(fieldValue == "") {
+			if(dataType === "INTEGER") {
+				if(fieldValue === "") {
 					fieldValue = null;
 				} else {
 					var intValue = parseInt(fieldValue);
@@ -199,9 +199,9 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 			}
 
 			// Check Float, also Min and Max value
-			if(dataType == "FLOAT")
+			if(dataType === "FLOAT")
 			{
-				if(fieldValue == "") {
+				if(fieldValue === "") {
 					fieldValue = null;
 				} else {
 					var floatValue = parseFloat(fieldValue);
@@ -224,33 +224,33 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 			}
 
 			// Check valid E-mail address
-			if(dataType == "EMAIL") {
+			if(dataType === "EMAIL") {
 				if(fieldValue && !isValidEmail(fieldValue)) {
 					validationError(labelText + ": please enter valid e-mail address");
 					return false;
 			    }
 			}
 
-			if(dataType == "IP") {
+			if(dataType === "IP") {
 				if(fieldValue && !isValidIP(fieldValue)) {
 					validationError(labelText + ": please enter valid IPv4 or IPv6 address");
 					return false;
 				}
 			}
-			if(dataType == "IPV4") {
+			if(dataType === "IPV4") {
 				if(fieldValue && !isValidIPv4(fieldValue)) {
 					validationError(labelText + ": please enter valid IPv4 address");
 					return false;
 				}
 			}
-			if(dataType == "IPV6") {
+			if(dataType === "IPV6") {
 				if(fieldValue && !isValidIPv6(fieldValue)) {
 					validationError(labelText + ": please enter valid IPv6 address");
 					return false;
 				}
 			}
 
-			if(dataType == "ARRAY") {
+			if(dataType === "ARRAY") {
 				if(!_.isArray(fieldValue)) {
 					var newValue = values[fieldName] ? values[fieldName] : [];
 					if(fieldValue) {
@@ -261,8 +261,8 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 			}
 
 			// TIME (user input "12:30 am" produces "1800" that is number of seconds from midnight)
-			if(dataType == "TIME") {
-				if(fieldValue == "") {
+			if(dataType === "TIME") {
+				if(fieldValue === "") {
 					fieldValue = null;
 				}
 				var seconds = timeToSeconds(fieldValue, dataFormat);
@@ -273,8 +273,8 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 				fieldValue = seconds;
 			}
 
-			if(dataType == "DATE") {
-				if(fieldValue == "") {
+			if(dataType === "DATE") {
+				if(fieldValue === "") {
 					fieldValue = null;
 				} else {
 					var date = moment(fieldValue, dataFormat);
@@ -286,7 +286,7 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 				}
 			}
 
-			if(dataType == "STRING") {
+			if(dataType === "STRING") {
 				if(_.isArray(fieldValue)) {
 					fieldValue = fieldValue.toString();
 				}
@@ -315,25 +315,25 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 };
 
 Handlebars.registerHelper("itemIsChecked", function(desiredValue, itemValue) {
-	if(!desiredValue && !desiredValue == false && !itemValue && !itemValue == false) {
+	if(!desiredValue && !desiredValue === false && !itemValue && !itemValue === false) {
 		return "";
 	}
 
 	if(_.isArray(desiredValue))
 		return desiredValue.indexOf(itemValue) >= 0 ? "checked" : "";
 
-	return desiredValue == itemValue ? "checked" : "";
+	return desiredValue === itemValue ? "checked" : "";
 });
 
 Handlebars.registerHelper("optionIsSelected", function(desiredValue, itemValue) {
-	if(!desiredValue && !desiredValue == false && !itemValue && !itemValue == false) {
+	if(!desiredValue && !desiredValue === false && !itemValue && !itemValue === false) {
 		return "";
 	}
 
 	if(_.isArray(desiredValue))
 		return desiredValue.indexOf(itemValue) >= 0 ? "selected" : "";
 
-	return desiredValue == itemValue ? "selected" : "";
+	return desiredValue === itemValue ? "selected" : "";
 });
 
 this.bootboxDialog = function(template, data, options) {
