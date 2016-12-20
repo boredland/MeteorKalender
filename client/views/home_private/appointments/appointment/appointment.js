@@ -87,7 +87,7 @@ Template.Appointment.events({
     },
     "click #Back-button": function(e, t) {
         e.preventDefault();
-        Router.go("home_private.appointments", {});
+        history.back();
     }
 });
 
