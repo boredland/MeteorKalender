@@ -317,17 +317,10 @@ if (Meteor.isServer) {
          */
         'availabilities.removeAll'(){
             // loescht alle mit abgelaufenen reservierungen oder die kein bookedByDate gesetzt haben.
-            return Availabilities.find({
+            Availabilities.remove({
                 userId: this.userId,
-                $or: [
-                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
-                    { bookedByDate: undefined }
-                ]
-            }).forEach(
-                function(availability){
-                    return Meteor.call('availabilities.remove',availability._id);
-                }
-            )
+                bookedByDate: undefined
+            })
         },
         /**
          * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
