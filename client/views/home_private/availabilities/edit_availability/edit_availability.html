@@ -23,27 +23,59 @@
             {{> quickForm collection="Availabilities" doc=updateDoc id="availabilityUpdateForm" type="update"}}
         {{/if}}
         <!-- hier könnte man auch wieder so modalfenster verschachteln, wie ichs für die cancellation-sache gemacht habe.. -->
+
+
+
         <div id="dataview-controls-delete" class="form-group {{deleteButtonClass}}">
             <button type="submit" id="Back-button" class="btn btn-default">
                 Back
             </button>
 
-            <button type="submit" id="dataview-delete-button" class="btn btn-default">
-					<span class="fa fa-minus">
-					</span>
-                Delete
-            </button>
-            <button type="submit" id="dataview-delete-button-repetitions" class="btn btn-default">
-					<span class="fa fa-minus">
-					</span>
-                Delete with repetitions
-            </button>
-            <button type="submit" id="dataview-delete-button-family" class="btn btn-default">
-					<span class="fa fa-minus">
-					</span>
-                Delete whole family of availabilities
-            </button>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Delete</button>
 
+            <!-- Modal -->
+
+            <div id="myModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Deleting Options</h4>
+                        </div>
+                        <div class="modal-body">       <div id="dataview-controls-delete" class="form-group {{deleteButtonClass}}">
+
+
+                            <button type="submit" id="dataview-delete-button" class="btn btn-default" >
+					<span class="fa fa-minus">
+					</span>
+                                Delete
+                            </button>
+                            <p>Delete just this availability</p>
+                            <button type="submit" id="dataview-delete-button-repetitions" class="btn btn-default">
+					<span class="fa fa-minus">
+					</span>
+                                Delete with repetitions
+                            </button>
+                            <p>Delete this chunk in all future availbilties of the same family.</p>
+                            <button type="submit" id="dataview-delete-button-family" class="btn btn-default">
+					<span class="fa fa-minus">
+					</span>Delete by familyId
+                            </button>
+
+
+                        </div>
+                            <p>Delete whole family of availabilities</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
 
         </div>
     </div>
