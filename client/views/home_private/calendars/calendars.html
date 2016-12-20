@@ -28,12 +28,11 @@
                 <th>
                     Name
                 </th>
-                <th>
-                    Location
-                </th>
+                <!--
                 <th>
                     Color
                 </th>
+                -->
                 <th>
                     Published
                 </th>
@@ -59,12 +58,15 @@
         <td>
             {{name}} <a target="_blank" href="/calendar_public/{{linkslug}}" title="Open in a new tab"><span id="calendar_link" class="fa fa-link" title="Open in a new tab"></span></a>
         </td>
+        <!--
         <td>
             {{location}}
         </td>
+
         <td>
             <td style="background-color: {{color}};width: 25px;height: 25px"></td>
         </td>
+        -->
         <td>
             <input id="published" type="checkbox" {{isPublished published}}>
         </td>
