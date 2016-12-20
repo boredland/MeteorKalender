@@ -50,14 +50,19 @@
             </thead>
             {{#each getCalendars}} {{> calendar}} {{/each}}
         </table>
+
     </div>
 </template>
+
+
+
 
 <template name="calendar">
     <tbody id="dataview-table-items">
     <tr id="dataview-table-items-row">
+
+
         <td>
-            {{name}} <a target="_blank" href="/calendar_public/{{linkslug}}" title="Open in a new tab"><span id="calendar_link" class="fa fa-link" title="Open in a new tab"></span></a>
         </td>
         <td>
             {{location}}
@@ -65,6 +70,9 @@
         <td>
             <td style="background-color: {{color}};width: 25px;height: 25px"></td>
         </td>
+
+
+
         <td>
             {{published}}
         </td>
@@ -83,3 +91,5 @@
     </tr>
     </tbody>
 </template>
+
+
