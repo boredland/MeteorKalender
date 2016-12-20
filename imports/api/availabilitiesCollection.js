@@ -327,32 +327,15 @@ if (Meteor.isServer) {
          * ggf. könnte man noch ne Methode "removeAllRepetitions" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
          * @param availabilities.removeFutureRepetitions
          */
-        'availabilities.removeFutureRepetitions'(availabilityId,fromDate_in){
-            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
-            let fromDate;
-            if (!fromDate_in){
-                fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
-            } else {
-                fromDate = moment(fromDate_in);
-            }
-            return Availabilities.find({
-                userId: this.userId,
-                $or: [
-                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
-                    { bookedByDate: undefined }
-                ],
-                familyId: currentAvailability.familyId
-            }).forEach(
-                function(availability){
-                    if (
-                        (startDate.get('h') === moment(availability.startDate).get('h'))&&
-                        (startDate.get('m') === moment(availability.startDate).get('m'))&&
-                        (moment(availability.startDate) >= fromDate)
-                    ) {
-                        return Meteor.call('availabilities.remove',availability._id);
-                    }
-                }
-            )
+        'availabilities.removeFutureRepetitions'(availabilityId){
+            check(availabilityId, String);
+            var familyId = Availabilities.findOne(availabilityId).familyId;
+            var siblingStartTime = Availabilities.findOne(availabilityId).startTime ;
+
+            console.log(siblingStartTime)
+
+            //startTime in Datenstruktur abspeichern würde das vereinfachen....
+
         },
         /**
          * Delete this and all future events of the family. Still not so sure if that is good in means of usability.
