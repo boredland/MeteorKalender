@@ -38,7 +38,7 @@ Template.EditAvailability.events({
     "click #dataview-delete-button-family": function(e) {
         e.preventDefault();
         bootbox.dialog({
-            message: "Do you want to delete this availability, all of its future unbooked repetitions and all future unbooked chunks created with it?",
+            message: "Do you want to delete all availabilities which belong to this one? Reserved or booked onces wont be deleted.",
             title: "Delete whole family of availabilities",
             animate: false,
             buttons: {
@@ -46,7 +46,7 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-primary",
                     callback: function() {
-                        Meteor.call('availabilities.removeFutureFamily', getCurrentAvailabilityId());
+                        Meteor.call('availabilities.removeByFamilyId', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                     }
                 },

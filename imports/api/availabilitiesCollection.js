@@ -317,7 +317,7 @@ if (Meteor.isServer) {
          */
         'availabilities.removeAll'(){
             // loescht alle mit abgelaufenen reservierungen oder die kein bookedByDate gesetzt haben.
-            Availabilities.remove({
+            return Availabilities.remove({
                 userId: this.userId,
                 bookedByDate: undefined
             })
@@ -360,28 +360,17 @@ if (Meteor.isServer) {
          * @param availabilityId
          * @returns {null}
          */
-        'availabilities.removeFutureFamily'(availabilityId,fromDate_in){
-            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
-            let fromDate;
-            if (!fromDate_in){
-                fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
-            } else {
-                fromDate = moment(fromDate_in);
+        'availabilities.removeByFamilyId'(availabilityId){
+            check(availabilityId, String);
+
+            var deletethis = Availabilities.findOne(availabilityId);
+            if (this.userId !== deletethis.userId) {
+                throw new Meteor.Error('not-authorized');
             }
-            return Availabilities.find({
-                userId: this.userId,
-                $or: [
-                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
-                    { bookedByDate: undefined }
-                ],
-                familyId: currentAvailability.familyId
-            }).forEach(
-                function(availability){
-                    if (moment(availability.startDate) >= fromDate) {
-                        return Meteor.call('availabilities.remove',availability._id);
-                    }
-                }
-            )
+
+            var familyId = Availabilities.findOne(availabilityId).familyId;
+            Availabilities.remove({familyId: familyId, bookedByDate: undefined})
+
         }
     });
 }
