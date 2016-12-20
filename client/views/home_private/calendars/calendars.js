@@ -10,7 +10,6 @@ Template.Calendars.onCreated(function bodyOnCreated() {
 Template.Calendars.events({
     "change #published": (function(event, template) {
         var status = event.target.checked;
-        console.log("status of the checkbox of "+this.name+" ("+this._id+") changed to "+status);
         Meteor.call('calendars.updatePublishedState',this._id,status);
     }),
     "click #delete-button": function(e) {
