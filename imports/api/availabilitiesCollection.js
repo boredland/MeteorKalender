@@ -327,7 +327,6 @@ if (Meteor.isServer) {
         },
         /**
          * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
-         * ggf. könnte man noch ne Methode "removeAllRepetitions" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
          * @param availabilities.removeFutureRepetitions
          */
         'availabilities.removeFutureRepetitions'(availabilityId,fromDate_in){
@@ -358,7 +357,6 @@ if (Meteor.isServer) {
         },
         /**
          * Delete this and all future events of the family. Still not so sure if that is good in means of usability.
-         * ggf. könnte man noch ne Methode "removeAllFamily" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
          * @param availabilityId
          * @returns {null}
          */
