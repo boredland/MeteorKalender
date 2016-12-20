@@ -346,9 +346,6 @@ if (Meteor.isServer) {
                 ],
                 familyId: currentAvailability.familyId
             }).forEach( function(availability){
-                console.log(availability.startDate+" to "+new Date(fromDate));
-                console.log(moment(availability.startDate).second(1)+" to "+fromDate);
-                console.log(moment(availability.startDate).second(1) >= fromDate);
                     if (
                         (fromDate.get('h') === moment(availability.startDate).get('h'))&&
                         (fromDate.get('m') === moment(availability.startDate).get('m'))&&
