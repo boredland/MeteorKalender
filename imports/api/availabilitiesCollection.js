@@ -113,7 +113,7 @@ if (Meteor.isServer) {
         }
     });
     /**
-     *     Hier sollten Methoden landen, die nur auf dem server laufen sollten.
+     *     TODO: Bestimmen, welche Methoden auf den Client laufen dürfen.
      */
     Meteor.methods({
         /**

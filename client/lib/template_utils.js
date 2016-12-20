@@ -8,4 +8,10 @@ if (Meteor.isClient) {
     Template.registerHelper( 'infoMessage', (pageSession) => {
         return pageSession.get("infoMessage");
     });
+
+    Template.registerHelper('isPublished' , (published) => {
+        if (published){
+            return "checked";
+        }
+    });
 }

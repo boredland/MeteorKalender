@@ -4,12 +4,16 @@ import { Meteor } from 'meteor/meteor';
 
 var pageSession = getDefaultPageSession();
 
+
+Template.Availabilities.onCreated(function() {
+
+});
+
 Template.Availabilities.events({
     "click #dataview-insert-button": function(e, t) {
         e.preventDefault();
         Router.go("home_private.new_availability", {});
     }
-
 });
 Template.Availabilities.events({
     "click #delete-all-button": function(e) {
@@ -38,10 +42,26 @@ Template.Availabilities.events({
 });
 
 Template.Availabilities.helpers({
+    "errorMessage": function() {
+        var getError = Router.current().params.query.error;
+        if (getError) {
+            pageSession.set("errorMessage", getError);
+        }
+        return pageSession.get("errorMessage");
+    },
     getPageSession: function () {
         return pageSession;
     },
     availibilityCalendarOptions: function(){
-        return getCalendarOptions(getCalendarEvents(Availabilities.find({}),Calendars,true),pageSession);
+        return {
+            events: function(start, end, timezone, callback) {
+                callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,true));
+            },
+            eventClick: function(calEvent, jsEvent, view) {
+                calendarClickOptions(calEvent);
+            },
+            defaultView: 'listWeek',
+            timeFormat: 'H:mm'
+        };
     }
 });
