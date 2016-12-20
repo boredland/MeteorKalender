@@ -317,17 +317,13 @@ if (Meteor.isServer) {
          */
         'availabilities.removeAll'(){
             // loescht alle mit abgelaufenen reservierungen oder die kein bookedByDate gesetzt haben.
-            return Availabilities.find({
+            return Availabilities.remove({
                 userId: this.userId,
                 $or: [
                     { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
                     { bookedByDate: undefined }
                 ]
-            }).forEach(
-                function(availability){
-                    return Meteor.call('availabilities.remove',availability._id);
-                }
-            )
+            });
         },
         /**
          * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
@@ -340,7 +336,7 @@ if (Meteor.isServer) {
             if (!fromDate_in){
                 fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
             } else {
-                fromDate = moment(fromDate_in);
+                fromDate = moment(fromDate_in).hour(moment(currentAvailability.startDate).get('h')).minute(moment(currentAvailability.startDate).get('m')).second(1).millisecond(0); // ugly and to much, but should work now.
             }
             return Availabilities.find({
                 userId: this.userId,
@@ -349,12 +345,14 @@ if (Meteor.isServer) {
                     { bookedByDate: undefined }
                 ],
                 familyId: currentAvailability.familyId
-            }).forEach(
-                function(availability){
+            }).forEach( function(availability){
+                console.log(availability.startDate+" to "+new Date(fromDate));
+                console.log(moment(availability.startDate).second(1)+" to "+fromDate);
+                console.log(moment(availability.startDate).second(1) >= fromDate);
                     if (
-                        (startDate.get('h') === moment(availability.startDate).get('h'))&&
-                        (startDate.get('m') === moment(availability.startDate).get('m'))&&
-                        (moment(availability.startDate) >= fromDate)
+                        (fromDate.get('h') === moment(availability.startDate).get('h'))&&
+                        (fromDate.get('m') === moment(availability.startDate).get('m'))&&
+                        (availability.startDate >= new Date(fromDate))
                     ) {
                         return Meteor.call('availabilities.remove',availability._id);
                     }
@@ -379,7 +377,7 @@ if (Meteor.isServer) {
                 userId: this.userId,
                 $or: [
                     { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
-                    { bookedByDate: undefined }
+                    { bookedByDate: undefined },
                 ],
                 familyId: currentAvailability.familyId
             }).forEach(

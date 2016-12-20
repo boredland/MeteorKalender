@@ -12,7 +12,7 @@ Template.Availabilities.events({
 
 });
 Template.Availabilities.events({
-    "click #delete-all-button": function(e) {
+    "click #dataview-delete-button": function(e) {
         e.preventDefault();
         bootbox.dialog({
             message: "Do you want to delete all availabilities?",
