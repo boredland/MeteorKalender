@@ -6,86 +6,51 @@
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/latest/paper/bootstrap.min.css" rel="stylesheet">
 </head>
 <template name="layout">
-	{{#if currentUser}}
-		{{> PrivateLayout privateData}}
-	{{else}}
-		{{> PublicLayout publicData}}
-	{{/if}}
-</template>
-
-<template name="FreeLayout">
-	<div id="content" class="sticky-wrapper">
-		<div id="navbar" class="navbar navbar-fixed-top navbar-default" role="navigation">
-			<div class="navbar-container container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <div id="content" class="sticky-wrapper">
+            <div id="navbar" class="navbar navbar-{{#if currentUser}}default{{else}}inverse{{/if}} navbar-fixed-top" role="navigation">
+                <div class="navbar-container container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 						<span class="sr-only">
 							Toggle navigation
 						</span>
-						<span class="icon-bar">
+                            <span class="icon-bar">
 						</span>
-						<span class="icon-bar">
+                            <span class="icon-bar">
 						</span>
-						<span class="icon-bar">
+                            <span class="icon-bar">
 						</span>
-					</button>
-					<a class="navbar-brand" href="/">
-						Date your prof
-					</a>
-				</div>
-				<div id="menu" class="collapse navbar-collapse">
-				</div>
-			</div>
-		</div>
-		<div class="navbar-spacer">
-		</div>
-		{{> yield}}
-	</div>
-	<div id="footer" class="sticky-footer">
-		<div class="footer-container container">
-			<p class="text-muted">
+                        </button>
+                        <a class="navbar-brand" href="/">
+                            Date your prof
+                        </a>
+                    </div>
+                    {{#if currentUser}}
+                        {{> PrivateLayout privateData}}
+                    {{else}}
+                        {{> PublicLayout publicData}}
+                    {{/if}}
+                    </div>
+            </div>
+            <div class="navbar-spacer">
+            </div>
+            {{> yield}}
+        </div>
+    <div id="footer" class="sticky-footer">
+        <div class="footer-container container">
+            <p class="text-muted">
                 &copy; DateYourProf 2017 - DateYourProf Team - Frankfurt University of Applied Sciences | BUILD_ANCHOR
-			</p>
-		</div>
-	</div>
+            </p>
+        </div>
+    </div>
 </template>
+
+<template name="FreeLayout"></template>
 
 <template name="PublicLayout">
-	<div id="content" class="sticky-wrapper">
-		<div id="navbar" class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-			<div class="navbar-container container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">
-							Toggle navigation
-						</span>
-						<span class="icon-bar">
-						</span>
-						<span class="icon-bar">
-						</span>
-						<span class="icon-bar">
-						</span>
-					</button>
-					<a class="navbar-brand" href="/">
-                        Date your prof
-					</a>
-				</div>
-				<div id="menu" class="collapse navbar-collapse">
-					{{> PublicLayoutLeftMenu}}{{> PublicLayoutRightMenu}}
-				</div>
-			</div>
-		</div>
-		<div class="navbar-spacer">
-		</div>
-		{{> yield}}
-	</div>
-	<div id="footer" class="sticky-footer">
-		<div class="footer-container container">
-			<p class="text-muted">
-                &copy; DateYourProf 2017 - DateYourProf Team - Frankfurt University of Applied Sciences | BUILD_ANCHOR
-			</p>
-		</div>
-	</div>
+    <div id="menu" class="collapse navbar-collapse">
+        {{> PublicLayoutLeftMenu}}{{> PublicLayoutRightMenu}}
+    </div>
 </template>
 
 <template name="PublicLayoutLeftMenu">
@@ -120,41 +85,9 @@
 </template>
 
 <template name="PrivateLayout">
-	<div id="content" class="sticky-wrapper">
-		<div id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
-			<div class="navbar-container container">
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-						<span class="sr-only">
-							Toggle navigation
-						</span>
-						<span class="icon-bar">
-						</span>
-						<span class="icon-bar">
-						</span>
-						<span class="icon-bar">
-						</span>
-					</button>
-					<a class="navbar-brand" href="/">
-                        Date your prof
-					</a>
-				</div>
-				<div id="menu" class="collapse navbar-collapse">
-					{{> PrivateLayoutLeftMenu}}{{> PrivateLayoutRightMenu}}
-				</div>
-			</div>
-		</div>
-		<div class="navbar-spacer">
-		</div>
-		{{> yield}}
-	</div>
-	<div id="footer" class="sticky-footer">
-		<div class="footer-container container">
-			<p class="text-muted">
-                &copy; DateYourProf 2017 - DateYourProf Team - Frankfurt University of Applied Sciences | BUILD_ANCHOR
-			</p>
-		</div>
-	</div>
+    <div id="menu" class="collapse navbar-collapse">
+        {{> PrivateLayoutLeftMenu}}{{> PrivateLayoutRightMenu}}
+    </div>
 </template>
 
 <template name="PrivateLayoutLeftMenu">
