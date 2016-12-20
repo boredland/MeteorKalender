@@ -44,8 +44,14 @@ if (Meteor.isServer) {
         'calendars.remove'(calendarId){
             //check whether the ID which should be deleted is a String
             check(calendarId, String);
-            Calendars.remove({_id: calendarId, userId: this.userId});
+            return Calendars.remove({_id: calendarId, userId: this.userId});
         },
+        'calendars.updatePublishedState'(calendarId,status){
+            //check whether the ID which should be deleted is a String
+            check(calendarId, String);
+            check(status, Boolean);
+            return Calendars.update({_id: calendarId, userId: this.userId},{$set: {published: status}});
+        }
     });
 };
 

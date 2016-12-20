@@ -10,7 +10,7 @@ Template.Calendars.onCreated(function bodyOnCreated() {
 Template.Calendars.events({
     "change #published": (function(event, template) {
         var status = event.target.checked;
-        console.log("status of the checkbox of "+this.name+" changed to "+status)
+        Meteor.call('calendars.updatePublishedState',this._id,status);
     }),
     "click #delete-button": function(e) {
         e.preventDefault();
@@ -70,6 +70,15 @@ Template.Calendars.events({
         document.execCommand("copy");
         // Remove the input from the body
         document.body.removeChild(aux);
+
+        bootbox.dialog({
+            message: "Link is copied!",
+            animate: true,
+            size: 'small',
+            closeButton: true,
+            onEscape: true,
+            backdrop: true
+        })
     }
 });
 
