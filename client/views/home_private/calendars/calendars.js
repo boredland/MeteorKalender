@@ -8,9 +8,12 @@ Template.Calendars.onCreated(function bodyOnCreated() {
 );
 
 Template.Calendars.events({
+    "change #published": (function(event, template) {
+        var status = event.target.checked;
+        console.log("status of the checkbox of "+this.name+" changed to "+status)
+    }),
     "click #delete-button": function(e) {
         e.preventDefault();
-        var me = this;
         bootbox.dialog({
             message: "Do you want to delete this calendar?",
             title: "Delete calendar",
