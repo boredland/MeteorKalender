@@ -7,7 +7,16 @@ Template.CalendarPublic.helpers({
       return Calendars.findOne({}).name;
     },
     publicCalendarOptions: function(){
-      return getCalendarOptions(getCalendarEvents(Availabilities.find({}),Calendars,false),pageSession);
+        return {
+            events: function(start, end, timezone, callback) {
+                callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,false));
+            },
+            eventClick: function(calEvent, jsEvent, view) {
+                calendarClickOptions(calEvent);
+            },
+            defaultView: 'listWeek',
+            timeFormat: 'H:mm'
+        };
     },
     getPageSession: function () {
         return pageSession

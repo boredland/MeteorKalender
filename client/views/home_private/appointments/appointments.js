@@ -7,6 +7,15 @@ Template.Appointments.helpers({
         return pageSession
     },
     appointmentsCalendarOptions: function(){
-        return getCalendarOptions(getCalendarEvents(Availabilities.find({}),Calendars,true),pageSession);
+        return {
+            events: function(start, end, timezone, callback) {
+                callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,true));
+            },
+            eventClick: function(calEvent, jsEvent, view) {
+                calendarClickOptions(calEvent);
+            },
+            defaultView: 'listWeek',
+            timeFormat: 'H:mm'
+        };
     }
 });
