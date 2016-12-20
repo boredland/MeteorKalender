@@ -70,6 +70,15 @@ Template.Calendars.events({
         document.execCommand("copy");
         // Remove the input from the body
         document.body.removeChild(aux);
+
+        bootbox.dialog({
+            message: "Link is copied!",
+            animate: true,
+            size: 'small',
+            closeButton: true,
+            onEscape: true,
+            backdrop: true
+        })
     }
 });
 
