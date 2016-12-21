@@ -19,7 +19,17 @@ Template.Appointments.helpers({
                 calendarClickOptions(calEvent);
             },
             defaultView: 'listWeek',
-            timeFormat: 'H:mm'
+            timeFormat: 'H:mm',
+            header: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'listDay, listWeek, listYear'
+            },
+            buttonText: {
+                listDay: 'Day',
+                listWeek: 'Week',
+                listYear: 'Year'
+            }
         };
     }
 });
