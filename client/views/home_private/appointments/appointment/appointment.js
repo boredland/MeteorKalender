@@ -1,35 +1,4 @@
 var pageSession = getDefaultPageSession();
-var appointment;
-
-function dataReady() {
-    if (appointment){
-        return true
-    } else {
-        return false
-    }
-}
-function getCurrentAvailabilityId(){
-    var currentId = Router.current().params._eventId;
-    if (currentId !== undefined) {
-        return currentId;
-    }
-}
-
-Template.Appointment.onCreated(function bodyOnCreated() {
-    appointment = this.data;
-    pageSession.set("errorMessage", "");
-});
-
-Template.Appointment.onRendered( () => {
-
-});
-
-Template.Appointment.rendered = function() {
-
-};
-
-Template.Appointment.created = function() {
-};
 
 Template.Appointment.events({
     "click #dataview-cancel-button": function(e) {
@@ -95,26 +64,7 @@ Template.Appointment.helpers({
     getPageSession: function () {
         return pageSession
     },
-    itemsReady:function() {
-        return dataReady();
-    },
-    getFrom: function() {
-       return appointment.startDate
-    },
-    getTo: function () {
-        return appointment.endDate
-    },
-    getName:function(){
-        return appointment.bookedByName
-    },
-    getConfirmationStatus: function () {
-        return appointment.bookedByConfirmed
-    },
-    getEmail: function () {
-        return appointment.bookedByEmail
-    },
-    getBookedOn: function () {
-        return appointment.bookedByDate
+    getAppointment: function () {
+        return Availabilities.findOne({})
     }
-    
 });

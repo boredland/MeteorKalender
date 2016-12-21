@@ -16,7 +16,7 @@
                 {{infoMessage getPageSession}}
             </div>
         {{/if}}
-        {{#if itemsReady}}
+            {{#with getAppointment}}
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Appointment</h3>
@@ -26,27 +26,27 @@
                         <tbody>
                         <tr>
                             <td>Name:</td>
-                            <td>{{getName}}</td>
+                            <td>{{bookedByName}}</td>
                         </tr>
                         <tr>
                             <td>Email:</td>
-                            <td>{{getEmail}}</td>
+                            <td>{{bookedByEmail}}</td>
                         </tr>
                         <tr>
                             <td>From</td>
-                            <td>{{formatDateTime getFrom}}</td>
+                            <td>{{formatDateTime startDate}}</td>
                         </tr>
                         <tr>
                             <td>To</td>
-                            <td>{{formatDateTime getTo}}</td>
+                            <td>{{formatDateTime endDate}}</td>
                         </tr>
                         <tr>
                             <td>Booked on</td>
-                            <td>{{formatDateTime getBookedOn}}</td>
+                            <td>{{formatDateTime bookedByDate}}</td>
                         </tr>
                         <tr>
                             <td>Confirmed:</td>
-                            <td>{{getConfirmationStatus}}</td>
+                            <td>{{bookedByConfirmed}}</td>
                         </tr>
                         </tbody>
                     </table>
@@ -62,6 +62,6 @@
                     </div>
                 </div>
             </div>
-        {{/if}}
+            {{/with}}
     </div>
 </template>

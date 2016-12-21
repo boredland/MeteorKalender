@@ -281,16 +281,10 @@ Router.map(function () {
     	path: "/home_private/appointment/:_eventId",
 		controller: "AppointmentController",
 		template: "Appointment",
-		data: function () {
-			var currentAvailabilityId = this.params._eventId;
-            this.wait(Meteor.subscribe('singleAvailabilityById', currentAvailabilityId));
-            var currentAvailability = Availabilities.findOne({_id: currentAvailabilityId});
-            if (this.ready()){
-                return currentAvailability;
-                //this.render();
-            } else {
-                this.render('Loading');
-            }
+        waitOn: function () {
+            return [
+                Meteor.subscribe('singleAvailabilityById', this.params._eventId)
+            ]
         }
     });
 
