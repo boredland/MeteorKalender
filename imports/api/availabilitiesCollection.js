@@ -316,41 +316,69 @@ if (Meteor.isServer) {
             // loescht alle mit abgelaufenen reservierungen oder die kein bookedByDate gesetzt haben.
             return Availabilities.remove({
                 userId: this.userId,
-                bookedByDate: undefined
-            })
+                $or: [
+                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
+                    { bookedByDate: undefined }
+                ]
+            });
         },
         /**
          * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
-         * ggf. könnte man noch ne Methode "removeAllRepetitions" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
          * @param availabilities.removeFutureRepetitions
          */
-        'availabilities.removeFutureRepetitions'(availabilityId){
-            check(availabilityId, String);
-            var familyId = Availabilities.findOne(availabilityId).familyId;
-            var siblingStartTime = Availabilities.findOne(availabilityId).startTime ;
-
-            console.log(siblingStartTime)
-
-            //startTime in Datenstruktur abspeichern würde das vereinfachen....
-
+        'availabilities.removeFutureRepetitions'(availabilityId,fromDate_in){
+            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
+            let fromDate;
+            if (!fromDate_in){
+                fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
+            } else {
+                fromDate = moment(fromDate_in).hour(moment(currentAvailability.startDate).get('h')).minute(moment(currentAvailability.startDate).get('m')).second(1).millisecond(0); // ugly and to much, but should work now.
+            }
+            return Availabilities.find({
+                userId: this.userId,
+                $or: [
+                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
+                    { bookedByDate: undefined }
+                ],
+                familyId: currentAvailability.familyId
+            }).forEach( function(availability){
+                    if (
+                        (fromDate.get('h') === moment(availability.startDate).get('h'))&&
+                        (fromDate.get('m') === moment(availability.startDate).get('m'))&&
+                        (availability.startDate >= new Date(fromDate))
+                    ) {
+                        return Meteor.call('availabilities.remove',availability._id);
+                    }
+                }
+            )
         },
         /**
          * Delete this and all future events of the family. Still not so sure if that is good in means of usability.
-         * ggf. könnte man noch ne Methode "removeAllFamily" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
          * @param availabilityId
          * @returns {null}
          */
-        'availabilities.removeByFamilyId'(availabilityId){
-            check(availabilityId, String);
-
-            var deletethis = Availabilities.findOne(availabilityId);
-            if (this.userId !== deletethis.userId) {
-                throw new Meteor.Error('not-authorized');
+        'availabilities.removeFutureFamily'(availabilityId,fromDate_in){
+            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
+            let fromDate;
+            if (!fromDate_in){
+                fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
+            } else {
+                fromDate = moment(fromDate_in);
             }
-
-            var familyId = Availabilities.findOne(availabilityId).familyId;
-            Availabilities.remove({familyId: familyId, bookedByDate: undefined})
-
+            return Availabilities.find({
+                userId: this.userId,
+                $or: [
+                    { bookedByDate: {$lt: new Date(moment().add(-reservationThreshold,'m'))}, bookedByConfirmed: false },
+                    { bookedByDate: undefined },
+                ],
+                familyId: currentAvailability.familyId
+            }).forEach(
+                function(availability){
+                    if (moment(availability.startDate) >= fromDate) {
+                        return Meteor.call('availabilities.remove',availability._id);
+                    }
+                }
+            )
         }
     });
 }
