@@ -26,16 +26,13 @@
             <thead id="dataview-table-header">
             <tr id="dataview-table-header-row">
                 <th>
+                    &nbsp;
+                </th>
+                <th>
                     Name
                 </th>
                 <th>
-                    Color
-                </th>
-                <th>
                     Published
-                </th>
-                <th>
-                    &nbsp;
                 </th>
                 <th>
                     &nbsp;
@@ -56,17 +53,17 @@
 <template name="calendar">
     <tbody id="dataview-table-items">
     <tr id="dataview-table-items-row">
+        <td class="td-icon">
+            <td class="fc-event-dot" style="background-color: {{color}};margin-top: 45%;"></td>
+        </td>
         <td>
-            {{name}}
+        {{name}}
         </td>
         <!--
         <td>
             {{location}}
         </td>
         -->
-        <td>
-            <td style="background-color: {{color}};width: 25px;height: 25px"></td>
-        </td>
         <td>
             <input id="published" type="checkbox" {{isPublished published}}>
         </td>
