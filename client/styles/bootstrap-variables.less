@@ -3,18 +3,20 @@
 // These simply override any default bootstrap variables.
 // This means that you may delete anything in this file
 // and the default bootstrap values will be used instead.
-
-
-
 @media(min-width:768px){
-  #subcontent {
-    margin-top: 84px
-  }
   .panel {
-    margin-top: 84px
+    margin-top: 30px;
+  }
+  .navbar-spacer {
+    margin-top: 20px;
   }
 }
 
+@media(max-width:768px){
+  .navbar-spacer {
+    height: 0px;
+  }
+}
 
 //== Colors
 //
