@@ -31,6 +31,9 @@
                 <th>
                     Name
                 </th>
+                <th class="not-mobile">
+                    Location
+                </th>
                 <th>
                     Published
                 </th>
@@ -59,11 +62,9 @@
         <td>
         {{name}}
         </td>
-        <!--
-        <td>
+        <td class="not-mobile">
             {{location}}
         </td>
-        -->
         <td>
             <input id="published" type="checkbox" {{isPublished published}}>
         </td>
