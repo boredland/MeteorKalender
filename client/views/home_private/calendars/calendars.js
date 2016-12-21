@@ -10,10 +10,12 @@ Template.Calendars.onCreated(function bodyOnCreated() {
 Template.Calendars.events({
     "change #published": (function(event, template) {
         var status = event.target.checked;
+
         Meteor.call('calendars.updatePublishedState',this._id,status);
     }),
     "click #delete-button": function(e) {
         e.preventDefault();
+        var me = this;
         bootbox.dialog({
             message: "Do you want to delete this calendar?",
             title: "Delete calendar",
