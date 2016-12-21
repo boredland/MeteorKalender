@@ -19,9 +19,7 @@
                 {{infoMessage getPageSession}}
             </div>
         {{/if}}
-        {{#if itemsReady}}
-            {{> quickForm collection="Availabilities" doc=updateDoc id="availabilityUpdateForm" type="update"}}
-        {{/if}}
+        {{> quickForm collection="Availabilities" doc=updateDoc id="availabilityUpdateForm" type="update"}}
         <div id="dataview-controls-delete" class="form-group {{deleteButtonClass}}">
             <button type="submit" id="Back-button" class="btn btn-default">
                 Back

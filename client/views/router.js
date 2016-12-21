@@ -241,15 +241,6 @@ Router.map(function () {
                 Meteor.subscribe('singleAvailabilityById', this.params._eventId),
             	Meteor.subscribe('allCalendars')
             ]
-        },
-        data: function () {
-            if (this.ready()){
-            	var availability = Availabilities.findOne({_id: this.params._eventId});
-                return availability;
-                //this.render();
-            } else {
-                this.render('Loading');
-            }
         }
 	});
     this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
@@ -291,5 +282,14 @@ Router.map(function () {
     // Calendars
     this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
     this.route("home_private.new_calendar", {path: "/home_private/new_calendar", controller: "NewCalendarController"});
-    this.route("home_private.edit_calendar", {path: "/home_private/edit_calendar/:_calendarId", controller: "EditCalendarController"});
+    this.route("home_private.edit_calendar", {
+    	path: "/home_private/edit_calendar/:_calendarId",
+		controller: "EditCalendarController",
+        template: "EditCalendar",
+        waitOn: function () {
+            return [
+                Meteor.subscribe('singleCalendar',this.params._calendarId)
+            ]
+        }
     });
+});

@@ -4,31 +4,6 @@ var availability;
 var pageSession = getDefaultPageSession();
 
 window.Availabilities = Availabilities;
-function getCurrentAvailabilityId(){
-    var currentId = Router.current().params._eventId;
-    if (currentId !== undefined) {
-        return currentId;
-    }
-}
-function dataReady() {
-    if (availability){
-        return true
-    } else {
-        return false
-    }
-}
-
-Template.EditAvailability.onCreated(function bodyOnCreated() {
-    availability = this.data;
-});
-
-Template.EditAvailability.rendered = function() {
-
-};
-
-Template.EditAvailability.created = function() {
-
-};
 
 Template.EditAvailability.events({
     "click #Back-button": function(e, t) {
@@ -138,10 +113,7 @@ Template.EditAvailability.events({
 
 Template.EditAvailability.helpers({
     updateDoc: function () {
-        return availability;
-    },
-    itemsReady:function() {
-        return dataReady();
+        return Availabilities.findOne({});
     },
     getPageSession: function () {
         return pageSession
