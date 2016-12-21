@@ -184,17 +184,15 @@ if (Meteor.isServer) {
                 // Send Mails if the update was successful.
                 // check if the availability is in the database.
                 let currentAvailability = Availabilities.findOne({
-                    bbookedByEmail: doc.bookedByEmail,
+                    bookedByEmail: doc.bookedByEmail,
                     bookedByName: doc.bookedByName,
                     bookedByConfirmed: false,
-                    bookedByDate: new Date(),
                     bookedByCalendarId: doc.bookedByCalendarId,
                     bookedByConfirmationToken: verificationToken,
                     bookedByCancellationToken: cancellationToken
                 });
                 let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
                 if (currentAvailability !== undefined){
-                    this.unblock();
                     sendMail({
                         to: doc.bookedByEmail,
                         subject: "Your reservation needs confirmation",
