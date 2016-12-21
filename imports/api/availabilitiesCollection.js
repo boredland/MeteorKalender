@@ -257,25 +257,24 @@ if (Meteor.isServer) {
          * @param cancellationToken
          */
         'booking.cancelByToken'(cancellationToken){
-            let currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken});
-            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            if (currentAvailability !== undefined){
-                console.log(currentAvailability.userId); // mit der könnte man wohl noch die mailadresse des profs raussuchen
-                console.log(Meteor.user(currentAvailability.userId).emails[0].address)
-                return Meteor.call('booking.cancel',currentAvailability._id,function () {
-                    sendMail({
-                        to: currentAvailability.bookedByEmail,
-                        subject: "You have cancelled your appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
-                        text: "Hello "+currentAvailability.bookedByName+",\n"+
-                        "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled."
+            let currentCalendar,currentAvailability;
+            if ((currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken})) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))){
+                    return Meteor.call('booking.cancel',currentAvailability._id,function () {
+                        sendMail({
+                            to: currentAvailability.bookedByEmail,
+                            subject: "You have cancelled your appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
+                            text: "Hello "+currentAvailability.bookedByName+",\n"+
+                            "your booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+" has been cancelled."
+                        });
+                        sendMail({
+                            to: Meteor.user(currentAvailability.userId).emails[0].address,
+                            subject: "Meeting at "+formatDateTime(currentAvailability.startDate)+" canceled",
+                            text: "Hello "+Meteor.user(currentAvailability.userId).profile.name+",\n"+
+                            currentAvailability.bookedByName+" has cancelled his booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+"."
+                        })
                     });
-                    sendMail({
-                        to: Meteor.user(currentAvailability.userId).emails[0].address,
-                        subject: "Meeting at "+formatDateTime(currentAvailability.startDate)+" canceled",
-                        text: "Hello "+Meteor.user(currentAvailability.userId).profile.name+",\n"+
-                        currentAvailability.bookedByName+" has cancelled his booking for "+currentCalendar.name+" from "+formatDateTime(currentAvailability.startDate)+" to "+formatDateTime(currentAvailability.endDate)+"."
-                    })
-                });
+            } else {
+                throw Meteor.Error("token-expired","This token has either already been used or does not exist.")
             }
         },
         /**
