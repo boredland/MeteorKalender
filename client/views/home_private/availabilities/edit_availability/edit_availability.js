@@ -21,8 +21,6 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-primary",
                     callback: function() {
-                        /*Meteor.call('availabilities.remove', getCurrentAvailabilityId());
-                         Router.go('home_private.availabilities');*/
                         dialog_delete.modal('hide');
                         var dialog_future_past = bootbox.dialog({
                             title: "Repetitons?",
@@ -43,7 +41,7 @@ Template.EditAvailability.events({
                                                     label: "Yes",
                                                     className: "btn-primary",
                                                     callback: function() {
-                                                        Meteor.call('availabilities.removeFutureFamily', getCurrentAvailabilityId());
+                                                        Meteor.call('availabilities.removeFutureFamily', Availabilities.findOne({})._id);
                                                         Router.go('home_private.availabilities');
                                                     }
                                                 },
@@ -51,7 +49,7 @@ Template.EditAvailability.events({
                                                     label: "No",
                                                     className: "btn-default",
                                                     callback: function() {
-                                                        Meteor.call('availabilities.removeFutureRepetitions', getCurrentAvailabilityId());
+                                                        Meteor.call('availabilities.removeFutureRepetitions', Availabilities.findOne({})._id);
                                                         Router.go('home_private.availabilities');
                                                     }
                                                 }
@@ -73,7 +71,7 @@ Template.EditAvailability.events({
                                                     label: "Yes",
                                                     className: "btn-primary",
                                                     callback: function() {
-                                                        Meteor.call('availabilities.removeFutureFamily', getCurrentAvailabilityId(),new Date());
+                                                        Meteor.call('availabilities.removeFutureFamily', Availabilities.findOne({})._id,new Date());
                                                         Router.go('home_private.availabilities');
                                                     }
                                                 },
@@ -81,7 +79,7 @@ Template.EditAvailability.events({
                                                     label: "No",
                                                     className: "btn-default",
                                                     callback: function() {
-                                                        Meteor.call('availabilities.removeFutureRepetitions', getCurrentAvailabilityId(),new Date());
+                                                        Meteor.call('availabilities.removeFutureRepetitions', Availabilities.findOne({})._id,new Date());
                                                         Router.go('home_private.availabilities');
                                                     }
                                                 }
@@ -93,7 +91,7 @@ Template.EditAvailability.events({
                                     label: "No",
                                     className: "btn-default",
                                     callback: function () {
-                                        Meteor.call('availabilities.remove', getCurrentAvailabilityId());
+                                        Meteor.call('availabilities.remove', Availabilities.findOne({})._id);
                                         Router.go('home_private.availabilities');
                                     }
                                 }

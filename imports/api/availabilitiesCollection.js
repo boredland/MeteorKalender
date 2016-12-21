@@ -18,7 +18,6 @@ Meteor.startup(function () {
     }
 });
 
-
 // it is best practice to explicitly allow crud-actions
 Availabilities.allow({
     insert: function (endTime, repeatInterval, repeatUntil, startDate, startTime) {
@@ -34,49 +33,13 @@ if (Meteor.isServer) {
         return Meteor.call('sendMail', options);
     };
 
-    /**
-     * Funktion checkt ob die Daten für den Insert ok sind
-     * @param startTime
-     * @param endTime
-     * @param doc
-     * @param thisUserId
-     */
-    let checkInsertionConditions = function (startTime, endTime, doc, thisUserId) {
-        let duration = Math.round((moment(doc.endTime) - moment(doc.startTime)) / (1000 * 60));
-        if (startTime > endTime) {
-            throw new EvalError("Startdate: " + startTime + " is bigger than Enddate " + endTime);
-        }
-        if (duration < doc.chunkDuration) {
-            throw new EvalError("Duration " + duration + " is shorter than Chunkperiod " + doc.chunkDuration);
-        }
-        if (!thisUserId) {
-            throw new Meteor.Error('not-authorized');
-        }
-    };
-
-    /**
-     * Funktion fügt Daten in die MongoDB Collection ein.
-     * @param thisUserId
-     * @param startDate
-     * @param endDate
-     * @param calendarID
-     * @param familyId
-     */
-    let insertAvailability = function (thisUserId, startDate, endDate, calendarID, familyId) {
-        return Availabilities.insert({
-            userId: thisUserId,
-            startDate: startDate,
-            endDate: endDate,
-            calendarId: calendarID,
-            familyId: familyId
-        });
-    };
-    /**
-     * This will check that there are no Availabilities for this user at the same time or overlapping times.
-     */
     Availabilities.before.insert(function (userId, doc) {
         let new_startdate = new Date(doc.startDate);
         let new_enddate = new Date(doc.endDate);
+        let duration = Math.round((moment(doc.endDate) - moment(doc.startDate)) / (1000 * 60));
+        /**
+         * This will check that there are no Availabilities for this user at the same time or overlapping times.
+         */
         Availabilities.find({userId: doc.userId, startDate: {$gt: new Date()}}).fetch().map((availability) => {
             if (availability !== undefined) {
                 let existing_startdate = new Date(availability.startDate);
@@ -98,6 +61,18 @@ if (Meteor.isServer) {
             }
             return true;
         });
+        /**
+         * This will check that the startdate is not after the enddate
+         */
+        if (new_startdate > new_enddate) {
+            throw new EvalError("Startdate: " + new_startdate + " is bigger than Enddate " + new_enddate);
+        }
+        /**
+         * This will check that the actual duration of the insertion is not smaller than the chunks duration. Do we really need that??
+         */
+        if (duration < doc.chunkDuration) {
+            throw new EvalError("Duration " + duration + " is shorter than Chunkperiod " + doc.chunkDuration);
+        }
     });
     /**
      * Checks vor dem Löschvorgang
@@ -112,7 +87,163 @@ if (Meteor.isServer) {
             throw Meteor.Error("is-reserved", "This availibility is reserved and therefor only can be cancelled.")
         }
     });
+
+    /**
+     * Serverseitige methoden. Bisher würde ich sagen müssen hier nur die Dinge hin, die emails verschicken...
+     */
+    Meteor.methods({
+        /**
+         * Erstellt eine Buchung.
+         * @param doc
+         */
+        'booking.insert'(doc){
+            // check if this has an peding active reservation
+            if (Availabilities.findOne({
+                    _id: doc.availabilityId,
+                    bookedByDate: {$gt: new Date(moment().add(-reservationThreshold, 'm'))}
+                })) {
+                throw new Meteor.Error("pending-reservation", "This availability has a pending reservation and therefore can't be reserved at this point.")
+            }
+            //generate our random verification token
+            let verificationToken = Random.id();
+            // generate our random cancellation-token
+            let cancellationToken = Random.id();
+            Availabilities.update(doc.availabilityId, {
+                $set: {
+                    bookedByEmail: doc.bookedByEmail,
+                    bookedByName: doc.bookedByName,
+                    bookedByConfirmed: false,
+                    bookedByDate: new Date(),
+                    bookedByCalendarId: doc.bookedByCalendarId,
+                    bookedByConfirmationToken: verificationToken,
+                    bookedByCancellationToken: cancellationToken
+                }
+            }, function () {
+                // Send Mails if the update was successful.
+                // check if the availability is in the database.
+                let currentAvailability = Availabilities.findOne({
+                    bookedByEmail: doc.bookedByEmail,
+                    bookedByName: doc.bookedByName,
+                    bookedByConfirmed: false,
+                    bookedByCalendarId: doc.bookedByCalendarId,
+                    bookedByConfirmationToken: verificationToken,
+                    bookedByCancellationToken: cancellationToken
+                });
+                let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+                if (currentAvailability !== undefined) {
+                    sendMail({
+                        to: doc.bookedByEmail,
+                        subject: "Your reservation needs confirmation",
+                        text: "Hello " + doc.bookedByName + ",\n" +
+                        "Thank you for your reservation for an availability at " + currentCalendar.name + ". \n" +
+                        "We need you to click at the following link to activate your booking: \n" +
+                        Meteor.absoluteUrl() + "verify_booking/" + currentAvailability.bookedByConfirmationToken + "\n"
+                    });
+                    return true;
+                } else {
+                    throw new Meteor.Error('booking-error', "There was an error saving your booking information.");
+                }
+            });
+        },
+        /**
+         * setzt eine Availability auf "booking confirmed".
+         * @param availabilityId ID der Availability
+         */
+        'booking.confirm'(verifyBookingToken){
+            let currentAvailability = Availabilities.findOne({
+                bookedByConfirmed: false,
+                bookedByConfirmationToken: verifyBookingToken
+            }, {});
+            if (currentAvailability !== undefined) {
+                let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+                if (currentCalendar !== undefined) {
+                    return Availabilities.update(currentAvailability._id, {
+                        $set: {
+                            bookedByConfirmed: true,
+                            bookedByConfirmationToken: null
+                        }
+                    }, function () {
+                        sendMail({
+                            to: currentAvailability.bookedByEmail,
+                            subject: "You have an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
+                            text: "Hello " + currentAvailability.bookedByName + ",\n" +
+                            "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been confirmed. \n" +
+                            "\nIf you'd like to cancel the meeting, you'll have to click at the following link: " +
+                            Meteor.absoluteUrl() + "cancel_booking/" + currentAvailability.bookedByCancellationToken
+                        });
+                    });
+                } else {
+                    throw new Meteor.Error('confirmation-error', "There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
+                }
+            } else {
+                throw new Meteor.Error('confirmation-error', "There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
+            }
+        },
+        /**
+         * Setzt die Buchung zurück
+         * @param availabilityID
+         */
+        'booking.cancel'(availabilityId){
+            return Availabilities.update({_id: availabilityId}, {
+                $set: {
+                    bookedByName: null,
+                    bookedByDate: null,
+                    bookedByEmail: null,
+                    bookedByConfirmed: false,
+                    bookedByCancellationToken: null,
+                    bookedByCalendarId: null,
+                }
+            });
+        },
+        /**
+         * Methode um eine Buchung anhand des Stornierungstoken zu canceln.
+         * @param cancellationToken
+         */
+        'booking.cancelByToken'(cancellationToken){
+            let currentCalendar, currentAvailability;
+            if ((currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken})) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
+                return Meteor.call('booking.cancel', currentAvailability._id, function () {
+                    sendMail({
+                        to: currentAvailability.bookedByEmail,
+                        subject: "You have cancelled your appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
+                        text: "Hello " + currentAvailability.bookedByName + ",\n" +
+                        "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been cancelled."
+                    });
+                    sendMail({
+                        to: Meteor.user(currentAvailability.userId).emails[0].address,
+                        subject: "Meeting at " + formatDateTime(currentAvailability.startDate) + " canceled",
+                        text: "Hello " + Meteor.user(currentAvailability.userId).profile.name + ",\n" +
+                        currentAvailability.bookedByName + " has cancelled his booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + "."
+                    })
+                });
+            } else {
+                throw Meteor.Error("token-expired", "This token has either already been used or does not exist.")
+            }
+        },
+        /**
+         * Methode um eine Buchung durch den Besitzer zu canceln.
+         * @param availabilityId
+         * @param reason
+         */
+        'booking.cancelByOwner'(availabilityId, reason){
+            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
+            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+            return Meteor.call('booking.cancel', currentAvailability._id, function () {
+                let message;
+                if (reason !== undefined) {
+                    message = "\nHe added the following message for you: \n" + reason;
+                }
+                sendMail({
+                    to: currentAvailability.bookedByEmail,
+                    subject: Meteor.user(currentAvailability.userId).profile.name + " has cancelled your appointment",
+                    text: "Hello " + currentAvailability.bookedByName + ",\n" +
+                    "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been cancelled by " + Meteor.user(currentAvailability.userId).profile.name + "." + message
+                });
+            });
+        }
+    });
 }
+
 /**
  *     TODO: Bestimmen, welche Methoden auf den Client laufen dürfen.
  */
@@ -126,9 +257,7 @@ Meteor.methods({
         let startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
         let endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
         let repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
-        let familyid = Random.id().substring(0, 4);
-
-        checkInsertionConditions(startTime, endTime, doc, this.userId);
+        let familyId = Random.id().substring(0, 4);
         let startTimeModified = startTime;
         let endTimeModified = endTime;
         let overlapErrorCount = 0;
@@ -141,7 +270,13 @@ Meteor.methods({
                     let chunkStartTime = chunkEndTime;
                     chunkEndTime = moment(chunkEndTime).add(doc.chunkDuration, 'm');
                     try {
-                        insertAvailability(this.userId, new Date(chunkStartTime.seconds(1)), new Date(chunkEndTime.seconds(0)), doc.calendarId, familyid);
+                        Availabilities.insert({
+                            userId: this.userId,
+                            startDate: new Date(chunkStartTime.seconds(1)),
+                            endDate: new Date(chunkEndTime.seconds(0)),
+                            calendarId: doc.calendarId,
+                            familyId: familyId
+                        });
                     } catch (err) {
                         if (err.error === "overlap") {
                             overlapErrorCount++;
@@ -157,155 +292,6 @@ Meteor.methods({
         if (overlapErrorCount > 0 || bankHolidayCount > 0) {
             throw new Meteor.Error('overlap', overlapErrorCount + " overlapping availabilities and " + bankHolidayCount + " bank holidays skipped.");
         }
-    },
-    /**
-     * Erstellt eine Buchung.
-     * @param doc
-     */
-    'booking.insert'(doc){
-        // check if this has an peding active reservation
-        if (Availabilities.findOne({
-                _id: doc.availabilityId,
-                bookedByDate: {$gt: new Date(moment().add(-reservationThreshold, 'm'))}
-            })) {
-            throw new Meteor.Error("pending-reservation", "This availability has a pending reservation and therefore can't be reserved at this point.")
-        }
-        //generate our random verification token
-        let verificationToken = Random.id();
-        // generate our random cancellation-token
-        let cancellationToken = Random.id();
-        Availabilities.update(doc.availabilityId, {
-            $set: {
-                bookedByEmail: doc.bookedByEmail,
-                bookedByName: doc.bookedByName,
-                bookedByConfirmed: false,
-                bookedByDate: new Date(),
-                bookedByCalendarId: doc.bookedByCalendarId,
-                bookedByConfirmationToken: verificationToken,
-                bookedByCancellationToken: cancellationToken
-            }
-        }, function () {
-            // Send Mails if the update was successful.
-            // check if the availability is in the database.
-            let currentAvailability = Availabilities.findOne({
-                bookedByEmail: doc.bookedByEmail,
-                bookedByName: doc.bookedByName,
-                bookedByConfirmed: false,
-                bookedByCalendarId: doc.bookedByCalendarId,
-                bookedByConfirmationToken: verificationToken,
-                bookedByCancellationToken: cancellationToken
-            });
-            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            if (currentAvailability !== undefined) {
-                sendMail({
-                    to: doc.bookedByEmail,
-                    subject: "Your reservation needs confirmation",
-                    text: "Hello " + doc.bookedByName + ",\n" +
-                    "Thank you for your reservation for an availability at " + currentCalendar.name + ". \n" +
-                    "We need you to click at the following link to activate your booking: \n" +
-                    Meteor.absoluteUrl() + "verify_booking/" + currentAvailability.bookedByConfirmationToken + "\n"
-                });
-                return true;
-            } else {
-                throw new Meteor.Error('booking-error', "There was an error saving your booking information.");
-            }
-        });
-    },
-    /**
-     * setzt eine Availability auf "booking confirmed".
-     * @param availabilityId ID der Availability
-     */
-    'booking.confirm'(verifyBookingToken){
-        let currentAvailability = Availabilities.findOne({
-            bookedByConfirmed: false,
-            bookedByConfirmationToken: verifyBookingToken
-        }, {});
-        if (currentAvailability !== undefined) {
-            let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            if (currentCalendar !== undefined) {
-                return Availabilities.update(currentAvailability._id, {
-                    $set: {
-                        bookedByConfirmed: true,
-                        bookedByConfirmationToken: null
-                    }
-                }, function () {
-                    sendMail({
-                        to: currentAvailability.bookedByEmail,
-                        subject: "You have an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
-                        text: "Hello " + currentAvailability.bookedByName + ",\n" +
-                        "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been confirmed. \n" +
-                        "\nIf you'd like to cancel the meeting, you'll have to click at the following link: " +
-                        Meteor.absoluteUrl() + "cancel_booking/" + currentAvailability.bookedByCancellationToken
-                    });
-                });
-            } else {
-                throw new Meteor.Error('confirmation-error', "There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
-            }
-        } else {
-            throw new Meteor.Error('confirmation-error', "There was an error confirming your activation. Either your token has not been found or you've already confirmed your booking.");
-        }
-    },
-    /**
-     * Setzt die Buchung zurück
-     * @param availabilityID
-     */
-    'booking.cancel'(availabilityId){
-        return Availabilities.update({_id: availabilityId}, {
-            $set: {
-                bookedByName: null,
-                bookedByDate: null,
-                bookedByEmail: null,
-                bookedByConfirmed: false,
-                bookedByCancellationToken: null,
-                bookedByCalendarId: null,
-            }
-        });
-    },
-    /**
-     * Methode um eine Buchung anhand des Stornierungstoken zu canceln.
-     * @param cancellationToken
-     */
-    'booking.cancelByToken'(cancellationToken){
-        let currentCalendar, currentAvailability;
-        if ((currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken})) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
-            return Meteor.call('booking.cancel', currentAvailability._id, function () {
-                sendMail({
-                    to: currentAvailability.bookedByEmail,
-                    subject: "You have cancelled your appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
-                    text: "Hello " + currentAvailability.bookedByName + ",\n" +
-                    "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been cancelled."
-                });
-                sendMail({
-                    to: Meteor.user(currentAvailability.userId).emails[0].address,
-                    subject: "Meeting at " + formatDateTime(currentAvailability.startDate) + " canceled",
-                    text: "Hello " + Meteor.user(currentAvailability.userId).profile.name + ",\n" +
-                    currentAvailability.bookedByName + " has cancelled his booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + "."
-                })
-            });
-        } else {
-            throw Meteor.Error("token-expired", "This token has either already been used or does not exist.")
-        }
-    },
-    /**
-     * Methode um eine Buchung durch den Besitzer zu canceln.
-     * @param availabilityId
-     * @param reason
-     */
-    'booking.cancelByOwner'(availabilityId, reason){
-        let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
-        let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-        return Meteor.call('booking.cancel', currentAvailability._id, function () {
-            let message;
-            if (reason !== undefined) {
-                message = "\nHe added the following message for you: \n" + reason;
-            }
-            sendMail({
-                to: currentAvailability.bookedByEmail,
-                subject: Meteor.user(currentAvailability.userId).profile.name + " has cancelled your appointment",
-                text: "Hello " + currentAvailability.bookedByName + ",\n" +
-                "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been cancelled by " + Meteor.user(currentAvailability.userId).profile.name + "." + message
-            });
-        });
     },
     /**
      * Löscht eine Availability.
