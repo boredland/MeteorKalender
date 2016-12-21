@@ -29,6 +29,7 @@ iron:router
 matb33:collection-hooks
 perak:user-roles
 copleykj:livestamp
+less@2.7.8
 reactive-dict@1.1.8
 mrt:moment
 mizzao:bootboxjs
@@ -47,4 +48,4 @@ altapp:recaptcha
 practicalmeteor:chai
 votercircle:winston
 huttonr:bootstrap3
-twbs:bootstrap
+fortawesome:fontawesome
