@@ -4,18 +4,15 @@ import { Meteor } from 'meteor/meteor';
 
 var pageSession = getDefaultPageSession();
 
-
-Template.Availabilities.onCreated(function() {
-
-});
+Template.Availabilities.rendered = function() {
+    pageSession = nullMessages(pageSession);
+};
 
 Template.Availabilities.events({
     "click #dataview-insert-button": function(e, t) {
         e.preventDefault();
         Router.go("home_private.new_availability", {});
-    }
-});
-Template.Availabilities.events({
+    },
     "click #delete-all-button": function(e) {
         e.preventDefault();
         bootbox.dialog({

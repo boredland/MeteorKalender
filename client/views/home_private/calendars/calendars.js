@@ -2,10 +2,15 @@ import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
 var pageSession = getDefaultPageSession();
 
+//var pageSession = getDefaultPageSession();
+
 Template.Calendars.onCreated(function bodyOnCreated() {
-        Meteor.subscribe('allCalendars');
-    }
-);
+    Meteor.subscribe('allCalendars');
+});
+
+Template.Calendars.rendered = function() {
+    pageSession = nullMessages(pageSession);
+};
 
 Template.Calendars.events({
     "change #published": (function(event, template) {
