@@ -9,7 +9,7 @@ Template.Login.rendered = function() {
 Template.Login.events({
 	"submit #login_form": function(e, t) {
 		e.preventDefault();
-		setErrorMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var submit_button = $(t.find(":submit"));
 
@@ -46,7 +46,7 @@ Template.Login.events({
 
 	"click #login-with-google": function(e, t) {
 		e.preventDefault();
-		setErrorMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -70,7 +70,7 @@ Template.Login.events({
 
 	"click #login-with-github": function(e, t) {
 		e.preventDefault();
-		setErrorMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -94,7 +94,7 @@ Template.Login.events({
 
 	"click #login-with-linkedin": function(e, t) {
 		e.preventDefault();
-		setErrorMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -118,7 +118,7 @@ Template.Login.events({
 
 	"click #login-with-facebook": function(e, t) {
 		e.preventDefault();
-		setErrorMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -142,7 +142,7 @@ Template.Login.events({
 
 	"click #login-with-twitter": function(e, t) {
 		e.preventDefault();
-		setErrorMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -166,7 +166,7 @@ Template.Login.events({
 
 	"click #login-with-meteor": function(e, t) {
 		e.preventDefault();
-		setErrorMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var button = $(e.currentTarget);
 		button.button("loading");

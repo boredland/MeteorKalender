@@ -9,7 +9,7 @@ Template.Register.rendered = function() {
 };
 
 Template.Register.created = function() {
-	setErrorMessage(pageSession, "");
+	nullMessages(pageSession);
 };
 
 Template.Register.events({
@@ -59,7 +59,7 @@ Template.Register.events({
                 console.log('There was an error: ' + error.reason);
             } else {
                 console.log('Success!');
-                setErrorMessage(pageSession, "");
+                nullMessages(pageSession);
                 Accounts.createUser({
                     email: register_email,
                     password: register_password,
@@ -74,7 +74,7 @@ Template.Register.events({
                         }
                     }
                     else {
-                        setErrorMessage(pageSession, "");
+                        nullMessages(pageSession);
                         pageSession.set("verificationEmailSent", true);
                     }
                 });

@@ -7,13 +7,13 @@ Template.CancelBooking.onCreated(function bodyOnCreated() {
         Meteor.call('booking.cancelByToken', cancelBookingToken, function (error, project) {
             if(!error && finalized === 0){
                 finalized = 1;
-                setErrorMessage(pageSession, "");
+                nullMessages(pageSession);
                 setInfoMessage(pageSession, "You successfully cancelled your booking.");
                 console.log("cancelsuccess");
             } else if (error && error.error === "cancellation-error" && finalized === 0){
                 finalized = 1;
                 setErrorMessage(pageSession, error.reason);
-                setInfoMessage(pageSession, "");
+                nullMessages(pageSession);
                 console.log("cancelerror");
             }
         });

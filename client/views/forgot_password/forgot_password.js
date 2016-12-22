@@ -1,7 +1,7 @@
 var pageSession = new ReactiveDict();
 
 Template.ForgotPassword.rendered = function() {
-	setErrorMessage(pageSession, "");
+	nullMessages(pageSession);
 	pageSession.set("resetPasswordSent", "");
 	
 	$("input[autofocus]").focus();
@@ -30,7 +30,7 @@ Template.ForgotPassword.events({
 				setErrorMessage(pageSession, err.message);
 			else
 			{
-				setErrorMessage(pageSession, "");
+				nullMessages(pageSession);
 				pageSession.set("resetPasswordSent", true);
 			}
 		});

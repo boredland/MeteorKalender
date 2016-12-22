@@ -34,7 +34,7 @@ Template.ResetPassword.events({
 			if (err)
 				setErrorMessage(pageSession, err.message);
 			else
-				setErrorMessage(pageSession, "");
+				nullMessages(pageSession);
 		});
 
 		return false;

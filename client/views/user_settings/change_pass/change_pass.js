@@ -8,8 +8,7 @@ Template.UserSettingsChangePass.events({
 	'submit #change_pass_form' : function(e, t) {
 		e.preventDefault();
 
-		setErrorMessage(pageSession, "");
-		setInfoMessage(pageSession, "");
+		nullMessages(pageSession);
 
 		var submit_button = $(t.find(":submit"));
 
@@ -51,7 +50,7 @@ Template.UserSettingsChangePass.events({
 				setErrorMessage(pageSession, err.message);
 				return false;
 			} else {
-				setErrorMessage(pageSession, "");
+				nullMessages(pageSession);
 				setInfoMessage(pageSession, "Your new password is set.");
 				t.find('#old_password').value = "";
 				t.find('#new_password').value = "";
