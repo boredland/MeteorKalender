@@ -5,7 +5,7 @@ import { Meteor } from 'meteor/meteor';
 var pageSession = getDefaultPageSession();
 
 Template.Availabilities.rendered = function() {
-    pageSession = nullMessages(pageSession);
+    nullMessages(pageSession); 
 };
 
 Template.Availabilities.events({
@@ -42,7 +42,7 @@ Template.Availabilities.helpers({
     "errorMessage": function() {
         var getError = Router.current().params.query.error;
         if (getError) {
-            pageSession.set("errorMessage", getError);
+            setErrorMessage(pageSession, getError);
         }
         return pageSession.get("errorMessage");
     },

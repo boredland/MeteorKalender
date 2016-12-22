@@ -2,14 +2,12 @@ import {Calendars} from '/imports/api/calendarsCollection';
 import { Meteor } from 'meteor/meteor';
 var pageSession = getDefaultPageSession();
 
-//var pageSession = getDefaultPageSession();
-
 Template.Calendars.onCreated(function bodyOnCreated() {
     Meteor.subscribe('allCalendars');
 });
 
 Template.Calendars.rendered = function() {
-    pageSession = nullMessages(pageSession);
+    nullMessages(pageSession);
 };
 
 Template.Calendars.events({
@@ -31,7 +29,7 @@ Template.Calendars.events({
                     callback: function() {
                         Meteor.call('calendars.remove',me._id, function(err, data) {
                             if (err && err.error === "notEmpty") {
-                                pageSession.set("errorMessage", err.reason);
+                                setErrorMessage(pageSession, err.reason);
                                 console.log(err.reason)
                             } else {
                                 Router.go('home_private.calendars');
@@ -76,7 +74,7 @@ Template.Calendars.events({
         document.execCommand("copy");
         // Remove the input from the body
         document.body.removeChild(aux);
-        pageSession.set("infoMessage", "Link is copied to your clipboard!");
+        setInfoMessage(pageSession,"Link is copied to your clipboard!");
     }
 });
 

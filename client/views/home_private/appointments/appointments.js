@@ -3,7 +3,7 @@ import {Calendars} from '/imports/api/calendarsCollection';
 var pageSession = getDefaultPageSession();
 
 Template.Appointments.rendered = function() {
-    pageSession = nullMessages(pageSession);
+    nullMessages(pageSession);
 };
 
 Template.Appointments.helpers({

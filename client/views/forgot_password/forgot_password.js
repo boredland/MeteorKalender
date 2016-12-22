@@ -1,7 +1,7 @@
 var pageSession = new ReactiveDict();
 
 Template.ForgotPassword.rendered = function() {
-	pageSession.set("errorMessage", "");
+	setErrorMessage(pageSession, "");
 	pageSession.set("resetPasswordSent", "");
 	
 	$("input[autofocus]").focus();
@@ -18,7 +18,7 @@ Template.ForgotPassword.events({
 		// check email
 		if(!isValidEmail(reset_email))
 		{
-			pageSession.set("errorMessage", "Please enter your e-mail address.");
+			setErrorMessage(pageSession, "Please enter your e-mail address.");
 			t.find('#reset_email').focus();
 			return false;
 		}
@@ -27,10 +27,10 @@ Template.ForgotPassword.events({
 		Accounts.forgotPassword({email: reset_email}, function(err) {
 			submit_button.button("reset");
 			if (err)
-				pageSession.set("errorMessage", err.message);
+				setErrorMessage(pageSession, err.message);
 			else
 			{
-				pageSession.set("errorMessage", "");
+				setErrorMessage(pageSession, "");
 				pageSession.set("resetPasswordSent", true);
 			}
 		});

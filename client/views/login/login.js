@@ -9,7 +9,7 @@ Template.Login.rendered = function() {
 Template.Login.events({
 	"submit #login_form": function(e, t) {
 		e.preventDefault();
-		pageSession.set("errorMessage", "");
+		setErrorMessage(pageSession, "");
 
 		var submit_button = $(t.find(":submit"));
 
@@ -19,7 +19,7 @@ Template.Login.events({
 		// check email
 		if(!isValidEmail(login_email))
 		{
-			pageSession.set("errorMessage", "Please enter your e-mail address.");
+			setErrorMessage(pageSession, "Please enter your e-mail address.");
 			t.find('#login_email').focus();
 			return false;
 		}
@@ -27,7 +27,7 @@ Template.Login.events({
 		// check password
 		if(login_password === "")
 		{
-			pageSession.set("errorMessage", "Please enter your password.");
+			setErrorMessage(pageSession, "Please enter your password.");
 			t.find('#login_email').focus();
 			return false;
 		}
@@ -37,7 +37,7 @@ Template.Login.events({
 			submit_button.button("reset");
 			if (err)
 			{
-				pageSession.set("errorMessage", err.message);
+				setErrorMessage(pageSession, err.message);
 				return false;
 			}
 		});
@@ -46,7 +46,7 @@ Template.Login.events({
 
 	"click #login-with-google": function(e, t) {
 		e.preventDefault();
-		pageSession.set("errorMessage", "");
+		setErrorMessage(pageSession, "");
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -59,7 +59,7 @@ Template.Login.events({
 				button.button("reset");
 				if (err)
 				{
-					pageSession.set("errorMessage", err.message);
+					setErrorMessage(pageSession, err.message);
 					return false;
 				}
 			}
@@ -70,7 +70,7 @@ Template.Login.events({
 
 	"click #login-with-github": function(e, t) {
 		e.preventDefault();
-		pageSession.set("errorMessage", "");
+		setErrorMessage(pageSession, "");
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -83,7 +83,7 @@ Template.Login.events({
 				button.button("reset");
 				if (err)
 				{
-					pageSession.set("errorMessage", err.message);
+					setErrorMessage(pageSession, err.message);
 					return false;
 				}
 			}
@@ -94,7 +94,7 @@ Template.Login.events({
 
 	"click #login-with-linkedin": function(e, t) {
 		e.preventDefault();
-		pageSession.set("errorMessage", "");
+		setErrorMessage(pageSession, "");
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -107,7 +107,7 @@ Template.Login.events({
 				button.button("reset");
 				if (err)
 				{
-					pageSession.set("errorMessage", err.message);
+					setErrorMessage(pageSession, err.message);
 					return false;
 				}
 			}
@@ -118,7 +118,7 @@ Template.Login.events({
 
 	"click #login-with-facebook": function(e, t) {
 		e.preventDefault();
-		pageSession.set("errorMessage", "");
+		setErrorMessage(pageSession, "");
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -131,7 +131,7 @@ Template.Login.events({
 				button.button("reset");
 				if (err)
 				{
-					pageSession.set("errorMessage", err.message);
+					setErrorMessage(pageSession, err.message);
 					return false;
 				}
 			}
@@ -142,7 +142,7 @@ Template.Login.events({
 
 	"click #login-with-twitter": function(e, t) {
 		e.preventDefault();
-		pageSession.set("errorMessage", "");
+		setErrorMessage(pageSession, "");
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -155,7 +155,7 @@ Template.Login.events({
 				button.button("reset");
 				if (err)
 				{
-					pageSession.set("errorMessage", err.message);
+					setErrorMessage(pageSession, err.message);
 					return false;
 				}
 			}
@@ -166,7 +166,7 @@ Template.Login.events({
 
 	"click #login-with-meteor": function(e, t) {
 		e.preventDefault();
-		pageSession.set("errorMessage", "");
+		setErrorMessage(pageSession, "");
 
 		var button = $(e.currentTarget);
 		button.button("loading");
@@ -179,7 +179,7 @@ Template.Login.events({
 				button.button("reset");
 				if (err)
 				{
-					pageSession.set("errorMessage", err.message);
+					setErrorMessage(pageSession, err.message);
 					return false;
 				}
 			}
