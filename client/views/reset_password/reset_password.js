@@ -43,8 +43,7 @@ Template.ResetPassword.events({
 });
 
 Template.ResetPassword.helpers({
-	errorMessage: function() {
-		return pageSession.get("errorMessage");
-	}
-	
+    getPageSession: function () {
+        return pageSession;
+    }
 });

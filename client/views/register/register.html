@@ -17,9 +17,9 @@
 			<h2>
 				Please sign up
 			</h2>
-			{{#if errorMessage}}
+			{{#if errorMessage getPageSession}}
 			<div class="alert alert-warning">
-				{{errorMessage}}
+				{{errorMessage getPageSession}}
 			</div>
 			{{/if}}
             <input id="register_name" type="text" class="form-control" placeholder="Your full name" required autofocus>

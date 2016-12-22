@@ -91,9 +91,9 @@ Template.Register.events({
 });
 
 Template.Register.helpers({
-	errorMessage: function() {
-		return pageSession.get("errorMessage");
-	},
+    getPageSession: function () {
+        return pageSession;
+    },
 	verificationEmailSent: function() {
 		return pageSession.get("verificationEmailSent");
 	}

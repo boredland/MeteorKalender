@@ -191,8 +191,8 @@ Template.Login.events({
 });
 
 Template.Login.helpers({
-	errorMessage: function() {
-		return pageSession.get("errorMessage");
-	}
+    getPageSession: function () {
+        return pageSession;
+    }
 	
 });

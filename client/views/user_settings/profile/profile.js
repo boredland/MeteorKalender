@@ -88,11 +88,7 @@ Template.UserSettingsProfileEditForm.events({
 });
 
 Template.UserSettingsProfileEditForm.helpers({
-	"infoMessage": function() {
-		return pageSession.get("userSettingsProfileEditFormInfoMessage");
-	},
-	"errorMessage": function() {
-		return pageSession.get("userSettingsProfileEditFormErrorMessage");
-	}
-	
+    getPageSession: function () {
+        return pageSession;
+    }
 });

@@ -47,10 +47,9 @@ Template.ForgotPassword.events({
 });
 
 Template.ForgotPassword.helpers({
-	errorMessage: function() {
-		return pageSession.get("errorMessage");
-	},
-
+    getPageSession: function () {
+        return pageSession;
+    },
 	resetPasswordSent: function() {
 		return pageSession.get("resetPasswordSent");
 	}

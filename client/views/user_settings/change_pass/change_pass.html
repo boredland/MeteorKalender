@@ -4,15 +4,15 @@
 			<h2>
 				Change password
 			</h2>
-			{{#if errorMessage}}
+			{{#if errorMessage getPageSession}}
 			<div class="alert alert-warning">
-				{{errorMessage}}
+				{{errorMessage getPageSession}}
 			</div>
 			{{/if}}
 
-			{{#if infoMessage}}
+			{{#if infoMessage getPageSession}}
 			<div class="alert alert-success">
-				{{infoMessage}}
+				{{infoMessage getPageSession}}
 			</div>
 			{{/if}}
 			<input id="old_password" type="password" class="form-control" placeholder="Your old password" required autofocus>

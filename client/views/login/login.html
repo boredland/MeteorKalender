@@ -4,9 +4,9 @@
 			<h2>
 				Please sign in
 			</h2>
-			{{#if errorMessage}}
+			{{#if errorMessage getPageSession}}
 			<div class="alert alert-warning">
-				{{errorMessage}}
+				{{errorMessage getPageSession}}
 			</div>
 			{{/if}}
 			<div id="login-with-password" style="padding-top: 10px;">

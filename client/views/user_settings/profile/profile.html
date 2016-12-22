@@ -16,15 +16,15 @@
 			Edit your profile
 		</h2>
 		<form role="form">
-			{{#if errorMessage}}
+			{{#if errorMessage getPageSession}}
 			<div class="alert alert-warning">
-				{{errorMessage}}
+				{{errorMessage getPageSession}}
 			</div>
 			{{/if}}
 
-			{{#if infoMessage}}
+			{{#if infoMessage getPageSession}}
 			<div class="alert alert-success">
-				{{infoMessage}}
+				{{infoMessage getPageSession}}
 			</div>
 			{{/if}}
 			<div class="form-group  field-profile-name">

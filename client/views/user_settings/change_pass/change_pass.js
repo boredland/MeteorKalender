@@ -64,11 +64,7 @@ Template.UserSettingsChangePass.events({
 });
 
 Template.UserSettingsChangePass.helpers({
-	errorMessage: function() {
-		return pageSession.get("errorMessage");
-	},
-	infoMessage: function() {
-		return pageSession.get("infoMessage");
-	}
-	
+    getPageSession: function () {
+        return pageSession;
+    }
 });
