@@ -25,9 +25,9 @@ Template.Appointment.events({
                                 label: "Yes, and delete availability",
                                 className: "btn-primary",
                                 callback: function() {
-                                    Meteor.call('booking.cancelByOwner',getCurrentAvailabilityId(),reason, function(error, result){
+                                    Meteor.call('booking.cancelByOwner',Availabilities.findOne({})._id,reason, function(error, result){
                                         if (!error){
-                                            Meteor.call('availabilities.remove',getCurrentAvailabilityId());
+                                            Meteor.call('availabilities.remove',Availabilities.findOne({})._id);
                                             Router.go('home_private.appointments');
                                         }
                                     });
@@ -37,7 +37,7 @@ Template.Appointment.events({
                                 label: "Yes, and keep availability",
                                 className: "btn-primary",
                                 callback: function () {
-                                    Meteor.call('booking.cancelByOwner',getCurrentAvailabilityId(),reason,function (error,result) {
+                                    Meteor.call('booking.cancelByOwner',Availabilities.findOne({})._id,reason,function (error,result) {
                                         if (!error){
                                             Router.go('home_private.appointments');
                                         }
