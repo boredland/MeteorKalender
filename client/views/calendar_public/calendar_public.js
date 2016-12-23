@@ -30,5 +30,12 @@ Template.CalendarPublic.helpers({
     },
     getPageSession: function () {
         return pageSession
+    },
+    isNotEmpty: function () {
+        if (Availabilities.findOne({})){
+            return true
+        } else {
+            return false
+        }
     }
 });

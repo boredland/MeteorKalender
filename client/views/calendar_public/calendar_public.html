@@ -1,7 +1,6 @@
 <template name="CalendarPublic">
 	<div class="container">
         <div>
-            <h2>{{ CurrentCalendarName }}</h2>
             {{#if errorMessage getPageSession}}
                 <div class="alert alert-warning">
                     {{errorMessage getPageSession}}
@@ -12,7 +11,14 @@
                     {{infoMessage getPageSession}}
                 </div>
             {{/if}}
-            {{> ReactiveFullcalendar options=publicCalendarOptions}}
+            {{#if isNotEmpty}}
+                <h2>{{ CurrentCalendarName }}</h2>
+                {{> ReactiveFullcalendar options=publicCalendarOptions}}
+            {{else}}
+                <div class="alert alert-warning">
+                    This calendar is either empty or unpublished.
+                </div>
+            {{/if}}
         </div>
     </div>
 </template>

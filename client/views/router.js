@@ -206,10 +206,13 @@ Router.map(function () {
         controller: "CalendarPublicController",
         template: 'CalendarPublic', // <-- to be explicit
         waitOn: function () {
-            return [
-                Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug),
-                Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarSlug',this.params._calendarSlug)
-            ]
+            Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug);
+			if (Calendars.findOne({})){
+                return [
+                    Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug),
+                    Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarSlug',this.params._calendarSlug)
+                ]
+			}
         }
     });
     this.route("calendar_public.book", {

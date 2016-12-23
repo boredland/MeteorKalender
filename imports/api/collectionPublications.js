@@ -35,8 +35,11 @@ if (Meteor.isServer) {
     Meteor.publish('allPublicFutureAvailabilitiesByCalendarSlug', function availabilitiesPublication(input_calendarslug) {
         var calendar = Calendars.findOne({linkslug: input_calendarslug.toString(), published: true});
         var options = {fields: {startDate: 1, endDate: 1, bookedByConfirmed: 1, bookedByDate: 1,calendarId: 1}, sort: {startdate: -1}};
-        var calendarEvents = Availabilities.find({calendarId: calendar._id, startDate: {$gt: new Date()}}, options);
-        return calendarEvents;
+        if (calendar !== undefined) {
+            return calendarEvents = Availabilities.find({calendarId: calendar._id, startDate: {$gt: new Date()}}, options);
+        } else {
+            throw Meteor.Error("calendar-unknown")
+        }
     });
     Meteor.publish('singlePublicAvailabilityById', function availabilitiesPublication(input_availabilityId) {
         var availabilityOptions = {fields: {_id: 1, startDate: 1, endDate: 1}};
