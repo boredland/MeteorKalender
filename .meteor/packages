@@ -47,5 +47,5 @@ supaseca:reactive-fullcalendar
 altapp:recaptcha
 practicalmeteor:chai
 votercircle:winston
-huttonr:bootstrap3
 fortawesome:fontawesome
+bootswatch:paper
