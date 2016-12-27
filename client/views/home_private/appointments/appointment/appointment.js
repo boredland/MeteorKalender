@@ -1,10 +1,10 @@
 var pageSession = getDefaultPageSession();
 
 Template.Appointment.events({
-    "click #dataview-cancel-button": function(e) {
+    "click #dataview-cancel-button": function(event) {
         // Das hier sollte halt dann ein Inhalt aus einem Freitextfeld im Modaldialog sein.
         var reason;
-        e.preventDefault();
+        event.preventDefault();
         var prompt = bootbox.prompt({
             animate: false,
             title: "Please provide a reason for your cancellation:",
@@ -54,8 +54,8 @@ Template.Appointment.events({
             }
         });
     },
-    "click #Back-button": function(e, t) {
-        e.preventDefault();
+    "click #Back-button": function(event, templateInstance) {
+        event.preventDefault();
         history.back();
     }
 });
@@ -66,5 +66,11 @@ Template.Appointment.helpers({
     },
     getAppointment: function () {
         return Availabilities.findOne({})
+    },
+    isInTheFuture: function () {
+        if (Availabilities.findOne({}).startDate >= new Date()){
+            return true;
+        }
+        return false;
     }
 });

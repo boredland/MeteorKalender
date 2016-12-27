@@ -51,11 +51,13 @@
                         </tbody>
                     </table>
                     <div id="dataview-controls-cancel-button" class="form-group {{deleteButtonClass}}">
+                        {{#if isInTheFuture}}
                         <button type="submit" id="dataview-cancel-button" class="btn btn-danger">
-					<span class="fa fa-times">
-					</span>
+					        <span class="fa fa-times">
+					        </span>
                             Cancel appointment
                         </button>
+                        {{/if}}
                         <button type="submit" id="Back-button" class="btn btn-default">
                             Back
                         </button>
