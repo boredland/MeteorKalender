@@ -15,6 +15,8 @@ Meteor.startup(function () {
     if (Meteor.isServer) {
         Availabilities._ensureIndex({"calendarID": 1});
         console.log("created Index over calenderID in Availabilities Collection");
+        Availabilities._ensureIndex({"expiryDate": 1}, {expireAfterSeconds: 0});
+        console.log("ensured expiry");
     }
 });
 
@@ -160,7 +162,8 @@ if (Meteor.isServer) {
                     return Availabilities.update(currentAvailability._id, {
                         $set: {
                             bookedByConfirmed: true,
-                            bookedByConfirmationToken: null
+                            bookedByConfirmationToken: null,
+                            expiryDate: null,
                         }
                     }, function () {
                         // Bestätigung für den Studenten
@@ -191,7 +194,7 @@ if (Meteor.isServer) {
          * Setzt die Buchung zurück
          * @param availabilityID
          */
-        'booking.cancel'(availabilityId){
+        'booking.cancel'(availabilityId,endDate){
             return Availabilities.update({_id: availabilityId}, {
                 $set: {
                     bookedByName: null,
@@ -200,6 +203,7 @@ if (Meteor.isServer) {
                     bookedByConfirmed: false,
                     bookedByCancellationToken: null,
                     bookedByCalendarId: null,
+                    expiryDate: endDate
                 }
             });
         },
@@ -210,7 +214,7 @@ if (Meteor.isServer) {
         'booking.cancelByToken'(cancellationToken){
             let currentCalendar, currentAvailability;
             if ((currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken})) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
-                return Meteor.call('booking.cancel', currentAvailability._id, function () {
+                return Meteor.call('booking.cancel', currentAvailability._id,currentAvailability.endDate, function () {
                     // Mail for the student
                     sendMail({
                         to: currentAvailability.bookedByEmail,
@@ -238,7 +242,7 @@ if (Meteor.isServer) {
         'booking.cancelByOwner'(availabilityId, reason){
             let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
             let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
-            return Meteor.call('booking.cancel', currentAvailability._id, function () {
+            return Meteor.call('booking.cancel', currentAvailability._id, currentAvailability.endDate, function () {
                 let message;
                 if (reason !== undefined) {
                     message = "\nHe added the following message for you: \n" + reason;
@@ -285,7 +289,8 @@ Meteor.methods({
                             startDate: new Date(chunkStartTime.seconds(1)),
                             endDate: new Date(chunkEndTime.seconds(0)),
                             calendarId: doc.calendarId,
-                            familyId: familyId
+                            familyId: familyId,
+                            expiryDate: new Date(chunkStartTime.seconds(1))
                         });
                     } catch (err) {
                         if (err.error === "overlap") {

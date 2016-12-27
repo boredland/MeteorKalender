@@ -12,7 +12,7 @@ Template.CalendarPublic.helpers({
                 callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,false));
             },
             eventClick: function(calEvent, jsEvent, view) {
-                calendarClickOptions(calEvent);
+                calendarClickOptions(calEvent,pageSession);
             },
             defaultView: 'listWeek',
             timeFormat: 'H:mm',

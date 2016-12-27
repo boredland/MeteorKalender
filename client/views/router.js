@@ -253,7 +253,7 @@ Router.map(function () {
 		template: 'Availabilities',
         waitOn: function () {
             return [
-                Meteor.subscribe('allFutureAvailabilities',0),
+                Meteor.subscribe('allFutureAvailabilitiesAndAllAppointments'),
             	Meteor.subscribe('allCalendars')
             ]
         }
@@ -266,7 +266,7 @@ Router.map(function () {
         template: "Appointments",
 		waitOn: function () {
             return [
-            	Meteor.subscribe('allFutureAppointments',30),
+            	Meteor.subscribe('allAppointments'),
 				Meteor.subscribe('allCalendars')
 				]
         }

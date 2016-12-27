@@ -95,6 +95,14 @@ export var availabilitiesSchema = new SimpleSchema({
             return checkDate(this.field("startDate").value,this.field("endDate").value);
         }
     },
+    expiryDate: {
+        type: Date,
+        optional: true,
+        autoform: {
+            type: "hidden",
+            label: false
+        }
+    },
     familyId: {
         type: String,
         autoform: {

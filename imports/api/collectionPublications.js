@@ -12,8 +12,15 @@ if (Meteor.isServer) {
     Meteor.publish('allAvailabilities', function availabilitiesPublication() {
         return Availabilities.find({userId: this.userId}, {sort: {startdate: -1}});
     });
-    Meteor.publish('allFutureAvailabilities', function availabilitiesPublication(pastminutes) {
-        return Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add(-pastminutes,'m'))}}, {sort: {startdate: -1}});
+    Meteor.publish('allFutureAvailabilitiesAndAllAppointments', function availabilitiesPublication(pastminutes) {
+        return Availabilities.find(
+            {
+            $and: [
+                {$or:[{startDate: {$gt: new Date()}},{bookedByConfirmed: true}]},
+                {userId: this.userId}
+            ]},
+            {sort: {startdate: -1}}
+        );
     });
     Meteor.publish('allCalendars', function calendarsPublication() {
         return Calendars.find({userId: this.userId});
@@ -28,6 +35,9 @@ if (Meteor.isServer) {
     });
     Meteor.publish('allFutureAppointments', function availabilitiesPublication(pastminutes) {
         return Availabilities.find({userId: this.userId, startDate: {$gt: new Date(moment().add(-pastminutes,'m'))},bookedByConfirmed: true}, {sort: {startdate: -1}});
+    });
+    Meteor.publish('allAppointments', function availabilitiesPublication() {
+        return Availabilities.find({userId: this.userId,bookedByConfirmed: true}, {sort: {startdate: -1}});
     });
     /**
      * These are public publications

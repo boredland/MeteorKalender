@@ -55,7 +55,7 @@ Template.Availabilities.helpers({
                 callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,true));
             },
             eventClick: function(calEvent, jsEvent, view) {
-                calendarClickOptions(calEvent);
+                calendarClickOptions(calEvent,pageSession);
             },
             defaultView: 'listWeek',
             timeFormat: 'H:mm',
