@@ -276,6 +276,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
             ]
         }
     },
+    /*
     repeatUntil:{
         type: Date,
         optional: true,
@@ -290,6 +291,40 @@ export var availabilitiesFormSchema = new SimpleSchema({
                     locale: 'de',
                     format: 'LL'
                 }
+            }
+        }
+    },*/
+    repeatUntil:{
+        type: Date,
+        optional: true,
+        autoform: {
+            value: function() {
+                return new Date(moment().add(AutoForm.getFieldValue("repeatInterval"),'w'))
+            },
+            label: function () {
+                if (!AutoForm.getFieldValue("repeatInterval")){
+                    return false;
+                }
+            },
+            afFieldInput: {
+                type: function () {
+                    if (AutoForm.getFieldValue("repeatInterval")){
+                        return "bootstrap-datetimepicker"
+                    }
+                    return "hidden";
+                },
+                dateTimePickerOptions: function(){
+                    if (AutoForm.getFieldValue("repeatInterval")){
+                        return {
+                            minDate: new Date(),
+                            sideBySide: true,
+                            inline: true,
+                            locale: 'de',
+                            format: 'LL'
+                        }
+                    }
+                },
+
             }
         }
     },

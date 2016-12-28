@@ -9,7 +9,7 @@ Meteor.startup(function() {
     });
 });
 
-//Template.dpReplacement.replaces("afBootstrapDateTimePicker");
+Template.dpReplacement.replaces("afBootstrapDateTimePicker");
 
 App.logout = function() {
 	Meteor.logout(function(err) {
