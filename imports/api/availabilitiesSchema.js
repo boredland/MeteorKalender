@@ -298,12 +298,20 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 dateTimePickerOptions: function(){
                     if (AutoForm.getFieldValue("repeatInterval")){
                         var firstIteration = new Date(moment(AutoForm.getFieldValue("startDate")).add(AutoForm.getFieldValue("repeatInterval"),'w'));
+                        var weekDay = moment(firstIteration).weekday();
+                        var disabled = [];
+                        for (var i = 0;i<=6;i++){
+                            if (i !== weekDay){
+                                disabled.push(i);
+                            }
+                        }
                         return {
                             minDate: firstIteration,
                             sideBySide: true,
                             inline: true,
                             locale: 'de',
-                            format: 'LL'
+                            format: 'LL',
+                            daysOfWeekDisabled: disabled
                         }
                     }
                 },
