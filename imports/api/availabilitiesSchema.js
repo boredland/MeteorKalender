@@ -276,24 +276,6 @@ export var availabilitiesFormSchema = new SimpleSchema({
             ]
         }
     },
-    /*
-    repeatUntil:{
-        type: Date,
-        optional: true,
-        autoform: {
-            value: new Date(moment()),//.add(7,'d')),
-            afFieldInput: {
-                type: "bootstrap-datetimepicker",
-                dateTimePickerOptions: {
-                    minDate: new Date(),
-                    sideBySide: true,
-                    inline: true,
-                    locale: 'de',
-                    format: 'LL'
-                }
-            }
-        }
-    },*/
     repeatUntil:{
         type: Date,
         optional: true,
@@ -315,8 +297,9 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 },
                 dateTimePickerOptions: function(){
                     if (AutoForm.getFieldValue("repeatInterval")){
+                        var firstIteration = new Date(moment(AutoForm.getFieldValue("startDate")).add(AutoForm.getFieldValue("repeatInterval"),'w'));
                         return {
-                            minDate: new Date(),
+                            minDate: firstIteration,
                             sideBySide: true,
                             inline: true,
                             locale: 'de',
