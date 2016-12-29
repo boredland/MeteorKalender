@@ -76,6 +76,9 @@ Template.Availabilities.helpers({
                 } catch (e) {
                     console.log("Events-array empty.")
                 }
+                // replace the prev / next icons
+                $(".fc-prev-button").html('<i class="fa fa-angle-left" aria-hidden="true"></i>');
+                $(".fc-next-button").html('<i class="fa fa-angle-right" aria-hidden="true"></i>');
                 // Past
                 if (minDate >= currentView.start && minDate <= currentView.end) {
                     $(".fc-prev-button").prop('disabled', true);

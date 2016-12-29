@@ -29,6 +29,9 @@ Template.CalendarPublic.helpers({
             viewRender: function(currentView){
                 var minDate = moment(),
                     maxDate = moment().add(4,'weeks');
+                // replace the prev / next icons
+                $(".fc-prev-button").html('<i class="fa fa-angle-left" aria-hidden="true"></i>');
+                $(".fc-next-button").html('<i class="fa fa-angle-right" aria-hidden="true"></i>');
                 // Past
                 if (minDate >= currentView.start && minDate <= currentView.end) {
                     $(".fc-prev-button").prop('disabled', true);
