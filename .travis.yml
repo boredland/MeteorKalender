@@ -15,6 +15,8 @@ before_install:
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
 - sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/test/mup.js
 - sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/production/mup.js
+- sed -i 's|KADIRAAPPSECRET|'"$KADIRA_APP_SECRET_PROD"'|g' .deploy/production/mup.js
+- sed -i 's|KADIRAAPPSECRET|'"$KADIRA_APP_SECRET_TEST"'|g' .deploy/test/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
 - echo $HEROKU
