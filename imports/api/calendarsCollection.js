@@ -13,6 +13,14 @@ export const Calendars = new Mongo.Collection("calendars");
 Calendars.attachSchema(calendarsSchema);
 
 if (Meteor.isServer) {
+    Meteor.startup(function () {
+        if (Meteor.isServer) {
+            Calendars._ensureIndex({"linkslug": 1});
+            console.log("created Index over linkSlug in Calendars Collection");
+            Calendars._ensureIndex({"userId": 1});
+            console.log("created Index over userId in Calendars Collection");
+        }
+    });
     /**
      * This collection hook will check that no Calendar can be deleted that still contains elements in the future.
      */

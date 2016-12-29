@@ -13,8 +13,10 @@ Availabilities.attachSchema(availabilitiesSchema);
 
 Meteor.startup(function () {
     if (Meteor.isServer) {
-        Availabilities._ensureIndex({"calendarID": 1});
-        console.log("created Index over calenderID in Availabilities Collection");
+        Availabilities._ensureIndex({"calendarId": 1});
+        console.log("created Index over calenderId in Availabilities Collection");
+        Availabilities._ensureIndex({"userId": 1});
+        console.log("created Index over userId in Availabilities Collection");
         Availabilities._ensureIndex({"expiryDate": 1}, {expireAfterSeconds: 0});
         console.log("ensured expiry");
     }
