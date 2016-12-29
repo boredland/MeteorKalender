@@ -255,11 +255,11 @@ export var availabilitiesFormSchema = new SimpleSchema({
             return checkDuration(this.field("startTime").value,this.field("endTime").value,this.field("chunkDuration").value);
         }
     },
-    dontSkipHolidays:{
+    skipHolidays:{
         type: Boolean,
         optional: true,
-        defaultValue: false,
-        label: "Don't skip holidays"
+        defaultValue: true,
+        label: "Skip holidays"
     },
     repeatInterval:{
         label: "Repeat Every",

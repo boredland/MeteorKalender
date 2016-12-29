@@ -278,7 +278,7 @@ Meteor.methods({
         let bankHolidayCount = 0;
         do {
             let chunkEndTime = startTimeModified;
-            if ((!isThisBankHoliday(startTimeModified) && (doc.dontSkipHolidays === false)) || doc.dontSkipHolidays === true) {
+            if ((!isThisBankHoliday(startTimeModified) && (doc.skipHolidays === true)) || doc.skipHolidays === false) {
                 // this is for the chunks
                 do {
                     let chunkStartTime = chunkEndTime;
