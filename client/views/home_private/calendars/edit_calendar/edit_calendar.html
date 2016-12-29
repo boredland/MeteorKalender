@@ -15,13 +15,17 @@
                     {{infoMessage getPageSession}}
                 </div>
             {{/if}}
-            <h2 id="component-title">
-                Edit calendar
-            </h2>
-            {{> quickForm collection="Calendars" doc=updateDoc id="calendarUpdateForm" type="update"}}
-            <button type="submit" id="Back-button" class="btn btn-default">
-                Back
-            </button>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Edit Calendar</h3>
+                </div>
+                {{> quickForm collection="Calendars" doc=updateDoc id="calendarUpdateForm" type="update"}}
+                <div id="dataview-controls" class="form-group">
+                    <button type="submit" id="Back-button" class="btn btn-default">
+                        Back
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>

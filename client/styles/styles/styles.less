@@ -2,8 +2,90 @@
 
 @navbar_height: 50px;
 @footer_height: 60px;
+/** Overrides for the Navbar-Spacer mobile and desktop **/
+
+.form-group {
+	margin: 15px;
+}
+
+#dataview-controls {
+	padding-bottom: 15px;
+}
+
+.panel.panel-default {
+	margin: 15px;
+}
+
+.table {
+	margin: 15px;
+}
+
+@media(min-width:768px){
+	.panel {
+		margin-top: 30px;
+	}
+	.navbar-spacer {
+		margin-top: 50px;
+	}
+}
+
+@media(max-width:768px){
+	.navbar-spacer {
+		height: 0px;
+	}
+	.not-mobile {
+		display:none;
+	}
+}
+
+/** Overrides for the Fullcalendar **/
+.fc-list-item.booked {
+	font-style: italic;
+	background-color: @gray-lightest;
+}
+.fc-state-default {
+	background-image: none;
+	text-shadow: none;
+	box-shadow: none;
+	border-color: #e6e6e6 #e6e6e6 #bfbfbf;
+}
+.fc-toolbar {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.fc-toolbar .fc-center h2 {
+	min-width: 190px;
+}
+.fc-list-view {
+	border-width: 0px;
+}
+#fullCalendar h2 {
+	font-size: @font-size-h3;
+	margin-top: 30px;
+}
+#fullCalendar {
+	margin-top: 20px;
+}
 
 
+/** Materializing the datetimepicker **/
+.bootstrap-datetimepicker-widget table td.day.disabled {
+	background-color: @gray-lightest;
+}
+.bootstrap-datetimepicker-widget table td, .bootstrap-datetimepicker-widget table th {
+	border-radius: 0px;
+}
+
+/** Workaround for the wrong datatyped glyphicons **/
+@font-face {
+	font-family: 'Glyphicons Halflings';
+	src: url('packages/bootswatch_paper/bootstrap/dist/fonts/glyphicons-halflings-regular.eot');
+	src: url('packages/bootswatch_paper/bootstrap/dist/fonts/glyphicons-halflings-regular.eot?') format('embedded-opentype'),
+	url('packages/bootswatch_paper/bootstrap/dist/fonts/glyphicons-halflings-regular.woff2') format('woff2'),
+	url('packages/bootswatch_paper/bootstrap/dist/fonts/glyphicons-halflings-regular.woff') format('woff'),
+	url('packages/bootswatch_paper/bootstrap/dist/fonts/glyphicons-halflings-regular.ttf') format('truetype'),
+	url('packages/bootswatch_paper/bootstrap/dist/fonts/glyphicons-halflings-regular.svg') format('svg');
+}
 
 // **** LAYOUT ****
 
@@ -21,33 +103,19 @@ h6 a, h6 a:hover {
 	text-decoration: none;
 }
 
-// **** Fullcalendar ****
-#fullCalendar h2 {
-	font-size: @font-size-h3;
-	margin-top: 5px;
-}
-
-#fullCalendar {
-	margin-top: 20px;
-}
-
 /* Wrapper for page content to push down footer */
 .sticky-wrapper {
-  min-height: 100%;
+  min-height: 82.5%;
   height: auto;
   /* Negative indent footer by its height */
-  margin: 0 auto (@footer_height * -1);
+  //margin: 0 auto (@footer_height * -1);
   /* Pad bottom by footer height */
-  padding: 0 0 @footer_height;
+  //padding: 0 0 @footer_height;
 }
 
 /* Fixed height of the footer */
 .sticky-footer {
   height: @footer_height;
-}
-
-.navbar-spacer {
-	height: @navbar_height;
 }
 
 .nav-stacked li {
@@ -187,10 +255,6 @@ p {
 
 .table-hover tr {
 	cursor: pointer;
-}
-
-#dataview-controls {
-	margin-bottom: 10px;
 }
 
 #dataview-controls-search {

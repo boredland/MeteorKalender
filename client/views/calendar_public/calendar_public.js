@@ -14,6 +14,10 @@ Template.CalendarPublic.helpers({
             eventClick: function(calEvent, jsEvent, view) {
                 calendarClickOptions(calEvent,pageSession);
             },
+            height: function () {
+                console.log(window.innerHeight);
+                return window.innerHeight*0.6;
+            },
             defaultView: 'listWeek',
             timeFormat: 'H:mm',
             header: {
