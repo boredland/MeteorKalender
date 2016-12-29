@@ -8,12 +8,12 @@ Template.CancelBooking.onCreated(function bodyOnCreated() {
             if(!error && finalized === 0){
                 finalized = 1;
                 nullMessages(pageSession);
-                setInfoMessage(pageSession, "You successfully cancelled your booking.");
+                setInfoMessage(pageSession, "You successfully cancelled your booking.", null);
                 console.log("cancelsuccess");
             } else if (error && error.error === "cancellation-error" && finalized === 0){
                 finalized = 1;
-                setErrorMessage(pageSession, error.reason);
                 nullMessages(pageSession);
+                setErrorMessage(pageSession, error.reason, null);
                 console.log("cancelerror");
             }
         });

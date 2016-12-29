@@ -1,7 +1,7 @@
 //var pageSession = new ReactiveDict();
 import {bookingFormSchema} from '/imports/api/availabilitiesSchema';
 var pageSession = getDefaultPageSession();
-var calendar, availability,success;
+var calendar, availability;
 
 Template.Booking.onCreated(function bodyOnCreated() {
     calendar = Calendars.findOne({linkslug: Router.current().params._calendarSlug});
@@ -60,9 +60,8 @@ AutoForm.hooks({
             }
         },
         onSuccess: function() {
-            setInfoMessage(pageSession, "Your reservation was successful and is valid for the next 10 minutes. Please confirm the reservation using the link provided in the email we sent to you.");
+            setInfoMessage(pageSession, "Your reservation was successful and is valid for the next 10 minutes. Please confirm the reservation using the link provided in the email we sent to you.", null);
             pageSession.set("success",true)
-            success = true;
         },
         onError: function (result,error) {
             setErrorMessage(pageSession,error.reason);
