@@ -195,7 +195,7 @@ if (Meteor.isServer) {
          * @param availabilityID
          */
         'booking.cancel'(availabilityId,endDate){
-            return Availabilities.update({_id: availabilityId}, {
+            Availabilities.update({_id: availabilityId}, {
                 $set: {
                     bookedByName: null,
                     bookedByDate: null,
@@ -213,7 +213,7 @@ if (Meteor.isServer) {
          */
         'booking.cancelByToken'(cancellationToken){
             let currentCalendar, currentAvailability;
-            if ((currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken})) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
+            if ((currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken, startDate: {$gt: new Date()}})) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
                 return Meteor.call('booking.cancel', currentAvailability._id,currentAvailability.endDate, function () {
                     // Mail for the student
                     sendMail({
@@ -231,7 +231,7 @@ if (Meteor.isServer) {
                     })
                 });
             } else {
-                throw Meteor.Error("token-expired", "This token has either already been used or does not exist.")
+                throw new Meteor.Error("token-expired", "This token has either already been used or does not exist or the booking you want to cancel started in the past.")
             }
         },
         /**
