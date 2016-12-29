@@ -1,4 +1,5 @@
 import {Calendars} from '/imports/api/calendarsCollection';
+import {} from '/public/js/bootstrap-colorselector';
 var pageSession = getDefaultPageSession();
 window.Calendars = Calendars;
 
@@ -16,6 +17,10 @@ Template.EditCalendar.helpers({
     updateDoc: function () {
         return Calendars.findOne({});
     }
+});
+
+Template.EditCalendar.onRendered(function(){
+    this.$('#colorselector').colorselector();
 });
 
 AutoForm.hooks({
