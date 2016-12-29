@@ -236,12 +236,12 @@ Router.map(function () {
 
 	// Availabilities
     this.route("home_private.edit_availability", {
-    	path: "/home_private/edit_availability/:_eventId",
+    	path: "/home_private/edit_availability/:_availabilityId",
 		controller: "EditAvailabilityController",
 		template: 'EditAvailability',
         waitOn: function () {
             return [
-                Meteor.subscribe('singleAvailabilityById', this.params._eventId),
+                Meteor.subscribe('singleAvailabilityById', this.params._availabilityId),
             	Meteor.subscribe('allCalendars')
             ]
         }
@@ -272,12 +272,12 @@ Router.map(function () {
         }
     });
     this.route("home_private.appointment", {
-    	path: "/home_private/appointment/:_eventId",
+    	path: "/home_private/appointment/:_appointmentId",
 		controller: "AppointmentController",
 		template: "Appointment",
         waitOn: function () {
             return [
-                Meteor.subscribe('singleAvailabilityById', this.params._eventId)
+                Meteor.subscribe('singleAvailabilityById', this.params._appointmentId)
             ]
         }
     });

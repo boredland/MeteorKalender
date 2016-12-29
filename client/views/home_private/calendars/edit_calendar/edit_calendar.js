@@ -15,7 +15,7 @@ Template.EditCalendar.helpers({
         return pageSession;
     },
     updateDoc: function () {
-        return Calendars.findOne({});
+        return Calendars.findOne({_id: Router.current().params._calendarId});
     }
 });
 

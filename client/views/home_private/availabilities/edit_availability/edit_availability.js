@@ -111,7 +111,7 @@ Template.EditAvailability.events({
 
 Template.EditAvailability.helpers({
     updateDoc: function () {
-        return Availabilities.findOne({});
+        return Availabilities.findOne({_id: Router.current().params._availabilityId});
     },
     getPageSession: function () {
         return pageSession
