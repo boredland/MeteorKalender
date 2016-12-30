@@ -28,7 +28,7 @@
                 </button>
             </div>
             <table id="dataview-table" class="table table-striped">
-                <thead id="dataview-table-header">
+                <thead id="dataview-table-header" class="not-mobile">
                 <tr id="dataview-table-header-row">
                     <th>
                         &nbsp;
@@ -36,7 +36,7 @@
                     <th>
                         Name
                     </th>
-                    <th class="not-mobile">
+                    <th>
                         Location
                     </th>
                     <th>
@@ -71,7 +71,7 @@
         <td class="not-mobile">
             {{location}}
         </td>
-        <td>
+        <td class="not-mobile">
             <input id="published" type="checkbox" {{isPublished published}}>
         </td>
         <td class="td-icon">
