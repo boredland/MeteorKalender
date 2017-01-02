@@ -58,7 +58,6 @@ Template.Availabilities.helpers({
                 calendarClickOptions(calEvent,pageSession);
             },
             height: function () {
-                console.log(window.innerHeight);
                 return window.innerHeight*0.6;
             },
             defaultView: 'listWeek',
