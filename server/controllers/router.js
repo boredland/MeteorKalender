@@ -16,6 +16,7 @@ Router.map(function () {
             var user = Meteor.users.findOne(this.params._token);
             var currentEvents = getCalendarEvents(Availabilities.find({userId: user._id,startDate: {$gt: new Date()},bookedByConfirmed: true}).fetch(), Calendars, true);
             let calendar = new IcsGenerator({prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
+                version: "2.0",
                 method: "REQUEST",
                 events: []
             });
