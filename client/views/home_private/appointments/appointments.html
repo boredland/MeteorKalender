@@ -20,6 +20,13 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Appointments</h3>
             </div>
+            <div id="dataview-controls" class="form-group">
+                <button type="submit" id="dataview-download-button" class="btn btn-primary">
+                <span class="fa fa-download" aria-hidden="true">
+                </span>
+                    Download as Ics
+                </button>
+            </div>
             {{> ReactiveFullcalendar options=appointmentsCalendarOptions }}
         </div>
     </div>
