@@ -158,16 +158,17 @@ if (Meteor.isServer) {
                 bookedByConfirmed: false,
                 bookedByConfirmationToken: verifyBookingToken
             }, {});
-            var icsCalendar = function (startdate,enddate,calendar_name,availability_id,provider_name,provider_address,booker_name,booker_address) {
+            var icsCalendar = function (startdate,enddate,calendar_name,availability_id,provider_name,provider_address,booker_name,booker_address,location) {
                 return new IcsGenerator({prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
                     method: "REQUEST",
                     events: [
                         {
                             uid: availability_id+"@meteorkalender",
-                            summary: calendar_name+"with"+provider_name,
+                            summary: calendar_name+" with "+provider_name,
                             dtStart: startdate,
                             dtEnd: enddate,
                             organizer: {cn: provider_name, mailTo: provider_address},
+                            location: location,
                             attendees: [
                                 {cn: booker_name, mailTo: booker_address, partStat: "NEEDS-ACTION"}
                             ]
@@ -203,7 +204,8 @@ if (Meteor.isServer) {
                                         Meteor.user(currentAvailability.userId).profile.name,
                                         Meteor.user(currentAvailability.userId).emails[0].address,
                                         currentAvailability.bookedByName,
-                                        currentAvailability.bookedByEmail
+                                        currentAvailability.bookedByEmail,
+                                        currentCalendar.location
                                     ).toIcsString()
                                 }
                                 ]
