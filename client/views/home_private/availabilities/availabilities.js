@@ -1,19 +1,19 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
-import { Meteor } from 'meteor/meteor';
+import {Meteor} from 'meteor/meteor';
 
 var pageSession = getDefaultPageSession();
 
-Template.Availabilities.rendered = function() {
-    nullMessages(pageSession); 
+Template.Availabilities.rendered = function () {
+    nullMessages(pageSession);
 };
 
 Template.Availabilities.events({
-    "click #dataview-insert-button": function(e, t) {
+    "click #dataview-insert-button": function (e, t) {
         e.preventDefault();
         Router.go("home_private.new_availability", {});
     },
-    "click #delete-all-button": function(e) {
+    "click #delete-all-button": function (e) {
         e.preventDefault();
         bootbox.dialog({
             message: "Do you want to delete all availabilities?",
@@ -23,7 +23,7 @@ Template.Availabilities.events({
                 yes: {
                     label: "Yes",
                     className: "btn-success",
-                    callback: function() {
+                    callback: function () {
                         Meteor.call('availabilities.removeAll');
                         Router.go('home_private.availabilities');
                     }
@@ -39,7 +39,7 @@ Template.Availabilities.events({
 });
 
 Template.Availabilities.helpers({
-    "errorMessage": function() {
+    "errorMessage": function () {
         var getError = Router.current().params.query.error;
         if (getError) {
             setErrorMessage(pageSession, getError);
@@ -49,16 +49,16 @@ Template.Availabilities.helpers({
     getPageSession: function () {
         return pageSession;
     },
-    availibilityCalendarOptions: function(){
+    availibilityCalendarOptions: function () {
         return {
-            events: function(start, end, timezone, callback) {
-                callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,true));
+            events: function (start, end, timezone, callback) {
+                callback(getCalendarEvents(Availabilities.find({}).fetch(), Calendars, true));
             },
-            eventClick: function(calEvent, jsEvent, view) {
-                calendarClickOptions(calEvent,pageSession);
+            eventClick: function (calEvent, jsEvent, view) {
+                calendarClickOptions(calEvent, pageSession);
             },
             height: function () {
-                return window.innerHeight*0.6;
+                return window.innerHeight * 0.6;
             },
             defaultView: 'listWeek',
             timeFormat: 'H:mm',
@@ -72,13 +72,19 @@ Template.Availabilities.helpers({
                 listWeek: 'Week',
                 listYear: 'Year'
             },
-            viewRender: function(currentView){
+            viewRender: function (currentView) {
+                var maxDate, minDate;
                 try {
-                    var maxDate = moment(Availabilities.findOne({}, {sort: {startDate: -1}}).startDate),
-                        minDate = moment(Availabilities.findOne({}, {sort: {endDate: 1}}).endDate);
+                    maxDate = moment(Availabilities.findOne({}, {sort: {startDate: -1}}).startDate)
                 } catch (e) {
-                    console.log("Events-array empty.")
+                    maxDate = moment();
                 }
+                try {
+                    minDate = moment(Availabilities.findOne({}, {sort: {endDate: 1}}).endDate);
+                } catch (e) {
+                    minDate = moment();
+                }
+
                 // replace the prev / next icons
                 $(".fc-prev-button").html('<i class="fa fa-angle-left" aria-hidden="true"></i>');
                 $(".fc-next-button").html('<i class="fa fa-angle-right" aria-hidden="true"></i>');
