@@ -6,20 +6,18 @@ export var calendarsSchema = new SimpleSchema({
             type: "hidden",
             label: false
         },
-        autoValue: function () { return Meteor.userId() }
+        autoValue: function () {
+            return Meteor.userId()
+        }
     },
     name: {
         type: String,
         max: 200,
-        autoform: {
-
-        }
+        autoform: {}
     },
     location: {
         type: String,
-        autoform: {
-
-        }
+        autoform: {}
     },
     color: {
         type: String,
@@ -27,7 +25,7 @@ export var calendarsSchema = new SimpleSchema({
             id: "colorselector",
             options: [
                 {label: "NAVY", value: "#001f3f", "data-color": "#001f3f"},
-                {label: "BLUE", value: "#0074D9", "data-color": "#0074D9",selected:"selected"},
+                {label: "BLUE", value: "#0074D9", "data-color": "#0074D9", selected: "selected"},
                 {label: "AQUA", value: "#7FDBFF", "data-color": "#7FDBFF"},
                 {label: "TEAL", value: "#39CCCC", "data-color": "#39CCCC"},
                 {label: "YELLOW", value: "#FFDC00", "data-color": "#FFDC00"},
@@ -42,7 +40,7 @@ export var calendarsSchema = new SimpleSchema({
     published: {
         type: Boolean
     },
-    availabilities:{
+    availabilities: {
         type: Array,
         optional: true,
         autoform: {
@@ -59,9 +57,9 @@ export var calendarsSchema = new SimpleSchema({
             type: "hidden",
             label: false
         },
-        autoValue: function() {
+        autoValue: function () {
             if (this.isInsert) {
-                return Random.id().substring(0,4);
+                return Random.id().substring(0, 4);
             } else {
                 this.unset();  // Prevent user from supplying their own value
             }

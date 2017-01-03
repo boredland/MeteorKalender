@@ -84,7 +84,6 @@ Template.Availabilities.helpers({
                 } catch (e) {
                     minDate = moment();
                 }
-
                 // replace the prev / next icons
                 $(".fc-prev-button").html('<i class="fa fa-angle-left" aria-hidden="true"></i>');
                 $(".fc-next-button").html('<i class="fa fa-angle-right" aria-hidden="true"></i>');

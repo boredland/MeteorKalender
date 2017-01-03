@@ -196,7 +196,7 @@ if (Meteor.isServer) {
          * Setzt die Buchung zurück
          * @param availabilityID
          */
-        'booking.cancel'(availabilityId,endDate){
+        'booking.cancel'(availabilityId, endDate){
             Availabilities.update({_id: availabilityId}, {
                 $set: {
                     bookedByName: null,
@@ -215,8 +215,11 @@ if (Meteor.isServer) {
          */
         'booking.cancelByToken'(cancellationToken){
             let currentCalendar, currentAvailability;
-            if ((currentAvailability = Availabilities.findOne({bookedByCancellationToken: cancellationToken, startDate: {$gt: new Date()}})) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
-                return Meteor.call('booking.cancel', currentAvailability._id,currentAvailability.endDate, function () {
+            if ((currentAvailability = Availabilities.findOne({
+                    bookedByCancellationToken: cancellationToken,
+                    startDate: {$gt: new Date()}
+                })) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
+                return Meteor.call('booking.cancel', currentAvailability._id, currentAvailability.endDate, function () {
                     // Mail for the student
                     sendMail({
                         to: currentAvailability.bookedByEmail,

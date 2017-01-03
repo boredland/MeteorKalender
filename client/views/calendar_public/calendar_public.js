@@ -4,19 +4,19 @@ var pageSession = getDefaultPageSession();
 
 Template.CalendarPublic.helpers({
     CurrentCalendarName() {
-      return Calendars.findOne({}).name;
+        return Calendars.findOne({}).name;
     },
-    publicCalendarOptions: function(){
+    publicCalendarOptions: function () {
         return {
-            events: function(start, end, timezone, callback) {
-                callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,false));
+            events: function (start, end, timezone, callback) {
+                callback(getCalendarEvents(Availabilities.find({}).fetch(), Calendars, false));
             },
-            eventClick: function(calEvent, jsEvent, view) {
-                calendarClickOptions(calEvent,pageSession);
+            eventClick: function (calEvent, jsEvent, view) {
+                calendarClickOptions(calEvent, pageSession);
             },
             height: function () {
                 console.log(window.innerHeight);
-                return window.innerHeight*0.6;
+                return window.innerHeight * 0.6;
             },
             defaultView: 'listWeek',
             timeFormat: 'H:mm',
@@ -30,9 +30,18 @@ Template.CalendarPublic.helpers({
                 listWeek: 'Week',
                 listYear: 'Year'
             },
-            viewRender: function(currentView){
-                var minDate = moment(),
-                    maxDate = moment().add(4,'weeks');
+            viewRender: function (currentView) {
+                var maxDate, minDate;
+                try {
+                    maxDate = moment(Availabilities.findOne({}, {sort: {startDate: -1}}).startDate)
+                } catch (e) {
+                    maxDate = moment();
+                }
+                try {
+                    minDate = moment(Availabilities.findOne({}, {sort: {endDate: 1}}).endDate);
+                } catch (e) {
+                    minDate = moment();
+                }
                 // replace the prev / next icons
                 $(".fc-prev-button").html('<i class="fa fa-angle-left" aria-hidden="true"></i>');
                 $(".fc-next-button").html('<i class="fa fa-angle-right" aria-hidden="true"></i>');
@@ -60,7 +69,7 @@ Template.CalendarPublic.helpers({
         return pageSession
     },
     isNotEmpty: function () {
-        if (Availabilities.findOne({})){
+        if (Availabilities.findOne({})) {
             return true
         } else {
             return false

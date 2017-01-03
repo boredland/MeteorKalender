@@ -2,7 +2,7 @@ import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
 var pageSession = getDefaultPageSession();
 
-Template.Appointments.rendered = function() {
+Template.Appointments.rendered = function () {
     nullMessages(pageSession);
 };
 
@@ -10,17 +10,17 @@ Template.Appointments.helpers({
     getPageSession: function () {
         return pageSession
     },
-    appointmentsCalendarOptions: function(){
+    appointmentsCalendarOptions: function () {
         return {
-            events: function(start, end, timezone, callback) {
-                callback(getCalendarEvents(Availabilities.find({}).fetch(),Calendars,true));
+            events: function (start, end, timezone, callback) {
+                callback(getCalendarEvents(Availabilities.find({}).fetch(), Calendars, true));
             },
-            eventClick: function(calEvent, jsEvent, view) {
-                calendarClickOptions(calEvent,pageSession);
+            eventClick: function (calEvent, jsEvent, view) {
+                calendarClickOptions(calEvent, pageSession);
             },
             height: function () {
                 console.log(window.innerHeight);
-                return window.innerHeight*0.6;
+                return window.innerHeight * 0.6;
             },
             defaultView: 'listYear',
             timeFormat: 'H:mm',
@@ -34,12 +34,17 @@ Template.Appointments.helpers({
                 listWeek: 'Week',
                 listYear: 'Year'
             },
-            viewRender: function(currentView){
+            viewRender: function (currentView) {
+                var maxDate, minDate;
                 try {
-                    var maxDate = moment(Availabilities.findOne({}, {sort: {startDate: -1}}).startDate),
-                        minDate = moment(Availabilities.findOne({}, {sort: {endDate: 1}}).endDate);
+                    maxDate = moment(Availabilities.findOne({}, {sort: {startDate: -1}}).startDate)
                 } catch (e) {
-                    console.log("Events-array empty.")
+                    maxDate = moment();
+                }
+                try {
+                    minDate = moment(Availabilities.findOne({}, {sort: {endDate: 1}}).endDate);
+                } catch (e) {
+                    minDate = moment();
                 }
                 // replace the prev / next icons
                 $(".fc-prev-button").html('<i class="fa fa-angle-left" aria-hidden="true"></i>');
