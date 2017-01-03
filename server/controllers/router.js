@@ -15,8 +15,9 @@ Router.map(function () {
         action: function() {
             var user = Meteor.users.findOne(this.params._token);
             var currentEvents = getCalendarEvents(Availabilities.find({userId: user._id,startDate: {$gt: new Date()},bookedByConfirmed: true}).fetch(), Calendars, true);
-            var calendar = new IcsGenerator({prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
+            let calendar = new IcsGenerator({prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
                 method: "REQUEST",
+                events: []
             });
             for (var i = 0;i<currentEvents.length;i++){
                 var newEvent = calendar.createEvent({
@@ -31,11 +32,15 @@ Router.map(function () {
                 });
                 calendar.addEvent(newEvent);
             }
+            calendar = calendar.toIcsString()
             this.response.writeHead(200, {
                 'Content-Type': 'text/plain;charset=utf-8'
             });
-            this.response.write(calendar.toIcsString());
+            this.response.write(calendar);
             this.response.end();
+            console.log("before",calendar);
+            calendar = null;
+            console.log("after",calendar);
         }
     });
 });
