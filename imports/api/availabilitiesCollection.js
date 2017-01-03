@@ -277,6 +277,7 @@ if (Meteor.isServer) {
                 throw Meteor.Error("token-expired","This token has either already been used or does not exist.")
             }
         },
+
         /**
          * Methode um eine Buchung durch den Besitzer zu canceln.
          * @param availabilityId
@@ -298,6 +299,7 @@ if (Meteor.isServer) {
                 });
             });
         },
+
         /**
          * Löscht eine Availability.
          * @param availabilityID
@@ -319,25 +321,47 @@ if (Meteor.isServer) {
                 bookedByDate: undefined
             })
         },
+
         /**
-         * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen
-         * ggf. könnte man noch ne Methode "removeAllRepetitions" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
-         * @param availabilities.removeFutureRepetitions
+         * Löscht eine Verfügbarkeit mitsamt ihrer Wiederholungen zur gleichen Zeit
+         * @param availabilities.removeRepetitions
          */
-        'availabilities.removeFutureRepetitions'(availabilityId){
-            check(availabilityId, String);
-            var familyId = Availabilities.findOne(availabilityId).familyId;
-            var siblingStartTime = Availabilities.findOne(availabilityId).startTime ;
-
-            console.log(siblingStartTime)
-
-            //startTime in Datenstruktur abspeichern würde das vereinfachen....
-
+        'availabilities.removeRepetitions'(availabilityId){
+            let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
+            Availabilities.find({familyId: currentAvailability.familyId}).forEach(function (availability){
+                if(availability.startDate.getMinutes() == currentAvailability.startDate.getMinutes() &&
+                    availability.startDate.getMinutes() == currentAvailability.startDate.getMinutes()){
+                    Availabilities.remove({_id: availability._id, bookedByDate: undefined})
+                }
+            })
         },
+
         /**
          * Delete this and all future events of the family. Still not so sure if that is good in means of usability.
          * ggf. könnte man noch ne Methode "removeAllFamily" einfügen, bei der man dann einfach das aktuelle datum als "fromDate_in"-Parameter übergibt.
-         * @param availabilityId
+         * @param availabilityIdlet fromDate;
+            if (!fromDate_in) {
+                fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
+            } else {
+                fromDate = moment(fromDate_in).hour(moment(currentAvailability.startDate).get('h')).minute(moment(currentAvailability.startDate).get('m')).second(1).millisecond(0); // ugly and to much, but should work now.
+            }
+            return Availabilities.find({
+                userId: this.userId,
+                $or: [
+                    {bookedByDate: {$lt: new Date(moment().add(-reservationThreshold, 'm'))}, bookedByConfirmed: false},
+                    {bookedByDate: undefined}
+                ],
+                familyId: currentAvailability.familyId
+            }).forEach(function (availability) {
+                    if (
+                        (fromDate.get('h') === moment(availability.startDate).get('h')) &&
+                        (fromDate.get('m') === moment(availability.startDate).get('m')) &&
+                        (availability.startDate >= new Date(fromDate))
+                    ) {
+                        return Meteor.call('availabilities.remove', availability._id);
+                    }
+                }
+            )
          * @returns {null}
          */
         'availabilities.removeByFamilyId'(availabilityId){
@@ -349,7 +373,7 @@ if (Meteor.isServer) {
             }
 
             var familyId = Availabilities.findOne(availabilityId).familyId;
-            Availabilities.remove({familyId: familyId, bookedByDate: undefined})
+            return Availabilities.remove({familyId: familyId, bookedByDate: undefined})
 
         }
     });

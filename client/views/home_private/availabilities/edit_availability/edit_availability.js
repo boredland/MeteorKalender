@@ -71,7 +71,7 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-primary",
                     callback: function() {
-                        Meteor.call('availabilities.removeFutureRepetitions', getCurrentAvailabilityId());
+                        Meteor.call('availabilities.removeRepetitions', getCurrentAvailabilityId());
                         Router.go('home_private.availabilities');
                         // so lange der router nicht richtig funktioniert wird hier einfach nen reload aufgerufen
                         window.location.reload();
