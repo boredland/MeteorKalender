@@ -170,7 +170,7 @@ if (Meteor.isServer) {
                             organizer: {cn: provider_name, mailTo: provider_address},
                             location: location,
                             attendees: [
-                                {cn: booker_name, mailTo: booker_address, partStat: "NEEDS-ACTION"}
+                                {cn: booker_name, mailTo: booker_address}
                             ]
                         }
                     ]});
