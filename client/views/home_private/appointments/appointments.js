@@ -7,35 +7,15 @@ Template.Appointments.rendered = function () {
 };
 
 Template.Appointments.events ({
-    "click #dataview-download-button": function (e, t) {
-        e.preventDefault();
-        var user = Meteor.user();
-        var currentEvents = getCalendarEvents(Availabilities.find({}).fetch(), Calendars, true);
-        console.log("events",currentEvents);
-        var calendar = new IcsGenerator({prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
-            method: "REQUEST",
-        });
-        for (var i = 0;i<currentEvents.length;i++){
-            var newEvent = calendar.createEvent({
-                uid: currentEvents[i].id+"@meteorkalender",
-                summary: currentEvents[i].title,
-                dtStart: currentEvents[i].start,
-                dtEnd: currentEvents[i].end,
-                organizer: {cn: user.profile.name, mailTo: user.emails[0].address},
-                attendees: [
-                    {cn: currentEvents[i].attendee_name, mailTo: currentEvents[i].attendee_mail}
-                ]
-            });
-            calendar.addEvent(newEvent);
-        }
-        var blob = new Blob( [ calendar.toIcsString() ], {type: "text/plain;charset=utf-8"});
-        saveAs(blob, user.profile.name+"_meteorkalendar_appointments.ics");
-    }
+
 });
 
 Template.Appointments.helpers({
     getPageSession: function () {
         return pageSession
+    },
+    userId: function() {
+        return Meteor.user()._id;
     },
     appointmentsCalendarOptions: function () {
         return {
