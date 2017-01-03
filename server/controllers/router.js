@@ -39,9 +39,6 @@ Router.map(function () {
             });
             this.response.write(calendar);
             this.response.end();
-            console.log("before",calendar);
-            calendar = null;
-            console.log("after",calendar);
         }
     });
 });
