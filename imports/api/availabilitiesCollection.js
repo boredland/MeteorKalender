@@ -158,6 +158,22 @@ if (Meteor.isServer) {
                 bookedByConfirmed: false,
                 bookedByConfirmationToken: verifyBookingToken
             }, {});
+            var icsCalendar = function (startdate,enddate,calendar_name,availability_id,provider_name,provider_address,booker_name,booker_address) {
+                return new IcsGenerator({prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
+                    method: "REQUEST",
+                    events: [
+                        {
+                            uid: availability_id+"@meteorkalender",
+                            summary: calendar_name+"with"+provider_name,
+                            dtStart: startdate,
+                            dtEnd: enddate,
+                            organizer: {cn: provider_name, mailTo: provider_address},
+                            attendees: [
+                                {cn: booker_name, mailTo: booker_address, partStat: "NEEDS-ACTION"}
+                            ]
+                        }
+                    ]});
+            };
             if (currentAvailability !== undefined) {
                 let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
                 if (currentCalendar !== undefined) {
@@ -175,7 +191,22 @@ if (Meteor.isServer) {
                             text: "Hello " + currentAvailability.bookedByName + ",\n" +
                             "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been confirmed. \n" +
                             "\nIf you'd like to cancel the meeting, you'll have to click at the following link: " +
-                            Meteor.absoluteUrl() + "cancel_booking/" + currentAvailability.bookedByCancellationToken
+                            Meteor.absoluteUrl() + "cancel_booking/" + currentAvailability.bookedByCancellationToken,
+                            attachments: [
+                                {
+                                    fileName : currentCalendar.name+"_"+currentAvailability.bookedByName+".ics",
+                                    contents: new icsCalendar(
+                                        currentAvailability.startDate,
+                                        currentAvailability.endDate,
+                                        currentCalendar.name,
+                                        currentAvailability._id,
+                                        Meteor.user(currentAvailability.userId).profile.name,
+                                        Meteor.user(currentAvailability.userId).emails[0].address,
+                                        currentAvailability.bookedByName,
+                                        currentAvailability.bookedByEmail
+                                    ).toIcsString()
+                                }
+                                ]
                         });
                         // Bestätigung für den Professor
                         sendMail({
