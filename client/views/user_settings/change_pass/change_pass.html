@@ -1,27 +1,67 @@
 <template name="UserSettingsChangePass">
-	<div class="container">
-		<form id="change_pass_form" class="account-form" role="form">
-			<h2>
-				Change password
-			</h2>
-			{{#if errorMessage getPageSession}}
-			<div class="alert alert-warning">
-				{{errorMessage getPageSession}}
-			</div>
-			{{/if}}
+    <div class="page-container container" id="content">
+        <div class="row" id="title_row">
+            <div class="col-md-12">
+                <div id="page_menu" class="pull-right">
+                </div>
+            </div>
+        </div>
+        {{#if errorMessage getPageSession}}
+            <div class="alert alert-warning">
+                {{errorMessage getPageSession}}
+            </div>
+        {{/if}}
 
-			{{#if infoMessage getPageSession}}
-			<div class="alert alert-success">
-				{{infoMessage getPageSession}}
-			</div>
-			{{/if}}
-			<input id="old_password" type="password" class="form-control" placeholder="Your old password" required autofocus>
-			<input id="new_password" type="password" class="form-control" placeholder="New password" required>
-			<input id="confirm_pass" type="password" class="form-control" placeholder="Repeat new password" required>
-			<button class="btn btn-lg btn-primary btn-block" type="submit" data-loading-text="Please wait...">
-				OK
-			</button>
-		</form>
-	</div>
+        {{#if infoMessage getPageSession}}
+            <div class="alert alert-success">
+                {{infoMessage getPageSession}}
+            </div>
+        {{/if}}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Change password</h3>
+            </div>
+            <form role="form" id="change_pass_form">
+                <div class="form-group  field-profile-name">
+                    <div class="input-div">
+                        <input id="old_password" type="password" class="form-control" placeholder="Your old password" required
+                               autofocus>
+                        <span id="help-text" class="help-block">
+					</span>
+                        <span id="error-text" class="help-block">
+					</span>
+                    </div>
+                </div>
+                <div class="form-group  field-profile-name">
+                    <div class="input-div">
+                        <input id="new_password" type="password" class="form-control" placeholder="New password" required>
+                        <span id="help-text" class="help-block">
+					</span>
+                        <span id="error-text" class="help-block">
+					</span>
+                    </div>
+                </div>
+                <div class="form-group  field-profile-name">
+                    <div class="input-div">
+                        <input id="confirm_pass" type="password" class="form-control" placeholder="Repeat new password"
+                               required>
+                        <span id="help-text" class="help-block">
+					</span>
+                        <span id="error-text" class="help-block">
+					</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="submit-div">
+                        <button id="form-submit-button" class="btn btn-lg btn-primary btn-block" type="submit" data-loading-text="Please wait...">
+						<span class="fa fa-check">
+						</span>
+                            OK
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </template>
 

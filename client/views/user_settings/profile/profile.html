@@ -6,27 +6,27 @@
                 </div>
             </div>
         </div>
+        {{#if errorMessage getPageSession}}
+            <div class="alert alert-warning">
+                {{errorMessage getPageSession}}
+            </div>
+        {{/if}}
+
+        {{#if infoMessage getPageSession}}
+            <div class="alert alert-success">
+                {{infoMessage getPageSession}}
+            </div>
+        {{/if}}
         {{> UserSettingsProfileEditForm}}
     </div>
 </template>
 
 <template name="UserSettingsProfileEditForm">
-    <div id="user-settings-profile-edit-form" class="">
-        <h2 id="component-title">
-            Edit your profile
-        </h2>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">Your Settings</h3>
+        </div>
         <form role="form">
-            {{#if errorMessage getPageSession}}
-                <div class="alert alert-warning">
-                    {{errorMessage getPageSession}}
-                </div>
-            {{/if}}
-
-            {{#if infoMessage getPageSession}}
-                <div class="alert alert-success">
-                    {{infoMessage getPageSession}}
-                </div>
-            {{/if}}
             <div class="form-group  field-profile-name">
                 <label for="profile.name">
                     Name
