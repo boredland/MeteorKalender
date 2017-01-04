@@ -92,7 +92,7 @@ Meteor.methods({
     },
     "updateUserAccount": function (userId, options) {
         // only admin or users own profile
-        if (!(Users.isAdmin(Meteor.userId()) || userId == Meteor.userId())) {
+        if (!(Users.isAdmin(Meteor.userId()) || userId === Meteor.userId())) {
             throw new Meteor.Error(403, "Access denied.");
         }
 

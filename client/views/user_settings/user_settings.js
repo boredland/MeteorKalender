@@ -1,4 +1,3 @@
-var pageSession = getDefaultPageSession();
 Template.UserSettings.rendered = function () {
 
 };
@@ -6,9 +5,7 @@ Template.UserSettings.rendered = function () {
 Template.UserSettings.events({});
 
 Template.UserSettings.helpers({
-    getPageSession: function () {
-        return pageSession
-    }
+
 });
 
 Template.UserSettingsSideMenu.rendered = function () {
