@@ -82,13 +82,32 @@ Template.UserSettingsProfileEditForm.events({
 		e.preventDefault();
 
 		/*BACK_REDIRECT*/
-	}
-
-	
+	},
+    "click #copy-button": function(e) {
+        e.preventDefault();
+        var me = this;
+        var link = window.location.origin + "/ical/" + me.current_user_data.profile.secure;
+        // Create an auxiliary hidden input
+        var aux = document.createElement("input");
+        // Get the text from the element passed into the input
+        aux.setAttribute("value", link);
+        // Append the aux input to the body
+        document.body.appendChild(aux);
+        // Highlight the content
+        aux.select();
+        // Execute the copy command
+        document.execCommand("copy");
+        // Remove the input from the body
+        document.body.removeChild(aux);
+        setInfoMessage(pageSession,"Link is copied to your clipboard!");
+    }
 });
 
 Template.UserSettingsProfileEditForm.helpers({
     getPageSession: function () {
         return pageSession;
+    },
+    tokenUrl: function() {
+        return Meteor.absoluteUrl() + "ical/" + Meteor.user().profile.secure;
     }
 });

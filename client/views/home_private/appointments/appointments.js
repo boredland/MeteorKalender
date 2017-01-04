@@ -14,9 +14,6 @@ Template.Appointments.helpers({
     getPageSession: function () {
         return pageSession
     },
-    userId: function() {
-        return Meteor.user()._id;
-    },
     appointmentsCalendarOptions: function () {
         return {
             events: function (start, end, timezone, callback) {

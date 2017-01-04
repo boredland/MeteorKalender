@@ -58,10 +58,12 @@ export var availabilitiesSchema = new SimpleSchema({
     startDate: {
         type: Date,
         autoform: {
+            readOnly: true,
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    ignoreReadonly: true,
                     sideBySide: true,
                     inline: true,
                     locale: 'de',
@@ -78,10 +80,12 @@ export var availabilitiesSchema = new SimpleSchema({
     endDate: {
         type: Date,
         autoform: {
+            readOnly: true,
             afFieldInput: {
                 class: "enddate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    ignoreReadonly: true,
                     sideBySide: true,
                     inline: true,
                     locale: 'de',
@@ -189,10 +193,12 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         autoform: {
             value: new Date(moment().seconds(0)),
+            readOnly: true,
             afFieldInput: {
                 class: "startdate",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    ignoreReadonly: true,
                     sideBySide: true,
                     minDate: new Date(),
                     inline: true,
@@ -206,10 +212,12 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         autoform: {
             value: new Date(moment().set(0, 'ms').set(0, 's').add(10, 'm')),
+            readOnly: true,
             afFieldInput: {
                 class: "starttime",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    ignoreReadonly: true,
                     sideBySide: true,
                     inline: true,
                     locale: 'de',
@@ -227,10 +235,12 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         autoform: {
             value: new Date(moment().set(0, 'ms').set(0, 's').add(20, 'm')),
+            readOnly: true,
             afFieldInput: {
                 class: "endtime",
                 type: "bootstrap-datetimepicker",
                 dateTimePickerOptions: {
+                    ignoreReadonly: true,
                     sideBySide: true,
                     inline: true,
                     locale: 'de',
@@ -288,6 +298,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
                     return false;
                 }
             },
+            readOnly: true,
             afFieldInput: {
                 type: function () {
                     if (AutoForm.getFieldValue("repeatInterval")) {
@@ -307,6 +318,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
                         }
                         return {
                             minDate: firstIteration,
+                            ignoreReadonly: true,
                             sideBySide: true,
                             inline: true,
                             locale: 'de',
