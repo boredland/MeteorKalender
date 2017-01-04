@@ -1,23 +1,20 @@
 var pageSession = getDefaultPageSession();
 
-Template.UserSettingsProfile.rendered = function() {
-	
-};
-
-Template.UserSettingsProfile.events({
-	
-});
-
 Template.UserSettingsProfile.helpers({
-	
+    getPageSession: function () {
+        return pageSession;
+    },
+    tokenUrl: function() {
+        return Meteor.absoluteUrl() + "ical/" + Meteor.user().profile.secure;
+    }
 });
 
-Template.UserSettingsProfileEditForm.rendered = function() {
+Template.UserSettingsProfile.rendered = function() {
 	pageSession.set("userSettingsProfileEditFormInfoMessage", "");
 	pageSession.set("userSettingsProfileEditFormErrorMessage", "");
 };
 
-Template.UserSettingsProfileEditForm.events({
+Template.UserSettingsProfile.events({
 	"submit": function(e, t) {
 		e.preventDefault();
 		pageSession.set("userSettingsProfileEditFormInfoMessage", "");
@@ -100,14 +97,5 @@ Template.UserSettingsProfileEditForm.events({
         // Remove the input from the body
         document.body.removeChild(aux);
         setInfoMessage(pageSession,"Link is copied to your clipboard!");
-    }
-});
-
-Template.UserSettingsProfileEditForm.helpers({
-    getPageSession: function () {
-        return pageSession;
-    },
-    tokenUrl: function() {
-        return Meteor.absoluteUrl() + "ical/" + Meteor.user().profile.secure;
     }
 });
