@@ -27,14 +27,14 @@ if (Meteor.isServer) {
     Calendars.before.remove((userId, doc) => {
         if (Availabilities.findOne({startDate: {$gt: new Date()}, calendarId: doc._id})) {
             throw new Meteor.Error('notEmpty', "Can't delete a calendar that contains future availabilities.");
-        } else {
-            return true;
+        }
+        if (doc.defaultCalendar === true){
+            throw new Meteor.Error('default-calendar');
         }
     });
 }
 Meteor.methods({
     'calendars.insert'(doc) {
-        console.log("insertCalendar run");
         //if user doesnt have an ID (not logged in), he is not allowed to perform that action.
         if (!this.userId) {
             throw new Meteor.Error('not-authorized');
@@ -46,7 +46,7 @@ Meteor.methods({
             location: doc.location,
             color: doc.color,
             published: doc.published,
-            linkslug: doc.linkslug
+            linkslug: Random.id().substring(0, 4)
         });
     },
     'calendars.remove'(calendarId){

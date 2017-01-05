@@ -1,4 +1,5 @@
-import "/imports/api/availabilitiesCollection";
+import "/imports/api/availabilitiesCollection"; // Dont know what this is for..
+import {Calendars} from "/imports/api/calendarsCollection";
 import "/imports/logger";
 //Import creates the collection on the server.
 var verifyEmail = true;
@@ -160,13 +161,22 @@ Meteor.methods({
     }
 });
 
-Accounts.onCreateUser(function (options, user) {
-    user.roles = ["dozent"];
+Accounts.onCreateUser(function (options, user_in) {
+    user_in.roles = ["dozent"];
     if (options.profile) {
         options.profile.secure = Random.id();
-        user.profile = options.profile;
+        user_in.profile = options.profile;
     }
-    return user;
+    Calendars.insert({
+        userId: user_in._id,
+        name: "Default calendar",
+        location: "Default location",
+        color: "#111111",
+        published: true,
+        linkslug: Random.id().substring(0, 4),
+        defaultCalendar: true
+    });
+    return user_in;
 });
 
 Accounts.validateLoginAttempt(function (info) {

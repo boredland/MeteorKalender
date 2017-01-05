@@ -88,8 +88,10 @@
 			</span>
         </td>
         <td class="td-icon">
-			<span id="delete-button" class="fa fa-trash-o" title="Delete">
+            {{#unless defaultCalendar}}
+                <span id="delete-button" class="fa fa-trash-o" title="Delete">
 			</span>
+            {{/unless}}
         </td>
     </tr>
     </tbody>

@@ -1,13 +1,10 @@
 export var calendarsSchema = new SimpleSchema({
     userId: {
         type: String,
-        max: 200,
+        optional: true,
         autoform: {
             type: "hidden",
             label: false
-        },
-        autoValue: function () {
-            return Meteor.userId()
         }
     },
     name: {
@@ -40,16 +37,6 @@ export var calendarsSchema = new SimpleSchema({
     published: {
         type: Boolean
     },
-    availabilities: {
-        type: Array,
-        optional: true,
-        autoform: {
-            type: "hidden"
-        }
-    },
-    "availabilities.$": {
-        type: String
-    },
     linkslug: {
         type: String,
         max: 5,
@@ -64,6 +51,13 @@ export var calendarsSchema = new SimpleSchema({
                 this.unset();  // Prevent user from supplying their own value
             }
         }
+    },
+    defaultCalendar: {
+        type: Boolean,
+        optional: true,
+        autoform: {
+            type: "hidden",
+            label: false,
+        },
     }
-
-})
+});
