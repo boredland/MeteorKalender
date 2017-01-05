@@ -1,4 +1,5 @@
 import {Calendars} from '/imports/api/calendarsCollection';
+import {} from '/public/js/bootstrap-colorselector';
 var pageSession = getDefaultPageSession();
 
 Template.NewCalendar.events({
@@ -15,6 +16,11 @@ Template.NewCalendar.helpers({
     getPageSession: function () {
         return pageSession;
     }
+});
+
+
+Template.NewCalendar.onRendered(function(){
+    this.$('#colorselector').colorselector();
 });
 
 AutoForm.hooks({

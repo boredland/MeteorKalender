@@ -4,90 +4,15 @@ var availability;
 var pageSession = getDefaultPageSession();
 
 window.Availabilities = Availabilities;
-function getCurrentAvailabilityId(){
-    var currentId = Router.current().params._eventId;
-    if (currentId !== undefined) {
-        return currentId;
-    }
-}
-function dataReady() {
-    if (availability){
-        return true
-    } else {
-        return false
-    }
-}
-
-Template.EditAvailability.onCreated(function bodyOnCreated() {
-    availability = this.data;
-});
-
-Template.EditAvailability.rendered = function() {
-
-};
-
-Template.EditAvailability.created = function() {
-
-};
 
 Template.EditAvailability.events({
     "click #Back-button": function(e, t) {
         e.preventDefault();
         history.back();
     },
-    "click #dataview-delete-button-family": function(e) {
-        e.preventDefault();
-        bootbox.dialog({
-            message: "Do you want to delete all availabilities which belong to this one? Reserved or booked onces wont be deleted.",
-            title: "Delete whole family of availabilities",
-            animate: false,
-            buttons: {
-                yes: {
-                    label: "Yes",
-                    className: "btn-primary",
-                    callback: function() {
-                        Meteor.call('availabilities.removeByFamilyId', getCurrentAvailabilityId());
-                        Router.go('home_private.availabilities');
-                        // so lange der router nicht richtig funktioniert wird hier einfach nen reload aufgerufen
-                        window.location.reload();
-                    }
-                },
-                no: {
-                    label: "No",
-                    className: "btn-default"
-                }
-            }
-        });
-        return false;
-    },
-    "click #dataview-delete-button-repetitions": function(e) {
-        e.preventDefault();
-        bootbox.dialog({
-            message: "Do you want to delete this availability and all of its future unbooked repetitions?",
-            title: "Delete repetitions",
-            animate: false,
-            buttons: {
-                yes: {
-                    label: "Yes",
-                    className: "btn-primary",
-                    callback: function() {
-                        Meteor.call('availabilities.removeFutureRepetitions', getCurrentAvailabilityId());
-                        Router.go('home_private.availabilities');
-                        // so lange der router nicht richtig funktioniert wird hier einfach nen reload aufgerufen
-                        window.location.reload();
-                    }
-                },
-                no: {
-                    label: "No",
-                    className: "btn-default"
-                }
-            }
-        });
-        return false;
-    },
     "click #dataview-delete-button": function(e) {
         e.preventDefault();
-        bootbox.dialog({
+        var dialog_delete = bootbox.dialog({
             message: "Do you want to delete this availability?",
             title: "Delete event",
             animate: false,
@@ -96,10 +21,82 @@ Template.EditAvailability.events({
                     label: "Yes",
                     className: "btn-primary",
                     callback: function() {
-                        Meteor.call('availabilities.remove', getCurrentAvailabilityId());
-                        Router.go('home_private.availabilities');
-                        // so lange der router nicht richtig funktioniert wird hier einfach nen reload aufgerufen
-                        window.location.reload();
+                        dialog_delete.modal('hide');
+                        var dialog_future_past = bootbox.dialog({
+                            title: "Repetitons?",
+                            animate: false,
+                            message: "Do you want to remove this including its repetitions?",
+                            buttons: {
+                                future: {
+                                    label: "Only those in the future",
+                                    className: "btn-primary",
+                                    callback: function() {
+                                        dialog_future_past.modal('hide');
+                                        var family = bootbox.dialog({
+                                            message: "Do you want to delete the family of availabilities created with this one too?",
+                                            title: "Delete family",
+                                            animate: false,
+                                            buttons: {
+                                                danger: {
+                                                    label: "Yes",
+                                                    className: "btn-primary",
+                                                    callback: function() {
+                                                        Meteor.call('availabilities.removeFutureFamily', Availabilities.findOne({})._id);
+                                                        Router.go('home_private.availabilities');
+                                                    }
+                                                },
+                                                success: {
+                                                    label: "No",
+                                                    className: "btn-default",
+                                                    callback: function() {
+                                                        Meteor.call('availabilities.removeFutureRepetitions', Availabilities.findOne({})._id);
+                                                        Router.go('home_private.availabilities');
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                },
+                                all: {
+                                    label: "All of them",
+                                    className: "btn-primary",
+                                    callback: function () {
+                                        dialog_future_past.modal('hide');
+                                        var family = bootbox.dialog({
+                                            message: "Do you want to delete the family of availabilities created with this one too?",
+                                            title: "Delete family",
+                                            animate: false,
+                                            buttons: {
+                                                danger: {
+                                                    label: "Yes",
+                                                    className: "btn-primary",
+                                                    callback: function() {
+                                                        Meteor.call('availabilities.removeFutureFamily', Availabilities.findOne({})._id,new Date());
+                                                        Router.go('home_private.availabilities');
+                                                    }
+                                                },
+                                                success: {
+                                                    label: "No",
+                                                    className: "btn-default",
+                                                    callback: function() {
+                                                        Meteor.call('availabilities.removeFutureRepetitions', Availabilities.findOne({})._id,new Date());
+                                                        Router.go('home_private.availabilities');
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                },
+                                no: {
+                                    label: "No",
+                                    className: "btn-default",
+                                    callback: function () {
+                                        Meteor.call('availabilities.remove', Availabilities.findOne({})._id);
+                                        Router.go('home_private.availabilities');
+                                    }
+                                }
+                            }
+                        });
                     }
                 },
                 danger: {
@@ -114,10 +111,7 @@ Template.EditAvailability.events({
 
 Template.EditAvailability.helpers({
     updateDoc: function () {
-        return availability;
-    },
-    itemsReady:function() {
-        return dataReady();
+        return Availabilities.findOne({_id: Router.current().params._availabilityId});
     },
     getPageSession: function () {
         return pageSession

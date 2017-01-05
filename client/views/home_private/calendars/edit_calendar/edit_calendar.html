@@ -15,26 +15,17 @@
                     {{infoMessage getPageSession}}
                 </div>
             {{/if}}
-            <h2 id="component-title">
-                Edit calendar
-            </h2>
-            {{#if Template.subscriptionsReady }}
-                {{> CalendarUpdateForm}}
-            {{/if}}
-            <!--<div id="dataview-controls-delete" class="form-group {{deleteButtonClass}}">
-                <button type="submit" id="dataview-delete-button" class="btn btn-fail">
-					<span class="fa fa-minus">
-					</span>
-                    Delete
-                </button>
-            </div>-->
-            <button type="submit" id="Back-button" class="btn btn-default">
-                Back
-            </button>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Edit Calendar</h3>
+                </div>
+                {{> quickForm collection="Calendars" doc=updateDoc id="calendarUpdateForm" type="update"}}
+                <div id="dataview-controls" class="form-group">
+                    <button type="submit" id="Back-button" class="btn btn-default">
+                        Back
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
-</template>
-
-<template name="CalendarUpdateForm">
-    {{> quickForm collection="Calendars" doc=updateDoc id="calendarUpdateForm" type="update"}}
 </template>

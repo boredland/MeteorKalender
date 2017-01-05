@@ -3,9 +3,12 @@ import { Meteor } from 'meteor/meteor';
 var pageSession = getDefaultPageSession();
 
 Template.Calendars.onCreated(function bodyOnCreated() {
-        Meteor.subscribe('allCalendars');
-    }
-);
+    Meteor.subscribe('allCalendars');
+});
+
+Template.Calendars.rendered = function() {
+    nullMessages(pageSession);
+};
 
 Template.Calendars.events({
     "change #published": (function(event, template) {
@@ -26,7 +29,7 @@ Template.Calendars.events({
                     callback: function() {
                         Meteor.call('calendars.remove',me._id, function(err, data) {
                             if (err && err.error === "notEmpty") {
-                                pageSession.set("errorMessage", err.reason);
+                                setErrorMessage(pageSession, err.reason);
                                 console.log(err.reason)
                             } else {
                                 Router.go('home_private.calendars');
@@ -71,15 +74,7 @@ Template.Calendars.events({
         document.execCommand("copy");
         // Remove the input from the body
         document.body.removeChild(aux);
-
-        bootbox.dialog({
-            message: "Link is copied!",
-            animate: true,
-            size: 'small',
-            closeButton: true,
-            onEscape: true,
-            backdrop: true
-        })
+        setInfoMessage(pageSession,"Link is copied to your clipboard!");
     }
 });
 

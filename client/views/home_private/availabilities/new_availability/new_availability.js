@@ -1,3 +1,4 @@
+//noinspection Eslint
 import {availabilitiesFormSchema} from "../../../../../imports/api/availabilitiesSchema";
 import {Calendars} from '/imports/api/calendarsCollection';
 var pageSession = getDefaultPageSession();
@@ -7,8 +8,8 @@ Template.NewAvailability.onCreated(function bodyOnCreated() {
 });
 
 Template.NewAvailability.events({
-    "click #Back-button": function(e, t) {
-        e.preventDefault();
+    "click #Back-button": function(event, t) {
+        event.preventDefault();
         history.back();
     }
 });

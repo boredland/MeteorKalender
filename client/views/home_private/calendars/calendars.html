@@ -6,7 +6,6 @@
                 </div>
             </div>
         </div>
-        <h2>Calendars</h2>
         {{#if errorMessage getPageSession}}
             <div class="alert alert-warning">
                 {{errorMessage getPageSession}}
@@ -17,57 +16,68 @@
                 {{infoMessage getPageSession}}
             </div>
         {{/if}}
-            <button type="submit" id="dataview-insert-button" class="btn btn-primary">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Calendars</h3>
+            </div>
+            <div id="dataview-controls" class="form-group">
+                <button type="submit" id="dataview-insert-button" class="btn btn-primary">
 					<span class="fa fa-plus">
 					</span>
-                Add new
-            </button>
-        <table id="dataview-table" class="table table-striped">
-            <thead id="dataview-table-header">
-            <tr id="dataview-table-header-row">
-                <th>
-                    Name
-                </th>
-                <!--
-                <th>
-                    Color
-                </th>
-                -->
-                <th>
-                    Published
-                </th>
-                <th>
-
-                </th>
-                <th>
-                    &nbsp;
-                </th>
-                <th>
-                    &nbsp;
-                </th>
-            </tr>
-            </thead>
-            {{#each getCalendars}} {{> calendar}} {{/each}}
-        </table>
+                    Add new
+                </button>
+            </div>
+            <table id="dataview-table" class="table table-striped">
+                <thead id="dataview-table-header" class="not-mobile">
+                <tr id="dataview-table-header-row">
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Location
+                    </th>
+                    <th>
+                        Published
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+                </thead>
+                {{#each getCalendars}} {{> calendar}} {{/each}}
+            </table>
+        </div>
     </div>
 </template>
 
 <template name="calendar">
     <tbody id="dataview-table-items">
     <tr id="dataview-table-items-row">
-        <td>
-            {{name}} <a target="_blank" href="/calendar_public/{{linkslug}}" title="Open in a new tab"><span id="calendar_link" class="fa fa-link" title="Open in a new tab"></span></a>
+        <td class="td-icon">
+        <td class="fc-event-dot" style="background-color: {{color}};margin-top: 45%;"></td>
         </td>
-        <!--
         <td>
+            {{name}}
+        </td>
+        <td class="not-mobile">
             {{location}}
         </td>
-        -->
-        <td>
-            <td style="background-color: {{color}};width: 25px;height: 25px"></td>
-        </td>
-        <td>
+        <td class="not-mobile">
             <input id="published" type="checkbox" {{isPublished published}}>
+        </td>
+        <td class="td-icon">
+            <a target="_blank" href="/calendar_public/{{linkslug}}" title="Open in a new tab"><span id="calendar_link"
+                                                                                                    class="fa fa-link"
+                                                                                                    title="Open in a new tab"></span></a>
         </td>
         <td class="td-icon">
             <span id="copy-button" class="fa fa-files-o" title="Copy Link">
