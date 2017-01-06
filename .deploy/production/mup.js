@@ -35,7 +35,9 @@ module.exports = {
       ROOT_URL: 'https://meteorkalender.freeddns.org',
       //MONGO_URL: 'mongodb://localhost/meteor'
       MAIL_URL: "MAILURL",
-      RE_CAPTCHA: "RECAPTCHA"
+      RE_CAPTCHA: "RECAPTCHA",
+      KADIRA_APP_ID: "sdGEPWSi8mChQnMXW",
+      KADIRA_APP_SECRET: "KADIRAAPPSECRET"
     },
     dockerImage: 'cwaring/meteord:base',
     deployCheckWaitTime: 120

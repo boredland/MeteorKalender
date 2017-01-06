@@ -1,20 +1,15 @@
 var pageSession = getDefaultPageSession();
-var finalized = 0;
 
 Template.CancelBooking.onCreated(function bodyOnCreated() {
     var cancelBookingToken = Router.current().params.cancelBookingToken;
     if (cancelBookingToken) {
-        Meteor.call('booking.cancelByToken', cancelBookingToken, function (error, project) {
-            if(!error && finalized === 0){
-                finalized = 1;
-                pageSession.set("errorMessage", "");
-                pageSession.set("infoMessage", "You successfully cancelled your booking.");
-                console.log("cancelsuccess");
-            } else if (error && error.error === "cancellation-error" && finalized === 0){
-                finalized = 1;
-                pageSession.set("errorMessage", error.reason);
-                pageSession.set("infoMessage", "");
-                console.log("cancelerror");
+        Meteor.call('booking.cancelByToken', cancelBookingToken, function (error,result) {
+            if(!error){
+                nullMessages(pageSession);
+                setInfoMessage(pageSession, "You successfully cancelled your booking.", null);
+            } else if (error && error.error === "token-expired"){
+                nullMessages(pageSession);
+                setErrorMessage(pageSession, error.reason, null);
             }
         });
     }

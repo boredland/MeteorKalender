@@ -5,12 +5,12 @@ Template.VerifyEmail.rendered = function() {
   if (verifyEmailToken) {
       Accounts.verifyEmail(verifyEmailToken, function (err) {
           if (err) {
-            pageSession.set("errorMessage", err.message);
+            setErrorMessage(pageSession, err.message, null);
           }
       });
   }
   else {
-    pageSession.set("errorMessage", err.message);
+    setErrorMessage(pageSession, err.message, null);
   }
 	
 };

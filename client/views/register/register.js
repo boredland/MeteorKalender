@@ -9,7 +9,7 @@ Template.Register.rendered = function() {
 };
 
 Template.Register.created = function() {
-	pageSession.set("errorMessage", "");
+	nullMessages(pageSession);
 };
 
 Template.Register.events({
@@ -29,14 +29,14 @@ Template.Register.events({
 		// check name
 		if(register_name == "")
 		{
-			pageSession.set("errorMessage", "Please enter your name.");
+			setErrorMessage(pageSession, "Please enter your name.");
 			t.find('#register_name').focus();
 			return false;
 		}
 		// check email
 		if(!isValidEmail(register_email))
 		{
-			pageSession.set("errorMessage", "Please enter valid e-mail address that ends with .fra-uas.de, .frankfurt-unversity.de or fh-frankfurt.de.");
+			setErrorMessage(pageSession, "Please enter valid e-mail address that ends with .fra-uas.de, .frankfurt-unversity.de or fh-frankfurt.de.");
 			t.find('#register_email').focus();
 			return false;
 		}
@@ -45,7 +45,7 @@ Template.Register.events({
 		var min_password_len = 6;
 		if(!isValidPassword(register_password, min_password_len))
 		{
-			pageSession.set("errorMessage", "Your password must be at least " + min_password_len + " characters long.");
+			setErrorMessage(pageSession, "Your password must be at least " + min_password_len + " characters long.");
 			t.find('#register_password').focus();
 			return false;
 		}
@@ -54,12 +54,12 @@ Template.Register.events({
 		Meteor.call("validateCaptcha", captchaData, function(error,result){
             grecaptcha.reset();
 			if (error) {
-                pageSession.set("errorMessage", "Captcha failed, please retry.");
+                setErrorMessage(pageSession, "Captcha failed, please retry.");
                 submit_button.button("reset");
                 console.log('There was an error: ' + error.reason);
             } else {
                 console.log('Success!');
-                pageSession.set("errorMessage", "");
+                nullMessages(pageSession);
                 Accounts.createUser({
                     email: register_email,
                     password: register_password,
@@ -70,11 +70,11 @@ Template.Register.events({
                         if (err.error === 499) {
                             pageSession.set("verificationEmailSent", true);
                         } else {
-                            pageSession.set("errorMessage", err.message);
+                            setErrorMessage(pageSession, err.message);
                         }
                     }
                     else {
-                        pageSession.set("errorMessage", "");
+                        nullMessages(pageSession);
                         pageSession.set("verificationEmailSent", true);
                     }
                 });
@@ -91,9 +91,9 @@ Template.Register.events({
 });
 
 Template.Register.helpers({
-	errorMessage: function() {
-		return pageSession.get("errorMessage");
-	},
+    getPageSession: function () {
+        return pageSession;
+    },
 	verificationEmailSent: function() {
 		return pageSession.get("verificationEmailSent");
 	}

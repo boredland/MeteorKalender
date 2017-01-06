@@ -206,10 +206,13 @@ Router.map(function () {
         controller: "CalendarPublicController",
         template: 'CalendarPublic', // <-- to be explicit
         waitOn: function () {
-            return [
-                Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug),
-                Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarSlug',this.params._calendarSlug)
-            ]
+            Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug);
+			if (Calendars.findOne({})){
+                return [
+                    Meteor.subscribe('singlePublicCalendarBySlug', this.params._calendarSlug),
+                    Meteor.subscribe('allPublicFutureAvailabilitiesByCalendarSlug',this.params._calendarSlug)
+                ]
+			}
         }
     });
     this.route("calendar_public.book", {
@@ -233,23 +236,14 @@ Router.map(function () {
 
 	// Availabilities
     this.route("home_private.edit_availability", {
-    	path: "/home_private/edit_availability/:_eventId",
+    	path: "/home_private/edit_availability/:_availabilityId",
 		controller: "EditAvailabilityController",
 		template: 'EditAvailability',
         waitOn: function () {
             return [
-                Meteor.subscribe('singleAvailabilityById', this.params._eventId),
+                Meteor.subscribe('singleAvailabilityById', this.params._availabilityId),
             	Meteor.subscribe('allCalendars')
             ]
-        },
-        data: function () {
-            if (this.ready()){
-            	var availability = Availabilities.findOne({_id: this.params._eventId});
-                return availability;
-                //this.render();
-            } else {
-                this.render('Loading');
-            }
         }
 	});
     this.route("home_private.new_availability", {path: "/home_private/new_availability", controller: "NewAvailabilityController"});
@@ -259,7 +253,7 @@ Router.map(function () {
 		template: 'Availabilities',
         waitOn: function () {
             return [
-                Meteor.subscribe('allFutureAvailabilities',0),
+                Meteor.subscribe('allFutureAvailabilitiesAndAllAppointments'),
             	Meteor.subscribe('allCalendars')
             ]
         }
@@ -272,30 +266,33 @@ Router.map(function () {
         template: "Appointments",
 		waitOn: function () {
             return [
-            	Meteor.subscribe('allFutureAppointments',30),
+            	Meteor.subscribe('allAppointments'),
 				Meteor.subscribe('allCalendars')
 				]
         }
     });
     this.route("home_private.appointment", {
-    	path: "/home_private/appointment/:_eventId",
+    	path: "/home_private/appointment/:_appointmentId",
 		controller: "AppointmentController",
 		template: "Appointment",
-		data: function () {
-			var currentAvailabilityId = this.params._eventId;
-            this.wait(Meteor.subscribe('singleAvailabilityById', currentAvailabilityId));
-            var currentAvailability = Availabilities.findOne({_id: currentAvailabilityId});
-            if (this.ready()){
-                return currentAvailability;
-                //this.render();
-            } else {
-                this.render('Loading');
-            }
+        waitOn: function () {
+            return [
+                Meteor.subscribe('singleAvailabilityById', this.params._appointmentId)
+            ]
         }
     });
 
     // Calendars
     this.route("home_private.calendars", {path: "/home_private/calendars", controller: "CalendarsController"});
     this.route("home_private.new_calendar", {path: "/home_private/new_calendar", controller: "NewCalendarController"});
-    this.route("home_private.edit_calendar", {path: "/home_private/edit_calendar/:_calendarId", controller: "EditCalendarController"});
+    this.route("home_private.edit_calendar", {
+    	path: "/home_private/edit_calendar/:_calendarId",
+		controller: "EditCalendarController",
+        template: "EditCalendar",
+        waitOn: function () {
+            return [
+                Meteor.subscribe('singleCalendar',this.params._calendarId)
+            ]
+        }
     });
+});

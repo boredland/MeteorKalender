@@ -16,7 +16,7 @@
                 {{infoMessage getPageSession}}
             </div>
         {{/if}}
-        {{#if itemsReady}}
+            {{#with getAppointment}}
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <h3 class="panel-title">Appointment</h3>
@@ -26,42 +26,44 @@
                         <tbody>
                         <tr>
                             <td>Name:</td>
-                            <td>{{getName}}</td>
+                            <td>{{bookedByName}}</td>
                         </tr>
                         <tr>
                             <td>Email:</td>
-                            <td>{{getEmail}}</td>
+                            <td>{{bookedByEmail}}</td>
                         </tr>
                         <tr>
                             <td>From</td>
-                            <td>{{formatDateTime getFrom}}</td>
+                            <td>{{formatDateTime startDate}}</td>
                         </tr>
                         <tr>
                             <td>To</td>
-                            <td>{{formatDateTime getTo}}</td>
+                            <td>{{formatDateTime endDate}}</td>
                         </tr>
                         <tr>
                             <td>Booked on</td>
-                            <td>{{formatDateTime getBookedOn}}</td>
+                            <td>{{formatDateTime bookedByDate}}</td>
                         </tr>
                         <tr>
                             <td>Confirmed:</td>
-                            <td>{{getConfirmationStatus}}</td>
+                            <td><input id="published" type="checkbox" onclick="return false;" {{isPublished bookedByConfirmed}}></td>
                         </tr>
                         </tbody>
                     </table>
                     <div id="dataview-controls-cancel-button" class="form-group {{deleteButtonClass}}">
+                        {{#if isInTheFuture}}
                         <button type="submit" id="dataview-cancel-button" class="btn btn-danger">
-					<span class="fa fa-times">
-					</span>
+					        <span class="fa fa-times">
+					        </span>
                             Cancel appointment
                         </button>
+                        {{/if}}
                         <button type="submit" id="Back-button" class="btn btn-default">
                             Back
                         </button>
                     </div>
                 </div>
             </div>
-        {{/if}}
+            {{/with}}
     </div>
 </template>

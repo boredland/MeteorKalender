@@ -8,13 +8,16 @@ node_js:
 before_install:
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv
   -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
-- npm install -g mup ssh2
+- npm install -g mup ssh2 mgp
 - curl https://install.meteor.com | /bin/sh
+- mgp --https
 - sed -i 's|ANCHOR|'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'|g' client/views/layout/layout.html
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/production/mup.js
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
 - sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/test/mup.js
 - sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/production/mup.js
+- sed -i 's|KADIRAAPPSECRET|'"$KADIRA_APP_SECRET_PROD"'|g' .deploy/production/mup.js
+- sed -i 's|KADIRAAPPSECRET|'"$KADIRA_APP_SECRET_TEST"'|g' .deploy/test/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
 - echo $HEROKU

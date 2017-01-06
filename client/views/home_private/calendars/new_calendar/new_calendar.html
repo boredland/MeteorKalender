@@ -5,7 +5,6 @@
                 <div id="page_menu" class="pull-right">
                 </div>
             </div>
-            <h2>New Calendar</h2>
             {{#if errorMessage getPageSession}}
                 <div class="alert alert-warning">
                     {{errorMessage getPageSession}}
@@ -16,10 +15,17 @@
                     {{infoMessage getPageSession}}
                 </div>
             {{/if}}
-            {{> quickForm id="calendarInsertForm" collection=formCollection type="method" meteormethod="calendars.insert"}}
-            <button type="submit" id="Back-button" class="btn btn-default">
-                Back
-            </button>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">New Calendar</h3>
+                </div>
+                {{> quickForm id="calendarInsertForm" collection=formCollection type="method" meteormethod="calendars.insert"}}
+                <div id="dataview-controls" class="form-group">
+                    <button type="submit" id="Back-button" class="btn btn-default">
+                        Back
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </template>

@@ -6,7 +6,6 @@
                 </div>
             </div>
         </div>
-        <h2>Appointments</h2>
         {{#if errorMessage getPageSession}}
             <div class="alert alert-warning">
                 {{errorMessage getPageSession}}
@@ -17,6 +16,11 @@
                 {{infoMessage getPageSession}}
             </div>
         {{/if}}
-        {{> ReactiveFullcalendar options=appointmentsCalendarOptions }}
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">Appointments</h3>
+            </div>
+            {{> ReactiveFullcalendar options=appointmentsCalendarOptions }}
+        </div>
     </div>
 </template>

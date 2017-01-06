@@ -1,41 +1,10 @@
 var pageSession = getDefaultPageSession();
-var appointment;
-
-function dataReady() {
-    if (appointment){
-        return true
-    } else {
-        return false
-    }
-}
-function getCurrentAvailabilityId(){
-    var currentId = Router.current().params._eventId;
-    if (currentId !== undefined) {
-        return currentId;
-    }
-}
-
-Template.Appointment.onCreated(function bodyOnCreated() {
-    appointment = this.data;
-    pageSession.set("errorMessage", "");
-});
-
-Template.Appointment.onRendered( () => {
-
-});
-
-Template.Appointment.rendered = function() {
-
-};
-
-Template.Appointment.created = function() {
-};
 
 Template.Appointment.events({
-    "click #dataview-cancel-button": function(e) {
+    "click #dataview-cancel-button": function(event) {
         // Das hier sollte halt dann ein Inhalt aus einem Freitextfeld im Modaldialog sein.
         var reason;
-        e.preventDefault();
+        event.preventDefault();
         var prompt = bootbox.prompt({
             animate: false,
             title: "Please provide a reason for your cancellation:",
@@ -56,9 +25,9 @@ Template.Appointment.events({
                                 label: "Yes, and delete availability",
                                 className: "btn-primary",
                                 callback: function() {
-                                    Meteor.call('booking.cancelByOwner',getCurrentAvailabilityId(),reason, function(error, result){
+                                    Meteor.call('booking.cancelByOwner',Availabilities.findOne({})._id,reason, function(error, result){
                                         if (!error){
-                                            Meteor.call('availabilities.remove',getCurrentAvailabilityId());
+                                            Meteor.call('availabilities.remove',Availabilities.findOne({})._id);
                                             Router.go('home_private.appointments');
                                         }
                                     });
@@ -68,7 +37,7 @@ Template.Appointment.events({
                                 label: "Yes, and keep availability",
                                 className: "btn-primary",
                                 callback: function () {
-                                    Meteor.call('booking.cancelByOwner',getCurrentAvailabilityId(),reason,function (error,result) {
+                                    Meteor.call('booking.cancelByOwner',Availabilities.findOne({})._id,reason,function (error,result) {
                                         if (!error){
                                             Router.go('home_private.appointments');
                                         }
@@ -85,8 +54,8 @@ Template.Appointment.events({
             }
         });
     },
-    "click #Back-button": function(e, t) {
-        e.preventDefault();
+    "click #Back-button": function(event, templateInstance) {
+        event.preventDefault();
         history.back();
     }
 });
@@ -95,26 +64,13 @@ Template.Appointment.helpers({
     getPageSession: function () {
         return pageSession
     },
-    itemsReady:function() {
-        return dataReady();
+    getAppointment: function () {
+        return Availabilities.findOne({})
     },
-    getFrom: function() {
-       return appointment.startDate
-    },
-    getTo: function () {
-        return appointment.endDate
-    },
-    getName:function(){
-        return appointment.bookedByName
-    },
-    getConfirmationStatus: function () {
-        return appointment.bookedByConfirmed
-    },
-    getEmail: function () {
-        return appointment.bookedByEmail
-    },
-    getBookedOn: function () {
-        return appointment.bookedByDate
+    isInTheFuture: function () {
+        if (Availabilities.findOne({}).startDate >= new Date()){
+            return true;
+        }
+        return false;
     }
-    
 });

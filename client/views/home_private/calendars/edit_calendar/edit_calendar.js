@@ -1,29 +1,7 @@
 import {Calendars} from '/imports/api/calendarsCollection';
-var pageSession = new ReactiveDict();
+import {} from '/public/js/bootstrap-colorselector';
+var pageSession = getDefaultPageSession();
 window.Calendars = Calendars;
-
-function getCurrentCalendarId(){
-    var currentId = Router.current().params._calendarId;
-    if (currentId !== undefined) {
-        return currentId;
-    }
-}
-function getCurrentCalendar() {
-    var calendar = Calendars.findOne({_id: getCurrentCalendarId()});
-    if (calendar !== undefined){
-        return calendar;
-    }
-}
-
-Template.EditCalendar.onRendered( () => {
-    pageSession.set("errorMessage", "");
-});
-
-Template.EditCalendar.helpers({
-    getPageSession: function () {
-        return pageSession;
-    }
-});
 
 Template.EditCalendar.events({
     "click #Back-button": function(e, t) {
@@ -32,16 +10,17 @@ Template.EditCalendar.events({
     }
 });
 
-Template.CalendarUpdateForm.onCreated(
-    function bodyOnCreated() {
-        Meteor.subscribe('singleCalendar',getCurrentCalendarId());
-    }
-);
-
-Template.CalendarUpdateForm.helpers({
+Template.EditCalendar.helpers({
+    getPageSession: function () {
+        return pageSession;
+    },
     updateDoc: function () {
-        return getCurrentCalendar();
+        return Calendars.findOne({_id: Router.current().params._calendarId});
     }
+});
+
+Template.EditCalendar.onRendered(function(){
+    this.$('#colorselector').colorselector();
 });
 
 AutoForm.hooks({

@@ -5,11 +5,11 @@ Template.VerifyBooking.onCreated(function bodyOnCreated() {
     if (verifyBookingToken) {
         Meteor.call('booking.confirm', verifyBookingToken, function (error, project) {
             if(!error){
-                pageSession.set("errorMessage", "");
-                pageSession.set("infoMessage", "You successfully confirmed your booking.");
+                nullMessages(pageSession);
+                setInfoMessage(pageSession, "You successfully confirmed your booking.", null);
             } else if (error && error.error === "confirmation-error"){
-                pageSession.set("errorMessage", error.reason);
-                pageSession.set("infoMessage", "");
+                nullMessages(pageSession);
+                setErrorMessage(pageSession, error.reason, null);
             }
         });
     }

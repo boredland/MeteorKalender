@@ -16,14 +16,14 @@ Template.ResetPassword.events({
 		var min_password_len = 6;
 		if(!isValidPassword(new_password, min_password_len))
 		{
-			pageSession.set("errorMessage", "Your password must be at least " + min_password_len + " characters long.");
+			setErrorMessage(pageSession, "Your password must be at least " + min_password_len + " characters long.");
 			t.find('#new_password').focus();
 			return false;
 		}
 
 		if(new_password != new_password_confirm)
 		{
-			pageSession.set("errorMessage", "Your password and confirm password doesn't match.");
+			setErrorMessage(pageSession, "Your password and confirm password doesn't match.");
 			t.find('#new_password_confirm').focus();
 			return false;
 		}
@@ -32,9 +32,9 @@ Template.ResetPassword.events({
 		Accounts.resetPassword(this.params.resetPasswordToken, new_password, function(err) {
 			submit_button.button("reset");
 			if (err)
-				pageSession.set("errorMessage", err.message);
+				setErrorMessage(pageSession, err.message);
 			else
-				pageSession.set("errorMessage", "");
+				nullMessages(pageSession);
 		});
 
 		return false;
@@ -43,8 +43,7 @@ Template.ResetPassword.events({
 });
 
 Template.ResetPassword.helpers({
-	errorMessage: function() {
-		return pageSession.get("errorMessage");
-	}
-	
+    getPageSession: function () {
+        return pageSession;
+    }
 });
