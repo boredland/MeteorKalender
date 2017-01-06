@@ -259,7 +259,15 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Number,
         autoform: {
             step: 5,
-            defaultValue: 10
+            defaultValue: 10,
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Chunk duration',
+                    content: 'The duration one session of your consultation hour should have.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
+                }
+            }
         },
         custom: function () {
             return checkDuration(this.field("startTime").value, this.field("endTime").value, this.field("chunkDuration").value);
@@ -283,7 +291,15 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 {label: "2 weeks", value: "2"},
                 {label: "3 weeks", value: "3"},
                 {label: "4 weeks", value: "4"}
-            ]
+            ],
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Repeat interval',
+                    content: 'Number of weeks between two repetitions.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
+                }
+            }
         }
     },
     repeatUntil: {
@@ -299,6 +315,14 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 }
             },
             readOnly: true,
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Repeat until',
+                    content: 'Date until the availabilities should be repeated.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
+                }
+            },
             afFieldInput: {
                 type: function () {
                     if (AutoForm.getFieldValue("repeatInterval")) {
@@ -332,7 +356,8 @@ export var availabilitiesFormSchema = new SimpleSchema({
         }
     },
     calendarId: {
-        type: Array
+        type: Array,
+        label: "Calendar"
     },
     'calendarId.$': {
         type: String,

@@ -10,11 +10,29 @@ export var calendarsSchema = new SimpleSchema({
     name: {
         type: String,
         max: 200,
-        autoform: {}
+        autoform: {
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Name',
+                    content: 'This will be used as the topic of the calendar (e.g., "Consulation hour IT").',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
+                }
+            }
+        }
     },
     location: {
         type: String,
-        autoform: {}
+        autoform: {
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Location',
+                    content: 'This location will be shown to all the users booking an appointment in this calendar (e.g., "Frankfurt University, 1-R131").',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
+                }
+            }
+        }
     },
     color: {
         type: String,
@@ -31,11 +49,25 @@ export var calendarsSchema = new SimpleSchema({
                 {label: "PURPLE", value: "#B10DC9", "data-color": "#B10DC9"},
                 {label: "BLACK", value: "#111111", "data-color": "#111111"},
                 {label: "GRAY", value: "#AAAAAA", "data-color": "#AAAAAA"},
-            ]
+            ],
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Color',
+                    content: 'This color is only used to distinguish the appointments/availabilities visually for you.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
+                }
+            }
         }
     },
     published: {
-        type: Boolean
+        type: Boolean,
+        optional: true,
+        autoform: {
+            type: "hidden",
+            label: false,
+            defaultValue: true
+        }
     },
     linkslug: {
         type: String,
