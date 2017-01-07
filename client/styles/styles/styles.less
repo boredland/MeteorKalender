@@ -3,6 +3,17 @@
 @navbar_height: 50px;
 @footer_height: 60px;
 /** Overrides for the Navbar-Spacer mobile and desktop **/
+#settings #subcontent {
+  display: initial;
+}
+.row {
+  max-width: 100%;
+  width: auto;
+}
+#subcontent {
+  display: table;
+  margin: 0 auto;
+}
 
 .form-group {
   margin: 15px;
@@ -36,6 +47,10 @@
   #dataview-table {
     width: 97%;
   }
+  #content .container, #subcontent .container {
+    padding-right: initial;
+    padding-left: initial;
+  }
 }
 
 @media (max-width: 768px) {
@@ -49,6 +64,9 @@
 
   #dataview-table {
     width: auto;
+  }
+  #content .container, #subcontent .container {
+    padding-right: initial;
   }
 
   .nav {
@@ -156,6 +174,7 @@ h6 a, h6 a:hover {
 
 #footer .text-muted {
   margin: 19px 0;
+  text-align: center;
 }
 
 #content .container, #subcontent .container {
