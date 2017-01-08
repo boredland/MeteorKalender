@@ -46,7 +46,7 @@ Meteor.methods({
             location: doc.location,
             color: doc.color,
             published: doc.published,
-            linkslug: Random.id().substring(0, 4)
+            linkslug: RandomWord.get()+"-"+RandomWord.get()+"-"+RandomWord.get()
         });
     },
     'calendars.remove'(calendarId){
