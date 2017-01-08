@@ -115,7 +115,8 @@ export var availabilitiesSchema = new SimpleSchema({
         }
     },
     calendarId: {
-        type: Array
+        type: Array,
+        label: "Calendar"
     },
     'calendarId.$': {
         type: String,
