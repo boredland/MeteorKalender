@@ -1,5 +1,5 @@
 import {Calendars} from '/imports/api/calendarsCollection';
-import {} from '/public/js/bootstrap-colorselector';
+import {} from '/client/lib/bootstrap-colorselector';
 var pageSession = getDefaultPageSession();
 window.Calendars = Calendars;
 
