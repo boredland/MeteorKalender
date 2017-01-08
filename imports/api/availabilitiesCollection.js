@@ -36,16 +36,12 @@ if (Meteor.isServer) {
     let sendMail = function (options) {
         return Meteor.call('sendMail', options);
     };
-
-    Availabilities.before.insert(function (userId, doc) {
-        let new_startdate = new Date(doc.startDate);
-        let new_enddate = new Date(doc.endDate);
-        let duration = Math.round((moment(doc.endDate) - moment(doc.startDate)) / (1000 * 60));
+    var checkForOverlap = function (userId,new_startdate,new_enddate,thisDocId) {
         /**
          * This will check that there are no Availabilities for this user at the same time or overlapping times.
          */
-        Availabilities.find({userId: doc.userId, startDate: {$gt: new Date()}}).fetch().map((availability) => {
-            if (availability !== undefined) {
+        Availabilities.find({userId: userId, startDate: {$gt: new Date()}}).fetch().map((availability) => {
+            if (availability !== undefined && availability._id !== thisDocId) {
                 let existing_startdate = new Date(availability.startDate);
                 let existing_enddate = new Date(availability.endDate);
                 //console.log("Are " + new_startdate + " or "+new_enddate+" between " + existing_startdate + " or " + existing_enddate + "?");
@@ -60,24 +56,46 @@ if (Meteor.isServer) {
                         (new_startdate <= existing_startdate) && (new_enddate >= existing_enddate)
                     )
                 ) {
-                    throw new Meteor.Error("overlap");
+                    throw new Meteor.Error("overlap","The availability you wanted to create/update overlaps with an existing one.");
                 }
             }
             return true;
         });
+    };
+    var checkStartEndLogic = function (userId,new_startdate,new_enddate) {
         /**
          * This will check that the startdate is not after the enddate
          */
         if (new_startdate > new_enddate) {
             throw new EvalError("Startdate: " + new_startdate + " is bigger than Enddate " + new_enddate);
         }
+    };
+    var checkDuration = function (new_startdate, new_enddate, chunkDuration) {
+        let duration = Math.round((moment(new_enddate) - moment(new_startdate)) / (1000 * 60));
         /**
          * This will check that the actual duration of the insertion is not smaller than the chunks duration. Do we really need that??
          */
-        if (duration < doc.chunkDuration) {
-            throw new EvalError("Duration " + duration + " is shorter than Chunkperiod " + doc.chunkDuration);
+        if (duration < chunkDuration) {
+            throw new EvalError("Duration " + duration + " is shorter than Chunkperiod " + chunkDuration);
         }
+    };
+
+    Availabilities.before.update(function (userId, doc, fieldNames, modifier, options) {
+        modifier.$set.startDate = new Date(moment(modifier.$set.startDate).seconds(1));
+        let new_startdate = new Date(modifier.$set.startDate);
+        let new_enddate = new Date(modifier.$set.endDate);
+        checkForOverlap(userId,new_startdate,new_enddate,doc._id);
+        checkStartEndLogic(userId,new_startdate,new_enddate);
     });
+
+    Availabilities.before.insert(function (userId, doc) {
+        let new_startdate = new Date(doc.startDate);
+        let new_enddate = new Date(doc.endDate);
+        checkForOverlap(userId,new_startdate,new_enddate,doc._id);
+        checkStartEndLogic(userId,new_startdate,new_enddate);
+        checkDuration(new_startdate,new_enddate,doc.chunkDuration);
+    });
+
     /**
      * Checks vor dem Löschvorgang
      * Hier sollte geprüft werden, dass nichts mit buchungsmerkmalen gelöscht wird.
