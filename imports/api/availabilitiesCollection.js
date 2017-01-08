@@ -309,7 +309,7 @@ Meteor.methods({
         let startTime = moment(doc.startDate).hour(moment(doc.startTime).get('hour')).minute(moment(doc.startTime).get('minute')).seconds(0);
         let endTime = moment(doc.startDate).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute')).seconds(0);
         let repeatUntil = moment(doc.repeatUntil).hour(moment(doc.endTime).get('hour')).minute(moment(doc.endTime).get('minute'));
-        let familyId = Random.id().substring(0, 4);
+        let familyId = Random.id().substring(0, 6);
         let startTimeModified = startTime;
         let endTimeModified = endTime;
         let overlapErrorCount = 0;
