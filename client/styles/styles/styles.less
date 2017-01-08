@@ -3,12 +3,20 @@
 @navbar_height: 50px;
 @footer_height: 60px;
 /** Materialize the multiselect **/
+.selectize-input .remove {
+  padding-top: 5px !important;
+  font-size: 16px !important;
+  padding-left: 7px !important;
+  margin-right: 7px !important;
+}
 .selectize-control.multi .selectize-input .item {
   border-radius: 0px;
   background-image: none;
   background-color: #2196f3;
   border: none;
   box-shadow: none;
+  padding: 5px 10px 5px 10px;
+  width: 100px;
 }
 
 .selectize-input {
@@ -36,6 +44,9 @@
   top: 0px;
 }
 
+.universe-selectize.selectize-control.multi .selectize-input {
+  height: auto;
+}
 /** Overrides for the Navbar-Spacer mobile and desktop **/
 #settings #subcontent {
   display: initial;
