@@ -115,15 +115,13 @@ export var availabilitiesSchema = new SimpleSchema({
         }
     },
     calendarId: {
-        type: Array,
-        label: "Calendar"
-    },
-    'calendarId.$': {
-        type: String,
+        type: [String],
+        label: "Calendar",
         autoform: {
+            type: "universe-select",
             afFieldInput: {
-                type: "select",
-                firstOption: false,
+                multiple: true,
+                uniPlaceholder: "Select calendars.",
                 options: function () {
                     var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
                         return {
@@ -132,6 +130,14 @@ export var availabilitiesSchema = new SimpleSchema({
                         };
                     });
                     return opts;
+                }
+            },
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Calendars',
+                    content: 'Select all the calendars you want to display this availability in.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
                 }
             }
         }
@@ -359,15 +365,13 @@ export var availabilitiesFormSchema = new SimpleSchema({
         }
     },
     calendarId: {
-        type: Array,
-        label: "Calendar"
-    },
-    'calendarId.$': {
-        type: String,
+        type: [String],
+        label: "Calendar",
         autoform: {
+            type: "universe-select",
             afFieldInput: {
-                type: "select",
-                firstOption: false,
+                multiple: true,
+                uniPlaceholder: "Select calendars.",
                 options: function () {
                     var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
                         return {
@@ -376,6 +380,14 @@ export var availabilitiesFormSchema = new SimpleSchema({
                         };
                     });
                     return opts;
+                }
+            },
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Calendars',
+                    content: 'Select all the calendars you want to display this availability in.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
                 }
             }
         }

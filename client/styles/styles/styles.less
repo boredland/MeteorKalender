@@ -2,15 +2,51 @@
 
 @navbar_height: 50px;
 @footer_height: 60px;
+/** Materialize the multiselect **/
+.selectize-control.multi .selectize-input .item {
+  border-radius: 0px;
+  background-image: none;
+  background-color: #2196f3;
+  border: none;
+  box-shadow: none;
+}
+
+.selectize-input {
+  box-shadow: none;
+  border-bottom: 1px dotted #ddd;
+  border-width: 0px 0px 1px 0px;
+}
+.selectize-input.dropdown-active::before {
+  background-color: transparent;
+}
+
+.selectize-input.focus {
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.selectize-dropdown {
+  border: none;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  position: relative;
+}
+
+.universe-selectize.selectize-control .selectize-dropdown {
+  top: 0px;
+}
+
 /** Overrides for the Navbar-Spacer mobile and desktop **/
 #settings #subcontent {
   display: initial;
   min-width: initial;
 }
+
 .row {
   max-width: 100%;
   width: auto;
 }
+
 #subcontent {
   display: table;
   margin: 0 auto;
@@ -49,6 +85,7 @@
   #dataview-table {
     width: 97%;
   }
+
   #content .container, #subcontent .container {
     padding-right: initial;
     padding-left: initial;
@@ -67,6 +104,7 @@
   #dataview-table {
     width: auto;
   }
+
   #content .container, #subcontent .container {
     padding-right: initial;
   }

@@ -119,6 +119,8 @@ tsega:bootstrap3-datetimepicker@4.17.37_1
 ui@1.0.12
 underscore@1.0.10
 url@1.0.11
+vazco:universe-autoform-select@0.3.10
+vazco:universe-selectize@0.1.22
 votercircle:winston@0.0.3
 webapp@1.3.12
 webapp-hashing@1.0.9
