@@ -1,6 +1,8 @@
 import "/imports/api/availabilitiesCollection"; // Dont know what this is for..
 import {Calendars} from "/imports/api/calendarsCollection";
 import "/imports/logger";
+import SlackAPI from 'node-slack';
+
 //Import creates the collection on the server.
 var verifyEmail = true;
 var returnMailString = "Date your prof <noreply@wp12310502.server-he.de>";
@@ -67,8 +69,7 @@ Meteor.methods({
         //configure slack with an env variable
         let user = name;
         if (!user) user = "anonymous user";
-        let SlackAPI = Meteor.npmRequire( 'node-slack' ),
-            Slack    = new SlackAPI( "https://hooks.slack.com/services/"+process.env.FEEDSLACK );
+        let Slack    = new SlackAPI( "https://hooks.slack.com/services/"+process.env.FEEDSLACK );
         var git_title = "User reported: Error at "+place;
         var git_message = "**Delivered by:**%20"+user+"%0D%0A**Place:**%20"+place+"%0D%0A**Description:**%20"+message;
         Slack.send({
