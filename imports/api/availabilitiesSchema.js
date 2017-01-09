@@ -115,14 +115,13 @@ export var availabilitiesSchema = new SimpleSchema({
         }
     },
     calendarId: {
-        type: Array
-    },
-    'calendarId.$': {
-        type: String,
+        type: [String],
+        label: "Calendar",
         autoform: {
+            type: "universe-select",
             afFieldInput: {
-                type: "select",
-                firstOption: false,
+                multiple: true,
+                uniPlaceholder: "Select calendars.",
                 options: function () {
                     var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
                         return {
@@ -131,6 +130,14 @@ export var availabilitiesSchema = new SimpleSchema({
                         };
                     });
                     return opts;
+                }
+            },
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Calendars',
+                    content: 'Select all the calendars you want to display this availability in.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
                 }
             }
         }
@@ -306,6 +313,7 @@ export var availabilitiesFormSchema = new SimpleSchema({
         type: Date,
         optional: true,
         autoform: {
+            id: "bla",
             value: function () {
                 return new Date(moment().add(AutoForm.getFieldValue("repeatInterval"), 'w'))
             },
@@ -332,22 +340,23 @@ export var availabilitiesFormSchema = new SimpleSchema({
                 },
                 dateTimePickerOptions: function () {
                     if (AutoForm.getFieldValue("repeatInterval")) {
-                        var firstIteration = new Date(moment(AutoForm.getFieldValue("startDate")).add(AutoForm.getFieldValue("repeatInterval"), 'w'));
-                        var weekDay = moment(firstIteration).weekday();
-                        var disabled = [];
-                        for (var i = 0; i <= 6; i++) {
-                            if (i !== weekDay) {
-                                disabled.push(i);
-                            }
-                        }
+                        var interval = AutoForm.getFieldValue("repeatInterval");
+                        var firstIteration = new Date(moment(AutoForm.getFieldValue("startDate")).add(interval, 'w'));
+                        var lastIteration = new Date(moment(firstIteration).add(52*7,'d'));
+                        var enabledDates = [];
+                        var currentDate = firstIteration;
+                        do {
+                            enabledDates.push(currentDate);
+                            currentDate = new Date(moment(currentDate).add(interval,'w'));
+                        } while (currentDate <= lastIteration);
+
                         return {
-                            minDate: firstIteration,
                             ignoreReadonly: true,
                             sideBySide: true,
                             inline: true,
                             locale: 'de',
                             format: 'LL',
-                            daysOfWeekDisabled: disabled
+                            enabledDates: enabledDates
                         }
                     }
                 },
@@ -356,15 +365,13 @@ export var availabilitiesFormSchema = new SimpleSchema({
         }
     },
     calendarId: {
-        type: Array,
-        label: "Calendar"
-    },
-    'calendarId.$': {
-        type: String,
+        type: [String],
+        label: "Calendar",
         autoform: {
+            type: "universe-select",
             afFieldInput: {
-                type: "select",
-                firstOption: false,
+                multiple: true,
+                uniPlaceholder: "Select calendars.",
                 options: function () {
                     var opts = Calendars.find({}, {userId: this.userId}).map(function (calendars) {
                         return {
@@ -373,6 +380,14 @@ export var availabilitiesFormSchema = new SimpleSchema({
                         };
                     });
                     return opts;
+                }
+            },
+            afFormGroup: {
+                iconHelp:{
+                    title: 'Calendars',
+                    content: 'Select all the calendars you want to display this availability in.',
+                    type: 'popover',
+                    icon: 'fa fa-question-circle'
                 }
             }
         }

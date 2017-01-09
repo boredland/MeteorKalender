@@ -46,6 +46,8 @@ fortawesome:fontawesome
 bootswatch:paper
 meteorhacks:kadira
 aramk:tinycolor
-pfafman:filesaver
 stuke:ics-generator
 blaze@=2.1.9
+augustnagro:random-word
+vazco:universe-autoform-select
+awatson1978:browser-detection

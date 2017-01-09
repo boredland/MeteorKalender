@@ -126,10 +126,6 @@
         float: none; } }
 /* Stylesheet design for under max-width: 991px */
 @media (max-width: 991px) {
-    /* 991px */
-    body {
-        padding-top: 80px; }
-
     .page-header {
         background: #fff;
         /* Navbar Brand */ }

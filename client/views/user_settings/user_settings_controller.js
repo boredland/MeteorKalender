@@ -1,47 +1,37 @@
 this.UserSettingsController = RouteController.extend({
-	template: "UserSettings",
-	
+    template: "UserSettings",
 
-	yieldTemplates: {
+
+    yieldTemplates: {
 		/*YIELD_TEMPLATES*/
-	},
+    },
 
-	onBeforeAction: function() {
-		this.next();
-	},
-
-	action: function() {
-		this.redirect('user_settings.profile', this.params || {}, { replaceState: true });
+    action: function() {
+        if(this.isReady()) { this.render(); } else { this.render("loading"); }
 		/*ACTION_FUNCTION*/
-	},
+    },
 
-	isReady: function() {
-		
+    isReady: function() {
+        var subs = [
+            Meteor.subscribe("current_user_data")
+        ];
+        var ready = true;
+        _.each(subs, function(sub) {
+            if(!sub.ready())
+                ready = false;
+        });
+        return ready;
+    },
 
-		var subs = [
-		];
-		var ready = true;
-		_.each(subs, function(sub) {
-			if(!sub.ready())
-				ready = false;
-		});
-		return ready;
-	},
+    data: function() {
+        var data = {
+            params: this.params || {},
+            current_user_data: Users.findOne({_id:Meteor.userId()}, {})
+        };
+        return data;
+    },
 
-	data: function() {
-		
+    onAfterAction: function() {
 
-		var data = {
-			params: this.params || {}
-		};
-		
-
-		
-
-		return data;
-	},
-
-	onAfterAction: function() {
-		
-	}
+    }
 });

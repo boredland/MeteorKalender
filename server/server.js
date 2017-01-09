@@ -1,6 +1,9 @@
 import "/imports/api/availabilitiesCollection"; // Dont know what this is for..
 import {Calendars} from "/imports/api/calendarsCollection";
 import "/imports/logger";
+import SlackAPI from 'node-slack';
+
+const Slack = new SlackAPI( "https://hooks.slack.com/services/"+process.env.FEEDSLACK );
 //Import creates the collection on the server.
 var verifyEmail = true;
 var returnMailString = "Date your prof <noreply@wp12310502.server-he.de>";
@@ -15,7 +18,6 @@ Meteor.startup(function () {
             process.env[variableName] = Meteor.settings.env[variableName];
         }
     }
-
     //get private key and add it to package
     reCAPTCHA.config({
         privatekey: process.env.RE_CAPTCHA
@@ -64,6 +66,36 @@ Meteor.startup(function () {
 });
 
 Meteor.methods({
+    "sendFeedback": function (name, email, place, message, server, currentBrowser, resolution) {
+        //configure slack with an env variable
+        let user = name;
+        if (!user) user = "anonymous user";
+        var git_title = "User reported: Error at "+place;
+        var git_message = "**Delivered by:**%20"+user+"%0D%0A" +
+            "**Server:**%20"+server+"%0D%0A" +
+            "**Place:**%20"+place+"%0D%0A" +
+            "**Description:**%20"+message;
+        Slack.send({
+            text: user+" reported an error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title="+git_title+"&body="+git_message+"&labels=bug|Github>.",
+            username: user,
+            icon_url: "http://megaicons.net/static/img/icons_sizes/8/178/512/debug-bug-icon.png",
+            attachments: [
+                {
+                    fallback: "An error has occurred to me.",
+                    color: 'danger',
+                    fields: [
+                        { title: "Name", value: user },
+                        { title: "E-Mail", value: email },
+                        { title: "Server", value: server},
+                        { title: "Place", value: place },
+                        { title: "Description", value: message},
+                        { title: "Current Browser", value: currentBrowser },
+                        { title: "Resolution", value: resolution },
+                    ]
+                }
+            ]
+        });
+    },
 
     "validateCaptcha": function (captchaData) {
         var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captchaData);
@@ -111,7 +143,9 @@ Meteor.methods({
         if (options.password) userOptions.password = options.password;
         if (options.profile) userOptions.profile = options.profile;
 
-        if (options.profile && options.profile.email) userOptions.email = options.profile.email;
+        if (options.profile && options.profile.email) {
+            userOptions.email = options.profile.email;
+        }
         if (options.roles) userOptions.roles = options.roles;
 
         if (userOptions.email) {
@@ -136,7 +170,12 @@ Meteor.methods({
                     delete userOptions[key];
                 }
             }
-            Users.update(userId, {$set: userOptions});
+            Users.update(userId, {$set: userOptions},function (error) {
+                // email is only set, if the array has been modified...
+                if (!error && email){
+                    Accounts.sendVerificationEmail(userId, email);
+                }
+           });
         }
 
         if (password) {
@@ -152,11 +191,9 @@ Meteor.methods({
      */
     "sendMail": function (options) {
         this.unblock();
-
         options.from = returnMailString;
         options.subject = options.subject;
         options.text = options.text + "\n\n Thanks - Your Date your prof Team";
-
         Email.send(options);
     }
 });
