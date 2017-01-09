@@ -9,12 +9,12 @@ then
   echo "Deployment successful."
   RESULT_MESSAGE="Sucessfully deployed <"$DESTINATION_URL"|#"$TRAVIS_BUILD_NUMBER"> for <https://github.com/boredland/MeteorKalender/commit/$TRAVIS_COMMIT|"$TRAVIS_COMMIT">."
   slack_it
-  RETURNCODE = 0
+  export RETURNCODE = 0
 else
   echo "Deployment failed."
   RESULT_MESSAGE="Deployment for #"$TRAVIS_BUILD_NUMBER" failed. Reverted back to previous version on "$DESTINATION_URL""
   slack_it
-  RETURNCODE = 1
+  export RETURNCODE = 1
 fi
 }
 
