@@ -51,28 +51,34 @@ Template.layout.events({
             inputType: "textarea",
             value: "Ex.: My mobile phone exploded opening the application.",
             callback: function (result) {
-                var message = result;
-                promptBug.modal('hide');
-                var promptContactMail = bootbox.prompt({
-                    animate: false,
-                    title: "Please provide an email-address, so we can keep you up to date regarding this bug:",
-                    inputType: "email",
-                    callback: function (result) {
-                    	var email = result;
-                        promptContactMail.modal('hide');
-                        var promptContactName = bootbox.prompt({
-                            animate: false,
-                            title: "Please provide your name:",
-                            inputType: "text",
-                            callback: function (result) {
-                                var name = result;
-                                var place = window.location.pathname;
-                                var server = window.location.origin;
-                                Meteor.call('sendFeedback',name,email,place,message,server);
+                if (result !== null) {
+                    var message = result;
+                    promptBug.modal('hide');
+                    var promptContactMail = bootbox.prompt({
+                        animate: false,
+                        title: "Please provide an email-address, so we can keep you up to date regarding this bug:",
+                        inputType: "email",
+                        callback: function (result) {
+                            if (result !== null) {
+                                var email = result;
+                                promptContactMail.modal('hide');
+                                var promptContactName = bootbox.prompt({
+                                    animate: false,
+                                    title: "Please provide your name:",
+                                    inputType: "text",
+                                    callback: function (result) {
+                                        if (result !== null) {
+                                            var name = result;
+                                            var place = window.location.pathname;
+                                            var server = window.location.origin;
+                                            Meteor.call('sendFeedback', name, email, place, message, server);
+                                        }
+                                    }
+                                });
                             }
-                        });
-                    }
-                });
+                        }
+                    });
+                }
             }
         });
     }
