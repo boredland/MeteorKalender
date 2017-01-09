@@ -46,6 +46,13 @@ Template.layout.events({
     },
 
     "click #feedback": function (event, t) {
+        var errorModal = function (currentModal, message) {
+            currentModal.modal('hide');
+            bootbox.alert(message, function () {
+                currentModal.modal('show');
+            });
+            throw new Error(message);
+        };
         var footer = document.evaluate("//*[@id=\"footer\"]/div/p/text()", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
         var built = footer.textContent.match(/(BUILD_)(.+)/)[2];
         var promptBug = bootbox.prompt({
@@ -79,31 +86,19 @@ Template.layout.events({
                                             Meteor.call('sendFeedback', name, email, place, message, server, currentBrowser, resolution, built);
                                         } else {
                                             //catches the field not being set.
-                                            promptContactName.modal('hide');
-                                            bootbox.alert("Name has not been set.", function(){
-                                                promptContactName.modal('show');
-                                            });
-                                            throw new Error("Name has not been set.");
+                                            errorModal(promptContactName, "Name has not been set.");
                                         }
                                     }
                                 });
                             } else {
                                 //catches the field not being set.
-                                promptContactMail.modal('hide');
-                                bootbox.alert("Email has not been set.", function(){
-                                    promptContactMail.modal('show');
-                                });
-                                throw new Error("Email has not been set.");
+                                errorModal(promptContactMail, "Email has not been set.");
                             }
                         }
                     });
                 } else {
                     //catches the field not being set.
-                    promptBug.modal('hide');
-                    bootbox.alert("Please specify a message", function(){
-                        promptBug.modal('show');
-                    });
-                    throw new Error("Please specify a message");
+                    errorModal(promptBug, "Please specify a message");
                 }
             }
         });
