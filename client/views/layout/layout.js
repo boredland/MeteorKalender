@@ -44,6 +44,8 @@ Template.layout.events({
     },
 
     "click #feedback": function (event, t) {
+        var footer = document.evaluate("//*[@id=\"footer\"]/div/p/text()", document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+        var built = footer.textContent.match(/(BUILD_)(.+)/)[2];
         var promptBug = bootbox.prompt({
             animate: false,
             title: "Please provide a short description about what didn't happen as expected:",
@@ -72,7 +74,7 @@ Template.layout.events({
                                             var server = window.location.origin;
                                             var currentBrowser = BrowserDetect.browser + " " + BrowserDetect.version + " on " + BrowserDetect.OS;
                                             var resolution = "Height: " + window.innerHeight + " Width: " + window.innerWidth;
-                                            Meteor.call('sendFeedback', name, email, place, message, server, currentBrowser, resolution);
+                                            Meteor.call('sendFeedback', name, email, place, message, server, currentBrowser, resolution, built);
                                         }
                                     }
                                 });
