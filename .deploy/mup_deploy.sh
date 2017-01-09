@@ -9,12 +9,12 @@ then
   echo "Deployment successful."
   RESULT_MESSAGE="Sucessfully deployed <"$DESTINATION_URL"|#"$TRAVIS_BUILD_NUMBER"> for <https://github.com/boredland/MeteorKalender/commit/$TRAVIS_COMMIT|"$TRAVIS_COMMIT">."
   slack_it
-  export RETURNCODE = 0
+  RETURNCODE = 0
 else
   echo "Deployment failed."
   RESULT_MESSAGE="Deployment for #"$TRAVIS_BUILD_NUMBER" failed. Reverted back to previous version on "$DESTINATION_URL""
   slack_it
-  export RETURNCODE = 1
+  RETURNCODE = 1
 fi
 }
 
@@ -43,4 +43,4 @@ webhook_key=$Webhook_Test
 deploy
 fi
 
-exit ${RETURNCODE}
+exit $RETURNCODE
