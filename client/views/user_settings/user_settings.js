@@ -70,7 +70,7 @@ Template.UserSettings.events({
         setErrorMessage(pageSession, "");
         var self = this;
 
-        function submitAction(msg) {
+        function submitAction(msg,values) {
             var userSettingsProfileEditFormMode = "update";
             if (!t.find("#form-cancel-button")) {
                 switch (userSettingsProfileEditFormMode) {
@@ -82,7 +82,10 @@ Template.UserSettings.events({
 
                     case "update": {
                         var message = msg || "Saved.";
-                        setInfoMessage(pageSession, message);
+                        if (values && values.profile.email) {
+                            message = message + " Your verification has been reset, please click on the link sent to your new email-address."
+                        }
+                        setInfoMessage(pageSession, message, null);
                     }
                         ;
                         break;
@@ -115,7 +118,7 @@ Template.UserSettings.events({
                     delete values.profile.name;
                 }
                 Meteor.call("updateUserAccount", t.data.current_user_data._id, values, function (e) {
-                    if (e) errorAction(e); else submitAction();
+                    if (e) errorAction(e); else submitAction(undefined,values);
                 });
             }
         );
