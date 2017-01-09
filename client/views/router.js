@@ -22,8 +22,6 @@ var publicRoutes = [
 var privateRoutes = [
 	"home_private",
 	"user_settings",
-	"user_settings.profile",
-	"user_settings.change_pass",
     "home_private.appointments",
     "home_private.availabilities",
     "home_private.new_availability",
@@ -229,9 +227,7 @@ Router.map(function () {
 
     // Private Routes
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
-    this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController"});
-    this.route("user_settings.profile", {path: "/user_settings/profile", controller: "UserSettingsProfileController"});
-    this.route("user_settings.change_pass", {path: "/user_settings/change_pass", controller: "UserSettingsChangePassController"});
+    this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController",template: 'UserSettings'});
     this.route("logout", {path: "/logout", controller: "LogoutController"});
 
 	// Availabilities

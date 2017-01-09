@@ -111,7 +111,9 @@ Meteor.methods({
         if (options.password) userOptions.password = options.password;
         if (options.profile) userOptions.profile = options.profile;
 
-        if (options.profile && options.profile.email) userOptions.email = options.profile.email;
+        if (options.profile && options.profile.email) {
+            userOptions.email = options.profile.email;
+        }
         if (options.roles) userOptions.roles = options.roles;
 
         if (userOptions.email) {
@@ -136,7 +138,12 @@ Meteor.methods({
                     delete userOptions[key];
                 }
             }
-            Users.update(userId, {$set: userOptions});
+            Users.update(userId, {$set: userOptions},function (error) {
+                // email is only set, if the array has been modified...
+                if (!error && email){
+                    Accounts.sendVerificationEmail(userId, email);
+                }
+           });
         }
 
         if (password) {
@@ -152,11 +159,9 @@ Meteor.methods({
      */
     "sendMail": function (options) {
         this.unblock();
-
         options.from = returnMailString;
         options.subject = options.subject;
         options.text = options.text + "\n\n Thanks - Your Date your prof Team";
-
         Email.send(options);
     }
 });
