@@ -66,12 +66,15 @@ Meteor.startup(function () {
 });
 
 Meteor.methods({
-    "sendFeedback": function (name,email,place,message) {
+    "sendFeedback": function (name,email,place,message,server) {
         //configure slack with an env variable
         let user = name;
         if (!user) user = "anonymous user";
         var git_title = "User reported: Error at "+place;
-        var git_message = "**Delivered by:**%20"+user+"%0D%0A**Place:**%20"+place+"%0D%0A**Description:**%20"+message;
+        var git_message = "**Delivered by:**%20"+user+"%0D%0A" +
+            "**Server:**%20"+server+"%0D%0A" +
+            "**Place:**%20"+place+"%0D%0A" +
+            "**Description:**%20"+message;
         Slack.send({
             text: user+" reported and error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title="+git_title+"&body="+git_message+"&labels=bug|Github>.",
             username: user,
@@ -83,6 +86,7 @@ Meteor.methods({
                     fields: [
                         { title: "Name", value: user },
                         { title: "E-Mail", value: email },
+                        { title: "Server", value: server},
                         { title: "Place", value: place },
                         { title: "Description", value: message}
                     ]

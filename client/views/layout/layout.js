@@ -66,8 +66,9 @@ Template.layout.events({
                             inputType: "text",
                             callback: function (result) {
                                 var name = result;
-                                var place = Iron.Location.get().path;
-                                Meteor.call('sendFeedback',name,email,place,message);
+                                var place = window.location.pathname;
+                                var server = window.location.origin;
+                                Meteor.call('sendFeedback',name,email,place,message,server);
                             }
                         });
                     }
