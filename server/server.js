@@ -15,7 +15,6 @@ Meteor.startup(function () {
             process.env[variableName] = Meteor.settings.env[variableName];
         }
     }
-
     //get private key and add it to package
     reCAPTCHA.config({
         privatekey: process.env.RE_CAPTCHA
@@ -64,6 +63,18 @@ Meteor.startup(function () {
 });
 
 Meteor.methods({
+    "sendFeedback": function (message,email) {
+        //configure slack with an env variable
+        let user = email;
+        if (!user) user = "anonymous user";
+        let SlackAPI = Meteor.npmRequire( 'node-slack' ),
+            Slack    = new SlackAPI( "https://hooks.slack.com/services/"+process.env.FEEDSLACK );
+        Slack.send({
+            text: message,
+            username: user,
+            icon_url: "http://megaicons.net/static/img/icons_sizes/8/178/512/debug-bug-icon.png"
+        });
+    },
 
     "validateCaptcha": function (captchaData) {
         var verifyCaptchaResponse = reCAPTCHA.verifyCaptcha(this.connection.clientAddress, captchaData);

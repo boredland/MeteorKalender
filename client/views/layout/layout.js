@@ -1,3 +1,4 @@
+import { HTTP } from 'meteor/http';
 Template.layout.rendered = function() {
 	// scroll to anchor
 	$('body').on('click', 'a', function(e) { 
@@ -41,6 +42,28 @@ Template.layout.events({
                 $('.navbar-collapse').collapse('hide');
             }
         }
+    },
+
+    "click #feedback": function () {
+        var promptBug = bootbox.prompt({
+            animate: false,
+            title: "Please provide a short description about what didn't happen as expected:",
+            inputType: "textarea",
+            value: "Ex.: My mobile phone exploded opening the application.",
+            callback: function (result) {
+                reason = result;
+                promptBug.modal('hide');
+                var promptContact = bootbox.prompt({
+                    animate: false,
+                    title: "Please provide an email-address, so we can keep you up to date regarding this bug:",
+                    inputType: "email",
+                    callback: function (result) {
+                    	var user = result;
+                        Meteor.call('sendFeedback',reason,user);
+                    }
+                });
+            }
+        });
     }
 });
 
@@ -57,16 +80,6 @@ Template.layout.helpers({
 		};
 		
 	}
-});
-
-Template.FreeLayout.onCreated(function() {
-	var subs = [
-		];
-});
-
-Template.PublicLayout.onCreated(function() {
-	var subs = [
-		];
 });
 
 Template.PublicLayoutLeftMenu.rendered = function() {
