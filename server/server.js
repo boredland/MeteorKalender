@@ -76,7 +76,7 @@ Meteor.methods({
             "**Place:**%20"+place+"%0D%0A" +
             "**Description:**%20"+message;
         Slack.send({
-            text: user+" reported and error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title="+git_title+"&body="+git_message+"&labels=bug|Github>.",
+            text: user+" reported an error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title="+git_title+"&body="+git_message+"&labels=bug|Github>.",
             username: user,
             icon_url: "http://megaicons.net/static/img/icons_sizes/8/178/512/debug-bug-icon.png",
             attachments: [
