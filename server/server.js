@@ -66,7 +66,7 @@ Meteor.startup(function () {
 });
 
 Meteor.methods({
-    "sendFeedback": function (name, email, place, message, server, currentBrowser, resolution) {
+    "sendFeedback": function (name, email, place, message, server, currentBrowser, resolution, built) {
         //configure slack with an env variable
         let user = name;
         if (!user) user = "anonymous user";
@@ -76,8 +76,9 @@ Meteor.methods({
             "**Place:**%20"+place+"%0D%0A" +
             "**Description:**%20"+message+"%0D%0A" +
             "**Browser:**%20"+currentBrowser+"%0D%0A"+
-            "**Resolution:**%20"+resolution+"%0D%0A"
-            ;
+            "**Resolution:**%20"+resolution+"%0D%0A"+
+            "**Built:**%20"+built+"%0D%0A"
+        ;
         Slack.send({
             text: user+" reported an error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title="+git_title+"&body="+git_message+"&labels=bug|Github>.",
             username: user,
@@ -94,6 +95,7 @@ Meteor.methods({
                         { title: "Description", value: message},
                         { title: "Browser", value: currentBrowser },
                         { title: "Resolution", value: resolution },
+                        { title: "Built", value: built }
                     ]
                 }
             ]
