@@ -51,15 +51,25 @@ Template.layout.events({
             inputType: "textarea",
             value: "Ex.: My mobile phone exploded opening the application.",
             callback: function (result) {
-                reason = result;
+                var message = result;
                 promptBug.modal('hide');
-                var promptContact = bootbox.prompt({
+                var promptContactMail = bootbox.prompt({
                     animate: false,
                     title: "Please provide an email-address, so we can keep you up to date regarding this bug:",
                     inputType: "email",
                     callback: function (result) {
-                    	var user = result;
-                        Meteor.call('sendFeedback',reason,user);
+                    	var email = result;
+                        promptContactMail.modal('hide');
+                        var promptContactName = bootbox.prompt({
+                            animate: false,
+                            title: "Please provide your name:",
+                            inputType: "text",
+                            callback: function (result) {
+                                var name = result;
+                                var place = Iron.Location.get().path;
+                                Meteor.call('sendFeedback',name,email,place,message);
+                            }
+                        });
                     }
                 });
             }

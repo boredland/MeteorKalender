@@ -52,5 +52,4 @@ blaze@=2.1.9
 augustnagro:random-word
 vazco:universe-autoform-select
 meteorhacks:npm
-
-
+npm-container
