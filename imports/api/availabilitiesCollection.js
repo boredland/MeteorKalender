@@ -81,7 +81,9 @@ if (Meteor.isServer) {
     };
 
     Availabilities.before.update(function (userId, doc, fieldNames, modifier, options) {
-        modifier.$set.startDate = new Date(moment(modifier.$set.startDate).seconds(1));
+        if (modifier.$set.startDate){
+            modifier.$set.startDate = new Date(moment(modifier.$set.startDate).seconds(1));
+        }
         let new_startdate = new Date(modifier.$set.startDate);
         let new_enddate = new Date(modifier.$set.endDate);
         checkForOverlap(userId,new_startdate,new_enddate,doc._id);
