@@ -79,21 +79,30 @@ Template.layout.events({
                                             Meteor.call('sendFeedback', name, email, place, message, server, currentBrowser, resolution, built);
                                         } else {
                                             //catches the field not being set.
-                                            bootbox.alert("Name has not been set.");
+                                            promptContactName.modal('hide');
+                                            bootbox.alert("Name has not been set.", function(){
+                                                promptContactName.modal('show');
+                                            });
                                             throw new Error("Name has not been set.");
                                         }
                                     }
                                 });
                             } else {
                                 //catches the field not being set.
-                                bootbox.alert("Email has not been set.");
+                                promptContactMail.modal('hide');
+                                bootbox.alert("Email has not been set.", function(){
+                                    promptContactMail.modal('show');
+                                });
                                 throw new Error("Email has not been set.");
                             }
                         }
                     });
                 } else {
                     //catches the field not being set.
-                    bootbox.alert("Please specify a message");
+                    promptBug.modal('hide');
+                    bootbox.alert("Please specify a message", function(){
+                        promptBug.modal('show');
+                    });
                     throw new Error("Please specify a message");
                 }
             }
