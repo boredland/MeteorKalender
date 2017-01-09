@@ -74,7 +74,10 @@ Meteor.methods({
         var git_message = "**Delivered by:**%20"+user+"%0D%0A" +
             "**Server:**%20"+server+"%0D%0A" +
             "**Place:**%20"+place+"%0D%0A" +
-            "**Description:**%20"+message;
+            "**Description:**%20"+message+"%0D%0A" +
+            "**Browser:**%20"+currentBrowser+"%0D%0A"+
+            "**Resolution:**%20"+resolution+"%0D%0A"
+            ;
         Slack.send({
             text: user+" reported an error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title="+git_title+"&body="+git_message+"&labels=bug|Github>.",
             username: user,
@@ -89,7 +92,7 @@ Meteor.methods({
                         { title: "Server", value: server},
                         { title: "Place", value: place },
                         { title: "Description", value: message},
-                        { title: "Current Browser", value: currentBrowser },
+                        { title: "Browser", value: currentBrowser },
                         { title: "Resolution", value: resolution },
                     ]
                 }
