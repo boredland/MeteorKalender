@@ -66,7 +66,7 @@ Meteor.startup(function () {
 });
 
 Meteor.methods({
-    "sendFeedback": function (name,email,place,message,server) {
+    "sendFeedback": function (name, email, place, message, server, currentBrowser, resolution) {
         //configure slack with an env variable
         let user = name;
         if (!user) user = "anonymous user";
@@ -88,7 +88,9 @@ Meteor.methods({
                         { title: "E-Mail", value: email },
                         { title: "Server", value: server},
                         { title: "Place", value: place },
-                        { title: "Description", value: message}
+                        { title: "Description", value: message},
+                        { title: "Current Browser", value: currentBrowser },
+                        { title: "Resolution", value: resolution },
                     ]
                 }
             ]

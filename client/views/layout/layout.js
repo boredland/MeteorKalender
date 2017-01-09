@@ -1,33 +1,32 @@
-import { HTTP } from 'meteor/http';
-Template.layout.rendered = function() {
-	// scroll to anchor
-	$('body').on('click', 'a', function(e) { 
-		var href = $(this).attr("href");
-		if(!href) {
-			return;
-		}
-		if(href.length > 1 && href.charAt(0) === "#") {
-			var hash = href.substring(1);
-			if(hash) {
-				e.preventDefault();
+Template.layout.rendered = function () {
+    // scroll to anchor
+    $('body').on('click', 'a', function (e) {
+        var href = $(this).attr("href");
+        if (!href) {
+            return;
+        }
+        if (href.length > 1 && href.charAt(0) === "#") {
+            var hash = href.substring(1);
+            if (hash) {
+                e.preventDefault();
 
-				var offset = $('*[id="' + hash + '"]').offset();
+                var offset = $('*[id="' + hash + '"]').offset();
 
-				if (offset) {
-					$('html,body').animate({ scrollTop: offset.top - 60 }, 400);
-				}
-			}
-		} else {
-			if(href.indexOf("http://") !== 0 && href.indexOf("https://") !== 0 && href.indexOf("#") !== 0) {
-				$('html,body').scrollTop(0);
-			}
-		}
-	}); 
-	/*TEMPLATE_RENDERED_CODE*/
+                if (offset) {
+                    $('html,body').animate({scrollTop: offset.top - 60}, 400);
+                }
+            }
+        } else {
+            if (href.indexOf("http://") !== 0 && href.indexOf("https://") !== 0 && href.indexOf("#") !== 0) {
+                $('html,body').scrollTop(0);
+            }
+        }
+    });
+    /*TEMPLATE_RENDERED_CODE*/
 };
 
-Template.layout.events({ 
-    "click": function(event) { // Fix Bootstrap Dropdown Menu Collapse on click outside Menu
+Template.layout.events({
+    "click": function (event) { // Fix Bootstrap Dropdown Menu Collapse on click outside Menu
         var clickover = $(event.target).closest(".dropdown-toggle").length;
         var opened = $(".navbar-collapse").hasClass("in");
         if (opened === true && !clickover) {
@@ -35,7 +34,7 @@ Template.layout.events({
         }
     },
 
-    "keyup": function(event) {
+    "keyup": function (event) {
         if (event.keyCode === 27) { // Bootstrap Dropdown Menu Collapse on ESC pressed
             var opened = $(".navbar-collapse").hasClass("in");
             if (opened === true) {
@@ -44,7 +43,7 @@ Template.layout.events({
         }
     },
 
-    "click #feedback": function () {
+    "click #feedback": function (event, t) {
         var promptBug = bootbox.prompt({
             animate: false,
             title: "Please provide a short description about what didn't happen as expected:",
@@ -71,7 +70,9 @@ Template.layout.events({
                                             var name = result;
                                             var place = window.location.pathname;
                                             var server = window.location.origin;
-                                            Meteor.call('sendFeedback', name, email, place, message, server);
+                                            var currentBrowser = BrowserDetect.browser + " " + BrowserDetect.version + " on " + BrowserDetect.OS;
+                                            var resolution = "Height: " + window.innerHeight + " Width: " + window.innerWidth;
+                                            Meteor.call('sendFeedback', name, email, place, message, server, currentBrowser, resolution);
                                         }
                                     }
                                 });
@@ -84,126 +85,117 @@ Template.layout.events({
     }
 });
 
-Template.layout.helpers({ 
-	"privateData": function() {
-		return {
-			params: this.params || {}
-		};
-		
-	},
-	"publicData": function() {
-		return {
-			params: this.params || {}
-		};
-		
-	}
+Template.layout.helpers({
+    "privateData": function () {
+        return {
+            params: this.params || {}
+        };
+
+    },
+    "publicData": function () {
+        return {
+            params: this.params || {}
+        };
+
+    }
 });
 
-Template.PublicLayoutLeftMenu.rendered = function() {
-	$(".menu-item-collapse .dropdown-toggle").each(function() {
-		if($(this).find("li.active")) {
-			$(this).removeClass("collapsed");
-		}
-		$(this).parent().find(".collapse").each(function() {
-			if($(this).find("li.active").length) {
-				$(this).addClass("in");
-			}
-		});
-	});
-	
+Template.PublicLayoutLeftMenu.rendered = function () {
+    $(".menu-item-collapse .dropdown-toggle").each(function () {
+        if ($(this).find("li.active")) {
+            $(this).removeClass("collapsed");
+        }
+        $(this).parent().find(".collapse").each(function () {
+            if ($(this).find("li.active").length) {
+                $(this).addClass("in");
+            }
+        });
+    });
+
 };
 
 Template.PublicLayoutLeftMenu.events({
-	"click .toggle-text": function(e, t) {
-		e.preventDefault();
-		$(e.target).closest("ul").toggleClass("menu-hide-text");
-	}
-	
+    "click .toggle-text": function (e, t) {
+        e.preventDefault();
+        $(e.target).closest("ul").toggleClass("menu-hide-text");
+    }
+
 });
 
-Template.PublicLayoutLeftMenu.helpers({
-	
-});
+Template.PublicLayoutLeftMenu.helpers({});
 
-Template.PublicLayoutRightMenu.rendered = function() {
-	$(".menu-item-collapse .dropdown-toggle").each(function() {
-		if($(this).find("li.active")) {
-			$(this).removeClass("collapsed");
-		}
-		$(this).parent().find(".collapse").each(function() {
-			if($(this).find("li.active").length) {
-				$(this).addClass("in");
-			}
-		});
-	});
-	
+Template.PublicLayoutRightMenu.rendered = function () {
+    $(".menu-item-collapse .dropdown-toggle").each(function () {
+        if ($(this).find("li.active")) {
+            $(this).removeClass("collapsed");
+        }
+        $(this).parent().find(".collapse").each(function () {
+            if ($(this).find("li.active").length) {
+                $(this).addClass("in");
+            }
+        });
+    });
+
 };
 
 Template.PublicLayoutRightMenu.events({
-	"click .toggle-text": function(e, t) {
-		e.preventDefault();
-		$(e.target).closest("ul").toggleClass("menu-hide-text");
-	}
-	
+    "click .toggle-text": function (e, t) {
+        e.preventDefault();
+        $(e.target).closest("ul").toggleClass("menu-hide-text");
+    }
+
 });
 
-Template.PublicLayoutRightMenu.helpers({
-	
+Template.PublicLayoutRightMenu.helpers({});
+
+Template.PrivateLayout.onCreated(function () {
+    var subs = [];
 });
 
-Template.PrivateLayout.onCreated(function() {
-	var subs = [
-		];
-});
+Template.PrivateLayoutLeftMenu.rendered = function () {
+    $(".menu-item-collapse .dropdown-toggle").each(function () {
+        if ($(this).find("li.active")) {
+            $(this).removeClass("collapsed");
+        }
+        $(this).parent().find(".collapse").each(function () {
+            if ($(this).find("li.active").length) {
+                $(this).addClass("in");
+            }
+        });
+    });
 
-Template.PrivateLayoutLeftMenu.rendered = function() {
-	$(".menu-item-collapse .dropdown-toggle").each(function() {
-		if($(this).find("li.active")) {
-			$(this).removeClass("collapsed");
-		}
-		$(this).parent().find(".collapse").each(function() {
-			if($(this).find("li.active").length) {
-				$(this).addClass("in");
-			}
-		});
-	});
-	
 };
 
 Template.PrivateLayoutLeftMenu.events({
-	"click .toggle-text": function(e, t) {
-		e.preventDefault();
-		$(e.target).closest("ul").toggleClass("menu-hide-text");
-	}
-	
+    "click .toggle-text": function (e, t) {
+        e.preventDefault();
+        $(e.target).closest("ul").toggleClass("menu-hide-text");
+    }
+
 });
 
-Template.PrivateLayoutLeftMenu.helpers({
-	
-});
+Template.PrivateLayoutLeftMenu.helpers({});
 
-Template.PrivateLayoutRightMenu.rendered = function() {
-	$(".menu-item-collapse .dropdown-toggle").each(function() {
-		if($(this).find("li.active")) {
-			$(this).removeClass("collapsed");
-		}
-		$(this).parent().find(".collapse").each(function() {
-			if($(this).find("li.active").length) {
-				$(this).addClass("in");
-			}
-		});
-	});
-	
+Template.PrivateLayoutRightMenu.rendered = function () {
+    $(".menu-item-collapse .dropdown-toggle").each(function () {
+        if ($(this).find("li.active")) {
+            $(this).removeClass("collapsed");
+        }
+        $(this).parent().find(".collapse").each(function () {
+            if ($(this).find("li.active").length) {
+                $(this).addClass("in");
+            }
+        });
+    });
+
 };
 
 Template.PrivateLayoutRightMenu.events({
-	"click .toggle-text": function(e, t) {
-		e.preventDefault();
-		$(e.target).closest("ul").toggleClass("menu-hide-text");
-	}
-	
+    "click .toggle-text": function (e, t) {
+        e.preventDefault();
+        $(e.target).closest("ul").toggleClass("menu-hide-text");
+    }
+
 });
 
-Template.PrivateLayoutRightMenu.helpers({
-	
-});
+Template.PrivateLayoutRightMenu.helpers({});
