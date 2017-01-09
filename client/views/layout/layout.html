@@ -9,6 +9,16 @@
     <div id="content" class="sticky-wrapper">
         <div id="navbar" class="navbar navbar-{{#if currentUser}}default{{else}}inverse{{/if}} navbar-fixed-top"
              role="navigation">
+            {{#if errorMessage getPageSession}}
+                <div class="alert alert-warning">
+                    {{errorMessage getPageSession}}
+                </div>
+            {{/if}}
+            {{#if infoMessage getPageSession}}
+                <div class="alert alert-success">
+                    {{infoMessage getPageSession}}
+                </div>
+            {{/if}}
             <div class="navbar-container container">
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

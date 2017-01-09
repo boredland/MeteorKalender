@@ -1,3 +1,5 @@
+var pageSession = getDefaultPageSession();
+
 Template.layout.rendered = function () {
     // scroll to anchor
     $('body').on('click', 'a', function (e) {
@@ -52,7 +54,7 @@ Template.layout.events({
             inputType: "textarea",
             value: "Ex.: My mobile phone exploded opening the application.",
             callback: function (result) {
-                if (result !== null) {
+                if (result !== "") {
                     var message = result;
                     promptBug.modal('hide');
                     var promptContactMail = bootbox.prompt({
@@ -60,7 +62,7 @@ Template.layout.events({
                         title: "Please provide an email-address, so we can keep you up to date regarding this bug:",
                         inputType: "email",
                         callback: function (result) {
-                            if (result !== null) {
+                            if (result !== "") {
                                 var email = result;
                                 promptContactMail.modal('hide');
                                 var promptContactName = bootbox.prompt({
@@ -68,22 +70,35 @@ Template.layout.events({
                                     title: "Please provide your name:",
                                     inputType: "text",
                                     callback: function (result) {
-                                        if (result !== null) {
+                                        if (result !== "") {
                                             var name = result;
                                             var place = window.location.pathname;
                                             var server = window.location.origin;
                                             var currentBrowser = BrowserDetect.browser + " " + BrowserDetect.version + " on " + BrowserDetect.OS;
                                             var resolution = "Height: " + window.innerHeight + " Width: " + window.innerWidth;
                                             Meteor.call('sendFeedback', name, email, place, message, server, currentBrowser, resolution, built);
+                                        } else {
+                                            //catches the field not being set.
+                                            bootbox.alert("Name has not been set.");
+                                            throw new Error("Name has not been set.");
                                         }
                                     }
                                 });
+                            } else {
+                                //catches the field not being set.
+                                bootbox.alert("Email has not been set.");
+                                throw new Error("Email has not been set.");
                             }
                         }
                     });
+                } else {
+                    //catches the field not being set.
+                    bootbox.alert("Please specify a message");
+                    throw new Error("Please specify a message");
                 }
             }
         });
+
     }
 });
 
@@ -99,6 +114,9 @@ Template.layout.helpers({
             params: this.params || {}
         };
 
+    },
+    getPageSession: function () {
+        return pageSession;
     }
 });
 
