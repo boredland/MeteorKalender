@@ -18,8 +18,8 @@ before_install:
 - sed -i 's|RECAPTCHA|'"$RE_CAPTCHA"'|g' .deploy/production/mup.js
 - sed -i 's|KADIRAAPPSECRET|'"$KADIRA_APP_SECRET_PROD"'|g' .deploy/production/mup.js
 - sed -i 's|KADIRAAPPSECRET|'"$KADIRA_APP_SECRET_TEST"'|g' .deploy/test/mup.js
-- sed -i 's|FEEDSLACK_SECRET|'"$FEEDSLACK"'|g' .deploy/production/mup.js
-- sed -i 's|FEEDSLACK_SECRET|'"$FEEDSLACK"'|g' .deploy/test/mup.js
+- echo "sed -i 's|FEEDSLACK_SECRET|'"$FEEDSLACK"'|g' .deploy/production/mup.js"
+- echo "sed -i 's|FEEDSLACK_SECRET|'"$FEEDSLACK"'|g' .deploy/test/mup.js"
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
 - echo $HEROKU
