@@ -159,7 +159,7 @@ if (Meteor.isServer) {
                         to: doc.bookedByEmail,
                         subject: "Your reservation needs confirmation",
                         text: "Hello " + doc.bookedByName + ",\n" +
-                        "Thank you for your reservation for an availability at " + currentCalendar.name + ". \n" +
+                        "Thank you for your reservation for an availability at " + currentCalendar.name + " by "+Meteor.users.findOne(currentCalendar.userId).profile.name+". \n" +
                         "We need you to click at the following link to activate your booking: \n" +
                         Meteor.absoluteUrl() + "verify_booking/" + currentAvailability.bookedByConfirmationToken + "\n"
                     });
@@ -205,12 +205,13 @@ if (Meteor.isServer) {
                             expiryDate: null,
                         }
                     }, function () {
+                        var currentUser = Meteor.users.findOne(currentCalendar.userId);
                         // Bestätigung für den Studenten
                         sendMail({
                             to: currentAvailability.bookedByEmail,
-                            subject: "You have an appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
+                            subject: "You have an appointment with " + currentUser.profile.name + "!",
                             text: "Hello " + currentAvailability.bookedByName + ",\n" +
-                            "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been confirmed. \n" +
+                            "your booking for " + currentCalendar.name +" by "+ currentUser.profile.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been confirmed. \n" +
                             "\nIf you'd like to cancel the meeting, you'll have to click at the following link: " +
                             Meteor.absoluteUrl() + "cancel_booking/" + currentAvailability.bookedByCancellationToken,
                             attachments: [
@@ -221,8 +222,8 @@ if (Meteor.isServer) {
                                         currentAvailability.endDate,
                                         currentCalendar.name,
                                         currentAvailability._id,
-                                        Meteor.user(currentAvailability.userId).profile.name,
-                                        Meteor.user(currentAvailability.userId).emails[0].address,
+                                        currentUser.profile.name,
+                                        currentUser.profile.email,
                                         currentAvailability.bookedByName,
                                         currentAvailability.bookedByEmail,
                                         currentCalendar.location
@@ -232,9 +233,9 @@ if (Meteor.isServer) {
                         });
                         // Bestätigung für den Professor
                         sendMail({
-                            to: Meteor.user(currentAvailability.userId).emails[0].address,
+                            to: currentUser.profile.email,
                             subject: "You have an appointment with " + currentAvailability.bookedByName + "!",
-                            text: "Hello " + Meteor.user(currentAvailability.userId).profile.name + ",\n" +
+                            text: "Hello " + currentUser.profile.name + ",\n" +
                             currentAvailability.bookedByName + " has confirmed his booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + "."
                         })
                     });
@@ -273,18 +274,19 @@ if (Meteor.isServer) {
                     startDate: {$gt: new Date()}
                 })) && (currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId}))) {
                 return Meteor.call('booking.cancel', currentAvailability._id, currentAvailability.endDate, function () {
+                    var currentUser = Meteor.users.findOne(currentCalendar.userId);
                     // Mail for the student
                     sendMail({
                         to: currentAvailability.bookedByEmail,
-                        subject: "You have cancelled your appointment with " + Meteor.user(currentAvailability.userId).profile.name + "!",
+                        subject: "You have cancelled your appointment with " + currentUser.profile.name + "!",
                         text: "Hello " + currentAvailability.bookedByName + ",\n" +
                         "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been cancelled."
                     });
                     // Mail for the professor
                     sendMail({
-                        to: Meteor.user(currentAvailability.userId).emails[0].address,
+                        to: currentUser.profile.email,
                         subject: "Meeting at " + formatDateTime(currentAvailability.startDate) + " canceled",
-                        text: "Hello " + Meteor.user(currentAvailability.userId).profile.name + ",\n" +
+                        text: "Hello " + currentUser.profile.name + ",\n" +
                         currentAvailability.bookedByName + " has cancelled his booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + "."
                     })
                 });
@@ -301,13 +303,14 @@ if (Meteor.isServer) {
             let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
             let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
             return Meteor.call('booking.cancel', currentAvailability._id, currentAvailability.endDate, function () {
+                var currentUser = Meteor.users.findOne(currentAvailability.userId);
                 let message;
                 if (reason !== undefined) {
                     message = "\nHe added the following message for you: \n" + reason;
                 }
                 sendMail({
                     to: currentAvailability.bookedByEmail,
-                    subject: Meteor.user(currentAvailability.userId).profile.name + " has cancelled your appointment",
+                    subject: currentUser.profile.name + " has cancelled your appointment",
                     text: "Hello " + currentAvailability.bookedByName + ",\n" +
                     "your booking for " + currentCalendar.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been cancelled by " + Meteor.user(currentAvailability.userId).profile.name + "." + message
                 });

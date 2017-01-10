@@ -28,7 +28,7 @@ Template.Appointment.events({
                                     Meteor.call('booking.cancelByOwner',Availabilities.findOne({})._id,reason, function(error, result){
                                         if (!error){
                                             Meteor.call('availabilities.remove',Availabilities.findOne({})._id);
-                                            Router.go('home_private.appointments');
+                                            history.back();
                                         }
                                     });
                                 }
@@ -39,7 +39,7 @@ Template.Appointment.events({
                                 callback: function () {
                                     Meteor.call('booking.cancelByOwner',Availabilities.findOne({})._id,reason,function (error,result) {
                                         if (!error){
-                                            Router.go('home_private.appointments');
+                                            history.back();
                                         }
                                     });
                                 }

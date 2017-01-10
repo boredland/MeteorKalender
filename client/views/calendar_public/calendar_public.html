@@ -14,11 +14,12 @@
             {{#if isNotEmpty}}
                 <div class="panel panel-primary">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{ CurrentCalendarName }}</h3>
+                        <h3 class="panel-title">{{ CurrentCalendarName }} by {{ CurrentUserName }}</h3>
                     </div>
                     {{> ReactiveFullcalendar options=publicCalendarOptions}}
                 </div>
             {{else}}
+
                 <div class="alert alert-warning">
                     This calendar is either empty or unpublished.
                 </div>
