@@ -59,7 +59,6 @@ Template.layout.events({
             animate: false,
             title: "Please provide a short description about what didn't happen as expected:",
             inputType: "textarea",
-            value: "Ex.: My mobile phone exploded opening the application.",
             callback: function (result) {
                 if (result !== "" && result !== null) {
                     var message = result;
@@ -84,18 +83,24 @@ Template.layout.events({
                                             var currentBrowser = BrowserDetect.browser + " " + BrowserDetect.version + " on " + BrowserDetect.OS;
                                             var resolution = "Height: " + window.innerHeight + " Width: " + window.innerWidth;
                                             Meteor.call('sendFeedback', name, email, place, message, server, currentBrowser, resolution, built);
+                                        } else if (result === null) {
+                                            // Closes the modal.
                                         } else {
                                             //catches the field not being set.
                                             errorModal(promptContactName, "Name has not been set.");
                                         }
                                     }
                                 });
+                            } else if (result === null) {
+                                // Closes the modal.
                             } else {
                                 //catches the field not being set.
                                 errorModal(promptContactMail, "Email has not been set.");
                             }
                         }
                     });
+                } else if (result === null) {
+                    // Closes the modal.
                 } else {
                     //catches the field not being set.
                     errorModal(promptBug, "Please specify a message");
