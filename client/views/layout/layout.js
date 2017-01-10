@@ -61,7 +61,7 @@ Template.layout.events({
             inputType: "textarea",
             value: "Ex.: My mobile phone exploded opening the application.",
             callback: function (result) {
-                if (result !== "") {
+                if (result !== "" && result !== null) {
                     var message = result;
                     promptBug.modal('hide');
                     var promptContactMail = bootbox.prompt({
@@ -69,7 +69,7 @@ Template.layout.events({
                         title: "Please provide an email-address, so we can keep you up to date regarding this bug:",
                         inputType: "email",
                         callback: function (result) {
-                            if (result !== "") {
+                            if (result !== "" && result !== null) {
                                 var email = result;
                                 promptContactMail.modal('hide');
                                 var promptContactName = bootbox.prompt({
@@ -77,7 +77,7 @@ Template.layout.events({
                                     title: "Please provide your name:",
                                     inputType: "text",
                                     callback: function (result) {
-                                        if (result !== "") {
+                                        if (result !== "" && result !== null) {
                                             var name = result;
                                             var place = window.location.pathname;
                                             var server = window.location.origin;
