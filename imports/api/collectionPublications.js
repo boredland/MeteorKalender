@@ -65,12 +65,19 @@ if (Meteor.isServer) {
     Meteor.publish('singlePublicAvailabilityById', function availabilitiesPublication(input_availabilityId) {
         var availabilityOptions = {fields: {_id: 1, startDate: 1, endDate: 1}};
         var availability = Availabilities.find({_id: input_availabilityId.toString()}, availabilityOptions);
-
         return availability;
     });
     Meteor.publish('singlePublicCalendarBySlug', function calendarsPublication(input_calendarSlug) {
         var calendarOptions = {fields: {_id: 1, name: 1, location: 1, linkslug: 1}};
-        var calendar = Calendars.find({linkslug: input_calendarSlug, published: true}, calendarOptions);
-        return calendar;
+        //Get the calendar with all of the information and save the userId
+        var calendar = Calendars.findOne({linkslug: input_calendarSlug, published: true});
+        var user = Meteor.users.find({_id: calendar.userId},{fields: {"profile.name": 1}});
+        //Get the limited calendar
+        var calendar = Calendars.find({linkslug: input_calendarSlug, published: true},calendarOptions);
+        //console.log(user.profile.name);
+        return [
+            calendar,
+            user
+        ];
     });
 }

@@ -1,10 +1,15 @@
 import {Availabilities} from '/imports/api/availabilitiesCollection';
 import {Calendars} from '/imports/api/calendarsCollection';
+import { Meteor } from 'meteor/meteor';
+
 var pageSession = getDefaultPageSession();
 
 Template.CalendarPublic.helpers({
     CurrentCalendarName() {
         return Calendars.findOne({}).name;
+    },
+    CurrentUserName(){
+        return Meteor.users.findOne({}).profile.name;
     },
     publicCalendarOptions: function () {
         return {
@@ -15,7 +20,6 @@ Template.CalendarPublic.helpers({
                 calendarClickOptions(calEvent, pageSession);
             },
             height: function () {
-                console.log(window.innerHeight);
                 return window.innerHeight * 0.6;
             },
             defaultView: 'listWeek',
