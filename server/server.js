@@ -156,6 +156,10 @@ Meteor.methods({
         if (userOptions.email) {
             var email = userOptions.email;
             delete userOptions.email;
+            /**
+             * TODO: Hier habe ich eine Falle eingebaut. Wenn ein user seine Mailadresse ändert, wird das direkt so in die Datenbank geschrieben.
+             * Besser wäre wohl, wenn die neue hinzugefügt wird UND die alte Mailadresse gespeichert wird und die alte erst dann gelöscht, wenn das Token auch verwendet wird.
+             */
             userOptions.emails = [{address: email}];
         }
 
@@ -178,6 +182,9 @@ Meteor.methods({
             Users.update(userId, {$set: userOptions},function (error) {
                 // email is only set, if the array has been modified...
                 if (!error && email){
+                    Accounts.emailTemplates.verifyEmail.text = function(user, url) {
+                        return 'You changed your e-mail address. Please confirm your new one by clicking on this link:' + url;
+                    };
                     Accounts.sendVerificationEmail(userId, email);
                 }
            });
