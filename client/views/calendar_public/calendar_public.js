@@ -22,7 +22,7 @@ Template.CalendarPublic.helpers({
             height: function () {
                 return window.innerHeight * 0.6;
             },
-            defaultView: 'listWeek',
+            defaultView: 'listYear',
             timeFormat: 'H:mm',
             header: {
                 left: 'prev,next today',
