@@ -251,6 +251,7 @@ if (Meteor.isServer) {
          * @param availabilityID
          */
         'booking.cancel'(availabilityId, endDate){
+            check(availabilityId, String);
             Availabilities.update({_id: availabilityId}, {
                 $set: {
                     bookedByName: null,
@@ -302,6 +303,7 @@ if (Meteor.isServer) {
         'booking.cancelByOwner'(availabilityId, reason){
             let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
             let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
+            check(availabilityId, String);
             return Meteor.call('booking.cancel', currentAvailability._id, currentAvailability.endDate, function () {
                 var currentUser = Meteor.users.findOne(currentAvailability.userId);
                 let message;
@@ -400,6 +402,7 @@ Meteor.methods({
     'availabilities.removeFutureRepetitions'(availabilityId, fromDate_in){
         let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
         let fromDate;
+        check(availabilityId, String);
         if (!fromDate_in) {
             fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
         } else {
@@ -431,6 +434,7 @@ Meteor.methods({
     'availabilities.removeFutureFamily'(availabilityId, fromDate_in){
         let currentAvailability = Availabilities.findOne({_id: availabilityId, userId: this.userId});
         let fromDate;
+        check(availabilityId, String);
         if (!fromDate_in) {
             fromDate = moment(currentAvailability.startDate); // nur dieses und zukünftige
         } else {
