@@ -38,7 +38,8 @@ module.exports = {
             RE_CAPTCHA: "RECAPTCHA",
             KADIRA_APP_ID: "sdGEPWSi8mChQnMXW",
             KADIRA_APP_SECRET: "KADIRAAPPSECRET",
-            FEEDSLACK: "FEEDSLACK_SECRET"
+            FEEDSLACK: "FEEDSLACK_SECRET",
+            DDP_DEFAULT_CONNECTION_URL: "https://meteorkalender.freeddns.org"
         },
         dockerImage: 'cwaring/meteord:base',
         deployCheckWaitTime: 120
