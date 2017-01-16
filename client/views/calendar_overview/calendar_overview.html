@@ -20,22 +20,9 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Calendar Overview</h3>
             </div>
-            <table id="dataview-table" class="table table-striped">
-                <thead id="dataview-table-header" class="not-mobile">
-                <tr id="dataview-table-header-row">
-                    <th>
-                        Owner
-                    </th>
-                    <th>
-                        Calendar Name
-                    </th>
-                    <th>
-                        Location
-                    </th>
-                </tr>
-                </thead>
-                {{#each getCalendars}} {{> CalendarOverviewItem}} {{/each}}
-            </table>
+            {{#if Template.subscriptionsReady}}
+                {{> reactiveTable settings=settings}}
+            {{/if}}
         </div>
     </div>
 </template>
