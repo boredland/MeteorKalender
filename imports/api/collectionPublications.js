@@ -26,6 +26,16 @@ if (Meteor.isServer) {
     Meteor.publish('allCalendars', function calendarsPublication() {
         return Calendars.find({userId: this.userId});
     });
+    Meteor.publish('allPublicCalendars', function calendarsPublication() {
+        var calendarOptions = {fields: {_id: 1, name: 1, location: 1, linkslug: 1}};
+        //Get the calendar with all of the information and save the userId
+        //var calendar = Calendars.findOne({linkslug: input_calendarSlug, published: true});
+        //var user = Meteor.users.find({_id: calendar.userId},{fields: {"profile.name": 1}});
+        //Get the limited calendar
+        //var calendar = Calendars.find({linkslug: input_calendarSlug, published: true},calendarOptions);
+        //console.log(user.profile.name);
+        return Calendars.find({published: true},calendarOptions);
+    });
     Meteor.publish('singleCalendar', function calendarsPublication(input_calendarId) {
         var calendar = Calendars.find({_id: input_calendarId, userId: this.userId});
         return calendar;
