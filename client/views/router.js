@@ -11,6 +11,7 @@ Router.configure({
 
 var publicRoutes = [
 	"home_public",
+	"calendar_overview",
 	"login",
 	"register",
 	//"verify_booking",
@@ -189,7 +190,7 @@ Router.onBeforeAction(Router.ensureGranted, {only: freeRoutes}); // yes, route f
 Router.map(function () {
     // Default Routes
 	this.route("home_public", {path: "/", controller: "HomePublicController"});
-	this.route("login", {path: "/login", controller: "LoginController"});
+    this.route("login", {path: "/login", controller: "LoginController"});
 	this.route("register", {path: "/register", controller: "RegisterController"});
     this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
     this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
@@ -199,6 +200,13 @@ Router.map(function () {
     this.route("verify_booking", {path: "/verify_booking/:verifyBookingToken", controller: "VerifyBookingController", template: "VerifyBooking"});
     this.route("cancel_booking", {path: "/cancel_booking/:cancelBookingToken", controller: "CancelBookingController"});
     // --> With data
+    this.route("calendar_overview", {
+        path: "/calendar_overview",
+        controller: "CalendarOverviewController",
+        waitOn: function () {
+            Meteor.subscribe('allPublicCalendarsWithOwners');
+        }
+    });
     this.route("calendar_public", {
         path: "/calendar_public/:_calendarSlug",
         controller: "CalendarPublicController",

@@ -28,7 +28,7 @@
                 </button>
             </div>
             <table id="dataview-table" class="table table-striped">
-                <thead id="dataview-table-header" class="not-mobile">
+                <thead id="dataview-table-header">
                 <tr id="dataview-table-header-row">
                     <th>
                         &nbsp;
@@ -36,11 +36,14 @@
                     <th>
                         Name
                     </th>
-                    <th>
+                    <th class="not-mobile">
                         Location
                     </th>
                     <th>
                         Published
+                    </th>
+                    <th>
+                        List public
                     </th>
                     <th>
                         &nbsp;
@@ -71,8 +74,11 @@
         <td class="not-mobile">
             {{location}}
         </td>
-        <td class="not-mobile">
+        <td>
             <input id="published" type="checkbox" {{isPublished published}}>
+        </td>
+        <td>
+            <input id="listPublic" type="checkbox" {{isPublished listPublic}}>
         </td>
         <td class="td-icon">
             <a target="_blank" href="/calendar_public/{{linkslug}}" title="Open in a new tab"><span id="calendar_link"

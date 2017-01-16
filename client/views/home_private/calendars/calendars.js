@@ -15,6 +15,10 @@ Template.Calendars.events({
         var status = event.target.checked;
         Meteor.call('calendars.updatePublishedState',this._id,status);
     }),
+    "change #listPublic": (function(event, template) {
+        var status = event.target.checked;
+        Meteor.call('calendars.updateListPublicState',this._id,status);
+    }),
     "click #delete-button": function(e) {
         var me = this;
         e.preventDefault();
@@ -25,7 +29,7 @@ Template.Calendars.events({
             buttons: {
                 yes: {
                     label: "Yes",
-                    className: "btn-primary",
+                    className: "btn-danger",
                     callback: function() {
                         Meteor.call('calendars.remove',me._id, function(err, data) {
                             if (err && err.error === "notEmpty") {
@@ -56,12 +60,8 @@ Template.Calendars.events({
     },
     "click #copy-button": function(e) {
         e.preventDefault();
-        var me = this;
-        var calendar = Calendars.findOne({_id: me._id});
         var origin = window.location.origin;
-        var linkslug = calendar.linkslug;
-        var link = origin + "/calendar_public/" + linkslug;
-        //console.log(link);
+        var link = origin + "/calendar_public/" + this.linkslug;
         // Create an auxiliary hidden input
         var aux = document.createElement("input");
         // Get the text from the element passed into the input

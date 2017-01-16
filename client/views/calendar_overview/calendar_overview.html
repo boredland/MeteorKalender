@@ -1,4 +1,4 @@
-<template name="NewAvailability">
+<template name="CalendarOverview">
     <div class="page-container container">
         <div class="row" id="title_row">
             <div class="col-md-12">
@@ -18,21 +18,27 @@
         {{/if}}
         <div class="panel panel-primary">
             <div class="panel-heading">
-                <h3 class="panel-title">New availability</h3>
+                <h3 class="panel-title">Calendar Overview</h3>
             </div>
-            {{> quickForm id="availabilityInsertForm" schema=formSchema type="method" meteormethod="availabilities.insert"}}
-            <div id="dataview-controls" class="form-group">
-                <button type="submit" id="Back-button" class="btn btn-default">
-                    Back
-                </button>
-            </div>
+            {{#if Template.subscriptionsReady}}
+                {{> reactiveTable settings=settings}}
+            {{/if}}
         </div>
     </div>
 </template>
 
-<template name="dpReplacement">
-    <div class='input-group date'>
-        <span class="input-group-addon fa fa-calendar" id="basic-addon1"></span>
-        <input type="text" value="" {{atts}} aria-describedby="basic-addon1"/>
-    </div>
+<template name="CalendarOverviewItem">
+    <tbody id="dataview-table-items">
+    <tr id="dataview-table-items-row">
+        <td>
+            {{getOwnerById userId}}
+        </td>
+        <td>
+            {{name}}
+        </td>
+        <td class="not-mobile">
+            {{location}}
+        </td>
+    </tr>
+    </tbody>
 </template>

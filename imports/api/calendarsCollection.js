@@ -46,7 +46,8 @@ Meteor.methods({
             location: doc.location,
             color: doc.color,
             published: doc.published,
-            linkslug: RandomWord.get()+"-"+RandomWord.get()+"-"+RandomWord.get()
+            linkslug: RandomWord.get()+"-"+RandomWord.get()+"-"+RandomWord.get(),
+            listPublic: doc.listPublic
         });
     },
     'calendars.remove'(calendarId){
@@ -59,6 +60,12 @@ Meteor.methods({
         check(calendarId, String);
         check(status, Boolean);
         return Calendars.update({_id: calendarId, userId: this.userId}, {$set: {published: status}});
+    },
+    'calendars.updateListPublicState'(calendarId, status){
+        //check whether the ID which should be deleted is a String
+        check(calendarId, String);
+        check(status, Boolean);
+        return Calendars.update({_id: calendarId, userId: this.userId}, {$set: {listPublic: status}});
     }
 });
 

@@ -19,27 +19,27 @@ Template.EditAvailability.events({
             buttons: {
                 success: {
                     label: "Yes",
-                    className: "btn-primary",
+                    className: "btn btn-danger",
                     callback: function() {
                         dialog_delete.modal('hide');
                         var dialog_future_past = bootbox.dialog({
                             title: "Repetitons?",
                             animate: false,
-                            message: "Do you want to remove this including its repetitions?",
+                            message: "Do you want to remove this including its' repetitions?",
                             buttons: {
                                 future: {
                                     label: "Only those in the future",
-                                    className: "btn-primary",
+                                    className: "btn btn-warning",
                                     callback: function() {
                                         dialog_future_past.modal('hide');
                                         var family = bootbox.dialog({
-                                            message: "Do you want to delete the family of availabilities created with this one too?",
-                                            title: "Delete family",
+                                            message: "Do you want to delete the family of availabilities created with this one, too?",
+                                            title: "Delete future family",
                                             animate: false,
                                             buttons: {
                                                 danger: {
                                                     label: "Yes",
-                                                    className: "btn-primary",
+                                                    className: "btn btn-danger",
                                                     callback: function() {
                                                         Meteor.call('availabilities.removeFutureFamily', Availabilities.findOne({})._id);
                                                         Router.go('home_private.availabilities');
@@ -59,17 +59,17 @@ Template.EditAvailability.events({
                                 },
                                 all: {
                                     label: "All of them",
-                                    className: "btn-primary",
+                                    className: "btn btn-danger",
                                     callback: function () {
                                         dialog_future_past.modal('hide');
                                         var family = bootbox.dialog({
-                                            message: "Do you want to delete the family of availabilities created with this one too?",
-                                            title: "Delete family",
+                                            message: "Do you want to delete the family of availabilities created with this one, too?",
+                                            title: "Delete whole family",
                                             animate: false,
                                             buttons: {
                                                 danger: {
                                                     label: "Yes",
-                                                    className: "btn-primary",
+                                                    className: "btn btn-danger",
                                                     callback: function() {
                                                         Meteor.call('availabilities.removeFutureFamily', Availabilities.findOne({})._id,new Date());
                                                         Router.go('home_private.availabilities');
@@ -89,7 +89,7 @@ Template.EditAvailability.events({
                                 },
                                 no: {
                                     label: "No",
-                                    className: "btn-default",
+                                    className: "btn btn-success",
                                     callback: function () {
                                         Meteor.call('availabilities.remove', Availabilities.findOne({})._id);
                                         Router.go('home_private.availabilities');

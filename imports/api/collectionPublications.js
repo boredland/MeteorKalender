@@ -47,6 +47,20 @@ if (Meteor.isServer) {
     /**
      * These are public publications
      */
+    Meteor.publish('allPublicCalendarsWithOwners', function calendarsPublication() {
+        var calendarQuery = {published: true, listPublic: true};
+        var calendarOptions = {fields: {_id: 1, name: 1, location: 1, linkslug: 1, userId: 1}};
+        var userIds = Calendars.find({}).fetch().map(function (calendar) {
+            if (calendar.listPublic){
+                return calendar.userId;
+            }
+        });
+        return [
+            Calendars.find(calendarQuery,calendarOptions),
+            Meteor.users.find({_id: {$in: userIds}},{fields: {"profile.name": 1}})
+        ]
+    });
+
     Meteor.publish('allPublicFutureAvailabilitiesByCalendarSlug', function availabilitiesPublication(input_calendarslug) {
         var calendar = Calendars.findOne({linkslug: input_calendarslug.toString(), published: true});
         var options = {

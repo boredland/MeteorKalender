@@ -9,7 +9,7 @@ Template.Appointment.events({
             animate: false,
             title: "Please provide a reason for your cancellation:",
             inputType: "textarea",
-            value: "Ex.: Sadly i am ill today.",
+            value: "Sadly, I am ill today.",
             callback: function(result){
                 if (result === null) {
                     // Prompt dismissed
