@@ -4,9 +4,7 @@ App.info({
     id: 'com.frauas.dateyourprof',
     name: 'DateYourProf',
     description: 'Schedule meetings and consultation hours with your prof.',
-    author: 'The DateYourProf-Team',
-    email: 'contact@example.com',
-    website: 'http://example.com'
+    author: 'The DateYourProf-Team'
 });
 // Set up resources such as icons and launch screens.
 App.icons({
@@ -16,7 +14,6 @@ App.icons({
     'android_xxhdpi': "public/images/fa-calendar.png", //(144x144)
     'android_xxxhdpi': "public/images/fa-calendar.png"//(192x192)
 });
-// TODO: replace with a bg_slider or sth. in correct resolutions
 App.launchScreens({
     'android_mdpi_portrait': "public/images/mdpi_portrait.png",//(320x470)
     'android_mdpi_landscape': "public/images/mdpi_landscape.png",//(470x320)
