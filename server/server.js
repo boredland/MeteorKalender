@@ -11,6 +11,11 @@ var returnMailString = "Date your prof <noreply@wp12310502.server-he.de>";
 Accounts.config({sendVerificationEmail: verifyEmail});
 
 Meteor.startup(function () {
+    // Listen to incoming HTTP requests, can only be used on the server
+    WebApp.rawConnectHandlers.use(function(req, res, next) {
+        res.setHeader("Access-Control-Allow-Origin", "*");
+        return next();
+    });
     logger.info('Meteor started!');
     // read environment variables from Meteor.settings
     if (Meteor.settings && Meteor.settings.env && _.isObject(Meteor.settings.env)) {
