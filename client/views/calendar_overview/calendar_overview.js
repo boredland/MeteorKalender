@@ -29,9 +29,9 @@ Template.CalendarOverview.events({
 
 Template.CalendarOverviewItem.helpers({
     getOwnerById(userId){
-        var username = Meteor.users.findOne({_id: userId}).profile.name;
-        if (username){
-            return username;
+        var user = Meteor.users.findOne({_id: userId});
+        if (user && user.profile !== undefined){
+            return user.profile.name;
         }
     }
 });
