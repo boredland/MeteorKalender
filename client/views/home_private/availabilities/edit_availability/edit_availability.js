@@ -25,7 +25,7 @@ Template.EditAvailability.events({
                         var dialog_future_past = bootbox.dialog({
                             title: "Repetitons?",
                             animate: false,
-                            message: "Do you want to remove this including its repetitions?",
+                            message: "Do you want to remove this including its' repetitions?",
                             buttons: {
                                 future: {
                                     label: "Only those in the future",
@@ -33,7 +33,7 @@ Template.EditAvailability.events({
                                     callback: function() {
                                         dialog_future_past.modal('hide');
                                         var family = bootbox.dialog({
-                                            message: "Do you want to delete the family of availabilities created with this one too?",
+                                            message: "Do you want to delete the family of availabilities created with this one, too?",
                                             title: "Delete future family",
                                             animate: false,
                                             buttons: {
@@ -63,8 +63,8 @@ Template.EditAvailability.events({
                                     callback: function () {
                                         dialog_future_past.modal('hide');
                                         var family = bootbox.dialog({
-                                            message: "Do you want to delete the family of availabilities created with this one too?",
-                                            title: "Delete hole family ",
+                                            message: "Do you want to delete the family of availabilities created with this one, too?",
+                                            title: "Delete whole family",
                                             animate: false,
                                             buttons: {
                                                 danger: {
