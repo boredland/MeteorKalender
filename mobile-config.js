@@ -25,6 +25,7 @@ App.launchScreens({
     'android_xxhdpi_landscape': "public/images/xxhdpi_landscape.png"//(1440x1080)
 });
 // Set PhoneGap/Cordova preferences
+App.accessRule("*");
 App.setPreference('BackgroundColor', '0xff0000ff');
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('Orientation', 'default');
