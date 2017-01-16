@@ -19,6 +19,7 @@ fi
 }
 
 deploy () {
+mup reconfig
 MUP_RESULT=$(mup deploy)
 echo $MUP_RESULT
 MUP_RESULT=$(echo $MUP_RESULT | tail -n1)
