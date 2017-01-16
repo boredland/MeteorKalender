@@ -5,8 +5,7 @@ import {Meteor} from "meteor/meteor";
 import {Mongo} from "meteor/mongo";
 import {check} from "meteor/check";
 import {availabilitiesSchema} from "./availabilitiesSchema";
-import {} from "/imports/api/collectionPublications";
-import {Calendars} from '/imports/api/calendarsCollection';
+import {Calendars} from "/imports/api/calendarsCollection";
 
 export let Availabilities = new Mongo.Collection("availabilities");
 Availabilities.attachSchema(availabilitiesSchema);
@@ -19,6 +18,33 @@ Meteor.startup(function () {
         console.log("created Index over userId in Availabilities Collection");
         Availabilities._ensureIndex({"expiryDate": 1}, {expireAfterSeconds: 0});
         console.log("ensured expiry");
+
+        var addCommentRule = { type: 'method', name: 'addComment'}
+        DDPRateLimiter.addRule(addCommentRule,5,100);
+
+
+        const METHODS = _.pluck([
+            "booking.insert",
+            "booking.confirm",
+            "booking.cancel",
+            "booking.cancelByToken",
+            "booking.cancelByOwner",
+            "availabilities.insert",
+            "availabilities.remove",
+            "availabilities.removeAll",
+            "availabilities.removeFutureRepetitions",
+            "availabilities.removeFutureFamily"
+        ], 'name');
+
+        // Only allow 5 list operations per connection per second
+        DDPRateLimiter.addRule({
+            name(name) {
+                return _.contains(METHODS, name);
+            },
+            // Rate limit per connection ID
+            connectionId() { return true; }
+        }, 5, 1000);
+
     }
 });
 
@@ -36,7 +62,7 @@ if (Meteor.isServer) {
     let sendMail = function (options) {
         return Meteor.call('sendMail', options);
     };
-    var checkForOverlap = function (userId,new_startdate,new_enddate,thisDocId) {
+    var checkForOverlap = function (userId, new_startdate, new_enddate, thisDocId) {
         /**
          * This will check that there are no Availabilities for this user at the same time or overlapping times.
          */
@@ -56,13 +82,13 @@ if (Meteor.isServer) {
                         (new_startdate <= existing_startdate) && (new_enddate >= existing_enddate)
                     )
                 ) {
-                    throw new Meteor.Error("overlap","The availability you wanted to create/update overlaps with an existing one.");
+                    throw new Meteor.Error("overlap", "The availability you wanted to create/update overlaps with an existing one.");
                 }
             }
             return true;
         });
     };
-    var checkStartEndLogic = function (userId,new_startdate,new_enddate) {
+    var checkStartEndLogic = function (userId, new_startdate, new_enddate) {
         /**
          * This will check that the startdate is not after the enddate
          */
@@ -81,21 +107,21 @@ if (Meteor.isServer) {
     };
 
     Availabilities.before.update(function (userId, doc, fieldNames, modifier, options) {
-        if (modifier.$set.startDate){
+        if (modifier.$set.startDate) {
             modifier.$set.startDate = new Date(moment(modifier.$set.startDate).seconds(1));
         }
         let new_startdate = new Date(modifier.$set.startDate);
         let new_enddate = new Date(modifier.$set.endDate);
-        checkForOverlap(userId,new_startdate,new_enddate,doc._id);
-        checkStartEndLogic(userId,new_startdate,new_enddate);
+        checkForOverlap(userId, new_startdate, new_enddate, doc._id);
+        checkStartEndLogic(userId, new_startdate, new_enddate);
     });
 
     Availabilities.before.insert(function (userId, doc) {
-        let new_startdate = new Date(doc.startDate);
-        let new_enddate = new Date(doc.endDate);
-        checkForOverlap(userId,new_startdate,new_enddate,doc._id);
-        checkStartEndLogic(userId,new_startdate,new_enddate);
-        checkDuration(new_startdate,new_enddate,doc.chunkDuration);
+            let new_startdate = new Date(doc.startDate);
+            let new_enddate = new Date(doc.endDate);
+            checkForOverlap(userId, new_startdate, new_enddate, doc._id);
+            checkStartEndLogic(userId, new_startdate, new_enddate);
+            checkDuration(new_startdate, new_enddate, doc.chunkDuration);
     });
 
     /**
@@ -159,7 +185,7 @@ if (Meteor.isServer) {
                         to: doc.bookedByEmail,
                         subject: "Your reservation needs confirmation",
                         text: "Hello " + doc.bookedByName + ",\n" +
-                        "Thank you for your reservation for an availability at " + currentCalendar.name + " by "+Meteor.users.findOne(currentCalendar.userId).profile.name+". \n" +
+                        "Thank you for your reservation for an availability at " + currentCalendar.name + " by " + Meteor.users.findOne(currentCalendar.userId).profile.name + ". \n" +
                         "We need you to click at the following link to activate your booking: \n" +
                         Meteor.absoluteUrl() + "verify_booking/" + currentAvailability.bookedByConfirmationToken + "\n"
                     });
@@ -178,13 +204,14 @@ if (Meteor.isServer) {
                 bookedByConfirmed: false,
                 bookedByConfirmationToken: verifyBookingToken
             }, {});
-            var icsCalendar = function (startdate,enddate,calendar_name,availability_id,provider_name,provider_address,booker_name,booker_address,location) {
-                return new IcsGenerator({prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
+            var icsCalendar = function (startdate, enddate, calendar_name, availability_id, provider_name, provider_address, booker_name, booker_address, location) {
+                return new IcsGenerator({
+                    prodId: "//MeteorKalender//Frankfurt University of Applied Sciences",
                     method: "REQUEST",
                     events: [
                         {
-                            uid: availability_id+"@meteorkalender",
-                            summary: calendar_name+" with "+provider_name,
+                            uid: availability_id + "@meteorkalender",
+                            summary: calendar_name + " with " + provider_name,
                             dtStart: startdate,
                             dtEnd: enddate,
                             organizer: {cn: provider_name, mailTo: provider_address},
@@ -193,7 +220,8 @@ if (Meteor.isServer) {
                                 {cn: booker_name, mailTo: booker_address}
                             ]
                         }
-                    ]});
+                    ]
+                });
             };
             if (currentAvailability !== undefined) {
                 let currentCalendar = Calendars.findOne({_id: currentAvailability.bookedByCalendarId});
@@ -211,12 +239,12 @@ if (Meteor.isServer) {
                             to: currentAvailability.bookedByEmail,
                             subject: "You have an appointment with " + currentUser.profile.name + "!",
                             text: "Hello " + currentAvailability.bookedByName + ",\n" +
-                            "your booking for " + currentCalendar.name +" by "+ currentUser.profile.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been confirmed. \n" +
+                            "your booking for " + currentCalendar.name + " by " + currentUser.profile.name + " from " + formatDateTime(currentAvailability.startDate) + " to " + formatDateTime(currentAvailability.endDate) + " has been confirmed. \n" +
                             "\nIf you'd like to cancel the meeting, you'll have to click at the following link: " +
                             Meteor.absoluteUrl() + "cancel_booking/" + currentAvailability.bookedByCancellationToken,
                             attachments: [
                                 {
-                                    fileName : currentCalendar.name+"_"+currentAvailability.bookedByName+".ics",
+                                    fileName: currentCalendar.name + "_" + currentAvailability.bookedByName + ".ics",
                                     contents: new icsCalendar(
                                         currentAvailability.startDate,
                                         currentAvailability.endDate,
@@ -229,7 +257,7 @@ if (Meteor.isServer) {
                                         currentCalendar.location
                                     ).toIcsString()
                                 }
-                                ]
+                            ]
                         });
                         // Bestätigung für den Professor
                         sendMail({

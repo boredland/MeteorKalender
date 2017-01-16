@@ -69,6 +69,15 @@ export var calendarsSchema = new SimpleSchema({
             defaultValue: true
         }
     },
+    listPublic: {
+        type: Boolean,
+        optional: true,
+        autoform: {
+            type: "hidden",
+            label: false,
+            defaultValue: true
+        }
+    },
     linkslug: {
         type: String,
         optional: true,

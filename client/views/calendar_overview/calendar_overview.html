@@ -20,46 +20,18 @@
             <div class="panel-heading">
                 <h3 class="panel-title">Calendar Overview</h3>
             </div>
-            <table id="dataview-table" class="table table-striped">
-                <thead id="dataview-table-header" class="not-mobile">
-                <tr id="dataview-table-header-row">
-                    <th>
-                        &nbsp;
-                    </th>
-                    <th>
-                        Owner
-                    </th>
-                    <th>
-                        Calendar Name
-                    </th>
-                    <th>
-                        Location
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                    <th>
-                        &nbsp;
-                    </th>
-                </tr>
-                </thead>
-                {{#each getCalendars}} {{> calendar_overview_item}} {{/each}}
-            </table>
+            {{#if Template.subscriptionsReady}}
+                {{> reactiveTable settings=settings}}
+            {{/if}}
         </div>
     </div>
 </template>
 
-<template name="calendar_overview_item">
+<template name="CalendarOverviewItem">
     <tbody id="dataview-table-items">
     <tr id="dataview-table-items-row">
-        <td class="td-icon">
-        <td class="fc-event-dot" style="background-color: {{color}};margin-top: 45%;"></td>
-        </td>
         <td>
-            Owner
+            {{getOwnerById userId}}
         </td>
         <td>
             {{name}}
