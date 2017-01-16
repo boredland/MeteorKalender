@@ -15,3 +15,7 @@ npm-debug.log
 Würde .docs/client/data/ löschen
 /meteor.log
 /meteor-debug.log
+/.app/android/release-unsigned.apk
+/.app/MeteorKalender.tar.gz
+/.app/android/README
+/.app/android/project/
