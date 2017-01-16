@@ -10,15 +10,28 @@ Template.CalendarOverview.rendered = function() {
     nullMessages(pageSession);
 };
 
-Template.CalendarOverview.events({
-
-});
-
 Template.CalendarOverview.helpers({
     getCalendars(){
         return Calendars.find();
     },
     getPageSession: function () {
         return pageSession;
+    }
+});
+
+
+Template.CalendarOverview.events({
+    'click #dataview-table-items-row': function(e, t) {
+        e.preventDefault();
+        Router.go('calendar_public',{_calendarSlug: this.linkslug});
+    }
+});
+
+Template.CalendarOverviewItem.helpers({
+    getOwnerById(userId){
+        var username = Meteor.users.findOne({_id: userId}).profile.name;
+        if (username){
+            return username;
+        }
     }
 });

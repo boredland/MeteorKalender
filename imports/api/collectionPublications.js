@@ -26,16 +26,6 @@ if (Meteor.isServer) {
     Meteor.publish('allCalendars', function calendarsPublication() {
         return Calendars.find({userId: this.userId});
     });
-    Meteor.publish('allPublicCalendars', function calendarsPublication() {
-        var calendarOptions = {fields: {_id: 1, name: 1, location: 1, linkslug: 1}};
-        //Get the calendar with all of the information and save the userId
-        //var calendar = Calendars.findOne({linkslug: input_calendarSlug, published: true});
-        //var user = Meteor.users.find({_id: calendar.userId},{fields: {"profile.name": 1}});
-        //Get the limited calendar
-        //var calendar = Calendars.find({linkslug: input_calendarSlug, published: true},calendarOptions);
-        //console.log(user.profile.name);
-        return Calendars.find({published: true},calendarOptions);
-    });
     Meteor.publish('singleCalendar', function calendarsPublication(input_calendarId) {
         var calendar = Calendars.find({_id: input_calendarId, userId: this.userId});
         return calendar;
@@ -57,6 +47,20 @@ if (Meteor.isServer) {
     /**
      * These are public publications
      */
+    Meteor.publish('allPublicCalendarsWithOwners', function calendarsPublication() {
+        var calendarQuery = {published: true, listPublic: true};
+        var calendarOptions = {fields: {_id: 1, name: 1, location: 1, linkslug: 1, userId: 1}};
+        var userIds = Calendars.find({}).fetch().map(function (calendar) {
+            if (calendar.listPublic){
+                return calendar.userId;
+            }
+        });
+        return [
+            Calendars.find(calendarQuery,calendarOptions),
+            Meteor.users.find({_id: {$in: userIds}},{fields: {"profile.name": 1}})
+        ]
+    });
+
     Meteor.publish('allPublicFutureAvailabilitiesByCalendarSlug', function availabilitiesPublication(input_calendarslug) {
         var calendar = Calendars.findOne({linkslug: input_calendarslug.toString(), published: true});
         var options = {

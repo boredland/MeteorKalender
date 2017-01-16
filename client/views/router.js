@@ -204,7 +204,7 @@ Router.map(function () {
         path: "/calendar_overview",
         controller: "CalendarOverviewController",
         waitOn: function () {
-            Meteor.subscribe('allPublicCalendars');
+            Meteor.subscribe('allPublicCalendarsWithOwners');
         }
     });
     this.route("calendar_public", {
