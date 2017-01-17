@@ -10,6 +10,8 @@ android:
   components:
   - platform-tools
   - tools
+  - build-tools-25.2.5
+  - android-23
 node_js:
 - 4.4.7
 sudo: required
@@ -41,7 +43,7 @@ before_install:
 - echo $HEROKU
 services:
 - mongodb
-script: echo "lol."
+script: npm test
 before_deploy:
 - meteor build $HOME --server https://test.meteorkalender.freeddns.org:443
 #- cp $TRAVIS_BUILD_DIR/.keystore $HOME
