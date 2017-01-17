@@ -45,6 +45,7 @@ before_deploy:
 - meteor build $HOME --server $(bash get_target.sh $TRAVIS_BRANCH)
 - cp $TRAVIS_BUILD_DIR/.keystore $HOME
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 $HOME/android/release-unsigned.apk date-your-prof -keystore $HOME/.keystore -storepass $KEYSTOREPASS -keypass $KEYPASS
+- rm -f "$HOME/android/dateyourprof_$TRAVIS_BRANCH.apk"
 - "${ANDROID_HOME}/build-tools/21.1.2/zipalign 4 $HOME/android/release-unsigned.apk $HOME/android/dateyourprof_$TRAVIS_BRANCH.apk"
 deploy:
   - provider: releases
