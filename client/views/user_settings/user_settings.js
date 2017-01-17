@@ -90,9 +90,9 @@ Template.UserSettings.events({
                     case "update":
                     {
                         var message = msg || "Saved.";
-                        /*if (values && values.profile.email) {
+                        if (values && values.profile.email) {
                             message = message + " Your verification has been reset, please click on the link sent to your new email-address."
-                        }*/
+                        }
                         setInfoMessage(pageSession, message, null);
                     }
                         break;
