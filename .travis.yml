@@ -53,9 +53,18 @@ before_deploy:
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 $HOME/android/release-unsigned.apk date-your-prof -keystore $HOME/.keystore -storepass $KEYSTOREPASS -keypass $KEYPASS
 - "${ANDROID_HOME}/build-tools/21.1.2/zipalign 4 $HOME/android/release-unsigned.apk $HOME/android/dateyourprof_"$TRAVIS_BUILD_NUMBER"_"$TRAVIS_BRANCH".apk"
 deploy:
-  provider: releases
-  api_key: $GIT_DEPLOY_KEY
-  file: "$HOME/android/dateyourprof_"$TRAVIS_BUILD_NUMBER"_"$TRAVIS_BRANCH".apk"
-  skip_cleanup: true
-  on:
-    all_branches: true
+  - provider: heroku
+    skip_cleanup: true
+    api_key:
+      secure: pNmRMpymVSwXzA5de4D+kuxx6M6u0MB9nPcl5PaQ3yVLhLQVw2F1x9Uk+P4D/nY+ykQtrsSuC171Fxniy6posNz7S407Sikh8MGs3s8KeSnvTMWgbTcP+nNzBdM/a/rjbTAFEN/wcW29H5zYEt1L4GB9lpoLBAkeVpEfY+EwvI7mp5CBTZgBlLbcJA2/CDG0NAsXcLRnZuUUKgQC3qh4gKz8hZrmP2aiqWRztxcByf4dvopiCV8fzuqPqTLVx9vCFFkf5scIHCBK+UCxbrV3gNVBbecaCgDlLAjag4B79r9CLSJNMstKIK9z77EJb1Wx8+qGEPpnRGgiZzszmej5h9FeA2+hl8z6FwbbrzG1E5ofwLNrwBT7o/c3fSpWFdKud3bRq6FNBHmFeC4pJa++czmhdy1ua+RIdvyZorBg+4lHOhrLhyp+4z46TDTt1i761/ud+19/cOePu7U1QUbk6+Q0AbCEvofWruTmVsNv6zUQR47UCmPLSxfEFeYyh794amKCe2XmygwaoOxmXcTZZlNqN/e27h3frKJZmkGiWxFwnFllH8qsnC8KT/eBGg3msnHPuTDaA+TrhrIee25IHvLCxo1TNYlvLXrnLrvjQvGttbFxPcfi4ggp+jIIs4VpPauwu/I0lHN/RY9vfI9G/TFB5cfnlqanSpcI6bdQnAM=
+    app: meteorkalender
+    on:
+      repo: boredland/MeteorKalender
+      condition: "$HEROKU == 1"
+      all_branches: true
+  - provider: releases
+    api_key: $GIT_DEPLOY_KEY
+    file: "$HOME/android/dateyourprof_"$TRAVIS_BUILD_NUMBER"_"$TRAVIS_BRANCH".apk"
+    skip_cleanup: true
+    on:
+      all_branches: true
