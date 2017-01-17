@@ -52,7 +52,7 @@ deploy:
     file: "$HOME/android/release-unsigned.apk"
     skip_cleanup: true
     on:
-      tags: true
+      all_branches: true
   - provider: heroku
     skip_cleanup: true
     api_key:
