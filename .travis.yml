@@ -33,4 +33,4 @@ deploy:
   file: "$HOME/android/your-apk-name.apk"
   skip_cleanup: true
   on:
-    tags: true
+    all_branches: true
