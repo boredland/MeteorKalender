@@ -18,7 +18,7 @@ addons:
 before_install:
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv
   -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
-- npm install -g mup ssh2 cordova
+- npm install -g mup ssh2
 - curl https://install.meteor.com | /bin/sh
 - meteor npm install
 - sed -i 's|ANCHOR|'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'|g' client/views/layout/layout.html
