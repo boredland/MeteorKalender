@@ -17,6 +17,7 @@ before_install:
   -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - npm install -g mup ssh2 spacejam cordova
 - curl https://install.meteor.com | /bin/sh
+- meteor npm install
 - sed -i 's|ANCHOR|'"$TRAVIS_BUILD_NUMBER"'_'"$TRAVIS_BRANCH"'|g' client/views/layout/layout.html
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/production/mup.js
 - sed -i 's|MAILURL|'"$MAIL_URL"'|g' .deploy/test/mup.js
