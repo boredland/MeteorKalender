@@ -24,11 +24,8 @@ addons:
     packages:
       - g++-4.8
 before_install:
-## wo zur hölle ist zipalign??
-- find / -name "zipalign"
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv
   -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
-# Do we still need that (we need mup, but i think thats the only thing..)
 - npm install -g mup ssh2 cordova
 - curl https://install.meteor.com | /bin/sh
 - meteor npm install
@@ -43,10 +40,12 @@ before_install:
 - sed -i 's|FEEDSLACK_SECRET|'"$FEEDSLACK"'|g' .deploy/test/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
+- echo $HEROKU
 services:
 - mongodb
 script: npm test
 after_success:
+- find / -name "zipalign"
 - bash .deploy/mup_deploy.sh $TRAVIS_BRANCH && if [ $? == 1 ]; then exit 1;fi
 notifications:
   slack:
@@ -57,11 +56,12 @@ before_deploy:
 # replace with your-apk-name leave release-unsigned.apk as it is
 #- jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 $HOME/android/release-unsigned.apk your-apk-name -keystore $HOME/.keystore -storepass $storepass -keypass $keypass
 # replace with your-apk-name leave release-unsigned.apk as it is
-- "${ANDROID_HOME}/build-tools/25.2.5/zipalign 4 $HOME/android/release-unsigned.apk $HOME/android/dateyourprof_"$TRAVIS_BUILD_NUMBER"_"$TRAVIS_BRANCH".apk"
+- "${ANDROID_HOME}/build-tools/25.2.5/zipalign 4 $HOME/android/release-unsigned.apk $HOME/android/dateyourprof_$TRAVIS_BUILD_NUMBER_$TRAVIS_BRANCH.apk"
 deploy:
   provider: releases
   api_key: $GIT_DEPLOY_KEY
-  file: "$HOME/android/dateyourprof_"$TRAVIS_BUILD_NUMBER"_"$TRAVIS_BRANCH".apk"
+  # replace your-apk-name
+  file: "$HOME/android/dateyourprof_$TRAVIS_BUILD_NUMBER_$TRAVIS_BRANCH.apk"
   skip_cleanup: true
   on:
     all_branches: true
