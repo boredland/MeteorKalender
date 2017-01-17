@@ -49,6 +49,8 @@ deploy:
     # replace your-apk-name
     file: "$HOME/android/release-unsigned.apk"
     skip_cleanup: true
+    on:
+      tags: true
   - provider: heroku
     skip_cleanup: true
     api_key:
