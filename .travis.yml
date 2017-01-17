@@ -51,8 +51,14 @@ before_deploy:
 - meteor build $HOME --server $(bash get_target.sh $TRAVIS_BRANCH)
 - cp $TRAVIS_BUILD_DIR/.keystore $HOME
 - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 $HOME/android/release-unsigned.apk date-your-prof -keystore $HOME/.keystore -storepass $KEYSTOREPASS -keypass $KEYPASS
-- "${ANDROID_HOME}/build-tools/21.1.2/zipalign 4 $HOME/android/release-unsigned.apk $HOME/android/dateyourprof_"$TRAVIS_BUILD_NUMBER"_"$TRAVIS_BRANCH".apk"
+- "${ANDROID_HOME}/build-tools/21.1.2/zipalign 4 $HOME/android/release-unsigned.apk $HOME/android/dateyourprof_$TRAVIS_BRANCH.apk"
 deploy:
+  - provider: releases
+    api_key: $GIT_DEPLOY_KEY
+    file: "$HOME/android/dateyourprof_$TRAVIS_BRANCH.apk"
+    skip_cleanup: true
+    on:
+      all_branches: true
   - provider: heroku
     skip_cleanup: true
     api_key:
@@ -61,10 +67,4 @@ deploy:
     on:
       repo: boredland/MeteorKalender
       condition: "$HEROKU == 1"
-      all_branches: true
-  - provider: releases
-    api_key: $GIT_DEPLOY_KEY
-    file: "$HOME/android/dateyourprof_"$TRAVIS_BUILD_NUMBER"_"$TRAVIS_BRANCH".apk"
-    skip_cleanup: true
-    on:
       all_branches: true
