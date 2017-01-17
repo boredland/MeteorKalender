@@ -61,4 +61,6 @@ deploy:
   file: "$HOME/android/dateyourprof_$TRAVIS_BUILD_NUMBER_$TRAVIS_BRANCH.apk"
   skip_cleanup: true
   on:
+    tags: true
     all_branches: true
+    condition: "$TRAVIS_TAG == android"
