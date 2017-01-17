@@ -1,4 +1,3 @@
-dist: trusty
 sudo: required
 #env:
  # global:
@@ -15,7 +14,13 @@ node_js:
 - 4.4.7
 sudo: required
 env:
-- CXX=g++-4.8
+  - CXX=g++-4.8
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+    packages:
+      - g++-4.8
 before_install:
 - openssl aes-256-cbc -K $encrypted_70ee381ee965_key -iv $encrypted_70ee381ee965_iv
   -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
