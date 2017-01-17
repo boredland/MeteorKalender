@@ -4,8 +4,6 @@ Build-Status im Master-Branch: [![Build Status](https://travis-ci.org/boredland/
 
 Code-Bewertung insgesamt: [![Code Climate](https://codeclimate.com/github/boredland/MeteorKalender/badges/gpa.svg)](https://codeclimate.com/github/boredland/MeteorKalender)
 
-Test-Coverage (noch nicht gemessen): [![Test Coverage](https://codeclimate.com/github/boredland/MeteorKalender/badges/coverage.svg)](https://codeclimate.com/github/boredland/MeteorKalender/coverage)
-
 Waffle: https://waffle.io/boredland/MeteorKalender/join
 
 Slack: https://meteorkalender.slack.com
