@@ -30,7 +30,8 @@ var privateRoutes = [
     "home_private.calendars",
     "home_private.new_calendar",
     "home_private.edit_calendar",
-    "logout"
+    "logout",
+	"faq"
 ];
 
 var freeRoutes = [
@@ -237,6 +238,7 @@ Router.map(function () {
 	this.route("home_private", {path: "/home_private", controller: "HomePrivateController"});
     this.route("user_settings", {path: "/user_settings", controller: "UserSettingsController",template: 'UserSettings'});
     this.route("logout", {path: "/logout", controller: "LogoutController"});
+    this.route("faq", {path: "/faq"});
 
 	// Availabilities
     this.route("home_private.edit_availability", {
