@@ -58,13 +58,13 @@ Meteor.startup(function () {
         return "Thank you for choosing Date your prof, " + user.profile.name + "!\n"
             + " To activate your account, simply click the link below:\n\n"
             + url
-            + "\n\n Thanks - Your Date your prof team";
+            + "\n\n Thanks - Your Date your prof Team";
     };
     Accounts.emailTemplates.resetPassword.text = function (user, url) {
         return "A password reset has been requested by " + user.profile.name
             + "\n To reset your password, simply click the link below:\n\n"
             + url
-            + "\n\n Thanks - Your Date your prof team";
+            + "\n\n Thanks - Your Date your prof Team";
     };
 
 

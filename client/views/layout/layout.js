@@ -59,7 +59,7 @@ Template.layout.events({
             animate: false,
             title: "Please provide a short description about what didn't happen as expected:",
             inputType: "textarea",
-            value: "Ex.: My mobile phone exploded opening the application.",
+            value: "My mobile phone exploded opening the application.",
             callback: function (result) {
                 if (result !== "" && result !== null) {
                     var message = result;

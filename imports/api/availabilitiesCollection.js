@@ -131,10 +131,10 @@ if (Meteor.isServer) {
     Availabilities.before.remove(function (userId, doc) {
         let availability = Availabilities.findOne({_id: doc._id});
         if (availability.bookedByConfirmed) {
-            throw Meteor.Error("is-booked", "This availibility is booked and therefor only can be cancelled.")
+            throw Meteor.Error("is-booked", "This availibility is booked and therefore can only be cancelled.")
         }
         if (!availability.bookedByConfirmed && availability.bookedByDate && (moment(availability.bookedByDate) > moment().add(-reservationThreshold, 'm'))) {
-            throw Meteor.Error("is-reserved", "This availibility is reserved and therefor only can be cancelled.")
+            throw Meteor.Error("is-reserved", "This availibility is reserved and therefore can only be cancelled.")
         }
     });
 
