@@ -14,12 +14,11 @@
             <div class="alert alert-warning">
                 {{errorMessage getPageSession}}
             </div>
-        {{/if}}
-        {{#if infoMessage getPageSession}}
-            <div class="alert alert-success">
-                {{infoMessage getPageSession}}
-            </div>
-        {{/if}}
+        {{/if}} {{#if infoMessage getPageSession}}
+        <div class="alert alert-success">
+            {{infoMessage getPageSession}}
+        </div>
+    {{/if}}
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">Settings</h3>
@@ -30,13 +29,12 @@
                         Name
                     </label>
                     <div class="input-div">
-                        <input type="text" name="profile.name" value="{{current_user_data.profile.name}}"
-                               class="form-control " autofocus="autofocus" required="required"
-                               data-type="string">
+                        <input type="text" name="profile.name" value="{{current_user_data.profile.name}}" class="form-control " autofocus="autofocus"
+                               required="required" data-type="string">
                         <span id="help-text" class="help-block">
-					</span>
+                        </span>
                         <span id="error-text" class="help-block">
-					</span>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group  field-profile-website">
@@ -44,19 +42,36 @@
                         E-Mail address
                     </label>
                     <div class="input-div">
-                        <input type="text" name="profile.email" value="{{current_user_data.profile.email}}"
-                               class="form-control " data-type="string">
+                        <input name="profile.email" id="user_email" type="text" value="{{current_user_data.profile.email}}" class="form-control " data-type="string">
                         <span id="help-text" class="help-block">
-					</span>
+                        </span>
                         <span id="error-text" class="help-block">
-					</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group  field-profile-website">
+                    <div class="input-div">
+                        <input name="profile.email" id="user_email_new" type="text" placeholder="New e-mail address" required class="form-control " data-type="string">
+                        <span id="help-text" class="help-block">
+                        </span>
+                        <span id="error-text" class="help-block">
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group  field-profile-website">
+                    <div class="input-div">
+                        <input name="profile.email" id="user_email_confirm" type="text" placeholder="Repeat new e-mail address" required class="form-control " data-type="string">
+                        <span id="help-text" class="help-block">
+                        </span>
+                        <span id="error-text" class="help-block">
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="submit-div">
-                        <button id="form-submit-button" class="btn btn-success" type="submit">
-						<span class="fa fa-check">
-						</span>
+                        <button id="form-submit-button" class="btn btn-success" type="submit" data-loading-text="Please wait...">
+                        <span class="fa fa-check">
+                        </span>
                             Save
                         </button>
                     </div>
@@ -65,42 +80,36 @@
             <form role="form" id="change_pass_form">
                 <div class="form-group  field-profile-name">
                     <div class="input-div">
-                        <input id="old_password" type="password" class="form-control"
-                               placeholder="Your old password" required
-                               autofocus>
+                        <input id="old_password" type="password" class="form-control" placeholder="Your old password" required autofocus>
                         <span id="help-text" class="help-block">
-					</span>
+                        </span>
                         <span id="error-text" class="help-block">
-					</span>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group  field-profile-name">
                     <div class="input-div">
-                        <input id="new_password" type="password" class="form-control" placeholder="New password"
-                               required>
+                        <input id="new_password" type="password" class="form-control" placeholder="New password" required>
                         <span id="help-text" class="help-block">
-					</span>
+                        </span>
                         <span id="error-text" class="help-block">
-					</span>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group  field-profile-name">
                     <div class="input-div">
-                        <input id="confirm_pass" type="password" class="form-control"
-                               placeholder="Repeat new password"
-                               required>
+                        <input id="confirm_pass" type="password" class="form-control" placeholder="Repeat new password" required>
                         <span id="help-text" class="help-block">
-					</span>
+                        </span>
                         <span id="error-text" class="help-block">
-					</span>
+                        </span>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="submit-div">
-                        <button id="form-submit-button" class="btn btn-success" type="submit"
-                                data-loading-text="Please wait...">
-						<span class="fa fa-check">
-						</span>
+                        <button id="form-submit-button" class="btn btn-success" type="submit" data-loading-text="Please wait...">
+                        <span class="fa fa-check">
+                        </span>
                             Change password
                         </button>
                     </div>
@@ -112,14 +121,13 @@
                 </label>
                 <div class="input-group">
                     <span class="input-group-addon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-                    <input name="appointmentStream" type="text" class="form-control shorten"
-                           value="{{tokenUrl}}" style="overflow: hidden;text-overflow: ellipsis;" readOnly>
+                    <input name="appointmentStream" type="text" class="form-control shorten" value="{{tokenUrl}}" style="overflow: hidden;text-overflow: ellipsis;"
+                           readOnly>
                     <span class="input-group-btn" aria-hidden="true">
-                            <button id="copy-button" class="btn btn-primary" type="submit">Copy</button>
-                        </span>
+                    <button id="copy-button" class="btn btn-primary" type="submit">Copy</button>
+                    </span>
                 </div>
             </div>
         </div>
     </div>
 </template>
-
