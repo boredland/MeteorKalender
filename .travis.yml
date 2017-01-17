@@ -36,8 +36,8 @@ notifications:
   slack:
     secure: Y+0LaRuAt1WOQjHIOBPX9ttc+zTPJG8meQ3dGOK8v7Vl/+MN6fQCwuG/RAX+Eev3QjCNNc549Gc+MBLMWovDiePkO+t0USk/snmpJspX/sh9pIxvm7vFxya4E0Iv2ROWLQ/hh0DWSuaUMZYZHPV7zUzZOBJtbViDYufaFszbLFbO3BuGhDcZRppkWAld/9R8878Dg+PpA+qgikEeMkxB8+nZ2d9eP9Ywl6X/UjJ1B7rq/QINuRmryxT9/Ht5D7M/FfzARf/rC7NrZJ/uHUtT8Jm/1A4I7w0pB1ielAM7Imzqc6Sqa3wy5MjxuTiEodi7pgaeN9a1MhTa1VMQa//9v/tjTk6MA+C1mwh89jidQby1Vv/fcdOJwtZXKgQIppFe/LhiKi6+6DLu0Rs2Yv5DXKDf6jZ/qZCohm2WnQGbU+QOinrbHH75d+Kn4RC5k8xus19J99nmEE5OHIFpeLEbKnGpzjk1X1L3ixBXNCs7mllJ42D6t5DqJd7TjYI9Ub14cY/q6NC3G6uCGhO0jrdFidh0NgOs6cVAphdQ3ehyFG/xlHoiFDiscbuptFvljuaQ2/6d7dcKTEs7s3HoiMpRX0u6q3o/CFGntDuyrmbtMA5g9pDg7ao+dwbviIVuc43CnoCh7+lRiemp+V4jtvdXOltXd2ckBGuKCwv0Fz6G92w=
 before_deploy:
-- ./get_target.sh $TRAVIS_BRANCH
 - meteor build $HOME --server https://test.meteorkalender.freeddns.org:443
+- meteor build $HOME --server ${./get_target.sh $TRAVIS_BRANCH}
 # - cp $TRAVIS_BUILD_DIR/.keystore $HOME
 # replace with your-apk-name leave release-unsigned.apk as it is
 # - jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 $HOME/android/release-unsigned.apk your-apk-name -keystore $HOME/.keystore -storepass $storepass -keypass $keypass
@@ -50,7 +50,7 @@ deploy:
     file: "$HOME/android/release-unsigned.apk"
     skip_cleanup: true
     on:
-      tags: true
+      all_branches: true
   - provider: heroku
     skip_cleanup: true
     api_key:
