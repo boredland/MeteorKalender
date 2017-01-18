@@ -197,7 +197,8 @@
 /* Android Notice */
 .android-notice {
     text-align: center;
-    background: #25303a; }
+    background: #25303a;
+    margin-top: 60px}
 
 /* Body */
 a:focus {
