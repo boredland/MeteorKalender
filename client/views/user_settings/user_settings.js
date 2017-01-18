@@ -8,7 +8,7 @@ Template.UserSettings.rendered = function () {
 };
 
 Template.UserSettings.events({
-    'submit #change_pass_form' : function(e, t) {
+    'submit #change_pass_form': function (e, t) {
         e.preventDefault();
 
         nullMessages(pageSession);
@@ -19,35 +19,31 @@ Template.UserSettings.events({
         var new_password = t.find('#new_password').value;
         var confirm_pass = t.find('#confirm_pass').value;
 
-        if(old_password === "")
-        {
+        if (old_password === "") {
             setErrorMessage(pageSession, "Please enter your old password.");
             t.find('#old_password').focus();
             return false;
         }
-        if(new_password === "")
-        {
+        if (new_password === "") {
             setErrorMessage(pageSession, "Please enter your new password.");
             t.find('#new_password').focus();
             return false;
         }
-        if(confirm_pass === "")
-        {
+        if (confirm_pass === "") {
             setErrorMessage(pageSession, "Please confirm your new password.");
             t.find('#confirm_pass').focus();
             return false;
         }
 
         // check new password
-        if(new_password !== confirm_pass)
-        {
-            setErrorMessage(pageSession, "Your new password and confirm password doesn't match.");
+        if (new_password !== confirm_pass) {
+            setErrorMessage(pageSession, "Your new password and confirm password don't match.");
             t.find('#new_password').focus();
             return false;
         }
 
         submit_button.button("loading");
-        Accounts.changePassword(old_password, new_password, function(err) {
+        Accounts.changePassword(old_password, new_password, function (err) {
             submit_button.button("reset");
             if (err) {
                 setErrorMessage(pageSession, err.message);
@@ -70,24 +66,35 @@ Template.UserSettings.events({
         setErrorMessage(pageSession, "");
         var self = this;
 
-        function submitAction(msg,values) {
+
+        var mail = t.find('#user_email').value;
+        var new_mail = t.find('#user_email_new').value;
+        var new_mail_confirm = t.find('#user_email_confirm').value;
+
+        if (new_mail !== "" && new_mail_confirm != "" && new_mail !== new_mail_confirm) {
+            setErrorMessage(pageSession, "Please confirm your new e-mail address.");
+            t.find('#user_email_confirm').focus();
+            return false;
+        }
+
+        function submitAction(msg, values) {
             var userSettingsProfileEditFormMode = "update";
             if (!t.find("#form-cancel-button")) {
                 switch (userSettingsProfileEditFormMode) {
-                    case "insert": {
+                    case "insert":
+                    {
                         $(e.target)[0].reset();
                     }
-                        ;
                         break;
 
-                    case "update": {
+                    case "update":
+                    {
                         var message = msg || "Saved.";
                         if (values && values.profile.email) {
                             message = message + " Your verification has been reset, please click on the link sent to your new email-address."
                         }
                         setInfoMessage(pageSession, message, null);
                     }
-                        ;
                         break;
                 }
             }
@@ -111,14 +118,15 @@ Template.UserSettings.events({
             },
             function (values) {
                 // remove email if it didn't change
-                if (t.data.current_user_data.profile.email === values.profile.email){
+                if (t.data.current_user_data.profile.email === values.profile.email) {
                     delete values.profile.email;
                 }
-                if (t.data.current_user_data.profile.name === values.profile.name){
+                if (t.data.current_user_data.profile.name === values.profile.name) {
                     delete values.profile.name;
                 }
                 Meteor.call("updateUserAccount", t.data.current_user_data._id, values, function (e) {
-                    if (e) errorAction(e); else submitAction(undefined,values);
+                    if (e) errorAction(e);
+                    else submitAction(undefined, values);
                 });
             }
         );

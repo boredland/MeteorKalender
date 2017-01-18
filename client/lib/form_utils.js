@@ -173,22 +173,22 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 				if(fieldValue === "") {
 					fieldValue = null;
 				} else {
-					var intValue = parseInt(fieldValue);
+					var intValue = parseInt(fieldValue,10);
 					if(isNaN(intValue)) {
 						validationError(labelText + ": Invalid value entered");
 						return false;
 					}
 
-					if(minValue && !isNaN(parseInt(minValue)) && intValue < parseInt(minValue)) {
-						if(maxValue && !isNaN(parseInt(maxValue)))
+					if(minValue && !isNaN(parseInt(minValue,10)) && intValue < parseInt(minValue,10)) {
+						if(maxValue && !isNaN(parseInt(maxValue,10)))
 							validationError(labelText + " must be between " + minValue + " and " + maxValue);
 						else
 							validationError(labelText + " must be equal or greater than " + minValue);
 						return false;
 					}
 
-					if(maxValue && !isNaN(parseInt(maxValue)) && intValue > parseInt(maxValue)) {
-						if(minValue && !isNaN(parseInt(minValue)))
+					if(maxValue && !isNaN(parseInt(maxValue,10)) && intValue > parseInt(maxValue,10)) {
+						if(minValue && !isNaN(parseInt(minValue,10)))
 							validationError(labelText + " must be between " + minValue + " and " + maxValue);
 						else
 							validationError(labelText + " must be equal or less than " + maxValue);
@@ -266,7 +266,7 @@ this.validateForm = function(formObject, validationCallback, errorCallback, subm
 					fieldValue = null;
 				}
 				var seconds = timeToSeconds(fieldValue, dataFormat);
-				if(isNaN(parseInt(seconds))) {
+				if(isNaN(parseInt(seconds,10))) {
 					validationError(labelText + ": Invalid value entered.");
 					return false;
 				}
