@@ -75,7 +75,7 @@ export var calendarsSchema = new SimpleSchema({
         autoform: {
             type: "hidden",
             label: false,
-            defaultValue: true
+            defaultValue: false
         }
     },
     linkslug: {
