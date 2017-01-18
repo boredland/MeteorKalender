@@ -193,6 +193,12 @@
 /*--------------------------------------------------
 	[PAGE CONTENT]
 ----------------------------------------------------*/
+
+/* Android Notice */
+.android-notice {
+    text-align: center;
+    background: #25303a; }
+
 /* Body */
 a:focus {
     outline: none; }
