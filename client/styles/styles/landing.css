@@ -198,7 +198,10 @@
 .android-notice {
     text-align: center;
     background: #25303a;
-    margin-top: 60px}
+    margin-top: 60px;
+    line-height: 40px;
+    font-weight: bold;
+}
 
 /* Body */
 a:focus {
