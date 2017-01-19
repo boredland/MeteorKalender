@@ -140,9 +140,7 @@ Template.UserSettings.events({
                 } else {
                     values.profile.email = new_mail;
                 }
-                console.log(values);
                 // remove email if it didn't change
-                console.log(t.data.current_user_data);
                 if (t.data.current_user_data.profile.email === values.profile.email || values.profile.email === "") {
                     delete values.profile.email;
                 }

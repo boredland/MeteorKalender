@@ -3,7 +3,7 @@ import {Calendars} from "/imports/api/calendarsCollection";
 import "/imports/logger";
 import SlackAPI from 'node-slack';
 
-const Slack = new SlackAPI( "https://hooks.slack.com/services/"+process.env.FEEDSLACK );
+const Slack = new SlackAPI("https://hooks.slack.com/services/" + process.env.FEEDSLACK);
 //Import creates the collection on the server.
 var verifyEmail = true;
 var returnMailString = "Date your prof <noreply@wp12310502.server-he.de>";
@@ -12,7 +12,7 @@ Accounts.config({sendVerificationEmail: verifyEmail});
 
 Meteor.startup(function () {
     // Listen to incoming HTTP requests, can only be used on the server
-    WebApp.rawConnectHandlers.use(function(req, res, next) {
+    WebApp.rawConnectHandlers.use(function (req, res, next) {
         res.setHeader("Access-Control-Allow-Origin", "*");
         return next();
     });
@@ -75,17 +75,17 @@ Meteor.methods({
         //configure slack with an env variable
         let user = name;
         if (!user) user = "anonymous user";
-        var git_title = "User reported: Error at "+place;
-        var git_message = "**Delivered by:**%20"+user+"%0D%0A" +
-            "**Server:**%20"+server+"%0D%0A" +
-            "**Place:**%20"+place+"%0D%0A" +
-            "**Description:**%20"+message+"%0D%0A" +
-            "**Browser:**%20"+currentBrowser+"%0D%0A"+
-            "**Resolution:**%20"+resolution+"%0D%0A"+
-            "**Built:**%20"+built+"%0D%0A"
-        ;
+        var git_title = "User reported: Error at " + place;
+        var git_message = "**Delivered by:**%20" + user + "%0D%0A" +
+                "**Server:**%20" + server + "%0D%0A" +
+                "**Place:**%20" + place + "%0D%0A" +
+                "**Description:**%20" + message + "%0D%0A" +
+                "**Browser:**%20" + currentBrowser + "%0D%0A" +
+                "**Resolution:**%20" + resolution + "%0D%0A" +
+                "**Built:**%20" + built + "%0D%0A"
+            ;
         Slack.send({
-            text: user+" reported an error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title="+git_title+"&body="+git_message+"&labels=bug|Github>.",
+            text: user + " reported an error. Open a new Issue on <https://github.com/boredland/MeteorKalender/issues/new?title=" + git_title + "&body=" + git_message + "&labels=bug|Github>.",
             username: user,
             icon_url: "http://megaicons.net/static/img/icons_sizes/8/178/512/debug-bug-icon.png",
             attachments: [
@@ -93,14 +93,14 @@ Meteor.methods({
                     fallback: "An error has occurred to me.",
                     color: 'danger',
                     fields: [
-                        { title: "Name", value: user },
-                        { title: "E-Mail", value: email },
-                        { title: "Server", value: server},
-                        { title: "Place", value: place },
-                        { title: "Description", value: message},
-                        { title: "Browser", value: currentBrowser },
-                        { title: "Resolution", value: resolution },
-                        { title: "Built", value: built }
+                        {title: "Name", value: user},
+                        {title: "E-Mail", value: email},
+                        {title: "Server", value: server},
+                        {title: "Place", value: place},
+                        {title: "Description", value: message},
+                        {title: "Browser", value: currentBrowser},
+                        {title: "Resolution", value: resolution},
+                        {title: "Built", value: built}
                     ]
                 }
             ]
@@ -151,12 +151,7 @@ Meteor.methods({
         if (options.username) userOptions.username = options.username;
         if (options.email) userOptions.email = options.email;
         if (options.password) userOptions.password = options.password;
-        /* don't yet change the profiles email address */
-        if (options.profile.email) {
-            delete options.profile.email;
-        }
         if (options.profile) userOptions.profile = options.profile;
-
         if (options.profile && options.profile.email) {
             userOptions.email = options.profile.email;
         }
@@ -165,8 +160,9 @@ Meteor.methods({
         if (userOptions.email) {
             var email = userOptions.email;
             delete userOptions.email;
-            Accounts.addEmail(userId,email,false);
-            Accounts.emailTemplates.verifyEmail.text = function(user, url) {
+            delete options.profile.email;
+            Accounts.addEmail(userId, email, false);
+            Accounts.emailTemplates.verifyEmail.text = function (user, url) {
                 return 'You changed your e-mail address. Please confirm your new one by clicking on this link:' + url;
             };
             Accounts.sendVerificationEmail(userId, email);
@@ -188,7 +184,7 @@ Meteor.methods({
                     delete userOptions[key];
                 }
             }
-            Users.update(userId, {$set: userOptions},function (error) {
+            Users.update(userId, {$set: userOptions}, function (error) {
                 // do sth on success.
             });
         }
@@ -197,8 +193,26 @@ Meteor.methods({
             Accounts.setPassword(userId, password);
         }
     },
+    "updateProfileEmail": function (userId, email) {
+        var userOptions = {};
+        if (email) userOptions.email = email;
+        if (userOptions) {
+            for (var key in userOptions) {
+                var obj = userOptions[key];
+                if (_.isObject(obj)) {
+                    for (var k in obj) {
+                        userOptions[key + "." + k] = obj[k];
+                    }
+                    delete userOptions[key];
+                }
+            }
+            Users.update(userId, {$set: userOptions}, function (error) {
+                // do sth on success.
+            });
+        }
+    },
 
-    /**
+        /**
      *    Sends modified emails
      *
      *  @param options Expects an options object with the fields from, to, subject, text
@@ -258,6 +272,26 @@ Users.before.update(function (userId, doc, fieldNames, modifier, options) {
         modifier.$set.profile.email = modifier.$set.emails[0].address;
     }
 });
+if (Meteor.isServer) {
+    Meteor.users.after.update(function (userId, doc, fieldNames, modifier, options) {
+        if (!!modifier.$set) {
+            //check if the email was verified
+            if (modifier.$set['emails.$.verified'] === true) {
+                var verifiedMail = modifier.$pull['services.email.verificationTokens'];
+                /* the mail we'd like to keep */
+                var verifiedMail = verifiedMail.address;
+                /* remove all other emails */
+                for (var i = 0; i < doc.emails.length; i++) {
+                    if (doc.emails[i].address !== verifiedMail) {
+                        Accounts.removeEmail(doc._id,doc.emails[i].address);
+                    }
+                }
+                /* Finally set the profiles email-adress to the new one */
+                Users.update(doc._id, {$set: {'profile.email': verifiedMail}});
+            }
+        }
+    });
+}
 
 Accounts.onLogin(function (info) {
 
