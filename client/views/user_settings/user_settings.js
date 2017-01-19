@@ -85,7 +85,12 @@ Template.UserSettings.events({
                         if (values && values.profile.email) {
                             message = message + " Your verification has been reset, please click on the link sent to your new email-address."
                         }
+                        nullMessages(pageSession);
                         setInfoMessage(pageSession, message, null);
+                        t.find('#user_email_old').value = "";
+                        t.find('#user_email_new').value = "";
+                        t.find('#user_email_confirm').value = "";
+                        t.find('#user_email_old').focus();
                     }
                         break;
                 }
