@@ -67,28 +67,20 @@ Template.UserSettings.events({
         var self = this;
 
 
-        var mail = t.find('#user_email').value;
+        var old_mail = t.find('#user_email_old').value;
         var new_mail = t.find('#user_email_new').value;
         var new_mail_confirm = t.find('#user_email_confirm').value;
-
-        if (new_mail !== "" && new_mail_confirm != "" && new_mail !== new_mail_confirm) {
-            setErrorMessage(pageSession, "Please confirm your new e-mail address.");
-            t.find('#user_email_confirm').focus();
-            return false;
-        }
 
         function submitAction(msg, values) {
             var userSettingsProfileEditFormMode = "update";
             if (!t.find("#form-cancel-button")) {
                 switch (userSettingsProfileEditFormMode) {
-                    case "insert":
-                    {
+                    case "insert": {
                         $(e.target)[0].reset();
                     }
                         break;
 
-                    case "update":
-                    {
+                    case "update": {
                         var message = msg || "Saved.";
                         if (values && values.profile.email) {
                             message = message + " Your verification has been reset, please click on the link sent to your new email-address."
@@ -117,11 +109,39 @@ Template.UserSettings.events({
 
             },
             function (values) {
+                /* eine neue e-mail adresse wird übergeben */
+                if (old_mail === "" && (new_mail !== "" || new_mail_confirm !== "")) {
+                    setErrorMessage(pageSession, "You have to enter your old e-mail address");
+                    t.find('#user_email_old').focus();
+                    return false;
+                }
+                /* alle felder gesetzt */
+                if (old_mail !== "" && new_mail !== "" && new_mail_confirm !== "") {
+                    if (old_mail !== t.data.current_user_data.profile.email) {
+                        setErrorMessage(pageSession, "The e-mail you entered as your old e-mail address is not correct.");
+                        t.find('#user_email_old').focus();
+                        return false;
+                    }
+                    if (new_mail !== new_mail_confirm) {
+                        setErrorMessage(pageSession, "The new e-mail addresses you entered aren't identical.");
+                        t.find('#user_email_confirm').focus();
+                        return false;
+                    }
+                    if (!isValidEmail(new_mail)) {
+                        setErrorMessage(pageSession, "Please enter valid e-mail address that ends with .fra-uas.de, .frankfurt-unversity.de or fh-frankfurt.de.");
+                        t.find('#user_email_confirm').focus();
+                        return false;
+                    }
+                } else {
+                    values.profile.email = new_mail;
+                }
+                console.log(values);
                 // remove email if it didn't change
-                if (t.data.current_user_data.profile.email === values.profile.email) {
+                console.log(t.data.current_user_data);
+                if (t.data.current_user_data.profile.email === values.profile.email || values.profile.email === "") {
                     delete values.profile.email;
                 }
-                if (t.data.current_user_data.profile.name === values.profile.name) {
+                if (t.data.current_user_data.profile.name === values.profile.name || values.profile.name === "") {
                     delete values.profile.name;
                 }
                 Meteor.call("updateUserAccount", t.data.current_user_data._id, values, function (e) {

@@ -151,6 +151,10 @@ Meteor.methods({
         if (options.username) userOptions.username = options.username;
         if (options.email) userOptions.email = options.email;
         if (options.password) userOptions.password = options.password;
+        /* don't yet change the profiles email address */
+        if (options.profile.email) {
+            delete options.profile.email;
+        }
         if (options.profile) userOptions.profile = options.profile;
 
         if (options.profile && options.profile.email) {
