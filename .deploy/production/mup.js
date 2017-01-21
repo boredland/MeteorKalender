@@ -39,7 +39,8 @@ module.exports = {
             KADIRA_APP_ID: "sdGEPWSi8mChQnMXW",
             KADIRA_APP_SECRET: "KADIRAAPPSECRET",
             FEEDSLACK: "FEEDSLACK_SECRET",
-            DDP_DEFAULT_CONNECTION_URL: "https://meteorkalender.freeddns.org:443"
+            DDP_DEFAULT_CONNECTION_URL: "https://meteorkalender.freeddns.org:443",
+            GCMKEY: "SECRET_GCM"
         },
         dockerImage: 'cwaring/meteord:base',
         deployCheckWaitTime: 120
