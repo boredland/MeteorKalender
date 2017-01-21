@@ -212,7 +212,7 @@ Meteor.methods({
         }
     },
 
-        /**
+    /**
      *    Sends modified emails
      *
      *  @param options Expects an options object with the fields from, to, subject, text
@@ -283,13 +283,27 @@ if (Meteor.isServer) {
                 /* remove all other emails */
                 for (var i = 0; i < doc.emails.length; i++) {
                     if (doc.emails[i].address !== verifiedMail) {
-                        Accounts.removeEmail(doc._id,doc.emails[i].address);
+                        Accounts.removeEmail(doc._id, doc.emails[i].address);
                     }
                 }
                 /* Finally set the profiles email-adress to the new one */
                 Users.update(doc._id, {$set: {'profile.email': verifiedMail}});
             }
         }
+    });
+    Push.Configure({
+        gcm: {
+            apiKey: 'AAAAa1Ju_vE:APA91bGrFtBv1OcfLIiHhLXgMWyRCTWvlr8qets5FaPEeAKi1uq0YwwDGpgcFdTqF9ty9eXk0_nE0Or1HgSC-GltJI5vmEpJh6SoFdrf4uF4L-JcssN3O8VWbz6mI9hYlBTnH38XUsYJ',
+            projectNumber: 460944506609
+        }
+        // production: true,
+        // 'sound' true,
+        // 'badge' true,
+        // 'alert' true,
+        // 'vibrate' true,
+        // 'sendInterval': 15000, Configurable interval between sending
+        // 'sendBatchSize': 1, Configurable number of notifications to send per batch
+        // 'keepNotifications': false
     });
 }
 

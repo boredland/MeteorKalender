@@ -157,3 +157,16 @@ Helpers.cursorEmpty = function(cursor) {
 _.each(Helpers, function (helper, key) {
 	Handlebars.registerHelper(key, helper);
 });
+
+Push.Configure({
+    android: {
+        senderID: 460944506609,
+        alert: true,
+        badge: true,
+        sound: true,
+        vibrate: true,
+        clearNotifications: true
+        // icon: '',
+        // iconColor: ''
+    }
+});

@@ -29,3 +29,6 @@ App.accessRule("*");
 App.setPreference('BackgroundColor', '0xff0000ff');
 App.setPreference('HideKeyboardFormAccessoryBar', true);
 App.setPreference('Orientation', 'default');
+App.configurePlugin('phonegap-plugin-push', {
+    SENDER_ID: 460944506609
+});
