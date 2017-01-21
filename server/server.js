@@ -293,7 +293,7 @@ if (Meteor.isServer) {
     });
     Push.Configure({
         gcm: {
-            apiKey: 'AAAAa1Ju_vE:APA91bGrFtBv1OcfLIiHhLXgMWyRCTWvlr8qets5FaPEeAKi1uq0YwwDGpgcFdTqF9ty9eXk0_nE0Or1HgSC-GltJI5vmEpJh6SoFdrf4uF4L-JcssN3O8VWbz6mI9hYlBTnH38XUsYJ',
+            apiKey: process.env.GCMKEY,
             projectNumber: 460944506609
         }
         // production: true,
