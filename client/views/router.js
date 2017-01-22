@@ -16,6 +16,7 @@ var publicRoutes = [
 	"register",
 	//"verify_booking",
     "verify_email",
+	"verify_resend",
     "forgot_password",
 	"reset_password"
 ];
@@ -194,6 +195,7 @@ Router.map(function () {
     this.route("login", {path: "/login", controller: "LoginController"});
 	this.route("register", {path: "/register", controller: "RegisterController"});
     this.route("verify_email", {path: "/verify_email/:verifyEmailToken", controller: "VerifyEmailController"});
+    this.route("verify_resend", {path: "/verify_resend/", controller: "VerifyResendController"});
     this.route("forgot_password", {path: "/forgot_password", controller: "ForgotPasswordController"});
     this.route("reset_password", {path: "/reset_password/:resetPasswordToken", controller: "ResetPasswordController"});
 
