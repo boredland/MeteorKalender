@@ -14,8 +14,6 @@ Template.VerifyResend.events({
 
 		var verify_email = t.find('#verify_email').value.trim();
 
-        var verifyEmailToken = Router.current().params.verifyEmailToken;
-
         // check email
         if(!isValidEmail(verify_email))
         {
@@ -25,12 +23,6 @@ Template.VerifyResend.events({
         }
 
         submit_button.button("loading");
-        Accounts.verifyEmail(verifyEmailToken, function (err) {
-            if (err) {
-                setErrorMessage(pageSession, err.message, null);
-            }
-        });
-        Accounts.sendVerificationEmail(_userId,"verify_email");
 
 	},
 
