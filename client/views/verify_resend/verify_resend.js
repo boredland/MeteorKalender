@@ -5,7 +5,7 @@ Template.VerifyResend.rendered = function() {
 	
 	$("input[autofocus]").focus();
 };
-
+/*
 Template.Login.events({
 	"submit #login_form": function(e, t) {
 		e.preventDefault();
@@ -39,3 +39,4 @@ Template.Login.helpers({
     }
 	
 });
+*/
