@@ -1,5 +1,4 @@
 var pageSession = getDefaultPageSession();
-var verifyEmailToken = Router.current().params.verifyEmailToken;
 
 Template.VerifyResend.rendered = function() {
 	
@@ -14,6 +13,8 @@ Template.VerifyResend.events({
 		var submit_button = $(t.find(":submit"));
 
 		var verify_email = t.find('#verify_email').value.trim();
+
+        var verifyEmailToken = Router.current().params.verifyEmailToken;
 
         // check email
         if(!isValidEmail(verify_email))
@@ -32,6 +33,10 @@ Template.VerifyResend.events({
         Accounts.sendVerificationEmail(_userId,"verify_email");
 
 	},
+
+    "click .go-home": function(e, t) {
+        Router.go("/");
+    }
 });
 
 Template.VerifyResend.helpers({
