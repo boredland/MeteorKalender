@@ -2,15 +2,15 @@
     <div class="container">
         <form id="verify_resend_form" class="account-form" role="form">
             <h2>
-                Please try again!
+                Enter E-Mail adres!
             </h2>
             {{#if errorMessage getPageSession}}
                 <div class="alert alert-warning">
                     {{errorMessage getPageSession}}
                 </div>
             {{/if}}
-            <div id="login-with-password" style="padding-top: 10px;">
-                <input id="login_email" type="text" class="form-control" placeholder="Email address" required autofocus>
+            <div id="verify-with-email" style="padding-top: 10px;">
+                <input id="verify_email" type="text" class="form-control" placeholder="Email address" required autofocus>
                 <button class="btn btn-lg btn-primary btn-block" type="submit" data-loading-text="Please wait...">
                     Try again
                 </button>
