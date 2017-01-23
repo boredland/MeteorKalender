@@ -1,5 +1,5 @@
 var pageSession = getDefaultPageSession();
-
+var verifyEmailToken = Router.current().params.verifyEmailToken;
 
 Template.VerifyResend.rendered = function() {
 	
@@ -24,6 +24,11 @@ Template.VerifyResend.events({
         }
 
         submit_button.button("loading");
+        Accounts.verifyEmail(verifyEmailToken, function (err) {
+            if (err) {
+                setErrorMessage(pageSession, err.message, null);
+            }
+        });
         Accounts.sendVerificationEmail(_userId,"verify_email");
 
 	},
