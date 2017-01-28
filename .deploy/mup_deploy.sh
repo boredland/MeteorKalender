@@ -19,8 +19,8 @@ fi
 }
 
 deploy () {
-DEBUG=* mup setup
-MUP_RESULT=$(DEBUG=* mup deploy)
+mup setup
+MUP_RESULT=$(mup deploy)
 echo $MUP_RESULT
 MUP_RESULT=$(echo $MUP_RESULT | tail -n1)
 check_sucess
