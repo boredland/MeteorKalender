@@ -19,7 +19,8 @@ before_install:
 - openssl aes-256-cbc -K $encrypted_a54e861a1b97_key -iv $encrypted_a54e861a1b97_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - npm --version
 - node -v
-- sudo npm install npm@latest n -g
+- npm install npm@latest -g
+- npm install n -g
 - n stable
 - npm --version
 - node -v
