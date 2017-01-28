@@ -17,6 +17,12 @@ addons:
       - g++-4.8
 before_install:
 - npm --version
+- node -v
+- curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -
+- apt-get update
+- apt-get install -y nodejs
+- npm --version
+- node -v
 - openssl aes-256-cbc -K $encrypted_a54e861a1b97_key -iv $encrypted_a54e861a1b97_iv -in .deploy/deploy_rsa.enc -out .deploy/deploy_rsa -d
 - npm install -g mup ssh2
 - curl https://install.meteor.com | /bin/sh
@@ -30,6 +36,8 @@ before_install:
 - sed -i 's|KADIRAAPPSECRET|'"$KADIRA_APP_SECRET_TEST"'|g' .deploy/test/mup.js
 - sed -i 's|FEEDSLACK_SECRET|'"$FEEDSLACK"'|g' .deploy/production/mup.js
 - sed -i 's|FEEDSLACK_SECRET|'"$FEEDSLACK"'|g' .deploy/test/mup.js
+- sed -i 's|SECRET_GCM|'"$GCMKEY"'|g' .deploy/production/mup.js
+- sed -i 's|SECRET_GCM|'"$GCMKEY"'|g' .deploy/test/mup.js
 - HEROKU=0
 - if [ ! $TRAVIS_BRANCH == master ] && [ ! $TRAVIS_BRANCH == test ];then HEROKU=1;fi
 - echo $HEROKU
