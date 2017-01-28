@@ -4,8 +4,8 @@ module.exports = {
             host: 'research-osnet.fb2.frankfurt-university.de',
             username: 'meteorkalender',
             // WARNING: Keys protected by a passphrase are not supported
-            pem: '../deploy_rsa'
-            // password:
+            //pem: '../deploy_rsa'
+            password: 'SSH_PASS',
             // or leave blank for authenticate from ssh-agent
         }
     },
