@@ -11,7 +11,7 @@
     "feiertagejs": "^1.1.4",
     "meteor-node-stubs": "~0.2.4",
     "node-slack": "0.0.7",
-    "simpl-schema": "0.1.0",
+    "simpl-schema": "1.5.0",
     "system": "^1.1.1",
     "webpage": "^0.3.0"
   }
